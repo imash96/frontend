@@ -1,0 +1,50 @@
+@layer utilities {
+    .marquee-track {
+        display: flex;
+        width: max-content;
+        will-change: transform;
+        /* GPU-composited layer — prevents paint during scroll */
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+    }
+
+    .marquee-track--left {
+        animation: marquee-left linear infinite;
+    }
+
+    .marquee-track--right {
+        animation: marquee-right linear infinite;
+    }
+
+    /* Pause on hover/focus */
+    .marquee-root:hover .marquee-track,
+    .marquee-root:focus-within .marquee-track {
+        animation-play-state: paused;
+    }
+
+    /* Mask fade edges */
+    .marquee-mask {
+        -webkit-mask-image: var(--marquee-mask);
+        mask-image: var(--marquee-mask);
+    }
+
+    @keyframes marquee-left {
+        0% {
+            transform: translateX(0);
+        }
+
+        100% {
+            transform: translateX(-50%);
+        }
+    }
+
+    @keyframes marquee-right {
+        0% {
+            transform: translateX(-50%);
+        }
+
+        100% {
+            transform: translateX(0);
+        }
+    }
+}

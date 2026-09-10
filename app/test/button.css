@@ -1,0 +1,65 @@
+/**
+ * button-animations.css
+ *
+ * Two small keyframes used by AddToCartButton and WishlistButton in
+ * components/molecules/CommerceButtons.tsx, in place of an animation
+ * library. Add this once:
+ *   - either `@import "./button-animations.css";` near the top of your
+ *     globals.css / tokens.css, or
+ *   - or just paste the two @keyframes + two classes below into the
+ *     file you already have.
+ *
+ * Why plain CSS instead of framer-motion/motion here: these are small,
+ * frequent, one-shot micro-interactions (a heart toggle, a label swap)
+ * that can run entirely on the compositor thread. They don't need a
+ * ~30kb (or ~5kb even with LazyMotion) animation runtime, and rendered
+ * dozens of times on a product grid that difference is real, especially
+ * on mid-range mobile hardware. Reach for motion/react where you're
+ * already using it for something richer — drag, layout transitions,
+ * scroll-linked effects — not for a button label crossfade.
+ */
+
+@keyframes fade-slide-in {
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pop-in {
+    0% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+
+    60% {
+        opacity: 1;
+        transform: scale(1.15);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.btn-fade-slide-in {
+    animation: fade-slide-in 0.15s ease-out both;
+}
+
+.btn-pop-in {
+    animation: pop-in 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .btn-fade-slide-in,
+    .btn-pop-in {
+        animation: none;
+    }
+}

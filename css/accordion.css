@@ -1,0 +1,158 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   ACCORDION.CSS — Radix Accordion component styles
+   ───────────────────────────────────────────────────────────────────────────── */
+
+@layer components {
+
+    /* ── Root Variants ───────────────────────────────────────────────────── */
+
+    .accordion-root.accordion-default,
+    .accordion-root.accordion-bordered,
+    .accordion-root.accordion-separated {
+        width: 100%;
+    }
+
+    .accordion-root.accordion-bordered {
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--border);
+    }
+
+    .accordion-root.accordion-separated {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+
+    /* ── Item ────────────────────────────────────────────────────────────── */
+
+    .accordion-item {
+        overflow: hidden;
+        transition: background-color var(--transition-base);
+    }
+
+    .accordion-default .accordion-item {
+        border-bottom: 1px solid var(--border);
+    }
+
+    .accordion-default .accordion-item:last-child,
+    .accordion-bordered .accordion-item:last-child {
+        border-bottom: none;
+    }
+
+    .accordion-bordered .accordion-item {
+        border-bottom: 1px solid var(--border);
+    }
+
+    .accordion-separated .accordion-item {
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--border);
+        background-color: var(--surface);
+    }
+
+
+    /* ── Trigger ─────────────────────────────────────────────────────────── */
+
+    .accordion-header {
+        display: flex;
+    }
+
+    .accordion-trigger {
+        display: flex;
+        flex: 1;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 1rem 1.25rem;
+        text-align: left;
+        background-color: transparent;
+        transition: background-color var(--transition-base);
+        width: 100%;
+    }
+
+    .accordion-trigger:hover {
+        background-color: var(--muted);
+    }
+
+    /* Fix: use outline instead of box-shadow+opacity (opacity bugs dim entire element) */
+    .accordion-trigger:focus-visible {
+        outline: 2px solid var(--focus-ring);
+        outline-offset: -2px;
+        border-radius: var(--radius-sm);
+    }
+
+    .accordion-trigger[data-disabled] {
+        cursor: not-allowed;
+        opacity: 0.5;
+        pointer-events: none;
+    }
+
+    .accordion-separated .accordion-trigger {
+        border-radius: var(--radius-lg);
+    }
+
+    .accordion-trigger-text {
+        font-size: var(--text-base);
+        font-weight: 600;
+        color: var(--text-primary);
+    }
+
+    .accordion-chevron {
+        flex-shrink: 0;
+        color: var(--text-tertiary);
+        transition: transform var(--transition-slow) var(--ease-spring);
+    }
+
+    .accordion-trigger[data-state="open"] .accordion-chevron {
+        transform: rotate(180deg);
+    }
+
+
+    /* ── Content ─────────────────────────────────────────────────────────── */
+
+    .accordion-content {
+        overflow: hidden;
+        font-size: var(--text-sm);
+    }
+
+    .accordion-content[data-state="closed"] {
+        animation: accordion-up 280ms var(--ease-in-out);
+    }
+
+    .accordion-content[data-state="open"] {
+        animation: accordion-down 280ms var(--ease-in-out);
+    }
+
+    .accordion-content-inner {
+        padding: 0.5rem 1.25rem 1.25rem;
+        color: var(--text-secondary);
+        line-height: var(--leading-relaxed);
+    }
+
+
+    /* ── Keyframes ───────────────────────────────────────────────────────── */
+
+    @keyframes accordion-down {
+        from {
+            height: 0;
+            opacity: 0.6;
+        }
+
+        to {
+            height: var(--radix-accordion-content-height);
+            opacity: 1;
+        }
+    }
+
+    @keyframes accordion-up {
+        from {
+            height: var(--radix-accordion-content-height);
+            opacity: 1;
+        }
+
+        to {
+            height: 0;
+            opacity: 0;
+        }
+    }
+}

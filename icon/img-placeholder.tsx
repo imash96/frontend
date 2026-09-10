@@ -1,0 +1,85 @@
+import { SVGAttributes } from "react";
+
+export default function Placeholder({ ...props }: SVGAttributes<SVGElement>) {
+    return (
+        <svg
+            xmlnsXlink="http://www.w3.org/1999/xlink"
+            viewBox="0 0 300 400"
+            {...props}
+        >
+            <defs>
+                <linearGradient id="a">
+                    <stop stopColor="#c2c2c2" />
+                    <stop offset={1} stopColor="#9f9f9f" />
+                </linearGradient>
+                <linearGradient
+                    gradientTransform="translate(-45)"
+                    gradientUnits="userSpaceOnUse"
+                    y2={110}
+                    x2={660}
+                    y1={6.5}
+                    x1={660}
+                    id="b"
+                    xlinkHref="#a"
+                />
+            </defs>
+            <path fill="#eee" d="M0 0h300v400H0z" />
+            <g transform="translate(-355 70)">
+                <rect
+                    fill="#9f9f9f"
+                    width={85}
+                    height={90}
+                    x={400}
+                    y={180}
+                    ry={8}
+                    transform="rotate(-16)"
+                />
+                <g transform="rotate(16.32 538.14 -184.897)" stroke="#fff">
+                    <rect
+                        ry={4.6}
+                        y={1.6}
+                        x={547}
+                        height={115}
+                        width={110}
+                        fill="url(#b)"
+                        strokeWidth={5}
+                    />
+                    <g strokeWidth={2.2}>
+                        <path fill="#ccc" d="M559.11 12.21h84.79V89.9h-84.79z" />
+                        <path fill="#fff" d="M559.11 12.21h84.79v36.26h-84.79z" />
+                        <path
+                            fill="#ccc"
+                            paintOrder="stroke"
+                            d="m564.29 48.46 6.64-9.24 10.45-7.8 2.74 3.21 2.35-6.68 1.42-.51 2.3-4.87 31.08 31.08"
+                        />
+                        <path
+                            fill="#b3b3b3"
+                            paintOrder="stroke"
+                            d="M590.19 22.57a153 153 0 0 1 2.96 15.17l-3.81-1.24-7.96-5.08.92 8.02-.28 4.28 1.74 5.25 12.64-2.03 14.51-3.65-8.25-13.37-1.67 2.58-4.68-3.82Z"
+                        />
+                        <path
+                            d="m585.01 53.64 14.14-12.85 3.19-1.67 4.08-7.63 4.48-3.75 31.08 31.08"
+                            fill="#ccc"
+                            paintOrder="stroke"
+                        />
+                        <path
+                            fill="#b3b3b3"
+                            paintOrder="stroke"
+                            d="m610.9 27.75 6.2 13.97v10.39l3.88 3.36a14.1 14.1 0 0 1 3.88-2.71c2.56-1.21 5.41-1.62 8.14-2.35 1.11-.3 2.23-.67 3.14-1.36a5 5 0 0 0 .65-.59h-5.18l-7-7-5.15-8.45-1.77 1.53z"
+                        />
+                        <path
+                            fill="#fff"
+                            d="M585.01 89.9c-.07-1.66-1.52-3.04 2.96-5.29 5.5-2.77 21.73-6.2 26.27-10.36 3.35-3.08-12.16-6.5-9.5-10.2 1.21-1.68 10.19-3.45 14.18-5.23 3.78-1.69 2.62-3.42 5.42-5.17 2.71-1.7 11.8-3.41 12.46-5.18-1.8 1.82-11.88 3.52-15.54 5.18-3.86 1.75-3.71 3.44-8.54 5.09-5.2 1.78-15.39 3.55-17.73 5.27-4.91 3.6 8.09 7.36 2.8 10.36-7.17 4.07-25.78 7.47-33.51 10.36-5.34 1.99-4.91 3.06-5.18 5.18"
+                        />
+                    </g>
+                </g>
+            </g>
+            <text fill="currentColor" y={300} x={150} fontWeight={700} fontSize={32} textAnchor="middle">
+                <tspan>{"NO IMAGE"}</tspan>
+                <tspan y={340} x={150}>
+                    {"AVAILABLE"}
+                </tspan>
+            </text>
+        </svg>
+    )
+}

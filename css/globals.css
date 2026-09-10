@@ -1,0 +1,523 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   GLOBALS.CSS — Main stylesheet entry point
+   ────────────────────────────────────────────────────────────────────────────
+   Import order: tailwind → theme tokens → common utilities
+   ───────────────────────────────────────────────────────────────────────────── */
+
+/* ── TAILWIND ─────────────────────────────────────────────────────────────── */
+@import "tailwindcss";
+
+/* ── THEME TOKENS ─────────────────────────────────────────────────────────── */
+@import "./mode-light.css";
+@import "./mode-dark.css";
+@import "./common.css";
+@import "./containers.css";
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   TAILWIND THEME MAPPING
+   Maps CSS custom properties → Tailwind utility classes.
+   Convention: --color-* resolves at build time via var() references.
+   ═══════════════════════════════════════════════════════════════════════════ */
+@theme {
+
+    /* ── Reset default Tailwind palette ─────────────────────── */
+    --color-*: initial;
+    --color-white: oklch(1.0 0 0);
+    --color-black: oklch(0 0 0);
+
+    /* ── Primary ─────────────────────────────────────────────── */
+    --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-primary-hover: var(--primary-hover);
+    --color-primary-active: var(--primary-active);
+    --color-primary-subtle: var(--primary-subtle);
+
+    /* ── Secondary ───────────────────────────────────────────── */
+    --color-secondary: var(--secondary);
+    --color-secondary-foreground: var(--secondary-foreground);
+    --color-secondary-hover: var(--secondary-hover);
+    --color-secondary-active: var(--secondary-active);
+    --color-secondary-subtle: var(--secondary-subtle);
+
+    /* ── Accent ──────────────────────────────────────────────── */
+    --color-accent: var(--accent);
+    --color-accent-foreground: var(--accent-foreground);
+    --color-accent-hover: var(--accent-hover);
+    --color-accent-active: var(--accent-active);
+    --color-accent-subtle: var(--accent-subtle);
+
+    /* ── Backgrounds ─────────────────────────────────────────── */
+    --color-background: var(--background);
+    --color-background-secondary: var(--background-secondary);
+    --color-background-tertiary: var(--background-tertiary);
+
+    /* ── Foregrounds ─────────────────────────────────────────── */
+    --color-foreground: var(--foreground);
+    --color-foreground-secondary: var(--foreground-secondary);
+    --color-foreground-tertiary: var(--foreground-tertiary);
+
+    /* ── Surface ─────────────────────────────────────────────── */
+    --color-surface: var(--surface);
+    --color-surface-foreground: var(--surface-foreground);
+    --color-surface-elevated: var(--surface-elevated);
+    --color-surface-sunken: var(--surface-sunken);
+
+    /* ── Muted ───────────────────────────────────────────────── */
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-muted-hover: var(--muted-hover);
+
+    /* ── Subtle ──────────────────────────────────────────────── */
+    --color-subtle: var(--subtle);
+
+    /* ── Card ────────────────────────────────────────────────── */
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+    --color-card-hover: var(--card-hover);
+    --color-card-border: var(--card-border);
+
+    /* ── Popover ─────────────────────────────────────────────── */
+    --color-popover: var(--popover);
+    --color-popover-foreground: var(--popover-foreground);
+    --color-popover-border: var(--popover-border);
+
+    /* ── Borders ─────────────────────────────────────────────── */
+    --color-border: var(--border);
+    --color-border-subtle: var(--border-subtle);
+    --color-border-strong: var(--border-strong);
+
+    /* ── Dividers ────────────────────────────────────────────── */
+    --color-divider: var(--divider);
+    --color-divider-strong: var(--divider-strong);
+
+    /* ── Text ────────────────────────────────────────────────── */
+    --color-text-primary: var(--text-primary);
+    --color-text-secondary: var(--text-secondary);
+    --color-text-tertiary: var(--text-tertiary);
+    --color-text-disabled: var(--text-disabled);
+    --color-text-inverse: var(--text-inverse);
+
+    /* ── Success ─────────────────────────────────────────────── */
+    --color-success: var(--success);
+    --color-success-foreground: var(--success-foreground);
+    --color-success-hover: var(--success-hover);
+    --color-success-active: var(--success-active);
+    --color-success-subtle: var(--success-subtle);
+
+    /* ── Destructive ─────────────────────────────────────────── */
+    --color-destructive: var(--destructive);
+    --color-destructive-foreground: var(--destructive-foreground);
+    --color-destructive-hover: var(--destructive-hover);
+    --color-destructive-active: var(--destructive-active);
+    --color-destructive-subtle: var(--destructive-subtle);
+
+    /* ── Error ───────────────────────────────────────────────── */
+    --color-error: var(--error);
+    --color-error-foreground: var(--error-foreground);
+    --color-error-hover: var(--error-hover);
+    --color-error-active: var(--error-active);
+    --color-error-subtle: var(--error-subtle);
+
+    /* ── Warning ─────────────────────────────────────────────── */
+    --color-warning: var(--warning);
+    --color-warning-foreground: var(--warning-foreground);
+    --color-warning-hover: var(--warning-hover);
+    --color-warning-active: var(--warning-active);
+    --color-warning-subtle: var(--warning-subtle);
+
+    /* ── Info ────────────────────────────────────────────────── */
+    --color-info: var(--info);
+    --color-info-foreground: var(--info-foreground);
+    --color-info-hover: var(--info-hover);
+    --color-info-active: var(--info-active);
+    --color-info-subtle: var(--info-subtle);
+
+    /* ── Overlays ────────────────────────────────────────────── */
+    --color-overlay: var(--overlay);
+    --color-overlay-light: var(--overlay-light);
+    --color-overlay-heavy: var(--overlay-heavy);
+    --color-scrim: var(--scrim);
+    --color-hover-overlay: var(--hover-overlay);
+    --color-active-overlay: var(--active-overlay);
+
+    /* ── Badges ──────────────────────────────────────────────── */
+    --color-badge-new: var(--badge-new);
+    --color-badge-new-foreground: var(--badge-new-foreground);
+    --color-badge-sale: var(--badge-sale);
+    --color-badge-sale-foreground: var(--badge-sale-foreground);
+    --color-badge-limited: var(--badge-limited);
+    --color-badge-limited-foreground: var(--badge-limited-foreground);
+
+    /* ── Pricing ─────────────────────────────────────────────── */
+    --color-price-current: var(--price-current);
+    --color-price-original: var(--price-original);
+    --color-price-sale: var(--price-sale);
+    --color-price-save: var(--price-save);
+
+    /* ── Ratings ─────────────────────────────────────────────── */
+    --color-rating-filled: var(--rating-filled);
+    --color-rating-empty: var(--rating-empty);
+    --color-rating-half: var(--rating-half);
+
+    /* ── Links ───────────────────────────────────────────────── */
+    --color-link: var(--link);
+    --color-link-hover: var(--link-hover);
+    --color-link-visited: var(--link-visited);
+    --color-link-active: var(--link-active);
+
+    /* ── Inputs ──────────────────────────────────────────────── */
+    --color-input-background: var(--input-background);
+    --color-input-border: var(--input-border);
+    --color-input-border-hover: var(--input-border-hover);
+    --color-input-border-focus: var(--input-border-focus);
+    --color-input-text: var(--input-text);
+    --color-input-placeholder: var(--input-placeholder);
+    --color-input-disabled-background: var(--input-disabled-background);
+    --color-input-disabled-text: var(--input-disabled-text);
+    --color-input-disabled-border: var(--input-disabled-border);
+
+    /* ── Focus rings ─────────────────────────────────────────── */
+    --color-ring: var(--ring);
+    --color-ring-offset: var(--ring-offset);
+    --color-focus-ring: var(--focus-ring);
+
+    /* ── Button — Primary ────────────────────────────────────── */
+    --color-button-primary: var(--button-primary);
+    --color-button-primary-foreground: var(--button-primary-foreground);
+    --color-button-primary-hover: var(--button-primary-hover);
+    --color-button-primary-active: var(--button-primary-active);
+
+    /* ── Button — Secondary ──────────────────────────────────── */
+    --color-button-secondary: var(--button-secondary);
+    --color-button-secondary-foreground: var(--button-secondary-foreground);
+    --color-button-secondary-hover: var(--button-secondary-hover);
+    --color-button-secondary-active: var(--button-secondary-active);
+
+    /* ── Button — Destructive ────────────────────────────────── */
+    --color-button-destructive: var(--button-destructive);
+    --color-button-destructive-foreground: var(--button-destructive-foreground);
+    --color-button-destructive-hover: var(--button-destructive-hover);
+    --color-button-destructive-active: var(--button-destructive-active);
+
+    /* ── Button — Accent ─────────────────────────────────────── */
+    --color-button-accent: var(--button-accent);
+    --color-button-accent-foreground: var(--button-accent-foreground);
+    --color-button-accent-hover: var(--button-accent-hover);
+    --color-button-accent-active: var(--button-accent-active);
+
+    /* ── Button — Ghost ──────────────────────────────────────── */
+    --color-button-ghost: var(--button-ghost);
+    --color-button-ghost-foreground: var(--button-ghost-foreground);
+    --color-button-ghost-hover: var(--button-ghost-hover);
+    --color-button-ghost-active: var(--button-ghost-active);
+
+    /* ── Button — Outline ────────────────────────────────────── */
+    --color-button-outline: var(--button-outline);
+    --color-button-outline-foreground: var(--button-outline-foreground);
+    --color-button-outline-border: var(--button-outline-border);
+    --color-button-outline-hover: var(--button-outline-hover);
+    --color-button-outline-hover-foreground: var(--button-outline-hover-foreground);
+
+    /* ── Button — Cart ───────────────────────────────────────── */
+    --color-button-cart: var(--button-cart);
+    --color-button-cart-foreground: var(--button-cart-foreground);
+    --color-button-cart-hover: var(--button-cart-hover);
+
+    /* ── Button — Wishlist ───────────────────────────────────── */
+    --color-button-wishlist: var(--button-wishlist);
+    --color-button-wishlist-foreground: var(--button-wishlist-foreground);
+    --color-button-wishlist-hover: var(--button-wishlist-hover);
+
+    /* ── Button — Badge ──────────────────────────────────────── */
+    --color-button-badge: var(--button-badge);
+    --color-button-badge-foreground: var(--button-badge-foreground);
+
+    /* ── Neutrals ────────────────────────────────────────────── */
+    --color-neutral-50: var(--neutral-50);
+    --color-neutral-100: var(--neutral-100);
+    --color-neutral-200: var(--neutral-200);
+    --color-neutral-300: var(--neutral-300);
+    --color-neutral-400: var(--neutral-400);
+    --color-neutral-500: var(--neutral-500);
+    --color-neutral-600: var(--neutral-600);
+    --color-neutral-700: var(--neutral-700);
+    --color-neutral-800: var(--neutral-800);
+    --color-neutral-900: var(--neutral-900);
+    --color-neutral-950: var(--neutral-950);
+
+    /* ── Gradients ──────────────────────────────────────── */
+
+    --color-gradient-primary: var(--gradient-primary);
+    --color-gradient-accent: var(--gradient-accent);
+    --color-gradient-warm: var(--gradient-warm);
+    --color-gradient-hero: var(--gradient-hero);
+    --color-gradient-card: var(--gradient-card);
+    --color-gradient-surface: var(--gradient-surface);
+
+    /* ── Shadows ─────────────────────────────────────────────── */
+    --shadow-sm: var(--shadow-sm);
+    --shadow: var(--shadow);
+    --shadow-md: var(--shadow-md);
+    --shadow-lg: var(--shadow-lg);
+    --shadow-xl: var(--shadow-xl);
+    --shadow-2xl: var(--shadow-2xl);
+    --shadow-inner: var(--shadow-inner);
+    --shadow-accent: var(--shadow-accent);
+    --shadow-primary: var(--shadow-primary);
+
+    /* ── Typography ──────────────────────────────────────────── */
+    --font-heading: var(--font-family-heading);
+    --font-body: var(--font-family-body);
+    --font-mono: var(--font-family-mono);
+
+    /* ── Animation ──────────────────────────────────────────── */
+    /* ── Marquee keyframe animations ─────────────────────────────────────── */
+    --animate-marquee-left: marquee-left var(--marquee-duration, 40s) linear infinite;
+    --animate-marquee-right: marquee-right var(--marquee-duration, 40s) linear infinite;
+    --animate-marquee: marquee 32s linear infinite;
+    --animate-slide-up: slide-up 0.7s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    --animate-fade-in: fade-in 0.6s ease forwards;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   BASE LAYER — Element defaults; all overridable by Tailwind utilities
+   ═══════════════════════════════════════════════════════════════════════════ */
+@layer base {
+
+    *,
+    *::before,
+    *::after {
+        border-color: var(--border);
+        box-sizing: border-box;
+    }
+
+    html {
+        -webkit-text-size-adjust: 100%;
+        scroll-behavior: smooth;
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+    }
+
+    body {
+        background-color: var(--background);
+        color: var(--foreground);
+        font-family: var(--font-family-body);
+        font-size: var(--text-base);
+        line-height: var(--leading-normal);
+        min-height: 100vh;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    /* ========== ANNOUNCEMENT BAR ========== */
+
+    @keyframes marquee {
+        0% {
+            transform: translateX(0);
+        }
+
+        100% {
+            transform: translateX(-50%);
+        }
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        font-family: var(--font-family-heading);
+        line-height: var(--leading-tight);
+        letter-spacing: var(--tracking-tight);
+        color: var(--text-primary);
+        font-optical-sizing: auto;
+        text-wrap: balance;
+    }
+
+    p,
+    li {
+        text-wrap: pretty;
+        max-width: 75ch;
+    }
+
+    a {
+        color: var(--link);
+        text-decoration: none;
+        transition: color var(--transition-fast);
+    }
+
+    a:hover {
+        color: var(--link-hover);
+    }
+
+    a:visited {
+        color: var(--link-visited);
+    }
+
+    a:active {
+        color: var(--link-active);
+    }
+
+    :focus-visible {
+        outline: 2px solid var(--focus-ring);
+        outline-offset: 2px;
+        border-radius: var(--radius-sm);
+    }
+
+    :focus:not(:focus-visible) {
+        outline: none;
+    }
+
+    ::selection {
+        background-color: var(--accent-subtle);
+        color: var(--text-primary);
+    }
+
+    select {
+        -webkit-appearance: none;
+        /* Chrome, Safari, Newer Edge, Opera */
+        -moz-appearance: none;
+        /* Firefox */
+        appearance: none;
+        /* Standard modern browsers */
+    }
+
+    /* Optional: Hides the arrow in older versions of Internet Explorer / Edge */
+    select::-ms-expand {
+        display: none;
+    }
+
+    img,
+    video {
+        max-width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    /* ── Scrollbar ─────────────────────────────────────────────── */
+    ::-webkit-scrollbar {
+        width: 12px;
+        height: 12px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: var(--background-secondary);
+        border-radius: 6px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: var(--border-strong);
+        border-radius: 6px;
+        border: 2px solid var(--muted);
+        transition: background var(--transition-base);
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: var(--primary);
+    }
+
+    * {
+        scrollbar-width: thin;
+        /* Makes the scrollbar thinner */
+        scrollbar-color: var(--border-strong) var(--background-secondary);
+        /* Thumb and track colors */
+    }
+
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* Hide scrollbar for IE, Edge and Firefox */
+    .no-scrollbar {
+        -ms-overflow-style: none;
+        /* IE and Edge */
+        scrollbar-width: none;
+        /* Firefox */
+    }
+
+    @media (width >=48rem) {
+        .useful-link {
+            position: relative;
+            text-transform: uppercase;
+        }
+    }
+
+    .useful-link:after {
+        content: '';
+        position: absolute;
+        width: 24px;
+        height: 2px;
+        background: var(--color-accent);
+        left: 0;
+        top: -2px;
+    }
+}
+
+@view-transition {
+    navigation: auto;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   ACCESSIBILITY
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+@media (prefers-contrast: high) {
+    :root {
+        --border: var(--border-strong);
+        --input-border: var(--border-strong);
+        --text-secondary: var(--text-primary);
+        --text-tertiary: var(--text-secondary);
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   PRINT
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media print {
+    body {
+        background-color: white !important;
+        color: black !important;
+    }
+
+    button,
+    nav,
+    .no-print {
+        display: none !important;
+    }
+
+    a {
+        color: black !important;
+        text-decoration: underline !important;
+    }
+
+    * {
+        box-shadow: none !important;
+    }
+}
+
+/* ========================================
+   RESPONSIVE BREAKPOINTS REFERENCE
+   
+   Tailwind v4 default breakpoints:
+   sm:  640px  — Mobile landscape
+   md:  768px  — Tablet portrait
+   lg:  1024px — Desktop
+   xl:  1280px — Large desktop
+   2xl: 1536px — Ultra-wide
+   ======================================== */

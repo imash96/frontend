@@ -1,0 +1,95 @@
+# www.robotstxt.org/
+
+# Block specific bots
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SEMrushBot
+Disallow: /
+
+# Allow crawling of all content
+User-agent: *
+Allow: /
+
+# Disallow admin pages
+Disallow: /admin/
+Disallow: /wp-admin/
+
+# Disallow user account pages
+Disallow: /account/
+Disallow: /user/
+Disallow: /profile/
+
+# Disallow checkout and cart pages
+Disallow: /checkout/
+Disallow: /cart/
+
+# Disallow search result pages
+Disallow: /search/
+
+# Disallow any URLs with query parameters
+Disallow: /*?*
+
+# Disallow duplicate content
+Disallow: /*?sort=
+Disallow: /*?filter=
+Disallow: /*?page=
+Disallow: /*?view=
+Disallow: /*?variant=
+Disallow: /*?ref=
+
+# Disallow print versions of pages
+Disallow: /print/
+
+# Disallow temporary or test pages
+Disallow: /temp/
+Disallow: /test/
+
+# Allow product and category pages explicitly
+Allow: /product/
+Allow: /category/
+Allow: /collections/
+Allow: /blogs/
+
+# Allow access to CSS, JS, and image files
+Allow: /fonts/
+Allow: /icons/
+Allow: /images/
+Allow: /svg/
+Allow: /thumbnails/
+
+# Crawl delay for polite crawling (adjust as needed)
+Crawl-delay: 1
+
+# Sitemap location
+Sitemap: http://localhost:3000/sitemap.xml
+
+# Additional rules for specific bots
+
+# Bing bot
+User-agent: bingbot
+Crawl-delay: 2
+
+# Google bot
+User-agent: Googlebot
+Crawl-delay: 1
+
+# Google Mobile bot
+User-agent: Googlebot-Mobile
+Crawl-delay: 1
+
+# Block AI content scrapers
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /

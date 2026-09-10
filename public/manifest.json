@@ -1,0 +1,65 @@
+{
+  "short_name": "Velle Hide",
+  "name": "Velle Hide: Store",
+  "icons": [
+    {
+      "src": "./favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/icons/icons-vector-512.svg",
+      "type": "image/svg+xml",
+      "sizes": "48x48 72x72 96x96 128x128 192x192 256x256 512x512",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icons-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/icons/icons-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "id": "/?source=pwa",
+  "start_url": "/?source=pwa",
+  "background_color": "#3367D6",
+  "display_override": ["window-control-overlay", "minimal-ui"],
+  "display": "standalone",
+  "scope": "/",
+  "theme_color": "#3367D6",
+  "shortcuts": [
+    {
+      "name": "Men",
+      "short_name": "Men Clothing",
+      "description": "View all product of Men Clothing",
+      "url": "/cat/men?source=pwa",
+      "icons": [{ "src": "/icons/icons-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Women",
+      "short_name": "Women Clothing",
+      "description": "View all product of Women Clothing",
+      "url": "/cat/women?source=pwa",
+      "icons": [{ "src": "/icons/icons-192.png", "sizes": "192x192" }]
+    }
+  ],
+  "description": "Leather Clothing Store",
+  "screenshots": [
+    {
+      "src": "/icons/icons-192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "/icons/icons-512.png",
+      "type": "image/jpg",
+      "sizes": "512x512",
+      "form_factor": "wide"
+    }
+  ]
+}
