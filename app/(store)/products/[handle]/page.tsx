@@ -60,9 +60,7 @@ export default async function Page(props: PageProps<"/products/[handle]">) {
   );
 }
 
-export async function generateStaticParams() {
-  const products = await sdk.store.product
-    .list({ fields: "handle" })
-    .then(({ products }) => products);
-  return products.map((p) => ({ handle: p.handle }));
-}
+// export async function generateStaticParams() {
+//   const products = await sdk.store.product.list({ fields: "handle" }).then(({ products }) => products);
+//   return products.map((p) => ({ handle: p.handle }));
+// }

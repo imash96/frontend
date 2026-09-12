@@ -17,14 +17,15 @@ export default async function Page(props: PageProps<"/product/[handle]">) {
     const countryCode = (await cookies()).get("__country_code")?.value || process.env.NEXT_PUBLIC_DEFAULT_REGION || "us"
 
     const region = await getRegion(countryCode)
-
+    console.log(region)
     if (!region) notFound()
 
     const product = await listProducts({
         regionId: region.id,
         queryParams: { handle },
-    }).then(({ response }) => response.products[0])
+    }).then(({ response: { products } }) => products[0])
 
+    console.log(product.handle)
     if (!product || !product.id) notFound()
 
     const pages = product.categories?.map((c) => ({ label: c.name, href: `/category/${c.handle}` }))
@@ -47,7 +48,7 @@ export default async function Page(props: PageProps<"/product/[handle]">) {
     )
 }
 
-export async function generateStaticParams() {
-    const products = await sdk.store.product.list({ fields: "handle" }).then(({ products }) => products);
-    return products.map(p => ({ handle: p.handle }));
-}
+// export async function generateStaticParams() {
+//     const products = await sdk.store.product.list({ fields: "handle" }).then(({ products }) => products);
+//     return products.map(p => ({ handle: p.handle }));
+// }
