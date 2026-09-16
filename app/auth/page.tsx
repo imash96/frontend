@@ -14,7 +14,6 @@ export default function Page() {
   const isSignIn = view === "SIGN_IN";
   const safeAction = async (_state: CustomerAuthState, formData: FormData): Promise<CustomerAuthState> => { return isSignIn ? login(_state, formData) : signup(_state, formData); };
   const [message, formAction, isPending] = useActionState(safeAction, null);
-  console.log(message)
   return (
     <>
       {/* Headings */}

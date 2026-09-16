@@ -15,9 +15,14 @@ export default function CheckoutSummary({ cart }: { cart: StoreCart }) {
   return (
     <div className="border border-border bg-background-elevated rounded-lg space-y-5 p-5">
       <div className="space-y-2">
-        {cart.items?.map((item, index) => (
+        {cart.items?.map((item) => (
+          // Was `key={index}` — array-index keys are fragile once a list
+          // can change order or shrink (e.g. after a quantity or promo
+          // update re-fetches the cart), since React then matches the
+          // wrong DOM node to the wrong item. Line items already have a
+          // stable `id`, so use that instead.
           <CheckoutLineItem
-            key={index}
+            key={item.id}
             item={item}
             currency_code={currency_code}
           />
@@ -35,7 +40,10 @@ export default function CheckoutSummary({ cart }: { cart: StoreCart }) {
           <div className="flex items-center justify-between">
             <p className="">Gift Card</p>
             <p className="text-foreground-muted">
-              {convertToLocale({ amount: gift_card_total ?? 0, currency_code })}
+              {convertToLocale({
+                amount: gift_card_total ?? 0,
+                currency_code,
+              })}
             </p>
           </div>
         )}
@@ -43,14 +51,20 @@ export default function CheckoutSummary({ cart }: { cart: StoreCart }) {
           <div className="flex items-center justify-between">
             <p className="">Discount</p>
             <p className="text-foreground-muted">
-              {convertToLocale({ amount: discount_total ?? 0, currency_code })}
+              {convertToLocale({
+                amount: discount_total ?? 0,
+                currency_code,
+              })}
             </p>
           </div>
         )}
         <div className="flex items-center justify-between">
           <p className="">Shipping</p>
           <p className="text-foreground-muted">
-            {convertToLocale({ amount: shipping_subtotal ?? 0, currency_code })}
+            {convertToLocale({
+              amount: shipping_subtotal ?? 0,
+              currency_code,
+            })}
           </p>
         </div>
         <div className="flex items-center justify-between">
@@ -67,4 +81,4 @@ export default function CheckoutSummary({ cart }: { cart: StoreCart }) {
       </div>
     </div>
   );
-};
+}

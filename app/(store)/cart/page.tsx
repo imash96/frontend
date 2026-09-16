@@ -41,7 +41,7 @@ export default async function Page() {
                 key={item.id}
                 className="flex gap-2 py-4 border-y border-border"
               >
-                <div className="relative w-24 flex-shrink-0">
+                <div className="relative w-24 shrink-0">
                   <ProductThumbnail
                     src={item.thumbnail}
                     alt={item.title}

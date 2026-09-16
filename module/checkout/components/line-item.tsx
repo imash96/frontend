@@ -1,6 +1,6 @@
 import type { StoreCartLineItem } from "@medusajs/types";
 import { convertToLocale } from "@/lib/util/money";
-import ProductThumbnail from "@/module/product/components/product-thumbnail";
+import ProductThumbnail from "@/module/products/components/product-thumbnail";
 
 export default function CheckoutLineItem({
   item,

@@ -10,7 +10,7 @@ function ProductCard({ product }: { product: StoreProduct }) {
     const { cheapestPrice: price } = getProductPrice({ product })
     const isSale = price?.price_type === "sale"
     const hasPctBadge = isSale && !!price?.percentage_diff
-
+    console.log(product)
     return (
         // FIX 3: entire card is a Link so the whole surface is clickable
         <article className="group relative w-full">

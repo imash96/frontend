@@ -47,3 +47,5 @@ export function getProductPrice({ product, variantId }: { product: StoreProduct;
         variantPrice: getVariantPrice(),
     }
 }
+
+export type ProductCalculatedPrice = ReturnType<typeof getPricesForVariant>

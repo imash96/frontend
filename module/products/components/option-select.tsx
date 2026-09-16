@@ -1,84 +1,84 @@
-import { useProductStore } from "@/lib/store/use-product";
-import type { StoreProductOption } from "@medusajs/types";
-import { Info } from "lucide-react";
+import { StoreProductOption } from "@medusajs/types"
+
+export default function OptionSelect({ option, value, onSelect, disabled }: OptionSelectProps) {
+    const title = option.title ?? ""
+    const key = title.toLowerCase()
+    const isSize = key === "size"
+    const isColor = key === "color" || key === "colour"
+    const values = option.values?.map((v) => v.value) ?? []
+
+    if (values.length <= 1) {
+        return (
+            <div className="flex items-center gap-2 text-sm">
+                <span className="font-medium text-text-primary">{title}:</span>
+                <span className="text-text-secondary">{value ?? values[0] ?? "—"}</span>
+            </div>
+        )
+    }
+
+    return (
+        <div className="space-y-2.5">
+            {
+                isColor ? (
+                    <>
+                        <div className="flex items-center justify-between mb-2.5">
+                            <span className="text-xs font-semibold uppercase tracking-wider text-foreground-secondary">Color</span>
+                            <span className="text-xs text-foreground-tertiary">{value}</span>
+                        </div>
+                        <div className="flex gap-2.5">
+                            {values.map((c, i) => {
+                                const selected = c === value
+                                return (
+                                    <button
+                                        key={c}
+                                        type="button"
+                                        onClick={() => onSelect(c)}
+                                        className={`w-10 h-10 rounded-full border-2 transition-all duration-200 ${selected ? 'border-primary ring-2 ring-primary/20 scale-110' : 'border-border hover:border-border-strong hover:scale-105'}`}
+                                        style={{ backgroundColor: c }}
+                                        title={c}
+                                        aria-label={c}
+                                    />
+                                )
+                            })}
+                        </div>
+                    </>
+                ) : (
+                    <>
+                        <div className="flex items-center justify-between mb-2.5">
+                            <span className="text-xs font-semibold uppercase tracking-wider text-foreground-secondary">Size</span>
+                            <button className="text-xs text-link hover:text-link-hover underline underline-offset-2 transition-colors">Size Guide</button>
+                        </div>
+                        <div className="flex flex-wrap gap-2">
+                            {values.map((c, i) => {
+                                const selected = c === value
+                                return (
+                                    <button
+                                        key={c}
+                                        type="button"
+                                        onClick={() => onSelect(c)}
+                                        disabled={disabled}
+                                        className={`min-w-12 px-4 py-2.5 text-sm font-medium border rounded-lg transition-all duration-200 ${selected ? 'bg-primary text-primary-foreground border-primary shadow-primary' : !disabled ? 'border-border text-foreground hover:border-border-strong hover:bg-muted' : 'border-border-subtle text-text-disabled line-through opacity-50 cursor-not-allowed'}`}
+                                    >
+                                        {c}
+                                    </button>
+                                )
+                            })}
+                        </div>
+                    </>
+                )
+            }
+            {isSize && (
+                <p className="text-xs font-medium text-warning">
+                    {value ? "Refer to our size chart for the best fit." : "Select a size to check availability."}
+                </p>
+            )}
+        </div>
+    )
+}
 
 type OptionSelectProps = {
-  option: StoreProductOption;
-  title: string;
-  disabled: boolean;
-};
-
-export default function OptionSelect({
-  option,
-  title,
-  disabled,
-}: OptionSelectProps) {
-  const { options, setOption } = useProductStore();
-  const current = options?.[option.id];
-  const values = option.values?.map((v) => v.value);
-  const isSize = title === "Size";
-
-  return (
-    <div className="space-y-2">
-      <div className="flex items-center justify-between">
-        <span className="text-sm font-medium">
-          {title}: <span className="font-normal">{current}</span>
-        </span>
-        {isSize && (
-          <span
-            // onClick={() => setShowSizeGuide(true)}
-            className="text-xs cursor-pointer underline flex items-center gap-1 underline-offset-4"
-          >
-            Size guide <Info size={12} strokeWidth={1.5} />
-          </span>
-        )}
-      </div>
-
-      {isSize ? (
-        <div className="grid grid-cols-3 sm:grid-cols-4 gap-1.5">
-          {values?.map((value) => {
-            const isSelected = value === current;
-            return (
-              <button
-                key={value}
-                onClick={() => setOption(option.id, value)}
-                className={`rounded-xs transition-colors duration-50 inline-block text-xs text-center py-2.5 border-2 cursor-pointer ${isSelected ? "text-accent font-semibold border-transparent ring-2 ring-accent ring-offset-1" : "border-border hover:border-accent"}`}
-                disabled={disabled}
-                aria-pressed={isSelected}
-                aria-label={`${title}: ${value}`}
-              >
-                {value}
-              </button>
-            );
-          })}
-        </div>
-      ) : (
-        <div className="flex flex-wrap gap-2 text-sm uppercase">
-          {values?.map((value) => (
-            <span
-              key={value}
-              onClick={() => setOption(option.id, value)}
-              style={{
-                backgroundColor: value,
-                outline: current === value ? "2px solid black" : "none",
-              }}
-              className="inline-block h-8 w-8 border-2 border-border rounded-full cursor-pointer"
-            ></span>
-          ))}
-        </div>
-      )}
-
-      {isSize ? (
-        <p className="text-xs text-warning font-medium">
-          {current === "One Size" || current === "Custom Size"
-            ? "Measurements can be added during checkout."
-            : "Refer to our size chart for the best fit."}
-        </p>
-      ) : (
-        <span className="text-xs text-warning font-medium">
-          Check product images or color chart for actual color
-        </span>
-      )}
-    </div>
-  );
+    option: StoreProductOption
+    value?: string
+    onSelect: (value: string) => void
+    disabled?: boolean
 }

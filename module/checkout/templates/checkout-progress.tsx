@@ -34,6 +34,13 @@ export default function CheckoutProgress() {
         {steps.map((step, index) => {
           const isCompleted = index < currentIndex;
           const isCurrent = index === currentIndex;
+          // Previously every step was clickable via `onClick={() =>
+          // setCurrentStep(step.id)}`, regardless of progress — someone
+          // could click straight to "Payment" without ever filling in an
+          // address or picking a shipping method. Only completed steps (to
+          // go back and edit) and the current step are clickable now.
+          const isClickable = isCompleted || isCurrent;
+
           return (
             <li
               key={step.id}
@@ -44,10 +51,13 @@ export default function CheckoutProgress() {
               }
             >
               <div
-                className="flex flex-col sm:flex-row items-start cursor-pointer"
+                className={`flex flex-col sm:flex-row items-start ${isClickable ? "cursor-pointer" : "cursor-not-allowed"}`}
                 aria-current={isCurrent ? "step" : undefined}
+                aria-disabled={!isClickable}
                 aria-label={`${step.name} step${isCompleted ? ", completed" : isCurrent ? ", current" : ""}`}
-                onClick={() => setCurrentStep(step.id)}
+                onClick={() => {
+                  if (isClickable) setCurrentStep(step.id);
+                }}
               >
                 <div
                   className={`flex h-10 w-10 items-center justify-center rounded-full border-2 text-sm font-medium ${isCompleted ? "border-primary bg-primary text-primary-foreground" : ""} ${isCurrent ? "border-accent text-accent" : ""} ${!isCompleted && !isCurrent ? "border-foreground-muted text-foreground-muted" : ""}`}

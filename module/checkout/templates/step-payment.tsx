@@ -14,7 +14,13 @@ export default function PaymentStep({
   cart,
   paymentMethods,
 }: PaymentStepProps) {
-  const { currentStep, setCurrentStep, isPending, startPending, manualPending } = useCheckout();
+  const {
+    currentStep,
+    setCurrentStep,
+    isPending,
+    startPending,
+    manualPending,
+  } = useCheckout();
   const isOpen = currentStep === "payment";
   const activeSession = cart.payment_collection?.payment_sessions?.find(
     (paymentSession) => paymentSession.status === "pending",
@@ -22,10 +28,10 @@ export default function PaymentStep({
   const selectedPaymentMethod = activeSession?.provider_id;
 
   useLayoutEffect(() => {
-    if (isOpen && !cart.shipping_methods?.length && currentStep !== "payment")
+    if (isOpen && !cart.shipping_methods?.length) {
       setCurrentStep("delivery");
-  }, [isOpen, cart.shipping_methods?.length, currentStep]);
-
+    }
+  }, [isOpen, cart.shipping_methods?.length, setCurrentStep]);
 
   function setPaymentMethod(
     cart_id: string,
@@ -36,10 +42,7 @@ export default function PaymentStep({
     startPending(async () => {
       await initiatePaymentSession(
         cart_id,
-        {
-          provider_id,
-          data: { payment_description: "Leather Goods" },
-        },
+        { provider_id, data: { payment_description: "Leather Goods" } },
         collection_id,
       );
     });
@@ -59,18 +62,20 @@ export default function PaymentStep({
           {paymentMethods.map((paymentMethod) => {
             const isSelected = selectedPaymentMethod === paymentMethod.id;
             const Info = paymentInfoMap[paymentMethod.id];
+            const isDisabled = isPending || manualPending;
             return (
               <div
                 key={paymentMethod.id}
                 onClick={() =>
-                  !isPending &&
+                  !isDisabled &&
                   setPaymentMethod(
                     cart.id,
                     paymentMethod.id,
                     cart.payment_collection?.id,
                   )
                 }
-                className={`relative flex flex-col border transition ${isSelected ? "border-accent ring-1 ring-accent" : "border-border"} ${isPending || manualPending ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}>
+                className={`relative flex flex-col border transition ${isSelected ? "border-accent ring-1 ring-accent" : "border-border"} ${isDisabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
+              >
                 {/* Header row */}
                 <div className="flex items-center gap-3 p-4">
                   <div className="text-accent">
@@ -91,12 +96,12 @@ export default function PaymentStep({
                       {Info?.desc}
                     </p>
                   </div>
-                  {Info.Icon}
+                  {Info?.Icon}
                 </div>
 
                 {/* Extra info / Preview */}
                 <AnimatePresence mode="wait">
-                  {isSelected && Info.Preview}
+                  {isSelected && Info?.Preview}
                 </AnimatePresence>
               </div>
             );

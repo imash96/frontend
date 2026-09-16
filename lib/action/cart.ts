@@ -383,7 +383,7 @@ export async function setAddresses(currentState: unknown, formData: FormData) {
     }
 
     redirect(
-        `/${formData.get("shipping_address.country_code")}/checkout?step=delivery`
+        `/checkout?step=delivery`
     )
 }
 
@@ -412,12 +412,9 @@ export async function placeOrder(cartId?: string) {
         .catch(medusaError)
 
     if (cartRes?.type === "order") {
-        const countryCode =
-            cartRes.order.shipping_address?.country_code?.toLowerCase()
-
         await updateCacheTags("orders")
         await removeCartId()
-        redirect(`/${countryCode}/order/${cartRes?.order.id}/confirmed`)
+        redirect(`/order/${cartRes?.order.id}/confirmed`)
     }
 
     return cartRes.cart

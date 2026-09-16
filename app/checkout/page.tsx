@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { retrieveCart } from "@/lib/action/cart";
 import { retrieveCustomer } from "@/lib/action/customer";
 import { listCartShippingMethods } from "@/lib/action/fulfillment";
@@ -14,33 +14,72 @@ import ShippingStep from "@/module/checkout/templates/step-shipping";
 import type { StepType } from "@/types/common";
 
 export default async function Page() {
-  const cart = await retrieveCart();
-  if (!cart) return notFound();
+    const cart = await retrieveCart();
 
-  const [customer, shippingMethods, paymentMethods] = await Promise.all([
-    retrieveCustomer(),
-    listCartShippingMethods(cart.id),
-    listCartPaymentMethods(cart.region?.id ?? ""),
-  ]);
+    // No cart at all -> nothing to check out.
+    if (!cart) return notFound();
 
-  if (!shippingMethods || !paymentMethods) return null;
+    // An empty cart can't be checked out. Previously this fell through to the
+    // step calculation below and rendered a full address/shipping/payment
+    // flow (and a $0 summary) for zero items.
+    if (!cart.items?.length) {
+        redirect("/cart");
+    }
 
-  const step: StepType = !cart?.shipping_address?.address_1 ? "address" : !cart?.shipping_methods?.length ? "delivery" : "payment";
+    if (!cart.region?.id) {
+        // Without a region we can't fetch payment providers or shipping
+        // options — this is a data problem (cart has no region attached), not
+        // a missing page, so it shouldn't 404.
+        return (
+            <div className="lg:col-span-10 py-12 text-center space-y-2">
+                <h1 className="text-lg font-semibold text-foreground">
+                    We couldn&apos;t load checkout
+                </h1>
+                <p className="text-sm text-foreground-muted">
+                    Your cart is missing region information. Please return to your cart and try again.
+                </p>
+            </div>
+        );
+    }
 
-  return (
-    <CheckoutProvider step={step}>
-      <div className="lg:col-span-6 space-y-6">
-        {/* <CheckoutExpress /> */}
-        <CheckoutProgress />
-        <PaymentWrapper cart={cart}>
-          <AddressStep cart={cart} customer={customer} />
-          <ShippingStep cart={cart} availableMethods={shippingMethods} />
-          <PaymentStep cart={cart} paymentMethods={paymentMethods} />
-        </PaymentWrapper>
-      </div>
-      <div className="lg:col-span-4 sticky top-24 self-start w-full">
-        <CheckoutSummary cart={cart} />
-      </div>
-    </CheckoutProvider>
-  );
+    const [customer, shippingMethods, paymentMethods] = await Promise.all([
+        retrieveCustomer(),
+        listCartShippingMethods(cart.id),
+        listCartPaymentMethods(cart.region.id),
+    ]);
+
+    if (!shippingMethods || !paymentMethods) {
+        // These come back `null` only when the backend calls actually failed.
+        // Previously this returned `null` here, which renders as a silent
+        // blank page with no indication anything went wrong.
+        return (
+            <div className="lg:col-span-10 py-12 text-center space-y-2">
+                <h1 className="text-lg font-semibold text-foreground">
+                    We couldn&apos;t load checkout
+                </h1>
+                <p className="text-sm text-foreground-muted">
+                    Something went wrong loading shipping or payment options. Please refresh the page or try again shortly.
+                </p>
+            </div>
+        );
+    }
+
+    const step: StepType = !cart?.shipping_address?.address_1 ? "address" : !cart?.shipping_methods?.length ? "delivery" : "payment";
+
+    return (
+        <CheckoutProvider step={step}>
+            <div className="lg:col-span-6 space-y-6">
+                {/* <CheckoutExpress /> */}
+                <CheckoutProgress />
+                <PaymentWrapper cart={cart}>
+                    <AddressStep cart={cart} customer={customer} />
+                    <ShippingStep cart={cart} availableMethods={shippingMethods} />
+                    <PaymentStep cart={cart} paymentMethods={paymentMethods} />
+                </PaymentWrapper>
+            </div>
+            <div className="lg:col-span-4 sticky top-24 self-start w-full">
+                <CheckoutSummary cart={cart} />
+            </div>
+        </CheckoutProvider>
+    );
 }

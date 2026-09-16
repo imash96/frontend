@@ -6,9 +6,7 @@ import { useUIStore } from "@/lib/store/ui-store"
 import Link from "next/link"
 import type { Route } from "next"
 
-type Tab =
-    | { type: "link"; href: Route; label: string; Icon: typeof House }
-    | { type: "button"; onClick: () => void; label: string; Icon: typeof House }
+type Tab = { type: "link"; href: Route; label: string; Icon: typeof House } | { type: "button"; onClick: () => void; label: string; Icon: typeof House }
 
 export default function BottomTabs() {
     const pathname = usePathname()

@@ -32,21 +32,25 @@ export default function ProductGallery({ images, title }: ProductGalleryProps) {
     [emblaMainApi],
   );
 
+  const onSelect = useCallback(() => {
+    if (!emblaMainApi || !emblaThumbsApi) return;
+    const selected = emblaMainApi.selectedSnap();
+    setSelectedIndex(selected);
+    emblaThumbsApi.goTo(selected);
+  }, [emblaMainApi, emblaThumbsApi, setSelectedIndex]);
+
   useEffect(() => {
     if (!emblaMainApi) return;
-    const onSelect = () => {
-      if (!emblaMainApi || !emblaThumbsApi) return;
-      const selected = emblaMainApi.selectedSnap();
-      setSelectedIndex(selected);
-      emblaThumbsApi.goTo(selected);
-    }
+    onSelect();
 
     emblaMainApi.on("select", onSelect);
+    emblaMainApi.on("reinit", onSelect);
 
     return () => {
       emblaMainApi.off("select", onSelect);
+      emblaMainApi.off("reinit", onSelect);
     };
-  }, [emblaMainApi, emblaThumbsApi]);
+  }, [emblaMainApi, onSelect]);
 
   const scrollPrev = useCallback(
     () => emblaMainApi?.goToPrev(),
@@ -66,7 +70,7 @@ export default function ProductGallery({ images, title }: ProductGalleryProps) {
   }
 
   return (
-    <>
+    <div className="flex flex-col gap-2 lg:flex-row h-full">
       {/* Thumbnails (Mobile = Horizontal | Desktop = Vertical) */}
       <div
         className="relative md:max-h-[calc(100vh-12rem)] overflow-hidden md:overflow-auto no-scrollbar p-1"
@@ -141,6 +145,6 @@ export default function ProductGallery({ images, title }: ProductGalleryProps) {
           <ChevronRight className="size-5 text-accent-foreground" />
         </button>
       </div>
-    </>
+    </div>
   );
 }
