@@ -81,7 +81,7 @@ export async function getOrSetCart(countryCode: string) {
     } else if (cart.region_id !== region.id) {
         // A brand-new cart above is always created with the right region_id, so
         // this branch only runs for a pre-existing cart whose region actually
-        // needs changing — the original's second `if` re-checked the same
+        // needs changing - the original's second `if` re-checked the same
         // condition unconditionally, which was harmless but redundant.
         await sdk.store.cart.update(cart.id, { region_id: region.id }, {}, headers)
         await updateCacheTags("carts")
@@ -488,7 +488,7 @@ export async function updateRegion(countryCode: string) {
 
     if (cartId) {
         // updateCart() already revalidates "carts" (and "fulfillment")
-        // internally — no need to revalidate it again here.
+        // internally - no need to revalidate it again here.
         await updateCart({ region_id: region.id })
         revalidateTag(await getCacheTag("carts"), 'max');
     }

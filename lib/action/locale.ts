@@ -94,7 +94,7 @@ export const listLocales = async (): Promise<Locale[] | null> => {
         const status = (error as { status?: number })?.status
         if (status !== 404) {
             // 404 just means the Translation Module isn't configured for this
-            // store — expected for stores that don't use localization. Anything
+            // store - expected for stores that don't use localization. Anything
             // else is worth surfacing.
             console.error("[listLocales] Failed to fetch locales:", error)
         }

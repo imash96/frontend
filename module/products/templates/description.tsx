@@ -98,7 +98,7 @@ const storyBlocksB = [
     {
         image: "https://images.artisanhide.com/storefront/images/prod_desc/FAIR_PRICING_DIRECT_TO_YOU.webp",
         imageAlt: "Fair pricing direct to you",
-        title: "Fair Pricing — Direct to You",
+        title: "Fair Pricing - Direct to You",
         text: "We believe luxury should be accessible. By cutting out middlemen, storefront costs, and inefficient marketing, we bring you jackets at a fraction of traditional luxury prices.",
     },
 ]
@@ -121,7 +121,7 @@ const features = [
     },
     {
         title: "Built to Last",
-        desc: "With proper care, your Heritage jacket will develop a beautiful patina and last a lifetime — backed by our warranty.",
+        desc: "With proper care, your Heritage jacket will develop a beautiful patina and last a lifetime - backed by our warranty.",
         icon: Clock,
     },
 ]
@@ -130,7 +130,7 @@ const APLUS = [
     { icon: Layers, title: 'Full-Grain Calfskin', desc: 'Sourced from the finest Italian tanneries, aged for 6 months before cutting.' },
     { icon: Scissors, title: '47-Step Process', desc: 'Each jacket passes through 47 handcraft stages from hide to finished garment.' },
     { icon: Droplets, title: 'Weather-Resistant', desc: 'Natural wax finish repels light rain while allowing the leather to breathe.' },
-    { icon: Heart, title: 'Ages Beautifully', desc: 'Develops a rich patina unique to you — more character with every wear.' },
+    { icon: Heart, title: 'Ages Beautifully', desc: 'Develops a rich patina unique to you - more character with every wear.' },
 ]
 
 type StoryBlocks = {

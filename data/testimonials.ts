@@ -4,7 +4,7 @@ export const testimonials: Testimonial[] = [
         star: 5,
         name: "Sarah Mitchell",
         review:
-            "The Velle Hide biker jacket is a game-changer! The genuine leather is so soft yet durable, and it fits like a glove. I've gotten compliments everywhere—worth every penny for the quality.",
+            "The Velle Hide biker jacket is a game-changer! The genuine leather is so soft yet durable, and it fits like a glove. I've gotten compliments everywhere-worth every penny for the quality.",
         image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&auto=format&fit=crop&q=80",
         product: "Classic Biker Jacket",
         location: "New York, USA",
@@ -16,7 +16,7 @@ export const testimonials: Testimonial[] = [
         star: 5,
         name: "Marcus Johnson",
         review:
-            "These Chelsea boots are incredible! Comfortable right out of the box, and the leather quality shines through. Velle Hide delivers on style and longevity—my go-to for fall.",
+            "These Chelsea boots are incredible! Comfortable right out of the box, and the leather quality shines through. Velle Hide delivers on style and longevity-my go-to for fall.",
         image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&auto=format&fit=crop&q=80",
         product: "Heritage Chelsea Boots",
         location: "Chicago, USA",
@@ -28,7 +28,7 @@ export const testimonials: Testimonial[] = [
         star: 5,
         name: "Aisha Patel",
         review:
-            "My new leather wallet from Velle Hide is sleek and functional. Love the RFID protection and how the leather feels premium. It's already my everyday essential—highly recommend!",
+            "My new leather wallet from Velle Hide is sleek and functional. Love the RFID protection and how the leather feels premium. It's already my everyday essential-highly recommend!",
         image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&auto=format&fit=crop&q=80",
         product: "Slim Bifold Wallet",
         location: "London, UK",
@@ -40,7 +40,7 @@ export const testimonials: Testimonial[] = [
         star: 4,
         name: "David Ramirez",
         review:
-            "Bought the leather messenger bag for work, and it's perfect. Spacious, stylish, and holds up great after daily use. The stitching is top-notch—Velle Hide nailed it!",
+            "Bought the leather messenger bag for work, and it's perfect. Spacious, stylish, and holds up great after daily use. The stitching is top-notch-Velle Hide nailed it!",
         image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&auto=format&fit=crop&q=80",
         product: "Executive Messenger Bag",
         location: "Los Angeles, USA",
@@ -64,7 +64,7 @@ export const testimonials: Testimonial[] = [
         star: 5,
         name: "Liam O'Connor",
         review:
-            "Picked up leather pants and they're fantastic—stretchy yet structured, perfect for casual outings. The craftsmanship from Velle Hide is evident; feels like an investment piece.",
+            "Picked up leather pants and they're fantastic-stretchy yet structured, perfect for casual outings. The craftsmanship from Velle Hide is evident; feels like an investment piece.",
         image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&auto=format&fit=crop&q=80",
         product: "Tailored Leather Trousers",
         location: "Dublin, Ireland",
@@ -76,7 +76,7 @@ export const testimonials: Testimonial[] = [
         star: 5,
         name: "Jasmine Lee",
         review:
-            "This leather belt transformed my outfits! Adjustable, high-quality buckle, and the leather molds perfectly over time. Velle Hide's attention to detail is unmatched—love it!",
+            "This leather belt transformed my outfits! Adjustable, high-quality buckle, and the leather molds perfectly over time. Velle Hide's attention to detail is unmatched-love it!",
         image: "https://images.unsplash.com/photo-1557053910-d9eadeed1c58?w=200&auto=format&fit=crop&q=80",
         product: "Artisan Leather Belt",
         location: "Toronto, Canada",
@@ -88,7 +88,7 @@ export const testimonials: Testimonial[] = [
         star: 4,
         name: "Carlos Mendoza",
         review:
-            "The driving gloves are a solid buy—supple leather, great grip, and stylish for road trips. They run a tad snug at first, but break in nicely. Thanks, Velle Hide!",
+            "The driving gloves are a solid buy-supple leather, great grip, and stylish for road trips. They run a tad snug at first, but break in nicely. Thanks, Velle Hide!",
         image: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=200&auto=format&fit=crop&q=80",
         product: "Heritage Driving Gloves",
         location: "Mexico City, MX",
@@ -100,7 +100,7 @@ export const testimonials: Testimonial[] = [
         star: 5,
         name: "Mia Thompson",
         review:
-            "Obsessed with my new leather vest! Adds edge to any look, and the quality is outstanding—soft, ethical leather that feels luxurious. Velle Hide has won me over completely.",
+            "Obsessed with my new leather vest! Adds edge to any look, and the quality is outstanding-soft, ethical leather that feels luxurious. Velle Hide has won me over completely.",
         image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&auto=format&fit=crop&q=80",
         product: "Moto Leather Vest",
         location: "Sydney, Australia",
@@ -112,7 +112,7 @@ export const testimonials: Testimonial[] = [
         star: 5,
         name: "Israel Perez",
         review:
-            "The loafers are comfortable and sharp—genuine leather that polishes up beautifully. Perfect for office or weekends. Velle Hide's sizing was spot-on; will buy again soon!",
+            "The loafers are comfortable and sharp-genuine leather that polishes up beautifully. Perfect for office or weekends. Velle Hide's sizing was spot-on; will buy again soon!",
         image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&auto=format&fit=crop&q=80",
         product: "Classic Leather Loafers",
         location: "Miami, USA",

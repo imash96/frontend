@@ -54,7 +54,7 @@ export default async function FooterVariant4() {
 
                     {/* ── Grid: brand + links ───────────────────────── */}
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-x-10 lg:gap-x-8">
-                        {/* Brand & contact — spans 2 cols */}
+                        {/* Brand & contact - spans 2 cols */}
                         <div className="lg:col-span-2 space-y-6 pb-10 lg:pb-0 border-b border-border md:border-none">
                             <a href="/" className="inline-block">
                                 <LogoRect

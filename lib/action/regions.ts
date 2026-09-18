@@ -39,7 +39,7 @@ export const retrieveRegion = async (id: string) => {
  *
  * The original cached the country->region map in a module-level `Map`
  * that, once populated, was never rebuilt for the life of the server
- * process — a region added or edited in Medusa Admin would never show up
+ * process - a region added or edited in Medusa Admin would never show up
  * until a redeploy, because `listRegions()`'s own cache tag (which *is*
  * properly revalidatable via updateCacheTags("regions")) was never
  * consulted again after the first call. Rebuilding the map from

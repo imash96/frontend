@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════════════════════
-   CONTAINER SYSTEM — Cordova Premium Leather
+   CONTAINER SYSTEM - Cordova Premium Leather
    ─────────────────────────────────────────────────────────────────────────
    Usage: import this file in globals.css after @import "tailwindcss"
 
@@ -9,26 +9,26 @@
    ─────────────────────────────────────────────────────────────────────────
    BREAKPOINT REFERENCE
    ─────────────────────────────────────────────────────────────────────────
-   375px  — Mobile (base)
-   640px  — Mobile landscape / small tablet (sm)
-   768px  — Tablet portrait (md)
-   1024px — Small laptop (lg)
-   1280px — Laptop / desktop (xl)
-   1366px — Common laptop screen
-   1440px — Standard desktop
-   1536px — Tailwind 2xl
-   1920px — Full HD desktop
-   2560px — QHD / Ultra-wide
+   375px  - Mobile (base)
+   640px  - Mobile landscape / small tablet (sm)
+   768px  - Tablet portrait (md)
+   1024px - Small laptop (lg)
+   1280px - Laptop / desktop (xl)
+   1366px - Common laptop screen
+   1440px - Standard desktop
+   1536px - Tailwind 2xl
+   1920px - Full HD desktop
+   2560px - QHD / Ultra-wide
    ─────────────────────────────────────────────────────────────────────────
    SIZING SCALE
    ─────────────────────────────────────────────────────────────────────────
-   container-xs   →  max-w: 640px   — Narrow prose, footnotes, labels
-   container-sm   →  max-w: 768px   — Editorial content, blog articles
-   container-md   →  max-w: 1024px  — Most content sections
-   container-lg   →  max-w: 1280px  — Standard layout (replaces container-custom)
-   container-xl   →  max-w: 1440px  — Wide product grids, 1440+ displays
-   container-2xl  →  max-w: 1680px  — Showcase / editorial, 1920+ displays
-   container-full →  max-w: 2048px  — Hero banners, ultra-wide 2560+
+   container-xs   →  max-w: 640px   - Narrow prose, footnotes, labels
+   container-sm   →  max-w: 768px   - Editorial content, blog articles
+   container-md   →  max-w: 1024px  - Most content sections
+   container-lg   →  max-w: 1280px  - Standard layout (replaces container-custom)
+   container-xl   →  max-w: 1440px  - Wide product grids, 1440+ displays
+   container-2xl  →  max-w: 1680px  - Showcase / editorial, 1920+ displays
+   container-full →  max-w: 2048px  - Hero banners, ultra-wide 2560+
    ═══════════════════════════════════════════════════════════════════════════ */
 
 @layer utilities {
@@ -37,15 +37,15 @@
        SHARED PADDING SCALE
        A single CSS custom property drives padding across all container
        variants. Overriding it at each breakpoint keeps every container in
-       perfect sync — change padding once, every size inherits it.
+       perfect sync - change padding once, every size inherits it.
        ───────────────────────────────────────────────────────────────────── */
 
-    /* Base shared container foundation — applied to every variant */
+    /* Base shared container foundation - applied to every variant */
     [class*="container-"] {
         width: 100%;
         margin-inline: auto;
 
-        /* Fluid padding token — overridden per breakpoint below */
+        /* Fluid padding token - overridden per breakpoint below */
         --container-px: 1rem;
         /* 375–639px   : 16px  */
         padding-inline: var(--container-px);
@@ -109,56 +109,56 @@
 
 
     /* ─────────────────────────────────────────────────────────────────────
-       SIZE VARIANTS — Only max-width differs between these
+       SIZE VARIANTS - Only max-width differs between these
        ───────────────────────────────────────────────────────────────────── */
 
-    /* XS — Narrow prose column */
+    /* XS - Narrow prose column */
     .container-xs {
         max-width: 40rem;
         /* 640px */
     }
 
-    /* SM — Editorial / article reading */
+    /* SM - Editorial / article reading */
     .container-sm {
         max-width: 48rem;
         /* 768px */
     }
 
-    /* MD — Most content sections */
+    /* MD - Most content sections */
     .container-md {
         max-width: 64rem;
         /* 1024px */
     }
 
-    /* LG — Standard full layout (updates old container-custom) */
+    /* LG - Standard full layout (updates old container-custom) */
     .container-lg {
         /* ← backward-compat alias */
         max-width: 80rem;
         /* 1280px */
     }
 
-    /* XL — Wide product grids, 1440px displays */
+    /* XL - Wide product grids, 1440px displays */
     .container-xl {
         max-width: 90rem;
         /* 1440px */
     }
 
-    /* 2XL — Showcase / editorial, 1920px displays */
+    /* 2XL - Showcase / editorial, 1920px displays */
     .container-2xl {
         max-width: 105rem;
         /* 1680px */
     }
 
-    /* 3XL — Showcase / editorial, 1920px displays */
+    /* 3XL - Showcase / editorial, 1920px displays */
     .container-3xl {
         max-width: 128rem;
         /* 1680px */
     }
 
-    /* FULL — Hero banners, ultra-wide 2560px+ */
+    /* FULL - Hero banners, ultra-wide 2560px+ */
     .container-full {
         max-width: 100%;
-        /* 2048px — still has gutters at 2560 */
+        /* 2048px - still has gutters at 2560 */
     }
 
 
@@ -168,12 +168,12 @@
        that want tighter or zero padding). Compose: class="container-lg px-safe-0"
        ───────────────────────────────────────────────────────────────────── */
 
-    /* Strip horizontal padding entirely — full-bleed within max-width */
+    /* Strip horizontal padding entirely - full-bleed within max-width */
     .px-safe-0 {
         --container-px: 0rem;
     }
 
-    /* Tighter padding — half the standard scale (dense UI panels) */
+    /* Tighter padding - half the standard scale (dense UI panels) */
     .px-safe-tight {
         --container-px: 0.75rem;
 
@@ -206,7 +206,7 @@
         }
     }
 
-    /* Looser padding — 1.5× the standard scale (hero / landing sections) */
+    /* Looser padding - 1.5× the standard scale (hero / landing sections) */
     .px-safe-loose {
         --container-px: 1.25rem;
 

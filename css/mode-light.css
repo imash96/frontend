@@ -1,7 +1,7 @@
 :root[data-theme="light"] {
 
     /* ══════════════════════════════════════════════════════════
-       BRAND PALETTE — PRIMARY (Deep Cognac Leather)
+       BRAND PALETTE - PRIMARY (Deep Cognac Leather)
        L 17-95 / C 0.078-0.085 / H 40-42
        Deepened + richer chroma vs v2.1 for more saturated leather
        ══════════════════════════════════════════════════════════ */
@@ -19,7 +19,7 @@
     --secondary-active: oklch(43% 0.048 49);
     --secondary-subtle: oklch(94% 0.011 70);
 
-    /* ── ACCENT (Burnished Gold — richer, truer amber) ──────── */
+    /* ── ACCENT (Burnished Gold - richer, truer amber) ──────── */
     /* chroma: 0.098 → 0.116 | hue: 70° → 68° (less lemon, more gold) */
     --accent: oklch(59% 0.116 68);
     --accent-foreground: oklch(16% 0.040 44);
@@ -28,7 +28,7 @@
     --accent-subtle: oklch(96.5% 0.026 78);
 
     /* ══════════════════════════════════════════════════════════
-       BACKGROUNDS — Editorial parchment (hue 74-80)
+       BACKGROUNDS - Editorial parchment (hue 74-80)
        Critical change: was hue ~62 (golden-yellow). 
        New hue 74-80 = warm ivory/cream, like premium paper stock.
        Feels editorial, luxurious, not warm-yellow.
@@ -40,7 +40,7 @@
     --background-tertiary: oklch(93% 0.009 69);
     /* ← was 91%   0.015 57 */
 
-    /* ── FOREGROUND (Body text) — deep near-black for max contrast */
+    /* ── FOREGROUND (Body text) - deep near-black for max contrast */
     --foreground: oklch(15% 0.030 43);
     /* ← L 17→15, deeper black */
     --foreground-secondary: oklch(34% 0.040 47);
@@ -49,7 +49,7 @@
     /* ← L 54→52 */
 
     /* ══════════════════════════════════════════════════════════
-       SURFACES — Apple-style pure white cards
+       SURFACES - Apple-style pure white cards
        Cards = true white. Product photography pops.
        Surfaces differentiate clearly from warm backgrounds.
        ══════════════════════════════════════════════════════════ */
@@ -84,7 +84,7 @@
     --subtle: oklch(95.5% 0.008 73);
 
     /* ══════════════════════════════════════════════════════════
-       BORDERS & DIVIDERS — Cooler hue, cleaner look
+       BORDERS & DIVIDERS - Cooler hue, cleaner look
        ══════════════════════════════════════════════════════════ */
     --border: oklch(87% 0.016 68);
     /* ← hue 56→68 */
@@ -104,10 +104,10 @@
     --text-inverse: oklch(97.5% 0.005 74);
 
     /* ══════════════════════════════════════════════════════════
-       SEMANTIC COLORS — Luxury-tuned
+       SEMANTIC COLORS - Luxury-tuned
        ══════════════════════════════════════════════════════════ */
 
-    /* ── Success (Refined sage — understated luxury) ─────────── */
+    /* ── Success (Refined sage - understated luxury) ─────────── */
     --success: oklch(47% 0.128 152);
     --success-foreground: oklch(98.5% 0.009 152);
     --success-hover: oklch(41% 0.135 152);
@@ -155,10 +155,10 @@
     --active-overlay-opacity: 0.08;
 
     /* ══════════════════════════════════════════════════════════
-       BADGES — Redesigned for brand coherence
+       BADGES - Redesigned for brand coherence
        ────────────────────────────────────────────────────────
        badge-new: Was oklch(51% 0.128 240) BLUE → disconnected from
-       leather brand. Now: deep cognac leather stamp — like a wax
+       leather brand. Now: deep cognac leather stamp - like a wax
        seal or premium hang tag. Feels intentional and luxury.
        badge-sale: Terracotta red (warm, not clinical red)
        badge-limited: Burnished gold (scarcity + prestige)
@@ -270,7 +270,7 @@
     --button-badge-foreground: oklch(16% 0.040 44);
 
     /* ══════════════════════════════════════════════════════════
-       NEUTRALS — Perceptually linear warm-tinted scale
+       NEUTRALS - Perceptually linear warm-tinted scale
        Rebalanced OKLCH L steps: 98.8 / 96.5 / 92 / 85 / 73 / 60 / 48 / 37 / 27 / 18 / 11.5
        ══════════════════════════════════════════════════════════ */
     --neutral-50: oklch(98.8% 0.003 78);
@@ -286,7 +286,7 @@
     --neutral-950: oklch(11.5% 0.021 42);
 
     /* ══════════════════════════════════════════════════════════
-       SHADOWS — Apple-style: diffuse, multi-layer, perceptible depth
+       SHADOWS - Apple-style: diffuse, multi-layer, perceptible depth
        Key change: alphas ~30% higher than v2.1, spreads widened.
        Shadows use the foreground tone (warm near-black), not blue.
        ══════════════════════════════════════════════════════════ */
@@ -297,7 +297,7 @@
     --shadow-xl: 0 24px 40px oklch(15% 0.030 43 / 0.13), 0 8px 16px oklch(15% 0.030 43 / 0.07);
     --shadow-2xl: 0 36px 64px oklch(15% 0.030 43 / 0.22), 0 12px 24px oklch(15% 0.030 43 / 0.10);
     --shadow-inner: inset 0 1px 3px oklch(15% 0.030 43 / 0.08);
-    /* Warm glows — premium interactive moments */
+    /* Warm glows - premium interactive moments */
     --shadow-accent: 0 4px 24px oklch(59% 0.116 68 / 0.32);
     --shadow-primary: 0 4px 24px oklch(27% 0.078 42 / 0.26);
 
@@ -311,6 +311,6 @@
     --gradient-card: linear-gradient(180deg, oklch(100% 0 0), oklch(98% 0.005 76));
     --gradient-surface: linear-gradient(160deg, oklch(100% 0 0), oklch(96.5% 0.007 76));
 
-    /* marquee mask — light mode */
+    /* marquee mask - light mode */
     --marquee-mask: linear-gradient(to right, transparent 0%, oklch(98.5% 0.004 76) 8%, oklch(98.5% 0.004 76) 92%, transparent 100%);
 }

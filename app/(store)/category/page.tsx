@@ -61,7 +61,7 @@ function CategoryHero() {
                     All Categories
                 </h1>
                 <p className="text-sm md:text-base text-text-secondary leading-relaxed max-w-xl">
-                    Explore our complete collection of premium genuine leather goods — handcrafted apparel,
+                    Explore our complete collection of premium genuine leather goods - handcrafted apparel,
                     footwear, bags, accessories, and home décor.
                 </p>
             </Container>
@@ -96,7 +96,7 @@ function ParentCategorySection({ parent }: { parent: StoreProductCategory }) {
                     )}
                 </div>
 
-                {/* "View All" link — properly linked */}
+                {/* "View All" link - properly linked */}
                 <Link
                     href={parentHref}
                     className="hidden sm:inline-flex items-center gap-1.5 text-xs font-medium text-primary hover:text-primary-hover transition-colors shrink-0 group"
@@ -128,7 +128,7 @@ function LeafScrollRow({ leaves, maxRows }: { leaves: StoreProductCategory[]; ma
                     {/* Trailing spacer so last item doesn't hide under fade */}
                     <div className="shrink-0 w-4 md:w-12" aria-hidden />
                 </div>
-                {/* Right fade — desktop only */}
+                {/* Right fade - desktop only */}
                 <div
                     className="hidden md:block absolute right-0 top-0 bottom-4 w-20 pointer-events-none"
                     style={{ background: "linear-gradient(to left, var(--background), transparent)" }}

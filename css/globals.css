@@ -1,5 +1,5 @@
 /* ─────────────────────────────────────────────────────────────────────────────
-   GLOBALS.CSS — Main stylesheet entry point
+   GLOBALS.CSS - Main stylesheet entry point
    ────────────────────────────────────────────────────────────────────────────
    Import order: tailwind → theme tokens → common utilities
    ───────────────────────────────────────────────────────────────────────────── */
@@ -182,54 +182,54 @@
     --color-ring-offset: var(--ring-offset);
     --color-focus-ring: var(--focus-ring);
 
-    /* ── Button — Primary ────────────────────────────────────── */
+    /* ── Button - Primary ────────────────────────────────────── */
     --color-button-primary: var(--button-primary);
     --color-button-primary-foreground: var(--button-primary-foreground);
     --color-button-primary-hover: var(--button-primary-hover);
     --color-button-primary-active: var(--button-primary-active);
 
-    /* ── Button — Secondary ──────────────────────────────────── */
+    /* ── Button - Secondary ──────────────────────────────────── */
     --color-button-secondary: var(--button-secondary);
     --color-button-secondary-foreground: var(--button-secondary-foreground);
     --color-button-secondary-hover: var(--button-secondary-hover);
     --color-button-secondary-active: var(--button-secondary-active);
 
-    /* ── Button — Destructive ────────────────────────────────── */
+    /* ── Button - Destructive ────────────────────────────────── */
     --color-button-destructive: var(--button-destructive);
     --color-button-destructive-foreground: var(--button-destructive-foreground);
     --color-button-destructive-hover: var(--button-destructive-hover);
     --color-button-destructive-active: var(--button-destructive-active);
 
-    /* ── Button — Accent ─────────────────────────────────────── */
+    /* ── Button - Accent ─────────────────────────────────────── */
     --color-button-accent: var(--button-accent);
     --color-button-accent-foreground: var(--button-accent-foreground);
     --color-button-accent-hover: var(--button-accent-hover);
     --color-button-accent-active: var(--button-accent-active);
 
-    /* ── Button — Ghost ──────────────────────────────────────── */
+    /* ── Button - Ghost ──────────────────────────────────────── */
     --color-button-ghost: var(--button-ghost);
     --color-button-ghost-foreground: var(--button-ghost-foreground);
     --color-button-ghost-hover: var(--button-ghost-hover);
     --color-button-ghost-active: var(--button-ghost-active);
 
-    /* ── Button — Outline ────────────────────────────────────── */
+    /* ── Button - Outline ────────────────────────────────────── */
     --color-button-outline: var(--button-outline);
     --color-button-outline-foreground: var(--button-outline-foreground);
     --color-button-outline-border: var(--button-outline-border);
     --color-button-outline-hover: var(--button-outline-hover);
     --color-button-outline-hover-foreground: var(--button-outline-hover-foreground);
 
-    /* ── Button — Cart ───────────────────────────────────────── */
+    /* ── Button - Cart ───────────────────────────────────────── */
     --color-button-cart: var(--button-cart);
     --color-button-cart-foreground: var(--button-cart-foreground);
     --color-button-cart-hover: var(--button-cart-hover);
 
-    /* ── Button — Wishlist ───────────────────────────────────── */
+    /* ── Button - Wishlist ───────────────────────────────────── */
     --color-button-wishlist: var(--button-wishlist);
     --color-button-wishlist-foreground: var(--button-wishlist-foreground);
     --color-button-wishlist-hover: var(--button-wishlist-hover);
 
-    /* ── Button — Badge ──────────────────────────────────────── */
+    /* ── Button - Badge ──────────────────────────────────────── */
     --color-button-badge: var(--button-badge);
     --color-button-badge-foreground: var(--button-badge-foreground);
 
@@ -281,7 +281,7 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   BASE LAYER — Element defaults; all overridable by Tailwind utilities
+   BASE LAYER - Element defaults; all overridable by Tailwind utilities
    ═══════════════════════════════════════════════════════════════════════════ */
 @layer base {
 
@@ -515,9 +515,9 @@
    RESPONSIVE BREAKPOINTS REFERENCE
    
    Tailwind v4 default breakpoints:
-   sm:  640px  — Mobile landscape
-   md:  768px  — Tablet portrait
-   lg:  1024px — Desktop
-   xl:  1280px — Large desktop
-   2xl: 1536px — Ultra-wide
+   sm:  640px  - Mobile landscape
+   md:  768px  - Tablet portrait
+   lg:  1024px - Desktop
+   xl:  1280px - Large desktop
+   2xl: 1536px - Ultra-wide
    ======================================== */

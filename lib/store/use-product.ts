@@ -16,7 +16,7 @@ type ProductState = {
     isPending: boolean
     lastError: string | null
 
-    // derived — recomputed by computeState() whenever product/options change
+    // derived - recomputed by computeState() whenever product/options change
     selectedVariant?: StoreProductVariant
     isValidVariant: boolean
     inStock: boolean
@@ -68,7 +68,7 @@ export const useProductStore = create<ProductState>()(
             ...DEFAULT_SLICE,
 
             setProduct: (product, countryCode) => {
-                // Pre-fill any option that only has one possible value — there's
+                // Pre-fill any option that only has one possible value - there's
                 // nothing to choose, so the shopper should never have to interact
                 // with it for the variant to become selectable.
                 const autoOptions: VariantOptions = {}
@@ -163,3 +163,32 @@ export const useProductStore = create<ProductState>()(
         { name: "ProductStore", enabled: process.env.NODE_ENV === "development" }
     )
 )
+
+/**
+ * Derives the images to display in the gallery based on the currently
+ * selected variant. Follows the fallback chain:
+ *
+ * 1. selectedVariant has images → variant images
+ * 2. selectedVariant has NO images → product.images
+ * 3. No variant selected → first variant (by variant_rank) images
+ * 4. First variant also has NO images → product.images
+ */
+export function getDisplayImages(product: StoreProduct, selectedVariant?: StoreProductVariant) {
+    const productImages = product.images ?? []
+
+    if (selectedVariant) {
+        const variantImages = selectedVariant.images
+        return variantImages && variantImages.length > 0 ? variantImages : productImages
+    }
+
+    // No variant selected - try the first variant by rank
+    const sorted = [...(product.variants ?? [])].sort(
+        (a, b) => ((a as any).variant_rank ?? Infinity) - ((b as any).variant_rank ?? Infinity)
+    )
+    const firstVariant = sorted[0]
+    if (firstVariant?.images && firstVariant.images.length > 0) {
+        return firstVariant.images
+    }
+
+    return productImages
+}

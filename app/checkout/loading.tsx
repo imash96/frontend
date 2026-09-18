@@ -1,7 +1,7 @@
 export default function CheckLoading() {
   return (
     <>
-      {/* Left column — form skeleton */}
+      {/* Left column - form skeleton */}
       <div className="lg:col-span-6 space-y-6 order-2 lg:order-1">
         {/* Progress bar skeleton */}
         <div className="flex items-center justify-between">
@@ -63,7 +63,7 @@ export default function CheckLoading() {
         </div>
       </div>
 
-      {/* Right column — summary skeleton */}
+      {/* Right column - summary skeleton */}
       <div className="lg:col-span-4 order-1 lg:order-2">
         <div className="border border-border rounded-lg p-4 sm:p-5 space-y-4">
           {/* Line items */}

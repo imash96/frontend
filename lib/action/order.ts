@@ -5,7 +5,7 @@ import medusaError from "@/lib/util/medusa-error"
 import { getAuthHeaders, getCacheOptions, updateCacheTags } from "./cookies"
 import { HttpTypes } from "@medusajs/types"
 
-// Plain read, not a Server Action — see the note in locale-actions.ts.
+// Plain read, not a Server Action - see the note in locale-actions.ts.
 export const retrieveOrder = async (id: string) => {
     const headers = {
         ...(await getAuthHeaders()),
@@ -108,7 +108,7 @@ export const acceptTransferRequest = async (id: string, token: string) => {
 
     // Added: the original didn't invalidate anything here. A successful
     // transfer changes who the order belongs to, so this visitor's cached
-    // order list is now stale — worth double-checking this matches how you
+    // order list is now stale - worth double-checking this matches how you
     // want transfer completion to behave.
     if (result.success) {
         await updateCacheTags("orders")

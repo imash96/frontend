@@ -111,7 +111,7 @@ export default async function Page({ params }: PageProps<"/category/[parent]">) 
                         </div>
                     </>
                 ) : (
-                    /* Leaf category — no children, link to products */
+                    /* Leaf category - no children, link to products */
                     <div className="text-center py-12">
                         <p className="text-text-secondary mb-6">
                             Explore our {category.name.toLowerCase()} collection

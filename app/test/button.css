@@ -15,8 +15,8 @@
  * ~30kb (or ~5kb even with LazyMotion) animation runtime, and rendered
  * dozens of times on a product grid that difference is real, especially
  * on mid-range mobile hardware. Reach for motion/react where you're
- * already using it for something richer — drag, layout transitions,
- * scroll-linked effects — not for a button label crossfade.
+ * already using it for something richer - drag, layout transitions,
+ * scroll-linked effects - not for a button label crossfade.
  */
 
 @keyframes fade-slide-in {

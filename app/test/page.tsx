@@ -15,7 +15,7 @@ export default function ButtonTab() {
             <section className="space-y-6 sm:space-y-8">
                 <SectionHeader
                     title="Buttons"
-                    subtitle="One multipurpose Button component, styled by variant, size and state — everything below, including the ecommerce actions, is built on top of it."
+                    subtitle="One multipurpose Button component, styled by variant, size and state - everything below, including the ecommerce actions, is built on top of it."
                 />
 
                 <AlertComponent
@@ -81,7 +81,7 @@ export default function ButtonTab() {
             <section className="space-y-6 sm:space-y-8">
                 <SectionHeader
                     title="Ecommerce Actions"
-                    subtitle="The composed, interactive buttons — try them."
+                    subtitle="The composed, interactive buttons - try them."
                 />
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -95,7 +95,7 @@ export default function ButtonTab() {
                             <WishlistButton />
                         </div>
                         <p className="text-xs text-text-tertiary">
-                            Moves from idle to adding to added, then resets on its own. The heart fills with a quick bounce on toggle — both are plain CSS, no animation library.
+                            Moves from idle to adding to added, then resets on its own. The heart fills with a quick bounce on toggle - both are plain CSS, no animation library.
                         </p>
                     </div>
 
@@ -141,7 +141,7 @@ function StatesDemo() {
                 <Button variant="outline" disabled>Unavailable</Button>
             </div>
             <p className="text-xs text-text-tertiary">
-                Trigger Save changes to see the loading state — it disables itself and reverts automatically, the same pattern Add to Cart uses below.
+                Trigger Save changes to see the loading state - it disables itself and reverts automatically, the same pattern Add to Cart uses below.
             </p>
         </div>
     );

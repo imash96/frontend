@@ -93,7 +93,7 @@ export default function ProductSection({
                 </div>
             )}
 
-            {/* CTA — mobile shows below grid, desktop shows in header via `action` */}
+            {/* CTA - mobile shows below grid, desktop shows in header via `action` */}
             <div className="flex justify-center sm:hidden mt-2">
                 <Button
                     href={buttonLink as Route}

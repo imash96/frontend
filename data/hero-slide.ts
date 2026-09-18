@@ -10,7 +10,7 @@ export const heroSlides: HeroSlide[] = [
         title: "Leather Goods Made",
         titleAccent: "to Last",
         description:
-            "Premium leather goods designed for everyday life, crafted with care and priced fairly. From jackets and bags to wallets, belts and footwear — made for men, women and kids.",
+            "Premium leather goods designed for everyday life, crafted with care and priced fairly. From jackets and bags to wallets, belts and footwear - made for men, women and kids.",
         features: [
             "Premium Materials",
             "Made for Everyday",
@@ -43,7 +43,7 @@ export const heroSlides: HeroSlide[] = [
         title: "From Wardrobe",
         titleAccent: "to Everyday Carry",
         description:
-            "Discover leather essentials across every part of your day — jackets, coats, bags, wallets, belts, footwear and accessories, with options for the whole family.",
+            "Discover leather essentials across every part of your day - jackets, coats, bags, wallets, belts, footwear and accessories, with options for the whole family.",
         features: [
             "Men & Women",
             "Kids Collection",

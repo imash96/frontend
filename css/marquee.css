@@ -3,7 +3,7 @@
         display: flex;
         width: max-content;
         will-change: transform;
-        /* GPU-composited layer — prevents paint during scroll */
+        /* GPU-composited layer - prevents paint during scroll */
         backface-visibility: hidden;
         -webkit-backface-visibility: hidden;
     }

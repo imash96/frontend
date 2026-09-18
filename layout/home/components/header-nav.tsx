@@ -96,7 +96,7 @@ export default function HeaderNav() {
                         )}
                     </button>
 
-                    {/* Mega panel — rendered as a DOM child so pointer events
+                    {/* Mega panel - rendered as a DOM child so pointer events
                         remain inside this container div */}
                     <AnimatePresence>
                         {activeMenu === cat.name && (

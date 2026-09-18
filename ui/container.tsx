@@ -1,21 +1,21 @@
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 /**
- * Container size variants — maps 1:1 to CSS classes in containers.css
+ * Container size variants - maps 1:1 to CSS classes in containers.css
  *
- *  xs   →  max-w: 640px   — Narrow prose, labels, footnotes
- *  sm   →  max-w: 768px   — Articles, blog content, editorial
- *  md   →  max-w: 1024px  — Most content sections
- *  lg   →  max-w: 1280px  — Standard full layout          ← default
- *  xl   →  max-w: 1440px  — Wide grids, 1440+ displays
- *  2xl  →  max-w: 1680px  — Showcase sections, 1920+ displays
- *  3xl  →  max-w: 1680px  — ultra-wide 2560+displays
- *  full →  max-w: 2048px  — Heroes, banners, ultra-wide 100%
+ *  xs   →  max-w: 640px   - Narrow prose, labels, footnotes
+ *  sm   →  max-w: 768px   - Articles, blog content, editorial
+ *  md   →  max-w: 1024px  - Most content sections
+ *  lg   →  max-w: 1280px  - Standard full layout          ← default
+ *  xl   →  max-w: 1440px  - Wide grids, 1440+ displays
+ *  2xl  →  max-w: 1680px  - Showcase sections, 1920+ displays
+ *  3xl  →  max-w: 1680px  - ultra-wide 2560+displays
+ *  full →  max-w: 2048px  - Heroes, banners, ultra-wide 100%
  */
 type ContainerSize = "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "full"
 
 /**
- * Padding modifier — composes with the size class
+ * Padding modifier - composes with the size class
  *
  *  default → standard responsive scale
  *  tight   → ~half scale (dense UI panels, data tables)
@@ -33,7 +33,7 @@ type ContainerProps<T extends React.ElementType = "div"> = {
     padding?: ContainerPadding
     /**
      * When provided, wraps the container in a <section> with this
-     * aria-label — gives semantic structure for screen readers and
+     * aria-label - gives semantic structure for screen readers and
      * browser reader-mode without extra wrapper components.
      */
     section?: string
@@ -55,7 +55,7 @@ const sizeClass: Record<ContainerSize, string> = {
 }
 
 const paddingClass: Record<ContainerPadding, string> = {
-    default: "",            // no modifier — standard scale from containers.css
+    default: "",            // no modifier - standard scale from containers.css
     tight: "px-safe-tight",
     loose: "px-safe-loose",
     none: "px-safe-0",
@@ -83,7 +83,7 @@ const paddingClass: Record<ContainerPadding, string> = {
  * </Container>
  *
  * @example
- * // Wide hero — full-bleed image, contained text inside
+ * // Wide hero - full-bleed image, contained text inside
  * <div className="bg-background-tertiary">
  *   <Container size="full" padding="loose">
  *     <HeroBanner />
@@ -91,7 +91,7 @@ const paddingClass: Record<ContainerPadding, string> = {
  * </div>
  *
  * @example
- * // Data table — tight padding, no section wrapper
+ * // Data table - tight padding, no section wrapper
  * <Container size="xl" padding="tight" as="main">
  *   <OrderTable />
  * </Container>

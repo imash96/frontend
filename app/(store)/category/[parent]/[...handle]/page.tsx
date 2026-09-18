@@ -196,7 +196,7 @@ function ProductCategoryHero({
             className="relative px-4 sm:px-6 lg:px-8 xl:px-10 max-w-screen-2xl mx-auto pt-5 pb-10 sm:pb-14 overflow-hidden"
             style={{ background: "var(--color-brand-surface)" }}
         >
-            {/* Ambient light — fixed opacity to valid Tailwind value */}
+            {/* Ambient light - fixed opacity to valid Tailwind value */}
             <div
                 className="absolute top-0 right-0 w-96 h-64 rounded-full opacity-[0.08] blur-[100px] pointer-events-none"
                 style={{ background: "var(--color-accent)" }}

@@ -1,5 +1,5 @@
 /* ─────────────────────────────────────────────────────────────────────────────
-   COMMON.CSS — Static design tokens (theme-agnostic)
+   COMMON.CSS - Static design tokens (theme-agnostic)
    These values do NOT change between light/dark mode.
    All dynamic color tokens live in mode-light.css / mode-dark.css.
    ───────────────────────────────────────────────────────────────────────────── */
@@ -24,7 +24,7 @@
     --font-family-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
     --font-family-mono: 'SF Mono', 'Cascadia Code', 'Fira Code', 'Courier New', monospace;
 
-    /* ── TYPE SCALE — fluid, clamp-based ──────────────────────────────────── */
+    /* ── TYPE SCALE - fluid, clamp-based ──────────────────────────────────── */
     --text-2xs: clamp(0.625rem, 0.60rem + 0.10vw, 0.6875rem);
     --text-xs: clamp(0.6875rem, 0.66rem + 0.12vw, 0.75rem);
     --text-sm: clamp(0.8125rem, 0.79rem + 0.10vw, 0.875rem);
@@ -116,11 +116,11 @@
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
-   COMMON.CSS — Shared utilities & component classes
-   Minimal — only what Tailwind v4 can't express natively.
+   COMMON.CSS - Shared utilities & component classes
+   Minimal - only what Tailwind v4 can't express natively.
    ───────────────────────────────────────────────────────────────────────────── */
 
-/* Skeleton loader animation — requires custom keyframes */
+/* Skeleton loader animation - requires custom keyframes */
 @layer components {
 
     @keyframes marquee {

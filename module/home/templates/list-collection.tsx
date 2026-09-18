@@ -5,7 +5,7 @@ import { ProductSectionClassic } from "../components/product-section-final"
 // ─── New Arrival ──────────────────────────────────────────────────────────────
 
 export async function NewArrival({ region_id }: { region_id: string }) {
-    // FIX 1: try/catch — graceful degradation
+    // FIX 1: try/catch - graceful degradation
     let products
     try {
         const collection = product_collections[12]

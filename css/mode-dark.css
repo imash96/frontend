@@ -1,7 +1,7 @@
 :root[data-theme="dark"] {
 
     /* ══════════════════════════════════════════════════════════
-       BRAND PALETTE — PRIMARY (Warm Cognac on Dark)
+       BRAND PALETTE - PRIMARY (Warm Cognac on Dark)
        Lifted from dark bg for legibility. L:68% passes WCAG AA
        on the oklch(11.5% 0.018 42) background.
        ══════════════════════════════════════════════════════════ */
@@ -12,7 +12,7 @@
     --primary-active: oklch(80% 0.082 52);
     --primary-subtle: oklch(20.5% 0.046 44);
 
-    /* ── SECONDARY (Warm Taupe — refined on dark) ────────────── */
+    /* ── SECONDARY (Warm Taupe - refined on dark) ────────────── */
     --secondary: oklch(52% 0.044 52);
     --secondary-foreground: oklch(95% 0.007 68);
     /* ← hue 58→68 */
@@ -20,8 +20,8 @@
     --secondary-active: oklch(64% 0.036 55);
     --secondary-subtle: oklch(18.5% 0.030 46);
 
-    /* ── ACCENT (Burnished Gold — richer glow against dark) ───── */
-    /* C: 0.108 → 0.116 — more luminous, true burnished metal */
+    /* ── ACCENT (Burnished Gold - richer glow against dark) ───── */
+    /* C: 0.108 → 0.116 - more luminous, true burnished metal */
     --accent: oklch(70% 0.116 70);
     /* ← C 0.108→0.116 */
     --accent-foreground: oklch(10% 0.026 48);
@@ -30,7 +30,7 @@
     --accent-subtle: oklch(18.5% 0.040 62);
 
     /* ══════════════════════════════════════════════════════════
-       BACKGROUNDS — Deep warm charcoal, midnight atelier
+       BACKGROUNDS - Deep warm charcoal, midnight atelier
        Critical: hue 44→42, L slightly deeper. Never cold/blue.
        ══════════════════════════════════════════════════════════ */
     --background: oklch(11.5% 0.018 42);
@@ -40,7 +40,7 @@
     --background-tertiary: oklch(17% 0.025 44);
     /* ← was 18.5% 0.027 45 */
 
-    /* ── FOREGROUND — Warm ivory cream (hue 68, not yellow-beige) */
+    /* ── FOREGROUND - Warm ivory cream (hue 68, not yellow-beige) */
     --foreground: oklch(95% 0.007 68);
     /* ← hue 60→68, cooler cream */
     --foreground-secondary: oklch(79% 0.015 60);
@@ -49,7 +49,7 @@
     /* ← L 61→63 */
 
     /* ══════════════════════════════════════════════════════════
-       SURFACES — Clear 4-level depth system
+       SURFACES - Clear 4-level depth system
        sunken(9.5%) < bg(11.5%) < surface(15.5%) < card(16.5%) < elevated(22%)
        ══════════════════════════════════════════════════════════ */
     --surface: oklch(15.5% 0.021 43);
@@ -165,10 +165,10 @@
     --active-overlay-opacity: 0.08;
 
     /* ══════════════════════════════════════════════════════════
-       BADGES — Brand-coherent palette
+       BADGES - Brand-coherent palette
        ────────────────────────────────────────────────────────
-       badge-new: Was oklch(63% 0.137 240) BLUE — arbitrary, off-brand.
-       Now: warm cognac oklch(68% 0.092 48) — same as primary on dark.
+       badge-new: Was oklch(63% 0.137 240) BLUE - arbitrary, off-brand.
+       Now: warm cognac oklch(68% 0.092 48) - same as primary on dark.
        Reads as "this is our brand's new item", like a cognac label.
        badge-sale: Rich terracotta red (warm, not clinical)
        badge-limited: Burnished gold (scarcity + prestige signal)
@@ -281,7 +281,7 @@
     --button-badge-foreground: oklch(10% 0.026 48);
 
     /* ══════════════════════════════════════════════════════════
-       NEUTRALS — Warm-tinted dark scale, perceptually balanced
+       NEUTRALS - Warm-tinted dark scale, perceptually balanced
        Hue range: 60-42 (lighter = warmer cream, darker = charcoal)
        ══════════════════════════════════════════════════════════ */
     --neutral-50: oklch(97% 0.006 68);
@@ -298,7 +298,7 @@
     --neutral-950: oklch(9.5% 0.015 42);
 
     /* ══════════════════════════════════════════════════════════
-       SHADOWS — Deeper, richer for dark mode luxury feel
+       SHADOWS - Deeper, richer for dark mode luxury feel
        Alphas raised vs v2.1 for more tactile depth.
        ══════════════════════════════════════════════════════════ */
     --shadow-sm: 0 1px 2px oklch(4% 0.008 43 / 0.36);
@@ -308,7 +308,7 @@
     --shadow-xl: 0 20px 36px oklch(4% 0.008 43 / 0.58), 0 8px 14px oklch(4% 0.008 43 / 0.34);
     --shadow-2xl: 0 32px 64px oklch(4% 0.008 43 / 0.72);
     --shadow-inner: inset 0 2px 4px oklch(4% 0.008 43 / 0.42);
-    /* Warm glows — luminous premium elements */
+    /* Warm glows - luminous premium elements */
     --shadow-accent: 0 4px 28px oklch(70% 0.116 70 / 0.36);
     --shadow-primary: 0 4px 28px oklch(68% 0.092 48 / 0.42);
 
@@ -322,6 +322,6 @@
     --gradient-card: linear-gradient(180deg, oklch(19% 0.025 44), oklch(16% 0.022 44));
     --gradient-surface: linear-gradient(160deg, oklch(18.5% 0.025 44), oklch(14.5% 0.020 43));
 
-    /* marquee mask — dark mode */
+    /* marquee mask - dark mode */
     --marquee-mask: linear-gradient(to right, transparent 0%, oklch(11.5% 0.018 42) 8%, oklch(11.5% 0.018 42) 92%, transparent 100%);
 }

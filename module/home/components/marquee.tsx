@@ -14,13 +14,13 @@ export interface ImageMarqueeProps {
     duration?: number;
     /**
      * Fixed width (px) of each image tile including its gap.
-     * This is the *content* width — gap is added on top.
+     * This is the *content* width - gap is added on top.
      * Default: 220px.
      */
     tileWidth?: number;
     /** Gap between tiles in pixels. Default: 12 */
     gap?: number;
-    /** Image aspect ratio. Default: "3/4" (portrait — fits jacket shots) */
+    /** Image aspect ratio. Default: "3/4" (portrait - fits jacket shots) */
     aspectRatio?: string;
     /** Border radius token. Default: "0.75rem" */
     borderRadius?: string;
@@ -49,7 +49,7 @@ function MarqueeTile({ item, width, gap, aspectRatio, borderRadius, index }: Til
                 marginRight: `${gap}px`,
                 borderRadius,
                 aspectRatio,
-                /* Guarantee GPU layer per tile — prevents composite promotions mid-paint */
+                /* Guarantee GPU layer per tile - prevents composite promotions mid-paint */
                 transform: "translateZ(0)",
             }}
             aria-hidden={index >= 1 ? "true" : undefined}

@@ -6,7 +6,7 @@ export type MarqueeImage = {
     tag?: string; //Optional: product tag shown on hover 
 }
 
-// Top row — forward (left)
+// Top row - forward (left)
 export const topImages: MarqueeImage[] = [
     {
         id: "1",
@@ -66,7 +66,7 @@ export const topImages: MarqueeImage[] = [
     },
 ]
 
-// Bottom row — reverse (right)
+// Bottom row - reverse (right)
 export const bottomImages: MarqueeImage[] = [
     {
         id: "11",

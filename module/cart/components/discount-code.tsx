@@ -58,6 +58,13 @@ export default function DiscountCode({
   const [state, formAction, isPending] = useActionState(handlePromoCode, initialState as FormState);
   const [isRemoving, startTransition] = useTransition();
 
+  // Stay in sync with the cart's actual promotions - e.g. after a fresh
+  // server render, or if a code stops applying for a reason other than
+  // the "Remove" button below (expired, minimum not met, etc).
+  useEffect(() => {
+    setAppliedCode(promotions[0]?.code);
+  }, [promotions]);
+
   useEffect(() => {
     if (state.success && state.message) setAppliedCode(state.message);
   }, [state]);
@@ -67,24 +74,26 @@ export default function DiscountCode({
     startTransition(() =>
       applyPromotions(
         remainingPromotions.map((p) => p.code!).filter(Boolean),
-      ).then(() => setAppliedCode(undefined)),
+      ).then(() => setAppliedCode(remainingPromotions[0]?.code)),
     );
   };
 
   // ✅ Show applied coupon
   if (appliedCode) {
     return (
-      <div className="flex justify-between items-center">
-        <div>
+      <div className="flex justify-between items-center gap-3">
+        <div className="min-w-0">
           <p className="text-sm">Promo Code Applied:</p>
-          <p className="font-semibold text-badge-sale flex items-center gap-2">
-            <Tag className="w-5 h-5" />
+          <p className="font-semibold text-badge-sale flex items-center gap-2 truncate">
+            <Tag className="w-5 h-5 shrink-0" />
             {appliedCode}
           </p>
         </div>
         <button
+          type="button"
           onClick={() => removePromotionCode(appliedCode)}
-          className="text-sm font-medium text-destructive hover:text-destructive/80 flex items-center gap-1"
+          disabled={isRemoving}
+          className="shrink-0 text-sm font-medium text-destructive hover:text-destructive/80 flex items-center gap-1 disabled:opacity-50 disabled:pointer-events-none"
         >
           {isRemoving ? (
             <Loader className="w-4 h-4 animate-spin" />
@@ -112,8 +121,7 @@ export default function DiscountCode({
             name="code"
             label="Enter Discount code"
             disabled={isPending}
-            helperText={state.error ?? undefined}
-            error={state.error ? "error" : "default"}
+            error={state.error ?? undefined}
           />
         </div>
         <Button type="submit" disabled={isPending} className="h-11 w-18">

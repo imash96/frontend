@@ -27,14 +27,14 @@ export default function BlogCard({ post }: { post: BlogPost }) {
                     loading="lazy"
                 />
 
-                {/* Gradient — only on hover */}
+                {/* Gradient - only on hover */}
                 <div className="absolute inset-0 bg-linear-to-t from-black/40 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 {post.category && (
                     <span className="absolute top-3 left-3 z-10 px-3 py-1 text-xs font-medium bg-accent text-accent-foreground rounded-md shadow-sm">
                         {post.category}
                     </span>
                 )}
-                {/* Arrow hint — bottom-right on hover */}
+                {/* Arrow hint - bottom-right on hover */}
                 <div
                     className="absolute bottom-3 right-3 z-10 flex items-center justify-center w-8 h-8 bg-black/30 backdrop-blur-sm border border-white/20 text-white opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300"
                     aria-hidden="true"

@@ -44,7 +44,7 @@ export default function FontTab() {
                         <div className="flex items-start justify-between">
                             <div>
                                 <h3 className="font-heading text-2xl sm:text-3xl font-bold mb-2">Bricolage Grotesque</h3>
-                                <p className="text-sm text-text-tertiary font-body">Primary — Headings, Titles, Brand Voice</p>
+                                <p className="text-sm text-text-tertiary font-body">Primary - Headings, Titles, Brand Voice</p>
                             </div>
                             <span className="px-3 py-1 bg-accent text-accent-foreground text-xs font-bold rounded-full font-body">
                                 NEW
@@ -94,7 +94,7 @@ export default function FontTab() {
                     <div className="card space-y-4">
                         <div>
                             <h3 className="font-body text-2xl sm:text-3xl font-bold mb-2">Inter</h3>
-                            <p className="text-sm text-text-tertiary font-body">Secondary — Body Text, UI, Descriptions</p>
+                            <p className="text-sm text-text-tertiary font-body">Secondary - Body Text, UI, Descriptions</p>
                         </div>
 
                         <div className="bg-muted/50 rounded-lg p-4 space-y-1">
@@ -1007,7 +1007,7 @@ export default function FontTab() {
                     <div className="pt-6 border-t border-divider">
                         <p className="font-body text-sm text-text-secondary text-center max-w-3xl mx-auto">
                             <strong className="text-text-primary">The Result:</strong> A typography system that positions
-                            your brand as modern velle leather goods with soul—not generic minimalism, not stuffy luxury,
+                            your brand as modern velle leather goods with soul-not generic minimalism, not stuffy luxury,
                             but contemporary craft with personality. Perfect for brands like yours.
                         </p>
                     </div>

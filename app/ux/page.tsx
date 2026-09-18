@@ -144,7 +144,7 @@ function OverviewSection() {
                 />
                 <PrincipleCard
                     title="Tactile Interactions"
-                    description="Subtle, sophisticated micro-interactions that evoke the feel of premium leather—smooth, responsive, and satisfying."
+                    description="Subtle, sophisticated micro-interactions that evoke the feel of premium leather-smooth, responsive, and satisfying."
                     color="neutral"
                 />
                 <PrincipleCard
@@ -924,7 +924,7 @@ function InteractionsSection() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <AnimationPrinciple
                         title="Purposeful Motion"
-                        description="Every animation should have a clear purpose—guide attention, provide feedback, or create delight."
+                        description="Every animation should have a clear purpose-guide attention, provide feedback, or create delight."
                     />
                     <AnimationPrinciple
                         title="Natural Physics"

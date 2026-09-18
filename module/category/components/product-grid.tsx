@@ -172,7 +172,7 @@ export default function ProductGrid({
     )
 }
 
-/* ── Product Card — CSS-only hover, no JS state per card ─────────────── */
+/* ── Product Card - CSS-only hover, no JS state per card ─────────────── */
 function ProductCard({
     product,
     priority = false,

@@ -37,7 +37,7 @@ export default function Page() {
 
                         {/* Headline */}
                         <h1 className="text-5xl md:text-7xl font-bold mb-8 leading-tight">
-                            Velle Hide — <span className="text-primary">Where Leather Lives</span>
+                            Velle Hide - <span className="text-primary">Where Leather Lives</span>
                         </h1>
 
                         {/* Subtext */}
@@ -135,7 +135,7 @@ export default function Page() {
                                         <Quote className="h-8 w-8 text-primary shrink-0 mt-1" />
                                         <div>
                                             <p className="font-medium mb-3 italic">
-                                                "My Velle Hide jacket feels like a second skin. It's not just fashion — it's part of my life."
+                                                "My Velle Hide jacket feels like a second skin. It's not just fashion - it's part of my life."
                                             </p>
                                             <div className="flex items-center gap-2">
                                                 <div className="flex text-yellow-400">

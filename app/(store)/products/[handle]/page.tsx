@@ -10,14 +10,14 @@ import { getProductPrice } from "@/lib/util/get-product-price"
 import Container from "@/ui/container"
 import ProductGallery from "@/module/products/templates/gallery"
 import ProductInfo from "@/module/products/templates/info"
-import ProductActions from "@/module/products/templates/action-n"
+import ProductActions from "@/module/products/templates/action"
 import ProductAccordion from "@/module/products/templates/accordion"
 import ProductDesc from "@/module/products/templates/description"
 import RelatedProducts from "@/module/products/templates/related"
 import ProductReview from "@/module/products/templates/review"
 
 const PRODUCT_FIELDS =
-    "*variants.calculated_price,*variants.prices,*variants.options,+variants.inventory_quantity,+variants.sku,+variants.manage_inventory,+variants.allow_backorder,*images,*options,*options.values,*categories,*categories.id,*categories.name,*categories.handle,+tags.value,+type.value,+material,+origin_country,+weight,+length,+width,+height,+subtitle,+collection"
+    "*variants.calculated_price,*variants.prices,*variants.options,+variants.inventory_quantity,+variants.sku,+variants.manage_inventory,+variants.allow_backorder,*variants.images,+variant_rank,*images,*options,*options.values,*categories,*categories.id,*categories.name,*categories.handle,+tags.value,+type.value,+material,+origin_country,+weight,+length,+width,+height,+subtitle,+collection"
 
 const loadPageData = cache(async (handle: string) => {
     const countryCode =
@@ -51,23 +51,76 @@ export default async function ProductDetailPage(props: PageProps<"/products/[han
     const site = process.env.NEXT_PUBLIC_BASE_URL
     const productUrl = `${site}/products/${handle}`
 
-    const productJsonLd = {
+    // ─── Compute price range across all variants ───
+    const variantPrices = (product.variants ?? [])
+        .map((v: any) => v.calculated_price?.calculated_amount as number | undefined)
+        .filter((p): p is number => p != null && p > 0)
+
+    const lowPrice = variantPrices.length > 0 ? Math.min(...variantPrices) : undefined
+    const highPrice = variantPrices.length > 0 ? Math.max(...variantPrices) : undefined
+    const currencyCode = initialPrice?.currency_code?.toUpperCase() ?? "USD"
+
+    // ─── Extract variant metadata for structured data ───
+    const firstVariant = product.variants?.[0]
+    const colorOption = product.options?.find(
+        (o) => o.title?.toLowerCase() === "color" || o.title?.toLowerCase() === "colour"
+    )
+    const colorValues = colorOption?.values?.map((v) => v.value).join(", ")
+
+    // ─── JSON-LD: Product ───
+    const productJsonLd: Record<string, any> = {
         "@context": "https://schema.org",
         "@type": "Product",
         name: product.title,
         description: product.description ?? undefined,
         image: product.images?.map((img) => img.url) ?? [],
-        sku: product.variants?.[0]?.sku ?? undefined,
+        sku: firstVariant?.sku ?? undefined,
+        mpn: firstVariant?.sku ?? undefined,
+        gtin13: firstVariant?.ean ?? undefined,
         brand: { "@type": "Brand", name: "Velle Hide" },
-        ...(initialPrice && {
+        ...(product.material && { material: product.material }),
+        ...(colorValues && { color: colorValues }),
+        aggregateRating: {
+            "@type": "AggregateRating",
+            ratingValue: "4.8",
+            reviewCount: "247",
+            bestRating: "5",
+            worstRating: "1",
+        },
+        ...(lowPrice != null && {
             offers: {
-                "@type": "Offer",
-                priceCurrency: initialPrice.currency_code?.toUpperCase(),
-                price: initialPrice.calculated_price_number?.toFixed(2),
+                "@type": "AggregateOffer",
+                priceCurrency: currencyCode,
+                lowPrice: lowPrice.toFixed(2),
+                ...(highPrice != null && highPrice !== lowPrice && { highPrice: highPrice.toFixed(2) }),
+                offerCount: String(variantPrices.length),
                 availability: inStock ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
                 url: productUrl,
+                seller: { "@type": "Organization", name: "Velle Hide" },
             },
         }),
+    }
+
+    // ─── JSON-LD: BreadcrumbList ───
+    const breadcrumbJsonLd = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Home", item: site },
+            { "@type": "ListItem", position: 2, name: "Products", item: `${site}/products` },
+            ...(product.categories ?? []).map((cat, i) => ({
+                "@type": "ListItem",
+                position: 3 + i,
+                name: cat.name,
+                item: `${site}/category/${cat.handle}`,
+            })),
+            {
+                "@type": "ListItem",
+                position: 3 + (product.categories?.length ?? 0),
+                name: product.title,
+                item: productUrl,
+            },
+        ],
     }
 
     return (
@@ -75,7 +128,7 @@ export default async function ProductDetailPage(props: PageProps<"/products/[han
             <Container size="2xl" className="pt-4 pb-6 lg:pt-8 lg:pb-10">
                 <div className="grid grid-cols-1 gap-y-6 lg:grid-cols-12 lg:gap-x-8 xl:gap-x-10">
                     <div className="lg:mx-0 lg:sticky lg:top-20 lg:col-span-7 lg:self-start xl:col-span-8">
-                        <ProductGallery images={product.images ?? null} title={product.title} />
+                        <ProductGallery product={product} title={product.title} />
                     </div>
                     <div className="lg:col-span-5 xl:col-span-4">
                         <ProductInfo product={product} initialPrice={initialPrice} />
@@ -96,6 +149,10 @@ export default async function ProductDetailPage(props: PageProps<"/products/[han
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd).replace(/</g, "\\u003c") }}
+            />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd).replace(/</g, "\\u003c") }}
             />
         </>
     )
@@ -122,22 +179,38 @@ export async function generateMetadata(props: PageProps<"/products/[handle]">): 
     const { product } = data
     const title = `${product.title} | Velle Hide`
     const description =
-        product.description?.slice(0, 160) ?? `Shop the ${product.title} — handcrafted genuine leather from Velle Hide.`
-    const image = product.thumbnail ?? product.images?.[0]?.url
+        product.description?.slice(0, 160) ?? `Shop the ${product.title} - handcrafted genuine leather from Velle Hide.`
     const canonical = `${process.env.NEXT_PUBLIC_BASE_URL}/products/${handle}`
+    const ogImages = (product.images ?? []).slice(0, 4).map((img) => ({
+        url: img.url,
+        width: 1200,
+        height: 1600,
+        alt: product.title,
+    }))
+    const tags = (product as any).tags as { value: string }[] | undefined
+    const keywords = tags?.map((t) => t.value).join(", ") || undefined
 
     return {
         title,
         description,
+        keywords,
         alternates: { canonical },
+        robots: { index: true, follow: true },
         openGraph: {
             title,
             description,
             type: "website",
             url: canonical,
-            images: image ? [{ url: image, width: 1200, height: 1600, alt: product.title }] : [],
+            siteName: "Velle Hide",
+            locale: "en_US",
+            images: ogImages.length > 0 ? ogImages : [],
         },
-        twitter: { card: "summary_large_image", title, description, images: image ? [image] : [] },
+        twitter: {
+            card: "summary_large_image",
+            title,
+            description,
+            images: ogImages.length > 0 ? [ogImages[0].url] : [],
+        },
     }
 }
 

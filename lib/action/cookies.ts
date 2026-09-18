@@ -137,7 +137,7 @@ export async function setCountryCode(countryCode: string) {
  *
  * Silently skips any tag that resolves to "" (no `_medusa_cache_id` cookie
  * yet) rather than calling `updateTag("")`. Only usable inside Server
- * Actions — `updateTag` itself is action-only, same as `revalidateTag`.
+ * Actions - `updateTag` itself is action-only, same as `revalidateTag`.
  */
 export async function updateCacheTags(...tags: string[]): Promise<void> {
     await Promise.all(

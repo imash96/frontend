@@ -33,7 +33,7 @@ export default function ProductListingClient({
 }: ProductListingClientProps) {
     const [drawerOpen, setDrawerOpen] = useState(false)
 
-    // Stable callbacks — prevent unnecessary child re-renders
+    // Stable callbacks - prevent unnecessary child re-renders
     const openDrawer = useCallback(() => setDrawerOpen(true), [])
     const closeDrawer = useCallback(() => setDrawerOpen(false), [])
 

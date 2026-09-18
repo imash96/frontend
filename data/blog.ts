@@ -37,7 +37,7 @@ export const blogData: BlogPost[] = [
                 type: "image-text",
                 heading: "Daily Cleaning Routines",
                 para: [
-                    "Dust with a soft cloth to remove dirt. Blot spills immediately to avoid stains—rubbing spreads damage.",
+                    "Dust with a soft cloth to remove dirt. Blot spills immediately to avoid stains-rubbing spreads damage.",
                     "Use a leather-specific cleaner monthly. Apply gently in circular motions and wipe clean to maintain finish.",
                     "Velle Hide recommends eco-friendly cleaners for safe, effective results."
                 ],
@@ -78,7 +78,7 @@ export const blogData: BlogPost[] = [
                 type: "image-text",
                 heading: "Common Mistakes to Avoid",
                 para: [
-                    "Avoid machine washing—opt for professional cleaning for tough stains.",
+                    "Avoid machine washing-opt for professional cleaning for tough stains.",
                     "Keep jackets away from radiators or direct heat to prevent cracking.",
                     "Overusing sprays can clog leather pores, so use sparingly for best results."
                 ],
@@ -266,7 +266,7 @@ export const blogData: BlogPost[] = [
                 type: "text",
                 heading: "The Versatility of Leather Pants",
                 para: [
-                    "Leather pants are no longer just for bold evenings—they’re everyday essentials.",
+                    "Leather pants are no longer just for bold evenings-they’re everyday essentials.",
                     "Velle Hide’s collection includes slim-fit jeans and wide-leg trousers for all occasions.",
                     "Their durability and sleek style make them perfect year-round."
                 ],
@@ -545,7 +545,7 @@ export const blogData: BlogPost[] = [
                 type: "image-text",
                 heading: "Choosing the Right Size and Style",
                 para: [
-                    "Match bag size to trip length—duffels for weekends, backpacks for daily use.",
+                    "Match bag size to trip length-duffels for weekends, backpacks for daily use.",
                     "Consider hardware durability and strap comfort for heavy loads.",
                     "Velle Hide’s travel bags blend function with timeless aesthetics."
                 ],
@@ -970,7 +970,7 @@ export const blogData: BlogPost[] = [
                 para: [
                     "Measure chest, waist, hips, and inseam with precision for flawless fit.",
                     "Use Velle Hide’s online guide or consult a professional tailor.",
-                    "Consider posture and desired fit—slim or relaxed—for comfort."
+                    "Consider posture and desired fit-slim or relaxed-for comfort."
                 ],
                 imageLeft: true,
                 thumbnail: "/images/blog/blog-009/measurements-suit.png",

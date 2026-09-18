@@ -3,7 +3,7 @@
  * - `x-country-code` request header: same value, forwarded so Server
  *   Components rendered during *this* request can read it immediately via
  *   headers() (a cookie set on the response isn't visible to this request's
- *   own render pass yet — only to the next one, once the browser sends it back).
+ *   own render pass yet - only to the next one, once the browser sends it back).
  */
 import type { StoreRegion } from "@medusajs/types"
 import { NextRequest, NextResponse } from "next/server"
@@ -186,7 +186,7 @@ export async function proxy(request: NextRequest) {
         const regionMap = await getRegionMap(cacheId)
         countryCode = getCountryCode(request, regionMap)
     } catch (error) {
-        // Don't let a Medusa hiccup 500 every single page — fall back to the
+        // Don't let a Medusa hiccup 500 every single page - fall back to the
         // default region and let individual data calls surface their own errors.
         console.error("[proxy] Failed to resolve region:", error)
     }

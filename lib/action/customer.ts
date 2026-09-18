@@ -39,7 +39,7 @@ async function requestVerificationEmail(email: string, token: string) {
     )
 }
 
-// Plain read, not a Server Action — see the note in locale-actions.ts for
+// Plain read, not a Server Action - see the note in locale-actions.ts for
 // why pure reads are kept out of the action surface.
 export const retrieveCustomer =
     async (): Promise<HttpTypes.StoreCustomer | null> => {
@@ -118,7 +118,7 @@ export async function signup(
     await setPendingCustomer(customerForm)
 
     // Continue by logging in. The login response tells us whether the backend
-    // requires email verification — we don't need a storefront-side flag.
+    // requires email verification - we don't need a storefront-side flag.
     return completeLogin(customerForm.email, password)
 }
 
@@ -182,7 +182,7 @@ async function completeLogin(
 
     let token = result
 
-    // The token may not be tied to a customer record yet — right after
+    // The token may not be tied to a customer record yet - right after
     // registration, or after verifying a brand-new account. Ask the backend:
     // `/store/customers/me` rejects tokens without a registered actor, so a
     // failed retrieve means we still need to create the customer, then log in

@@ -110,7 +110,7 @@ function CategoryCard({ category, isHero, className = "", priority = false, }: C
                 </AnimatePresence>
             </div>
 
-            {/* Hover reveal panel — frosted glass that slides up */}
+            {/* Hover reveal panel - frosted glass that slides up */}
             {/* <div className="absolute inset-x-0 bottom-0 z-20 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out pointer-events-none">
                 <div className="bg-white/10 backdrop-blur-xl border-t border-white/10 p-4 md:p-5 pointer-events-auto">
                     <div className="flex flex-wrap gap-1.5 mb-2">
@@ -139,7 +139,7 @@ const CategoryAction = () => (
     </Link>
 )
 
-// ─── Helpers (module scope — not recreated per render) ────────────────────────
+// ─── Helpers (module scope - not recreated per render) ────────────────────────
 
 function getThumb(cat: ProductCategory): string {
     return (cat.metadata?.thumbnail as string) ?? "/images/placeholder-category.webp"

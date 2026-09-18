@@ -5,7 +5,7 @@ import type { ButtonHTMLAttributes, ReactNode, Ref } from 'react';
 import { Loader2 } from 'lucide-react';
 
 // ============================================================================
-// Button — components/atoms/Button.tsx
+// Button - components/atoms/Button.tsx
 // The base, multipurpose button used everywhere across the storefront.
 // Built directly on the design tokens shown in the colors / fonts tabs:
 // bg-{primary,secondary,accent}(-hover/-active/-subtle), semantic
@@ -13,13 +13,13 @@ import { Loader2 } from 'lucide-react';
 //
 // Perf notes:
 // - Plain function component with ref as a regular prop (React 19+).
-//   forwardRef is deprecated as of React 19 — react.dev now lists it as
+//   forwardRef is deprecated as of React 19 - react.dev now lists it as
 //   "Deprecated" and recommends destructuring `ref` straight out of props
 //   instead: https://react.dev/reference/react/forwardRef
 // - Wrapped in memo() so a Button sitting in a product grid doesn't
 //   re-render just because its parent did. With ref-as-a-prop this no
 //   longer needs the old memo(forwardRef(...)) nesting.
-// - No animation library import here — the spinner is a single CSS
+// - No animation library import here - the spinner is a single CSS
 //   `animate-spin` class, so this file costs nothing extra to parse or
 //   run even rendered dozens of times on one page.
 // ============================================================================
@@ -70,7 +70,7 @@ export const BUTTON_VARIANT_STYLES: Record<ButtonVariant, string> = {
         'bg-transparent text-primary underline-offset-4 hover:underline p-0 h-auto shadow-none focus-visible:ring-primary',
 };
 
-// sm is 36px tall — fine for dense/secondary UI, but keep primary mobile
+// sm is 36px tall - fine for dense/secondary UI, but keep primary mobile
 // CTAs at md (44px) or lg (56px) to stay at or above the iOS/Android
 // minimum recommended touch target.
 const SIZE_STYLES: Record<ButtonSize, string> = {
@@ -130,9 +130,9 @@ export const Button = memo(function Button({
 });
 
 // ============================================================================
-// IconButton — icon-only sibling of Button, circular by default.
+// IconButton - icon-only sibling of Button, circular by default.
 // Use for compact actions: wishlist, dismiss, filters, quantity steppers.
-// `label` is required — it becomes the accessible name since there's no text.
+// `label` is required - it becomes the accessible name since there's no text.
 // ============================================================================
 
 export interface IconButtonProps

@@ -47,7 +47,7 @@ export const calculatePriceForShippingOption = async (
 
     // The original built `body` with `data` already included, then had a
     // redundant `if (data) { body.data = data }` right after that reassigned
-    // the exact same value — removed, this does the same thing in one step.
+    // the exact same value - removed, this does the same thing in one step.
     return sdk.client
         .fetch<{ shipping_option: HttpTypes.StoreCartShippingOption }>(
             `/store/shipping-options/${optionId}/calculate`,

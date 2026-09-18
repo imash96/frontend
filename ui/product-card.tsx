@@ -22,21 +22,21 @@ function ProductCard({ product }: { product: StoreProduct }) {
                         alt={product.title}
                     />
 
-                    {/* FIX 1+2: Sale badge — top-left, only when actually on sale */}
+                    {/* FIX 1+2: Sale badge - top-left, only when actually on sale */}
                     {isSale && (
                         <span className="absolute top-3 left-3 z-10 text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full shadow-sm bg-badge-sale text-badge-sale-foreground">
                             Sale
                         </span>
                     )}
 
-                    {/* FIX 2: % badge — top-right, independent of sale badge */}
+                    {/* FIX 2: % badge - top-right, independent of sale badge */}
                     {hasPctBadge && (
                         <span className="absolute top-3 right-3 z-10 bg-destructive text-destructive-foreground text-[10px] font-bold px-2 py-0.5 rounded-full shadow-sm tabular-nums">
                             -{price.percentage_diff}%
                         </span>
                     )}
 
-                    {/* Wishlist — below % badge when present */}
+                    {/* Wishlist - below % badge when present */}
                     <button
                         aria-label={`Add ${product.title} to wishlist`}
                         className={`absolute z-10 size-8 flex items-center justify-center rounded-full backdrop-blur-md transition-all duration-200 active:scale-90 shadow-sm border border-white/60 bg-button-wishlist text-button-wishlist-foreground hover:bg-button-wishlist-hover opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 right-2.5 ${hasPctBadge ? "top-10" : "top-2.5"}`}
@@ -80,7 +80,7 @@ function ProductCard({ product }: { product: StoreProduct }) {
                             <span className="text-sm font-semibold text-price-sale tabular-nums">
                                 {price?.calculated_price}
                             </span>
-                            {/* FIX 5: text-price-original — correct semantic token */}
+                            {/* FIX 5: text-price-original - correct semantic token */}
                             <span className="text-xs font-normal text-price-original line-through tabular-nums">
                                 {price?.original_price}
                             </span>

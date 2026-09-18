@@ -5,15 +5,15 @@ import { Heart, ShoppingCart, Check, Loader2, Minus, Plus } from 'lucide-react';
 import { Button, IconButton, type ButtonSize } from './button';
 
 // ============================================================================
-// AddToCartButton — components/molecules/CommerceButtons.tsx
+// AddToCartButton - components/molecules/CommerceButtons.tsx
 // Goes idle -> adding -> added, then resets itself, matching the
 // add-to-cart interaction spec. Wire cart logic through onAddToCart;
-// fire a toast from there too if you want one — this component only
+// fire a toast from there too if you want one - this component only
 // owns the button's own state.
 //
 // No animation library: the label swap uses .btn-fade-slide-in / the
 // success state uses .btn-pop-in, two plain CSS keyframes shipped in
-// button-animations.css (import it once — see that file). A grid of
+// button-animations.css (import it once - see that file). A grid of
 // 24+ of these on a collection page stays cheap to mount and re-render
 // since there's no motion runtime attached to any of them.
 // ============================================================================
@@ -92,10 +92,10 @@ export const AddToCartButton = memo(function AddToCartButton({
 });
 
 // ============================================================================
-// WishlistButton — heart toggle. Controlled (pass `active` + `onToggle`)
+// WishlistButton - heart toggle. Controlled (pass `active` + `onToggle`)
 // or uncontrolled (`defaultActive`). The bounce is the same .btn-pop-in
 // CSS keyframe as AddToCartButton's success state, re-triggered by
-// bumping `pulseKey` — no per-click JS animation work beyond that.
+// bumping `pulseKey` - no per-click JS animation work beyond that.
 // ============================================================================
 
 export interface WishlistButtonProps {
@@ -159,7 +159,7 @@ export const WishlistButton = memo(function WishlistButton({
 });
 
 // ============================================================================
-// QuantitySelector — stepper used alongside Add to Cart on product pages.
+// QuantitySelector - stepper used alongside Add to Cart on product pages.
 // ============================================================================
 
 export interface QuantitySelectorProps {

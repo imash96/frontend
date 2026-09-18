@@ -50,7 +50,7 @@ export default function CheckSummary({ cart }: { cart: StoreCart }) {
         </div>
       </button>
 
-      {/* Content — animated on mobile */}
+      {/* Content - animated on mobile */}
       <AnimatePresence initial={false}>
         {isExpanded && (
           <motion.div

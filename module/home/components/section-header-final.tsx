@@ -2,7 +2,7 @@ import { SectionHeaderProps } from "@/types/homepage";
 import Container from "@/ui/container";
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   VARIANT 1 — Classic Left-Aligned
+   VARIANT 1 - Classic Left-Aligned
    Clean, minimal left-aligned header with optional action on the right.
    ═══════════════════════════════════════════════════════════════════════════ */
 export function SectionHeaderClassic({
@@ -43,7 +43,7 @@ export function SectionHeaderClassic({
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   VARIANT 2 — Centered Elegant
+   VARIANT 2 - Centered Elegant
    Centered with decorative accent lines flanking the eyebrow.
    ═══════════════════════════════════════════════════════════════════════════ */
 export function SectionHeaderCentered({
