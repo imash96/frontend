@@ -38,7 +38,7 @@ export type ListingSectionProps = {
 
 export type SortOptions = "price_asc" | "price_desc" | "created_at"
 
-export type StepType = "address" | "delivery" | "payment"
+export type StepType = "address" | "shipping" | "delivery" | "payment"
 
 export type RatingType = {
     average_rating: number;

@@ -12,7 +12,7 @@ export default function ProductPrice({ fallback }: { fallback: ProductCalculated
     const isSale = price.price_type === "sale"
 
     return (
-        <div className="flex flex-col gap-1 mb-2">
+        <div className="mb-1 flex flex-col gap-1">
             <div className="flex items-baseline gap-3 pb-1">
                 <span className="text-2xl sm:text-3xl font-heading font-bold text-price-current tabular-nums">
                     {price.calculated_price}

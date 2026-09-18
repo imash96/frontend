@@ -1,52 +1,65 @@
-"use client";
+"use client"
 
-import type { StoreCart, StoreCartShippingOption } from "@medusajs/types";
-import { Truck } from "lucide-react";
-import { useLayoutEffect } from "react";
-import { useCheckout } from "@/lib/store/checkout-context";
-import ListShippingMethods from "../components/shipping-method-list";
-import ShippingCardShow from "../components/shipping-method-show";
-import StepHeader from "../components/step-header";
+import type { StoreCart, StoreCartShippingOption } from "@medusajs/types"
+import { Truck } from "lucide-react"
+import { AnimatePresence, motion } from "motion/react"
+import { useCheckStore } from "@/lib/store/check-store"
+import CheckShippingList from "../components/check-shipping-list"
+import CheckShippingShow from "../components/check-shipping-show"
+import CheckStepHeader from "../components/check-step-header"
 
-export default function ShippingStep({
-  cart,
-  availableMethods,
-}: ShippingProps) {
-  const { currentStep, setCurrentStep } = useCheckout();
-  const isOpen = currentStep === "delivery";
-
-  useLayoutEffect(() => {
-    if (cart.shipping_methods?.length && currentStep === "delivery")
-      setCurrentStep("payment");
-  }, [cart.shipping_methods, currentStep]);
+export default function StepShipping({ cart, availableMethods }: ShippingProps) {
+  const currentStep = useCheckStore((s) => s.currentStep)
+  const isOpen = currentStep === "shipping"
 
   return (
-    <div className="pb-4 border-b">
-      <StepHeader
+    <div className="pb-4 sm:pb-5 border-b border-border">
+      <CheckStepHeader
         Icon={Truck}
         title="Shipping Method"
         subtitle="Choose your preferred delivery option"
         showEdit={!isOpen && currentStep !== "address"}
-        name="delivery"
+        name="shipping"
       />
-      {isOpen ? (
-        <ListShippingMethods
-          availableMethods={availableMethods}
-          cartId={cart.id}
-          currencyCode={cart.currency_code}
-          selectedMethodId={cart.shipping_methods?.at(0)?.shipping_option_id}
-        />
-      ) : (
-        <ShippingCardShow
-          methods={cart.shipping_methods}
-          currencyCode={cart.currency_code}
-        />
-      )}
+
+      <AnimatePresence mode="wait">
+        {isOpen ? (
+          <motion.div
+            key="shipping-list"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+          >
+            <CheckShippingList
+              availableMethods={availableMethods}
+              cartId={cart.id}
+              currencyCode={cart.currency_code}
+              selectedMethodId={cart.shipping_methods?.at(0)?.shipping_option_id}
+            />
+          </motion.div>
+        ) : (
+          currentStep !== "address" && (
+            <motion.div
+              key="shipping-show"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.25 }}
+            >
+              <CheckShippingShow
+                methods={cart.shipping_methods}
+                currencyCode={cart.currency_code}
+              />
+            </motion.div>
+          )
+        )}
+      </AnimatePresence>
     </div>
-  );
+  )
 }
 
 type ShippingProps = {
-  cart: StoreCart;
-  availableMethods: StoreCartShippingOption[];
-};
+  cart: StoreCart
+  availableMethods: StoreCartShippingOption[]
+}

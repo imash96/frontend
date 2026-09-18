@@ -14,7 +14,7 @@ const DEFAULT_REGION = process.env.NEXT_PUBLIC_DEFAULT_REGION || "dk"
 
 const COUNTRY_CODE_COOKIE = "__country_code"
 const COUNTRY_CODE_HEADER = "x-country-code"
-const CACHE_ID_COOKIE = "__cache_id"
+const CACHE_ID_COOKIE = "_medusa_cache_id"
 
 const REGION_CACHE_TTL_MS = 60 * 60 * 1000 // 1 hour
 const CACHE_ID_MAX_AGE = 60 * 60 * 24 // 1 day, in seconds

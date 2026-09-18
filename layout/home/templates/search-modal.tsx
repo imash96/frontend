@@ -167,7 +167,7 @@ export function SearchModal() {
                                     {filteredResults.map((item) => (
                                         <Link
                                             key={item.handle}
-                                            href={`/product/${item.handle}`}
+                                            href={`/products/${item.handle}`}
                                             className="group flex w-full items-center gap-4 rounded-xl border border-border-subtle hover:border-border-strong hover:bg-card-hover bg-card p-4 text-left transition hover:shadow-primary"
                                         >
                                             <div className="relative size-16 shrink-0 overflow-hidden rounded-lg bg-muted">

@@ -1,4 +1,28 @@
 import { StoreProductOption } from "@medusajs/types"
+import Link from "next/link"
+
+const NAMED_COLORS: Record<string, string> = {
+    black: "#1a1a1a",
+    white: "#f4f1ea",
+    brown: "#6b3e26",
+    cognac: "#8b4513",
+    tan: "#c4a574",
+    navy: "#1a1a3e",
+    blue: "#1e3a5f",
+    red: "#7f1d1d",
+    oxblood: "#4a0000",
+    green: "#1f3d2b",
+    grey: "#6b7280",
+    gray: "#6b7280",
+    beige: "#d6c4a8",
+    olive: "#556b2f",
+}
+
+function toCssColor(value: string) {
+    const trimmed = value.trim()
+    if (/^#([0-9a-f]{3,8})$/i.test(trimmed) || /^(rgb|hsl)a?\(/i.test(trimmed)) return trimmed
+    return NAMED_COLORS[trimmed.toLowerCase()] ?? null
+}
 
 export default function OptionSelect({ option, value, onSelect, disabled }: OptionSelectProps) {
     const title = option.title ?? ""
@@ -18,55 +42,84 @@ export default function OptionSelect({ option, value, onSelect, disabled }: Opti
 
     return (
         <div className="space-y-2.5">
-            {
-                isColor ? (
-                    <>
-                        <div className="flex items-center justify-between mb-2.5">
-                            <span className="text-xs font-semibold uppercase tracking-wider text-foreground-secondary">Color</span>
-                            <span className="text-xs text-foreground-tertiary">{value}</span>
-                        </div>
-                        <div className="flex gap-2.5">
-                            {values.map((c, i) => {
-                                const selected = c === value
-                                return (
-                                    <button
-                                        key={c}
-                                        type="button"
-                                        onClick={() => onSelect(c)}
-                                        className={`w-10 h-10 rounded-full border-2 transition-all duration-200 ${selected ? 'border-primary ring-2 ring-primary/20 scale-110' : 'border-border hover:border-border-strong hover:scale-105'}`}
-                                        style={{ backgroundColor: c }}
-                                        title={c}
-                                        aria-label={c}
-                                    />
-                                )
-                            })}
-                        </div>
-                    </>
-                ) : (
-                    <>
-                        <div className="flex items-center justify-between mb-2.5">
-                            <span className="text-xs font-semibold uppercase tracking-wider text-foreground-secondary">Size</span>
-                            <button className="text-xs text-link hover:text-link-hover underline underline-offset-2 transition-colors">Size Guide</button>
-                        </div>
-                        <div className="flex flex-wrap gap-2">
-                            {values.map((c, i) => {
-                                const selected = c === value
-                                return (
-                                    <button
-                                        key={c}
-                                        type="button"
-                                        onClick={() => onSelect(c)}
-                                        disabled={disabled}
-                                        className={`min-w-12 px-4 py-2.5 text-sm font-medium border rounded-lg transition-all duration-200 ${selected ? 'bg-primary text-primary-foreground border-primary shadow-primary' : !disabled ? 'border-border text-foreground hover:border-border-strong hover:bg-muted' : 'border-border-subtle text-text-disabled line-through opacity-50 cursor-not-allowed'}`}
-                                    >
-                                        {c}
-                                    </button>
-                                )
-                            })}
-                        </div>
-                    </>
-                )
-            }
+            {isColor ? (
+                <>
+                    <div className="mb-2.5 flex items-center justify-between">
+                        <span className="text-xs font-semibold uppercase tracking-wider text-text-secondary">
+                            Color
+                        </span>
+                        <span className="text-xs text-text-tertiary">{value}</span>
+                    </div>
+                    <div className="flex flex-wrap gap-2.5">
+                        {values.map((c) => {
+                            const selected = c === value
+                            const css = toCssColor(c)
+                            return (
+                                <button
+                                    key={c}
+                                    type="button"
+                                    onClick={() => onSelect(c)}
+                                    disabled={disabled}
+                                    className={`flex size-10 items-center justify-center rounded-full border-2 transition-all duration-200 ${
+                                        selected
+                                            ? "scale-110 border-primary ring-2 ring-primary/20"
+                                            : "border-border hover:scale-105 hover:border-border-strong"
+                                    }`}
+                                    style={css ? { backgroundColor: css } : undefined}
+                                    title={c}
+                                    aria-label={c}
+                                    aria-pressed={selected}
+                                >
+                                    {!css && (
+                                        <span className="text-[9px] font-semibold uppercase text-text-primary">
+                                            {c.slice(0, 2)}
+                                        </span>
+                                    )}
+                                </button>
+                            )
+                        })}
+                    </div>
+                </>
+            ) : (
+                <>
+                    <div className="mb-2.5 flex items-center justify-between">
+                        <span className="text-xs font-semibold uppercase tracking-wider text-text-secondary">
+                            {title}
+                        </span>
+                        {isSize && (
+                            <Link
+                                href="/size-guide"
+                                className="text-xs text-link underline underline-offset-2 transition-colors hover:text-link-hover"
+                            >
+                                Size Guide
+                            </Link>
+                        )}
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                        {values.map((c) => {
+                            const selected = c === value
+                            return (
+                                <button
+                                    key={c}
+                                    type="button"
+                                    onClick={() => onSelect(c)}
+                                    disabled={disabled}
+                                    aria-pressed={selected}
+                                    className={`min-w-12 rounded-lg border px-4 py-2.5 text-sm font-medium transition-all duration-200 ${
+                                        selected
+                                            ? "border-primary bg-primary text-primary-foreground shadow-primary"
+                                            : disabled
+                                              ? "cursor-not-allowed border-border-subtle text-text-disabled line-through opacity-50"
+                                              : "border-border text-text-primary hover:border-border-strong hover:bg-muted"
+                                    }`}
+                                >
+                                    {c}
+                                </button>
+                            )
+                        })}
+                    </div>
+                </>
+            )}
             {isSize && (
                 <p className="text-xs font-medium text-warning">
                     {value ? "Refer to our size chart for the best fit." : "Select a size to check availability."}

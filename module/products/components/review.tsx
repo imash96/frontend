@@ -24,15 +24,15 @@ export default function RatingBreakdown({ reviews }: RatingBreakdownProps) {
 
                     return (
                         <div key={star} className="flex items-center gap-3 text-sm">
-                            <dt className="flex items-center w-16">
+                            <dt className="flex items-center w-8">
                                 <Star
-                                    className={`h-4 w-4 ${count > 0 ? "text-accent fill-accent" : "text-foreground-muted fill-foreground-muted"}`}
+                                    className={`h-4 w-4 ${count > 0 ? "text-accent fill-accent" : "text-foreground-secondary fill-foreground-secondary"}`}
                                     aria-hidden="true"
                                 />
                                 <span className="ml-1 text-accent">{star}</span>
                             </dt>
 
-                            <div className="flex-1 relative h-2 rounded-full bg-foreground-disabled">
+                            <div className="flex-1 relative h-2 rounded-full bg-foreground-tertiary">
                                 {count > 0 && (
                                     <div
                                         className="absolute inset-y-0 left-0 rounded-full bg-accent"
@@ -41,7 +41,7 @@ export default function RatingBreakdown({ reviews }: RatingBreakdownProps) {
                                 )}
                             </div>
 
-                            <dd className="w-12 text-right tabular-nums text-foreground-muted">
+                            <dd className="w-8 text-right tabular-nums text-foreground-secondary">
                                 {percentage}%
                             </dd>
                         </div>

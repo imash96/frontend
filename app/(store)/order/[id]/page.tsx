@@ -17,7 +17,7 @@ export default async function Page(props: PageProps<"/order/[id]">) {
     const productSkus = order.items?.map(item => item.variant_sku)
     const tags = [...new Set(order.items?.map(item => item.product_type))]
     const products = order.items?.map(item => ({
-        productUrl: `https://vellehide.com/product/${item.product_handle}`,
+        productUrl: `https://vellehide.com/products/${item.product_handle}`,
         imageUrl: item.thumbnail,
         name: item.title,
         brand: 'Velle Hide',

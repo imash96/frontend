@@ -1,42 +1,37 @@
-"use client";
+"use client"
 
-import type { StoreCart } from "@medusajs/types";
-import { AnimatePresence } from "motion/react";
-import { div as Div } from "motion/react-client";
-import { useActionState, useEffect, useMemo } from "react";
-import { setAddresses } from "@/lib/action/cart";
-import { useCheckout } from "@/lib/store/checkout-context";
-import { useToggleState } from "@/lib/hook/use-toggle-state";
-import compareAddresses from "@/lib/util/compare-addresses";
-import Button from "@/ui/button";
-import CustomInput from "@/ui/input";
-import CustomSelect from "@/ui/native-select";
-import type { FormState } from "@/types/common";
+import type { StoreCart } from "@medusajs/types"
+import { AnimatePresence, motion } from "motion/react"
+import { useActionState, useEffect, useMemo } from "react"
+import { setCheckAddresses } from "@/lib/action/check"
+import { useCheckStore } from "@/lib/store/check-store"
+import { useToggleState } from "@/lib/hook/use-toggle-state"
+import compareAddresses from "@/lib/util/compare-addresses"
+import Button from "@/ui/button"
+import CustomInput from "@/ui/input"
+import CustomSelect from "@/ui/native-select"
 
-export default function AddressForm({ cart }: AddressFormProps) {
-  const { setCurrentStep } = useCheckout();
+export default function CheckAddressForm({ cart }: { cart: StoreCart }) {
+  const setStep = useCheckStore((s) => s.setStep)
+  const markCompleted = useCheckStore((s) => s.markCompleted)
+
   const [addressState, addressAction, isPending] = useActionState(
-    setAddresses,
-    {
-      success: false,
-      error: null,
-    } as FormState,
-  );
+    setCheckAddresses,
+    { success: false, error: null } as { success: boolean; error: string | null },
+  )
 
   const { state: sameAsBilling, toggle: toggleSameAsBilling } = useToggleState(
     cart?.shipping_address && cart?.billing_address
       ? compareAddresses(cart?.shipping_address, cart?.billing_address)
       : true,
-  );
+  )
 
   useEffect(() => {
-    const handleNext = () => setCurrentStep("delivery");
     if (addressState.success) {
-      handleNext();
-      addressState.success = false;
-      addressState.error = null;
+      markCompleted("address")
+      setStep("shipping")
     }
-  }, [addressState, setCurrentStep]);
+  }, [addressState, setStep, markCompleted])
 
   const countryOptions = useMemo(() => {
     return (
@@ -48,11 +43,11 @@ export default function AddressForm({ cart }: AddressFormProps) {
         .filter(
           (opt): opt is { value: string; label: string } => opt !== null,
         ) ?? []
-    );
-  }, [cart.region]);
+    )
+  }, [cart.region])
 
   return (
-    <form action={addressAction} className="flex flex-col flex-1 space-y-4">
+    <form action={addressAction} className="flex flex-col flex-1 space-y-3 sm:space-y-4">
       <AddressFields
         prefix="shipping_address"
         data={cart.shipping_address}
@@ -60,55 +55,68 @@ export default function AddressForm({ cart }: AddressFormProps) {
         countryOptions={countryOptions}
       />
 
-      <h2 className="text-xl font-medium">Billing details</h2>
+      <h2 className="text-base sm:text-lg lg:text-xl font-medium pt-1">
+        Billing details
+      </h2>
       <div className="flex items-center gap-2 text-sm">
         <input
           type="checkbox"
+          id="same_as_billing"
           name="same_as_billing"
           checked={sameAsBilling}
           onChange={toggleSameAsBilling}
+          className="w-4 h-4 rounded border-border text-accent focus:ring-accent"
         />
-        <label>Same as shipping address</label>
+        <label htmlFor="same_as_billing" className="cursor-pointer select-none">
+          Same as shipping address
+        </label>
       </div>
+
       <AnimatePresence mode="wait">
         {!sameAsBilling && (
-          <Div
+          <motion.div
+            key="billing-fields"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.2 }}
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
           >
             <AddressFields
               prefix="billing_address"
               data={cart.billing_address}
               countryOptions={countryOptions}
             />
-          </Div>
+          </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Footer */}
-      <div>
+      <div className="pt-2">
         <Button
           isLoading={isPending}
-          className="w-25 h-10"
+          className="w-full sm:w-auto sm:min-w-[160px] h-11"
           type="submit"
           disabled={isPending}
         >
-          Save
+          {isPending ? "Saving..." : "Continue to Shipping"}
         </Button>
-        {addressState.error && (
-          <div
-            className="text-destructive-foreground text-sm pt-2"
-            role="alert"
-            aria-live="polite"
-          >
-            {addressState.error}
-          </div>
-        )}
+        <AnimatePresence>
+          {addressState.error && (
+            <motion.div
+              initial={{ y: -8, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: -8, opacity: 0 }}
+              transition={{ duration: 0.25, ease: "easeOut" }}
+              className="text-destructive-foreground text-sm pt-2"
+              role="alert"
+              aria-live="polite"
+            >
+              {addressState.error}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </form>
-  );
+  )
 }
 
 function AddressFields({
@@ -119,54 +127,60 @@ function AddressFields({
 }: AddressFieldsProps) {
   return (
     <div className="space-y-3">
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <CustomInput
           label="First name"
           name={`${prefix}.first_name`}
           defaultValue={data?.first_name || ""}
           required
-          autoFocus
+          autoComplete="given-name"
         />
         <CustomInput
           label="Last name"
           name={`${prefix}.last_name`}
           defaultValue={data?.last_name || ""}
           required
+          autoComplete="family-name"
         />
       </div>
       <CustomInput
-        label="Company"
+        label="Company (optional)"
         name={`${prefix}.company`}
         defaultValue={data?.company || ""}
+        autoComplete="organization"
       />
       <CustomInput
         label="Address"
         name={`${prefix}.address_1`}
         defaultValue={data?.address_1 || ""}
         required
+        autoComplete="address-line1"
       />
       <CustomInput
-        label="Apartment, suite, etc."
+        label="Apartment, suite, etc. (optional)"
         name={`${prefix}.address_2`}
         defaultValue={data?.address_2 || ""}
+        autoComplete="address-line2"
       />
 
-      <div className="grid grid-cols-[144px_1fr] lg:grid-cols-[220px_1fr] gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-[140px_1fr] lg:grid-cols-[200px_1fr] gap-3">
         <CustomInput
           label="Postal code"
           name={`${prefix}.postal_code`}
           defaultValue={data?.postal_code || ""}
           required
+          autoComplete="postal-code"
         />
         <CustomInput
           label="City"
           name={`${prefix}.city`}
           defaultValue={data?.city || ""}
           required
+          autoComplete="address-level2"
         />
       </div>
 
-      <div className="grid grid-cols-[1fr_144px] lg:grid-cols-[1fr_220px] gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-[1fr_140px] lg:grid-cols-[1fr_200px] gap-3">
         <CustomSelect
           options={countryOptions}
           defaultValue={data?.country_code || undefined}
@@ -174,11 +188,13 @@ function AddressFields({
           name={`${prefix}.country_code`}
           required
           disabled={countryOptions.length === 0}
+          autoComplete="country"
         />
         <CustomInput
           label="Province / State"
           name={`${prefix}.province`}
           defaultValue={data?.province || ""}
+          autoComplete="address-level1"
         />
       </div>
 
@@ -186,27 +202,27 @@ function AddressFields({
         <CustomInput
           label="Email"
           name="email"
+          type="email"
           defaultValue={email || ""}
           required
+          autoComplete="email"
         />
       )}
       <CustomInput
         label="Phone"
         name={`${prefix}.phone`}
+        type="tel"
         defaultValue={data?.phone || ""}
         required
+        autoComplete="tel"
       />
     </div>
-  );
+  )
 }
 
 type AddressFieldsProps = {
-  prefix: string;
-  data?: StoreCart["shipping_address"] | StoreCart["billing_address"];
-  email?: string | null;
-  countryOptions: { value: string; label: string }[];
-};
-
-type AddressFormProps = {
-  cart: StoreCart;
-};
+  prefix: string
+  data?: StoreCart["shipping_address"] | StoreCart["billing_address"]
+  email?: string | null
+  countryOptions: { value: string; label: string }[]
+}

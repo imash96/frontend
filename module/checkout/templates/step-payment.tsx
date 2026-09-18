@@ -1,119 +1,152 @@
-"use client";
+"use client"
 
-import type { StoreCart, StorePaymentProvider } from "@medusajs/types";
-import { CheckCircle, Circle, CreditCard, Loader2 } from "lucide-react";
-import { AnimatePresence } from "motion/react";
-import { useLayoutEffect } from "react";
-import { initiatePaymentSession } from "@/lib/action/cart";
-import { useCheckout } from "@/lib/store/checkout-context";
-import PaymentButton from "../components/payment-button";
-import { paymentInfoMap } from "../components/payment-info-map";
-import StepHeader from "../components/step-header";
+import type { StoreCart, StorePaymentProvider } from "@medusajs/types"
+import { CheckCircle, Circle, CreditCard, Loader2 } from "lucide-react"
+import { AnimatePresence, motion } from "motion/react"
+import { useState, useTransition } from "react"
+import { initCheckPayment } from "@/lib/action/check"
+import { useCheckStore } from "@/lib/store/check-store"
+import { isPaypal } from "@/lib/constant"
+import ErrorMessage from "@/module/common/templates/error-message"
+import CheckPaymentButton from "../components/check-payment-button"
+import { checkPaymentInfoMap } from "../components/check-payment-info"
+import CheckStepHeader from "../components/check-step-header"
 
-export default function PaymentStep({
+export default function StepPayment({
   cart,
   paymentMethods,
 }: PaymentStepProps) {
-  const {
-    currentStep,
-    setCurrentStep,
-    isPending,
-    startPending,
-    manualPending,
-  } = useCheckout();
-  const isOpen = currentStep === "payment";
-  const activeSession = cart.payment_collection?.payment_sessions?.find(
-    (paymentSession) => paymentSession.status === "pending",
-  );
-  const selectedPaymentMethod = activeSession?.provider_id;
+  const currentStep = useCheckStore((s) => s.currentStep)
+  const isPending = useCheckStore((s) => s.isPending)
+  const [isTransitioning, startTransition] = useTransition()
+  const [error, setError] = useState<string | null>(null)
 
-  useLayoutEffect(() => {
-    if (isOpen && !cart.shipping_methods?.length) {
-      setCurrentStep("delivery");
-    }
-  }, [isOpen, cart.shipping_methods?.length, setCurrentStep]);
+  const isOpen = currentStep === "payment"
+  const activeSession = cart.payment_collection?.payment_sessions?.find(
+    (s) => s.status === "pending",
+  )
+  const selectedPaymentMethod = activeSession?.provider_id
+
+  const isLoading = isTransitioning || isPending
 
   function setPaymentMethod(
     cart_id: string,
     provider_id: string,
     collection_id?: string,
   ) {
-    if (provider_id == selectedPaymentMethod) return;
-    startPending(async () => {
-      await initiatePaymentSession(
-        cart_id,
-        { provider_id, data: { payment_description: "Leather Goods" } },
-        collection_id,
-      );
-    });
+    const isBrokenPaypal =
+      provider_id === selectedPaymentMethod &&
+      isPaypal(provider_id) &&
+      !activeSession?.data?.id
+    if (provider_id === selectedPaymentMethod && !isBrokenPaypal) return
+    setError(null)
+    startTransition(async () => {
+      try {
+        await initCheckPayment(cart_id, provider_id, collection_id)
+      } catch (err: any) {
+        setError(err.message)
+      }
+    })
   }
 
   return (
-    <div className="pb-4 border-b">
-      <StepHeader
+    <div className="pb-4 sm:pb-5 border-b border-border">
+      <CheckStepHeader
         Icon={CreditCard}
         title="Payment"
         subtitle="Choose your preferred payment option"
         name="payment"
         showEdit={false}
       />
-      {isOpen && (
-        <div className="grid mt-6">
-          {paymentMethods.map((paymentMethod) => {
-            const isSelected = selectedPaymentMethod === paymentMethod.id;
-            const Info = paymentInfoMap[paymentMethod.id];
-            const isDisabled = isPending || manualPending;
-            return (
-              <div
-                key={paymentMethod.id}
-                onClick={() =>
-                  !isDisabled &&
-                  setPaymentMethod(
-                    cart.id,
-                    paymentMethod.id,
-                    cart.payment_collection?.id,
-                  )
-                }
-                className={`relative flex flex-col border transition ${isSelected ? "border-accent ring-1 ring-accent" : "border-border"} ${isDisabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
-              >
-                {/* Header row */}
-                <div className="flex items-center gap-3 p-4">
-                  <div className="text-accent">
-                    {isPending && !isSelected ? (
-                      <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
-                    ) : isSelected ? (
-                      <CheckCircle className="w-6 h-6" />
-                    ) : (
-                      <Circle className="w-6 h-6 text-muted-foreground" />
-                    )}
-                  </div>
 
-                  <div className="flex-1 space-y-1">
-                    <h3 className="font-semibold">
-                      {Info?.title ?? paymentMethod.id}
-                    </h3>
-                    <p className="text-sm text-muted-foreground">
-                      {Info?.desc}
-                    </p>
-                  </div>
-                  {Info?.Icon}
-                </div>
+      <AnimatePresence mode="wait">
+        {isOpen && (
+          <motion.div
+            key="payment-content"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+          >
+            <div className="grid gap-2 sm:gap-3 mt-4 sm:mt-6">
+              <ErrorMessage error={error} />
+              {paymentMethods.map((paymentMethod) => {
+                const isSelected =
+                  selectedPaymentMethod === paymentMethod.id
+                const Info = checkPaymentInfoMap[paymentMethod.id]
+                const isDisabled = isLoading
+                const isMethodLoading = isTransitioning && !isSelected
 
-                {/* Extra info / Preview */}
-                <AnimatePresence mode="wait">
-                  {isSelected && Info?.Preview}
-                </AnimatePresence>
-              </div>
-            );
-          })}
-          <PaymentButton cart={cart} />
-        </div>
-      )}
+                return (
+                  <motion.div
+                    key={paymentMethod.id}
+                    onClick={() =>
+                      !isDisabled &&
+                      setPaymentMethod(
+                        cart.id,
+                        paymentMethod.id,
+                        cart.payment_collection?.id,
+                      )
+                    }
+                    className={`relative flex flex-col border rounded-lg overflow-hidden transition-all duration-200 ${isSelected
+                      ? "border-accent ring-1 ring-accent shadow-sm"
+                      : "border-border hover:border-accent/50"
+                      } ${isDisabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
+                    whileTap={!isDisabled ? { scale: 0.99 } : undefined}
+                  >
+                    {/* Header row */}
+                    <div className="flex items-center gap-2.5 sm:gap-3 p-3 sm:p-4">
+                      <div className="text-accent shrink-0">
+                        {isMethodLoading ? (
+                          <Loader2 className="w-5 h-5 sm:w-6 sm:h-6 animate-spin text-muted-foreground" />
+                        ) : isSelected ? (
+                          <motion.div
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            transition={{
+                              type: "spring",
+                              stiffness: 500,
+                              damping: 15,
+                            }}
+                          >
+                            <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6" />
+                          </motion.div>
+                        ) : (
+                          <Circle className="w-5 h-5 sm:w-6 sm:h-6 text-muted-foreground" />
+                        )}
+                      </div>
+
+                      <div className="flex-1 min-w-0 space-y-0.5">
+                        <h3 className="font-semibold text-sm sm:text-base truncate">
+                          {Info?.title ?? paymentMethod.id}
+                        </h3>
+                        <p className="text-xs sm:text-sm text-muted-foreground line-clamp-1">
+                          {Info?.desc}
+                        </p>
+                      </div>
+                      <div className="shrink-0">{Info?.Icon}</div>
+                    </div>
+
+                    {/* Expanded preview */}
+                    <AnimatePresence mode="wait">
+                      {isSelected && Info?.Preview && (
+                        <Info.Preview key="preview" cart={cart} />
+                      )}
+                    </AnimatePresence>
+                  </motion.div>
+                )
+              })}
+
+              <CheckPaymentButton cart={cart} />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
-  );
+  )
 }
 
 type PaymentStepProps = {
-  cart: StoreCart;
-  paymentMethods: StorePaymentProvider[];
-};
+  cart: StoreCart
+  paymentMethods: StorePaymentProvider[]
+}

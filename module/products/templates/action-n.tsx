@@ -2,16 +2,26 @@
 
 import { useUIStore } from "@/lib/store/ui-store"
 import { useProductStore } from "@/lib/store/use-product"
-import { ProductCalculatedPrice } from "@/lib/util/get-product-price"
 import { StoreProduct } from "@medusajs/types"
 import { useEffect, useTransition } from "react"
 import OptionSelect from "../components/option-select"
 import Button from "@/ui/button"
 import { ShoppingBag } from "lucide-react"
+import ProductToolbar from "../components/product-toolbar"
 
 export default function ProductActions({ product, countryCode }: ProductActionsProps) {
-    const { setProduct, options, setOption, quantity, setQuantity, availableQuantity, selectedVariant, isValidVariant, inStock, isPending, lastError, handleAddToCart } = useProductStore()
-    const { open } = useUIStore()
+    const {
+        setProduct,
+        options,
+        setOption,
+        selectedVariant,
+        isValidVariant,
+        inStock,
+        isPending,
+        lastError,
+        handleAddToCart,
+    } = useProductStore()
+    const open = useUIStore((s) => s.open)
     const [, startTransition] = useTransition()
 
     const hasOptions = (product.options?.length ?? 0) > 0
@@ -19,7 +29,7 @@ export default function ProductActions({ product, countryCode }: ProductActionsP
     const onAddToCart = () => {
         startTransition(async () => {
             const success = await handleAddToCart()
-            if (success) open.bind(null, 'cart')
+            if (success) open("cart")
         })
     }
 
@@ -42,30 +52,36 @@ export default function ProductActions({ product, countryCode }: ProductActionsP
                     ))}
                 </div>
             )}
-            <div className="flex flex-col gap-3 sm:flex-row">
+
+            <div className="flex items-stretch gap-3">
                 <Button
                     onClick={onAddToCart}
                     isLoading={isPending}
                     disabled={!inStock || !selectedVariant || !isValidVariant || isPending}
                     size="lg"
-                    className="w-full flex-1"
+                    className="flex-1"
                     icon={<ShoppingBag className="size-5" aria-hidden />}
                 >
                     {!selectedVariant ? "Select options" : !inStock ? "Out of stock" : "Add to Bag"}
                 </Button>
-
                 <Button
-                    onClick={onAddToCart}
-                    isLoading={isPending}
-                    disabled={!inStock || !selectedVariant || !isValidVariant || isPending}
+                    variant="outline"
                     size="lg"
-                    className="w-full flex-1"
-                    icon={<ShoppingBag className="size-5" aria-hidden />}
                 >
+
                     Customize
                 </Button>
-
             </div>
+
+
+
+            {lastError && (
+                <p className="text-sm text-destructive" role="alert">
+                    {lastError}
+                </p>
+            )}
+
+            <ProductToolbar title={product.title} />
         </div>
     )
 }

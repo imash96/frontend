@@ -20,7 +20,7 @@ export default function OrderLineitem({ item, currencyCode, className = "" }: Or
             <div className="space-y-1 md:space-y-1.5 w-full">
                 <div className="flex flex-col gap-y-1 gap-x-2 md:flex-row md:justify-between">
                     <h2 className="text-sm leading-snug font-medium">
-                        <Link href={`/product/${item.product?.handle || ''}`} className="text-link underline line-clamp-2 max-w-[35ch]">
+                        <Link href={`/products/${item.product?.handle || ''}`} className="text-link underline line-clamp-2 max-w-[35ch]">
                             {item.product?.title}
                         </Link>
                     </h2>

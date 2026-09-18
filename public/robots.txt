@@ -46,8 +46,8 @@ Disallow: /temp/
 Disallow: /test/
 
 # Allow product and category pages explicitly
-Allow: /product/
-Allow: /category/
+Allow: /products/
+Allow: /categories/
 Allow: /collections/
 Allow: /blogs/
 

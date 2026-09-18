@@ -1,7 +1,7 @@
-import Image from "next/image";
-import Button from "@/ui/button";
-import RatingSystem from "@/ui/rating-system";
-import RatingBreakdown from "../components/review";
+import Button from "@/ui/button"
+import RatingSystem from "@/ui/rating-system"
+import RatingBreakdown from "../components/review"
+import Container from "@/ui/container"
 
 const reviews = {
     rating: {
@@ -34,8 +34,6 @@ const reviews = {
             content:
                 "I was hesitant at first because of the price, but honestly, this bag is worth every penny. It looks elegant, feels durable, and even smells like real leather. I’ll be buying another one as a gift.",
             author: "Lina Moreno",
-            avatarSrc:
-                "https://images.artisanhide.com/storefront/images/prod_review/photo-1996070704220-ee32371fefbe.jpg",
         },
         {
             id: 4,
@@ -45,25 +43,25 @@ const reviews = {
             author: "Hector Gibbons",
         },
     ],
-};
+}
 
 export default function ProductReview() {
     return (
-        <section aria-labelledby="product-review-heading" className="py-16">
-            <div className="lg:grid lg:grid-cols-12 lg:gap-x-12">
-                {/* LEFT PANEL */}
-                <div className="lg:col-span-4">
-                    <h2 id="product-review-heading" className="text-2xl font-semibold">
+        <Container
+            size="2xl"
+            as="section"
+            aria-labelledby="product-review-heading"
+            className="border-t border-divider py-12 md:py-16"
+        >
+            <div id="reviews" className="lg:grid lg:grid-cols-12 lg:gap-x-12">
+                <div className="lg:col-span-3">
+                    <h2 id="product-review-heading" className="font-heading text-2xl font-semibold text-text-primary">
                         Customer Reviews
                     </h2>
 
-                    <div className="mt-3 flex items-center gap-2">
-                        <RatingSystem
-                            averageRating={reviews.rating.average_rating}
-                            size="md"
-                            showCount
-                        />
-                        <p className="text-sm text-foreground-muted">
+                    <div className="mt-3 flex flex-wrap items-center gap-2">
+                        <RatingSystem averageRating={reviews.rating.average_rating} size="md" showCount={false} />
+                        <p className="text-sm text-text-secondary">
                             Based on {reviews.rating.review_count.toLocaleString()} reviews
                         </p>
                     </div>
@@ -71,55 +69,46 @@ export default function ProductReview() {
                     <RatingBreakdown reviews={reviews.rating} />
 
                     <div className="mt-10">
-                        <h3 className="text-lg font-medium">Share your thoughts</h3>
-                        <p className="mt-1 text-sm text-foreground-muted">
-                            If you&apos;ve used this product, share your experience with
-                            others.
+                        <h3 className="font-heading text-lg font-medium text-text-primary">Share your thoughts</h3>
+                        <p className="mt-1 text-sm text-text-secondary">
+                            If you&apos;ve used this product, share your experience with others.
                         </p>
 
-                        <Button
-                            href="#"
-                            variant="outline"
-                            className="w-full mt-4 rounded-lg text-sm"
-                        >
+                        <Button href="#" variant="outline" className="mt-4 w-full text-sm">
                             Write a review
                         </Button>
                     </div>
                 </div>
 
-                {/* RIGHT PANEL */}
-                <div className="mt-12 lg:mt-0 lg:col-span-8">
-                    <h2 className="text-2xl font-semibold mb-4">Recent Reviews</h2>
+                <div className="mt-12 lg:mt-0 lg:col-span-9">
+                    <h3 className="mb-2 font-heading text-2xl font-semibold text-text-primary">Recent Reviews</h3>
 
-                    <div className="space-y-4">
-                        {reviews.featured.slice(0, 6).map((review) => (
-                            <div key={review.id} className="border-b border-border py-6">
+                    <div>
+                        {reviews.featured.map((review) => (
+                            <article key={review.id} className="border-b border-border py-6 last:border-b-0">
                                 <div className="flex items-center">
-                                    <Image
-                                        src={review.avatarSrc || "https://images.artisanhide.com/storefront/images/prod_review/user.png"}
-                                        alt={review.author}
-                                        width={48}
-                                        height={48}
-                                        className="rounded-sm border"
-                                    />
+                                    <div
+                                        aria-hidden
+                                        className="flex size-12 shrink-0 items-center justify-center rounded-sm border border-border bg-muted font-heading text-sm font-semibold text-text-secondary"
+                                    >
+                                        {review.author
+                                            .split(" ")
+                                            .map((n) => n[0])
+                                            .join("")
+                                            .slice(0, 2)}
+                                    </div>
                                     <div className="ml-3">
-                                        <h3 className="text-sm font-semibold">{review.author}</h3>
-                                        <RatingSystem
-                                            averageRating={reviews.rating.average_rating}
-                                            size="sm"
-                                            showCount
-                                        />
+                                        <h4 className="text-sm font-semibold text-text-primary">{review.author}</h4>
+                                        <RatingSystem averageRating={review.rating} size="sm" showCount={false} />
                                     </div>
                                 </div>
 
-                                <p className="mt-4 text-base text-foreground-disabled leading-relaxed">
-                                    {review.content}
-                                </p>
-                            </div>
+                                <p className="mt-4 text-sm leading-relaxed text-text-secondary max-w-[100ch]">{review.content}</p>
+                            </article>
                         ))}
                     </div>
                 </div>
             </div>
-        </section>
-    );
+        </Container>
+    )
 }

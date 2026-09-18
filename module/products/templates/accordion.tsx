@@ -1,11 +1,37 @@
 "use client"
 
-import { accordions } from "@/data/accordion";
-import { StoreProduct } from "@medusajs/types";
-import { ChevronDown } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { Accordion, AccordionContent, AccordionItemT, AccordionTrigger } from "@/ui/custom/custom-accordion"
+import { StoreProduct } from "@medusajs/types"
+import { accordions } from "@/data/accordion"
+import { useEffect, useRef, useState } from "react"
+import { ChevronDown } from "lucide-react"
 
-export default function Accordion({ product }: { product: StoreProduct }) {
+export default function ProductAccordion({ product }: { product: StoreProduct }) {
+    const details = product.description?.trim() || accordions.find((a) => a.id === "details")?.content || ""
+
+    return (
+        <Accordion type="single" collapsible defaultValue="details" className="mt-2 divide-y divide-divider border-y border-divider">
+            {accordions.map((item) => (
+                <AccordionItemT key={item.id} value={item.id} className="accordion-item">
+                    <AccordionTrigger className="py-4 text-left text-sm font-semibold uppercase tracking-wider text-text-primary hover:text-primary">
+                        {item.title}
+                    </AccordionTrigger>
+                    <AccordionContent>
+                        <div className="pb-4 text-sm leading-relaxed text-text-secondary">
+                            {item.id === "details" ? (
+                                <p className="whitespace-pre-wrap">{details}</p>
+                            ) : (
+                                <p>{item.content}</p>
+                            )}
+                        </div>
+                    </AccordionContent>
+                </AccordionItemT>
+            ))}
+        </Accordion>
+    )
+}
+
+export function AccordionProduct({ product }: { product: StoreProduct }) {
     const [openId, setOpenId] = useState<string | null>(accordions[0]?.id || null);
 
     return (
