@@ -1,7 +1,7 @@
 "use client";
 
 import type { StoreCustomer, StoreRegion } from "@medusajs/types";
-import { useActionState, useMemo } from "react";
+import { useActionState, useEffect, useMemo, useState } from "react";
 import {
   addCustomerAddress,
   updateCustomerAddress,
@@ -20,6 +20,15 @@ export default function ProfileBilling({ customer, regions }: CustomerProps) {
     isEdit ? updateCustomerAddress : addCustomerAddress,
     initialState,
   );
+  const [showFeedback, setShowFeedback] = useState(false);
+
+  useEffect(() => {
+    if (state.success || state.error) {
+      setShowFeedback(true);
+      const timer = setTimeout(() => setShowFeedback(false), 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [state]);
 
   const regionOptions = useMemo(
     () =>
@@ -117,13 +126,13 @@ export default function ProfileBilling({ customer, regions }: CustomerProps) {
         {isEdit ? "Update Address" : "Add Address"}
       </Button>
 
-      {state.error && (
-        <p className="text-destructive text-sm mt-2" role="alert">
+      {showFeedback && state.error && (
+        <p className="text-destructive text-sm mt-2 animate-fade-in-up" role="alert">
           {state.error}
         </p>
       )}
-      {state.success && (
-        <p className="text-success text-sm mt-2" role="status">
+      {showFeedback && state.success && (
+        <p className="text-success text-sm mt-2 animate-fade-in-up" role="status">
           Billing address updated successfully!
         </p>
       )}

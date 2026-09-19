@@ -4,12 +4,11 @@ import Container from "@/ui/container";
 type IconGridSectionProps = {
     items: IconItem[]
     type?: 'top' | 'bottom'
-    className?: string
 }
 
-export default function IconGridSection({ items, type = 'top', className = "" }: IconGridSectionProps) {
+export default function IconGridSection({ items, type = 'top' }: IconGridSectionProps) {
     return (
-        <div className={`w-full border-y border-border py-7 lg:py-9 ${className}`}>
+        <div className={`w-full border-y border-border py-7 lg:py-9 bg-background-secondary`}>
             <Container size="2xl" as="ul" role="list" className={`grid grid-cols-2 gap-4 ${type === "top" ? "lg:grid-cols-4 lg:gap-x-2 xl:gap-x-6" : "md:grid-cols-4 md:gap-6"}`}>
                 {items.map(({ name, Icon, description }) => (
                     <li

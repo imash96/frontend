@@ -11,7 +11,7 @@ import {
 import { AlertCircle, Clock, CreditCard, Loader, Lock } from "lucide-react"
 import { useCallback, useState } from "react"
 import { ERROR_MESSAGES } from "@/data/payment"
-import { placeCheckOrder } from "@/lib/action/check"
+import { placeCheckOrder } from "@/lib/action/checkout"
 import { isManual, isPaypal, isStripe } from "@/lib/constant"
 import { useCheckStore } from "@/lib/store/check-store"
 import Button from "@/ui/button"

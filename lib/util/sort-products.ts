@@ -43,5 +43,9 @@ export function sortProducts(products: StoreProduct[], sortBy: SortOptions): Sto
         })
     }
 
+    if (sortBy === "name_asc") {
+        sortedProducts.sort((a, b) => (a.title ?? "").localeCompare(b.title ?? ""))
+    }
+
     return sortedProducts
 }

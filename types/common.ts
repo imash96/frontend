@@ -36,7 +36,7 @@ export type ListingSectionProps = {
     buttonLink?: string;
 }
 
-export type SortOptions = "price_asc" | "price_desc" | "created_at"
+export type SortOptions = "price_asc" | "price_desc" | "created_at" | "name_asc"
 
 export type StepType = "address" | "shipping" | "delivery" | "payment"
 

@@ -10,7 +10,7 @@ import type { StoreCart } from "@medusajs/types"
 import CheckPaymentContainer from "./check-payment-container"
 import ErrorMessage from "@/module/common/templates/error-message"
 import { Loader2 } from "lucide-react"
-import { placeCheckOrder } from "@/lib/action/check"
+import { placeCheckOrder } from "@/lib/action/checkout"
 
 const MEDUSA_BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL
 const PUBLISHABLE_API_KEY = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY

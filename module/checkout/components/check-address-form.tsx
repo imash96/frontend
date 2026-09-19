@@ -3,7 +3,7 @@
 import type { StoreCart } from "@medusajs/types"
 import { AnimatePresence, motion } from "motion/react"
 import { useActionState, useEffect, useMemo } from "react"
-import { setCheckAddresses } from "@/lib/action/check"
+import { setCheckAddresses } from "@/lib/action/checkout"
 import { useCheckStore } from "@/lib/store/check-store"
 import { useToggleState } from "@/lib/hook/use-toggle-state"
 import compareAddresses from "@/lib/util/compare-addresses"
@@ -93,7 +93,7 @@ export default function CheckAddressForm({ cart }: { cart: StoreCart }) {
       <div className="pt-2">
         <Button
           isLoading={isPending}
-          className="w-full sm:w-auto sm:min-w-[160px] h-11"
+          className="w-full sm:w-auto sm:min-w-40 h-11"
           type="submit"
           disabled={isPending}
         >

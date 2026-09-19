@@ -1,7 +1,7 @@
 "use client";
 
 import type { StoreCustomer } from "@medusajs/types";
-import { useActionState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { updateCustomer } from "@/lib/action/customer";
 import Button from "@/ui/button";
 import Input from "@/ui/input";
@@ -16,6 +16,15 @@ export default function ProfilePersonal({
     updateCustomerAction,
     initialState,
   );
+  const [showFeedback, setShowFeedback] = useState(false);
+
+  useEffect(() => {
+    if (state.success || state.error) {
+      setShowFeedback(true);
+      const timer = setTimeout(() => setShowFeedback(false), 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [state]);
 
   return (
     <form className="md:col-span-2 space-y-4" action={formAction}>
@@ -60,13 +69,13 @@ export default function ProfilePersonal({
       <Button isLoading={isPending}>
         Update Profile
       </Button>
-      {state.error && (
-        <p className="text-destructive text-sm mt-2" role="alert">
+      {showFeedback && state.error && (
+        <p className="text-destructive text-sm mt-2 animate-fade-in-up" role="alert">
           {state.error}
         </p>
       )}
-      {state.success && (
-        <p className="text-success text-sm mt-2" role="status">
+      {showFeedback && state.success && (
+        <p className="text-success text-sm mt-2 animate-fade-in-up" role="status">
           Profile updated successfully!
         </p>
       )}

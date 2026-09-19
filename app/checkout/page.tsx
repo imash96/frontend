@@ -4,7 +4,7 @@ import {
   getCheckCustomer,
   getCheckShippingMethods,
   getCheckPaymentMethods,
-} from "@/lib/action/check"
+} from "@/lib/action/checkout"
 import CheckProgress from "@/module/checkout/templates/check-progress"
 import CheckSummary from "@/module/checkout/templates/check-summary"
 import CheckWrapper from "@/module/checkout/templates/check-wrapper"

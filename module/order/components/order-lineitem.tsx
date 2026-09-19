@@ -6,7 +6,7 @@ import { convertToLocale } from "@/lib/util/money";
 export default function OrderLineitem({ item, currencyCode, className = "" }: OrderLineitemProp) {
     return (
         <li key={item.id} className={`flex gap-2 ${className}`}>
-            <div className="relative w-24 shrink-0">
+            <div className="relative w-24 shrink-0 my-auto">
                 <ProductThumbnail
                     src={item.thumbnail}
                     alt={item.title}

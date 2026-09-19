@@ -1,4 +1,12 @@
-export default function Tag({ icon: Icon, text, className = "" }: any) {
+import type { LucideIcon } from "lucide-react";
+
+interface TagProps {
+  icon?: LucideIcon;
+  text: string;
+  className?: string;
+}
+
+export default function Tag({ icon: Icon, text, className = "" }: TagProps) {
   return (
     <span
       className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full border ${className}`}

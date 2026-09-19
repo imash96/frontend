@@ -51,7 +51,7 @@ export default async function Page() {
         <ol aria-label="Items in your cart" className="divide-y divide-border">
           {items.map((item) => (
             <li key={item.id} className="flex gap-3 py-4">
-              <div className="relative w-24 shrink-0">
+              <div className="relative w-24 shrink-0 my-auto">
                 <ProductThumbnail
                   src={item.thumbnail}
                   alt={item.title}

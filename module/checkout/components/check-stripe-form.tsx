@@ -26,7 +26,7 @@ export default function CheckStripeForm({ cart }: { cart: StoreCart }) {
             <CheckCircle2 className="w-6 h-6 text-green-500" />
           </div>
           <h3 className="text-base font-semibold text-foreground">Payment Authorized</h3>
-          <p className="text-sm text-muted-foreground mt-1 max-w-[250px]">
+          <p className="text-sm text-muted-foreground mt-1 max-w-62">
             Your payment has been securely authorized. Please complete your order below.
           </p>
         </div>

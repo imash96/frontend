@@ -389,7 +389,7 @@ export async function setAddresses(currentState: unknown, formData: FormData) {
 
 /**
  * Like setAddresses but returns a result instead of redirecting.
- * Used by the /check flow for client-side step transitions.
+ * Used by the /checkout flow for client-side step transitions.
  */
 export async function setCheckAddresses(currentState: unknown, formData: FormData) {
     try {

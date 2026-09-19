@@ -11,7 +11,6 @@ export default async function Page(props: PageProps<"/order/[id]">) {
     const { id } = await props.params
     const order = await retrieveOrder(id).catch(() => null)
     if (!order) return notFound()
-    const order_id = `${order.id.split("_")[1]}_${order.display_id}`
     // const trackingNumber = order.fulfillments?.[0]?.tracking_numbers?.[0] || "5249863524" // Fallback to hardcoded if not available; ideally fetch from data
     const formattedDate = (date: string | Date) => new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
     const productSkus = order.items?.map(item => item.variant_sku)
@@ -36,7 +35,7 @@ export default async function Page(props: PageProps<"/order/[id]">) {
                                 <p className="text-3xl font-bold tracking-tight sm:text-4xl text-primary">It's on the way.</p>
                             </div>
                         </div>
-                        <p className="text-base text-foreground-muted">Order #{order_id} has been confirmed and will be with you soon.</p>
+                        <p className="text-base text-foreground-muted">Order #{order.custom_display_id} has been confirmed and will be with you soon.</p>
                         <p className="mt-1 text-sm text-foreground-muted">Placed on {formattedDate(order.created_at)}</p>
                         <p className="mt-1 text-sm text-foreground">Email: {order.email}</p>
                         {/* {trackingNumber && ( */}

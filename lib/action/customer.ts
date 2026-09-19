@@ -128,6 +128,8 @@ export async function login(
 ): Promise<CustomerAuthState> {
     "use server"
 
+    console.log("login")
+
     const email = formData.get("email") as string
     const password = formData.get("password") as string
 
@@ -148,6 +150,8 @@ async function completeLogin(
     } catch (error) {
         return { state: "error", error: String(error) }
     }
+    console.log("result")
+    console.log(result)
 
     // A `location` is returned by third-party auth providers, which this flow
     // doesn't support.
@@ -179,7 +183,6 @@ async function completeLogin(
             error: "Authentication requires additional steps that aren't supported.",
         }
     }
-
     let token = result
 
     // The token may not be tied to a customer record yet - right after
@@ -238,6 +241,13 @@ export async function confirmEmailVerification(
     token: string
 ): Promise<{ success: boolean; error?: string }> {
     "use server"
+
+    if (!token) {
+        return {
+            success: false,
+            error: "Verification token is missing.",
+        }
+    }
 
     try {
         await sdk.auth.verification.confirm({ code: token })
@@ -336,6 +346,7 @@ export const updateCustomerAddress = async (
     currentState: Record<string, unknown>,
     formData: FormData
 ): Promise<{ success: boolean; error: string | null }> => {
+    "use server"
 
     const addressId =
         (currentState.addressId as string) || (formData.get("addressId") as string)
@@ -375,4 +386,78 @@ export const updateCustomerAddress = async (
         .catch((err) => {
             return { success: false, error: err.toString() }
         })
+}
+
+export async function updatePassword(
+    _currentState: unknown,
+    formData: FormData
+): Promise<{ success: boolean; error: string | null }> {
+    "use server"
+
+    const currentPassword = formData.get("current_password") as string
+    const newPassword = formData.get("new_password") as string
+    const confirmPassword = formData.get("confirm_password") as string
+
+    if (!currentPassword || !newPassword || !confirmPassword) {
+        return { success: false, error: "All password fields are required." }
+    }
+
+    if (newPassword !== confirmPassword) {
+        return { success: false, error: "New passwords do not match." }
+    }
+
+    if (newPassword.length < 8) {
+        return { success: false, error: "Password must be at least 8 characters." }
+    }
+
+    // Step 1: Retrieve current customer to get their email
+    const customer = await retrieveCustomer()
+    if (!customer?.email) {
+        return { success: false, error: "Unable to retrieve account information." }
+    }
+
+    // Step 2: Verify current password by attempting login
+    try {
+        await sdk.auth.login("customer", "emailpass", {
+            email: customer.email,
+            password: currentPassword,
+        })
+    } catch {
+        return { success: false, error: "Current password is incorrect." }
+    }
+
+    // Step 3: Request a reset token
+    try {
+        await sdk.client.fetch(`/auth/customer/emailpass/reset-password`, {
+            method: "POST",
+            body: { identifier: customer.email },
+        })
+    } catch {
+        return { success: false, error: "Unable to initiate password reset. Please try again." }
+    }
+
+    // Step 4: Use the reset token to update the password
+    // The reset-password endpoint returns a token we can use
+    try {
+        const { token } = await sdk.client.fetch<{ token: string }>(
+            `/auth/customer/emailpass/reset-password`,
+            {
+                method: "POST",
+                body: { identifier: customer.email },
+            }
+        )
+
+        await sdk.client.fetch(`/auth/customer/emailpass/update`, {
+            method: "POST",
+            body: {
+                email: customer.email,
+                password: newPassword,
+            },
+            headers: { authorization: `Bearer ${token}` },
+        })
+    } catch {
+        return { success: false, error: "Failed to update password. Please try again." }
+    }
+
+    return { success: true, error: null }
 }

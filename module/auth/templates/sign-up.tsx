@@ -33,8 +33,19 @@ export default function SIGNUP() {
         name="password"
         type="password"
         required
-        autoComplete="current-password"
+        autoComplete="new-password"
       />
+      <p className="text-xs text-muted-foreground leading-relaxed -mt-1">
+        By creating an account, you agree to our{" "}
+        <a href="/policy/terms-and-conditions" className="underline underline-offset-2 hover:text-foreground transition-colors">
+          Terms of Service
+        </a>{" "}
+        and{" "}
+        <a href="/policy/privacy-policy" className="underline underline-offset-2 hover:text-foreground transition-colors">
+          Privacy Policy
+        </a>
+        .
+      </p>
     </>
   );
 }

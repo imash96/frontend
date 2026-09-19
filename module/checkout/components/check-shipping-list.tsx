@@ -4,7 +4,7 @@ import type { StoreCartShippingOption } from "@medusajs/types"
 import { CheckCircle, Clock, Truck, TruckElectric } from "lucide-react"
 import { motion } from "motion/react"
 import { useTransition } from "react"
-import { setCheckShipping } from "@/lib/action/check"
+import { setCheckShipping } from "@/lib/action/checkout"
 import { useCheckStore } from "@/lib/store/check-store"
 import { convertToLocale } from "@/lib/util/money"
 

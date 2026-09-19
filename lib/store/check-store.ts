@@ -2,7 +2,7 @@ import { create } from "zustand"
 import { devtools } from "zustand/middleware"
 import type { StepType } from "@/types/common"
 
-// Step order for the /check flow (uses "shipping" not "delivery")
+// Step order for the /checkout flow (uses "shipping" not "delivery")
 const STEP_ORDER: StepType[] = ["address", "shipping", "payment"]
 
 interface CheckState {

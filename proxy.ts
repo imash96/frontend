@@ -122,16 +122,15 @@ async function retrieveCustomer(token: string | undefined) {
 /**
  * Handle authentication routes
  */
-async function handleAuthRoutes(
-    request: NextRequest,
-    pathname: string
-): Promise<NextResponse | null> {
+async function handleAuthRoutes(request: NextRequest, pathname: string): Promise<NextResponse | null> {
     // Protected routes - require authentication
     const token = request.cookies.get("_medusa_jwt")?.value
 
     if (pathname.startsWith("/account")) {
+        console.log("/account")
         try {
             const customer = await retrieveCustomer(token);
+            console.log(customer)
             if (customer.status != 200) {
                 const url = new URL("/auth", request.url);
                 url.searchParams.set("redirect", pathname);
@@ -146,8 +145,10 @@ async function handleAuthRoutes(
 
     // Auth page - redirect if already logged in
     if (pathname.startsWith("/auth")) {
+        console.log("/auth")
         try {
             const customer = await retrieveCustomer(token);
+            console.log(customer)
             if (customer.status === 200) {
                 const redirectParam = request.nextUrl.searchParams.get("redirect");
                 const redirectUrl = redirectParam && redirectParam.startsWith("/") ? redirectParam : "/account/profile";

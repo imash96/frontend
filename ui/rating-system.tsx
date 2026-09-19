@@ -40,3 +40,39 @@ export default function RatingSystem({
         </div>
     );
 }
+
+export function RatingSystemN({
+    averageRating,
+    reviewCount = 0,
+    size = "sm",
+    showCount = true,
+    className = "",
+}: RatingProps) {
+    const value = Math.min(5, Math.max(0, averageRating))
+    const px = sizeMap[size]
+    const label = `${value.toFixed(1)} out of 5 stars${reviewCount > 0 ? `, ${reviewCount.toLocaleString("en-US")} reviews` : ""}`
+
+    return (
+        <div role="img" aria-label={label} className={`flex items-center gap-0.5 ${className}`}>
+            {[0, 1, 2, 3, 4].map((index) => {
+                // Partial stars: 4.4 fills the fifth star 40%.
+                const fill = Math.min(1, Math.max(0, value - index))
+                return (
+                    <span key={index} aria-hidden="true" className="relative inline-flex shrink-0">
+                        <Star size={px} className="shrink-0 fill-rating-empty text-rating-empty" />
+                        {fill > 0 && (
+                            <span className="absolute inset-y-0 left-0 overflow-hidden" style={{ width: `${fill * 100}%` }}>
+                                <Star size={px} className="shrink-0 fill-rating-filled text-rating-filled" />
+                            </span>
+                        )}
+                    </span>
+                )
+            })}
+            {showCount && (
+                <span aria-hidden="true" className={`ml-1 tabular-nums text-muted-foreground ${textMap[size]}`}>
+                    ({reviewCount.toLocaleString("en-US")})
+                </span>
+            )}
+        </div>
+    )
+}

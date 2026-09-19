@@ -32,3 +32,41 @@ export default function ProductPrice({ fallback }: { fallback: ProductCalculated
         </div>
     )
 }
+
+export function ProductPriceN({ fallback }: { fallback: ProductCalculatedPrice }) {
+    const { cheapestPrice, variantPrice, selectedVariant } = useProductStore();
+    const price = selectedVariant ? variantPrice : cheapestPrice ?? fallback
+
+    if (!price) return <div className="h-9 w-36 animate-pulse rounded bg-muted" aria-label="Loading price" />
+
+    const isSale = price.price_type === "sale"
+
+
+    return (
+        <div className="mb-1 flex flex-col gap-1" aria-live="polite" aria-atomic="true">
+            <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 pb-1">
+                <span
+                    className={`font-heading text-2xl font-bold tabular-nums sm:text-3xl ${isSale ? "text-price-sale" : "text-price-current"
+                        }`}
+                >
+                    <span className="sr-only">{isSale ? "Sale price: " : "Price: "}</span>
+                    {price.calculated_price}
+                </span>
+                {isSale && (
+                    <>
+                        <s className="text-base tabular-nums text-price-original">
+                            <span className="sr-only">Original price: </span>
+                            {price.original_price}
+                        </s>
+                        {price.percentage_diff && (
+                            <span className="rounded bg-badge-sale px-2 py-0.5 text-xs font-bold text-badge-sale-foreground">
+                                {price.percentage_diff}% off
+                            </span>
+                        )}
+                    </>
+                )}
+            </div>
+            <p className="text-xs text-text-tertiary">Tax included. Shipping calculated at checkout.</p>
+        </div>
+    )
+}

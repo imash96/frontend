@@ -4,7 +4,7 @@ import type { StoreCart } from "@medusajs/types"
 import { Tag, X, Loader2 } from "lucide-react"
 import { AnimatePresence, motion } from "motion/react"
 import { useState, useTransition } from "react"
-import { applyCheckDiscount, removeCheckDiscount } from "@/lib/action/check"
+import { applyCheckDiscount, removeCheckDiscount } from "@/lib/action/checkout"
 
 export default function CheckDiscount({ cart }: { cart: StoreCart }) {
   const [isOpen, setIsOpen] = useState(false)

@@ -1,7 +1,13 @@
 "use client";
 
-import type { StoreCustomer } from "@medusajs/types";
-import { BookUser, Heart, Package, PencilRuler, UserRound } from "lucide-react";
+import {
+  BookUser,
+  Heart,
+  MessageSquare,
+  Package,
+  PencilRuler,
+  UserRound,
+} from "lucide-react";
 import type { Route } from "next";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -70,6 +76,13 @@ const navigationItems = [
     description: "Order history",
   },
   {
+    id: "reviews",
+    label: "Reviews",
+    icon: MessageSquare,
+    href: "/account/reviews",
+    description: "Your reviews",
+  },
+  {
     id: "wishlist",
     label: "Wishlist",
     icon: Heart,
@@ -84,7 +97,3 @@ const navigationItems = [
     description: "Custom sizing",
   },
 ];
-
-type DashNavProps = {
-  navigationItems: StoreCustomer;
-};

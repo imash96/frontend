@@ -208,8 +208,8 @@ export default function FilterDrawer({
                                         key={child.id}
                                         onClick={() => navigateToCategory(child.handle)}
                                         className={`flex w-full items-center justify-between px-3 py-2 rounded-lg text-sm transition ${active
-                                                ? "bg-muted text-text-primary"
-                                                : "text-text-secondary hover:bg-muted"
+                                            ? "bg-muted text-text-primary"
+                                            : "text-text-secondary hover:bg-muted"
                                             }`}
                                     >
                                         {child.name}
@@ -233,8 +233,8 @@ export default function FilterDrawer({
                                                 setLocalSizes(toggleItem(localSizes, size))
                                             }
                                             className={`px-3 py-1.5 text-xs rounded-md border transition ${active
-                                                    ? "bg-accent-subtle text-accent border-accent"
-                                                    : "border-border text-text-secondary hover:border-border-strong"
+                                                ? "bg-accent-subtle text-accent border-accent"
+                                                : "border-border text-text-secondary hover:border-border-strong"
                                                 }`}
                                         >
                                             {size}
@@ -260,8 +260,8 @@ export default function FilterDrawer({
                                     >
                                         <span
                                             className={`w-7 h-7 rounded-full border-2 ${active
-                                                    ? "border-accent ring-2 ring-accent-subtle"
-                                                    : "border-border"
+                                                ? "border-accent ring-2 ring-accent-subtle"
+                                                : "border-border"
                                                 }`}
                                             style={{ background: hex }}
                                         />

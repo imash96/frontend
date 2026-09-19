@@ -19,7 +19,7 @@ export default async function Page() {
   return (
     <>
       <HeroCarousel />
-      <IconGridSection items={uspData} className="bg-background-secondary" />
+      <IconGridSection items={uspData} />
       <Category />
       <NewArrival region_id={region.id} />
       <Collection />
@@ -29,7 +29,7 @@ export default async function Page() {
       <Testimonials />
       <OnSale region_id={region.id} />
       <Blog />
-      <IconGridSection items={podData} className="bg-background-tertiary" type="bottom" />
+      <IconGridSection items={podData} type="bottom" />
     </>
   );
 }

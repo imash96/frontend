@@ -119,11 +119,12 @@ const CartFooter = ({ subtotal, currency_code }: CartFooterProp) => (
 
         {/* CTA */}
         <Button
+            icon={<ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />}
+            iconPosition="right"
             href={'/cart'}
             className="w-full bg-button-primary text-button-primary-foreground py-3.5 rounded-lg font-semibold text-sm uppercase tracking-wider hover:bg-button-primary-hover transition-all duration-200 flex items-center justify-center gap-2 group shadow-primary active:scale-[0.98]"
         >
             <span>Complete Order</span>
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
         </Button>
 
         {/* Trust badges */}

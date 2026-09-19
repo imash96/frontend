@@ -1,6 +1,7 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect, useState } from "react";
+import { updatePassword } from "@/lib/action/customer";
 import Button from "@/ui/button";
 import Input from "@/ui/input";
 import type { FormState } from "@/types/common";
@@ -10,6 +11,16 @@ export default function ProfilePassword() {
     updatePassword,
     initialState,
   );
+  const [showFeedback, setShowFeedback] = useState(false);
+
+  useEffect(() => {
+    if (state.success || state.error) {
+      setShowFeedback(true);
+      const timer = setTimeout(() => setShowFeedback(false), 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [state]);
+
   return (
     <form className="md:col-span-2 space-y-4" action={formAction}>
       <Input
@@ -28,6 +39,7 @@ export default function ProfilePassword() {
         type="password"
         autoComplete="new-password"
         required
+        helperText="Minimum 8 characters"
       />
 
       <Input
@@ -42,33 +54,25 @@ export default function ProfilePassword() {
       <Button isLoading={isPending} className="mt-4">
         Update Password
       </Button>
-      {state.error && (
-        <p className="text-destructive text-sm mt-2" role="alert">
+      {showFeedback && state.error && (
+        <p
+          className="text-destructive text-sm mt-2 animate-fade-in-up"
+          role="alert"
+        >
           {state.error}
         </p>
       )}
-      {state.success && (
-        <p className="text-success text-sm mt-2" role="status">
-          Profile updated successfully!
+      {showFeedback && state.success && (
+        <p
+          className="text-success text-sm mt-2 animate-fade-in-up"
+          role="status"
+        >
+          Password updated successfully!
         </p>
       )}
     </form>
   );
 }
-
-const updatePassword = async () => {
-  alert("Password update is not implemented");
-
-  try {
-    // await updateCustomer(customerUpdate)
-    return { success: false, error: null };
-  } catch (error) {
-    return {
-      success: false,
-      error: error instanceof Error ? error.message : "Password update is not implemented",
-    };
-  }
-};
 
 const initialState: FormState = {
   success: false,
