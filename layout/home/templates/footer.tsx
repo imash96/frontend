@@ -56,12 +56,12 @@ export default async function FooterVariant4() {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-x-10 lg:gap-x-8">
                         {/* Brand & contact - spans 2 cols */}
                         <div className="lg:col-span-2 space-y-6 pb-10 lg:pb-0 border-b border-border md:border-none">
-                            <a href="/" className="inline-block">
+                            <Link href="/" className="inline-block">
                                 <LogoRect
                                     className="w-3/4 sm:w-11/12 fill-accent mx-auto"
                                     aria-label="Brand Logo"
                                 />
-                            </a>
+                            </Link>
 
                             <div className="space-y-3">
                                 {contactInfo.map((info, idx) => {
@@ -82,14 +82,14 @@ export default async function FooterVariant4() {
                             {/* Social */}
                             <div className="flex items-center gap-3 pt-2">
                                 {socialLinks.map((social) => (
-                                    <a
+                                    <Link
                                         key={social.name}
                                         href="#"
                                         className="w-10 h-10 rounded-xl bg-primary/60 flex items-center justify-center text-primary-foreground hover:text-primary-active hover:bg-primary transition-all duration-200"
                                         aria-label={social.name}
                                     >
                                         <social.icon className="w-4 h-4" />
-                                    </a>
+                                    </Link>
                                 ))}
                             </div>
                         </div>

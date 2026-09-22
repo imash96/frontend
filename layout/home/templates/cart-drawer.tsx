@@ -7,6 +7,7 @@ import { li as Li } from "motion/react-client"
 import Image from "next/image";
 import Link from "next/link";
 import Button from "@/ui/button";
+import { CompleteOrder, EmptyCart } from "../components/cart-buttons";
 
 export default async function CartDrawer() {
     const cart = await retrieveCart();
@@ -118,14 +119,7 @@ const CartFooter = ({ subtotal, currency_code }: CartFooterProp) => (
         </p>
 
         {/* CTA */}
-        <Button
-            icon={<ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />}
-            iconPosition="right"
-            href={'/cart'}
-            className="w-full bg-button-primary text-button-primary-foreground py-3.5 rounded-lg font-semibold text-sm uppercase tracking-wider hover:bg-button-primary-hover transition-all duration-200 flex items-center justify-center gap-2 group shadow-primary active:scale-[0.98]"
-        >
-            <span>Complete Order</span>
-        </Button>
+        <CompleteOrder />
 
         {/* Trust badges */}
         <div className="mt-3 flex items-center justify-center gap-4 text-[10px] text-foreground-tertiary">
@@ -147,32 +141,4 @@ const CartFooter = ({ subtotal, currency_code }: CartFooterProp) => (
 type CartFooterProp = {
     subtotal: number,
     currency_code: string,
-}
-
-function EmptyCart() {
-    return (
-        <div className="flex flex-col items-center justify-center h-full p-8 text-center">
-            <div className="space-y-6" >
-                <div className="relative w-32 h-32 mx-auto">
-                    <div className="absolute inset-0 rounded-3xl bg-linear-to-br from-accent/5 to-primary/5 rotate-6" />
-                    <div className="absolute inset-0 rounded-3xl bg-linear-to-br from-primary/5 to-accent/5 -rotate-3" />
-                    <div className="relative w-full h-full rounded-3xl bg-surface-elevated flex items-center justify-center">
-                        <Award className="w-12 h-12 text-accent/40" strokeWidth={1} />
-                    </div>
-                </div>
-                <div>
-                    <h3 className="font-serif text-2xl font-semibold text-foreground tracking-tight">
-                        Begin Your Journey
-                    </h3>
-                    <p className="text-sm text-foreground-tertiary mt-2 max-w-60 mx-auto leading-relaxed">
-                        Every great wardrobe starts with a single piece. Explore our genuine leather collection.
-                    </p>
-                </div>
-                <button className="bg-button-primary text-button-primary-foreground px-10 py-3.5 rounded-2xl text-sm font-serif font-semibold tracking-wide hover:bg-button-primary-hover transition-all flex items-center gap-2 mx-auto group">
-                    <span>Explore</span>
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </button>
-            </div>
-        </div>
-    );
 }

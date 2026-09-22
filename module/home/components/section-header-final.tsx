@@ -19,7 +19,7 @@ export function SectionHeaderClassic({
             <div className="mb-6 md:mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between sm:gap-5">
                 <div className="flex flex-col gap-2 max-w-xl">
                     {eyebrow && (
-                        <p className="inline-flex items-center gap-2.5 text-[10px] font-semibold tracking-[0.30em] uppercase text-accent">
+                        <p className="inline-flex items-center gap-2.5 text-[10px] font-semibold tracking-[0.30em] uppercase text-text-accent">
                             <span className="block h-px w-7 bg-accent" aria-hidden="true" />
                             {eyebrow}
                         </p>
@@ -60,7 +60,7 @@ export function SectionHeaderCentered({
             <div className="mb-10 md:mb-14 flex flex-col items-center text-center gap-4">
                 <div className="flex flex-col items-center gap-3 max-w-2xl">
                     {eyebrow && (
-                        <p className="inline-flex items-center gap-3 text-[10px] font-semibold tracking-[0.30em] uppercase text-accent">
+                        <p className="inline-flex items-center gap-3 text-[10px] font-semibold tracking-[0.30em] uppercase text-text-accent">
                             <span className="block h-px w-10 bg-linear-to-r from-transparent to-accent" aria-hidden="true" />
                             {eyebrow}
                             <span className="block h-px w-10 bg-linear-to-l from-transparent to-accent" aria-hidden="true" />

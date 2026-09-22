@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function PaymentPolicy() {
     return (
         <>
@@ -62,7 +64,7 @@ export default function PaymentPolicy() {
                         <li>We implement fraud detection tools to safeguard against unauthorized transactions.</li>
                     </ul>
                     <p className="text-sm tracking-wide font-light">
-                        For more on data protection, refer to our <a href="/policy/privacy-policy" className="text-templateBrown hover:underline">Privacy Policy</a>.
+                        For more on data protection, refer to our <Link href="/policy/privacy-policy" className="text-templateBrown hover:underline">Privacy Policy</Link>.
                     </p>
                 </div>
 
@@ -70,7 +72,7 @@ export default function PaymentPolicy() {
                 <div className="space-y-2">
                     <h2 className="text-xl uppercase text-templateBrown font-light">5. Billing and Charges</h2>
                     <p className="text-sm tracking-wide font-light">
-                        You will be charged the total amount displayed at checkout, including product price, shipping (as per our <a href="/policy/shipping-policy" className="text-templateBrown hover:underline">Shipping Policy</a>), and applicable taxes. No hidden fees will be added post-checkout.
+                        You will be charged the total amount displayed at checkout, including product price, shipping (as per our <Link href="/policy/shipping-policy" className="text-templateBrown hover:underline">Shipping Policy</Link>), and applicable taxes. No hidden fees will be added post-checkout.
                     </p>
                     <p className="text-sm tracking-wide font-light">
                         For recurring or subscription services (if applicable), charges will be automatic based on your selected plan.
@@ -89,7 +91,7 @@ export default function PaymentPolicy() {
                 <div className="space-y-2">
                     <h2 className="text-xl uppercase text-templateBrown font-light">7. Refunds and Cancellations</h2>
                     <p className="text-sm tracking-wide font-light">
-                        Refunds are processed as per our <a href="/policy/return-and-refund-policy" className="text-templateBrown hover:underline">Return & Refund Policy</a>. Approved refunds are issued to the original payment method within 2 business days, though bank processing may take 5–10 days. For international refunds, currency conversion applies.
+                        Refunds are processed as per our <Link href="/policy/return-and-refund-policy" className="text-templateBrown hover:underline">Return & Refund Policy</Link>. Approved refunds are issued to the original payment method within 2 business days, though bank processing may take 5–10 days. For international refunds, currency conversion applies.
                     </p>
                     <p className="text-sm tracking-wide font-light">
                         Orders can be canceled before shipment for a full refund; post-shipment cancellations follow the return policy.
@@ -108,7 +110,7 @@ export default function PaymentPolicy() {
                 <div className="space-y-2">
                     <h2 className="text-xl uppercase text-templateBrown font-light">9. Contact Us</h2>
                     <p className="text-sm tracking-wide font-light">
-                        For payment-related inquiries, contact us at <a href="mailto:support@vellehide.com" className="text-templateBrown hover:underline">support@vellehide.com</a>. We're committed to resolving issues promptly.
+                        For payment-related inquiries, contact us at <Link href="mailto:support@vellehide.com" className="text-templateBrown hover:underline">support@vellehide.com</Link>. We're committed to resolving issues promptly.
                     </p>
                 </div>
             </section>

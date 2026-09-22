@@ -14,7 +14,7 @@ const nextConfig: NextConfig = {
     },
   },
   images: {
-    formats: ["image/webp"],
+    formats: ["image/avif", "image/webp"],
     qualities: [50, 60, 70, 75, 78, 80, 100],
     minimumCacheTTL: 60 * 60 * 24 * 30,
     remotePatterns: [
@@ -27,6 +27,9 @@ const nextConfig: NextConfig = {
         hostname: "*",
       },
     ]
+  },
+  experimental: {
+    useLightningcss: true, // Speeds up Webpack CSS minification
   },
 };
 

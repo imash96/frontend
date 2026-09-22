@@ -1,7 +1,7 @@
 import { memo } from "react"
 import Link from "next/link"
 import { getProductPrice } from "@/lib/util/get-product-price"
-import ProductThumbnail from "@/module/products/components/product-thumbnail"
+import { ProductThumbnailN as ProductThumbnail } from "@/module/products/components/product-thumbnail"
 import { StoreProduct } from "@medusajs/types"
 import { Heart, ShoppingBag } from "lucide-react"
 import RatingSystem from "./rating-system"
@@ -13,13 +13,14 @@ function ProductCard({ product }: { product: StoreProduct }) {
     return (
         // FIX 3: entire card is a Link so the whole surface is clickable
         <article className="group relative w-full">
-            <Link href={`/products/${product.handle}`} className="block" tabIndex={-1} aria-hidden>
+            <Link href={`/products/${product.handle}`} className="block" tabIndex={-1}>
                 {/* ── Image ─────────────────────────────────────────────── */}
                 {/* FIX 4: aspect-[3/4] reserves space → eliminates CLS */}
                 <div className="relative aspect-3/4 overflow-hidden border border-border bg-white">
                     <ProductThumbnail
                         src={product.images}
                         alt={product.title}
+                        sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
                     />
 
                     {/* FIX 1+2: Sale badge - top-left, only when actually on sale */}
@@ -49,7 +50,7 @@ function ProductCard({ product }: { product: StoreProduct }) {
                         aria-hidden="true"
                         className="hidden sm:flex absolute bottom-0 inset-x-0 z-10 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out"
                     >
-                        <span className="w-full flex items-center justify-center gap-2 bg-foreground/90 backdrop-blur-sm text-background text-[11px] font-medium tracking-wider uppercase py-3.5 cursor-pointer hover:bg-foreground transition-colors">
+                        <span className="w-full flex items-center justify-center gap-2 bg-foreground backdrop-blur-sm text-background text-[11px] font-medium tracking-wider uppercase py-3.5 cursor-pointer hover:bg-foreground/90 transition-colors">
                             <ShoppingBag className="size-3.5" />
                             Quick Add
                         </span>
@@ -60,7 +61,7 @@ function ProductCard({ product }: { product: StoreProduct }) {
             {/* ── Body ─────────────────────────────────────────────────── */}
             <div className="pt-3 pb-1 space-y-1.5">
                 {product.categories?.[0] && (
-                    <span className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground">
+                    <span className="text-[10px] font-medium uppercase tracking-widest text-text-secondary">
                         {product.categories[0].name}
                     </span>
                 )}
@@ -80,8 +81,8 @@ function ProductCard({ product }: { product: StoreProduct }) {
                             <span className="text-sm font-semibold text-price-sale tabular-nums">
                                 {price?.calculated_price}
                             </span>
-                            {/* FIX 5: text-price-original - correct semantic token */}
-                            <span className="text-xs font-normal text-price-original line-through tabular-nums">
+                            {/* FIX 5: text-muted-foreground - better contrast for small text than original price color */}
+                            <span className="text-xs font-normal text-muted-foreground line-through tabular-nums">
                                 {price?.original_price}
                             </span>
                         </>

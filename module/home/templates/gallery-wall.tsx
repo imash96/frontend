@@ -23,7 +23,7 @@ export default function GalleryWall() {
                     <div className="space-y-2.5">
                         <div className="flex items-center gap-3">
                             <span className="block h-px w-8 bg-accent" aria-hidden="true" />
-                            <p className="text-[10px] font-semibold tracking-[0.32em] uppercase text-accent">
+                            <p className="text-[10px] font-semibold tracking-[0.32em] uppercase text-text-accent">
                                 The Edit
                             </p>
                         </div>
@@ -56,7 +56,7 @@ export default function GalleryWall() {
                 {/* Subtext */}
                 <p className="mt-4 text-sm text-text-tertiary font-body">
                     Unfiltered. Unedited. Community-submitted.{" "}
-                    <span className="font-medium text-accent">
+                    <span className="font-medium text-text-accent">
                         Tag @vellehide to be featured.
                     </span>
                 </p>

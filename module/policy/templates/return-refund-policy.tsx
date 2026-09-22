@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function ReturnRefundPolicy() {
     return (
         <>
@@ -31,7 +33,7 @@ export default function ReturnRefundPolicy() {
                         To initiate a return:
                     </p>
                     <ol className="list-inside list-decimal space-y-2 text-sm tracking-wide font-light">
-                        <li>Go to your order on our website or contact our support team at <a href="mailto:support@vellehide.com" className="hover:underline">support@vellehide.com</a> with your order number and reason for return.</li>
+                        <li>Go to your order on our website or contact our support team at <Link href="mailto:support@vellehide.com" className="hover:underline">support@vellehide.com</Link> with your order number and reason for return.</li>
                         <li>Download and print the free return label.</li>
                         <li>Pack your item securely, attach the label, and send it back by mail to the provided return shipping address.</li>
                     </ol>
@@ -76,7 +78,7 @@ export default function ReturnRefundPolicy() {
                     <ul className="list-inside list-disc space-y-2 text-sm tracking-wide font-light">
                         <li>Double-check your bank account or credit card statement.</li>
                         <li>Contact your payment provider; it may take additional time to post the refund.</li>
-                        <li>If you still have not received your refund after 10 business days, contact us at <a href="mailto:support@vellehide.com" className="hover:underline">support@vellehide.com</a>.</li>
+                        <li>If you still have not received your refund after 10 business days, contact us at <Link href="mailto:support@vellehide.com" className="hover:underline">support@vellehide.com</Link>.</li>
                     </ul>
                 </div>
 
@@ -127,7 +129,7 @@ export default function ReturnRefundPolicy() {
                 <div className="space-y-2">
                     <h2 className="text-xl uppercase">Questions?</h2>
                     <p className="text-sm tracking-wide font-light">
-                        We’re here to help. Email us at <a href="mailto:support@vellehide.com" className="hover:underline">support@vellehide.com</a> and we’ll get back to you quickly.
+                        We’re here to help. Email us at <Link href="mailto:support@vellehide.com" className="hover:underline">support@vellehide.com</Link> and we’ll get back to you quickly.
                     </p>
                 </div>
             </section>

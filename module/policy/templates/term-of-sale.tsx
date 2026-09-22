@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function TermsOfSale() {
     return (
         <>
@@ -22,7 +24,7 @@ export default function TermsOfSale() {
                 <div className="space-y-2">
                     <h2 className="text-xl uppercase">2. User Accounts</h2>
                     <p className="text-sm tracking-wide font-light">
-                        To place orders or access certain features, you may need to create an account. You are responsible for maintaining the confidentiality of your account credentials and for all activities under your account. Notify us immediately of any unauthorized use at <a href="mailto:support@vellehide.com" className="hover:underline">support@vellehide.com</a>. We reserve the right to terminate accounts for violations of these Terms.
+                        To place orders or access certain features, you may need to create an account. You are responsible for maintaining the confidentiality of your account credentials and for all activities under your account. Notify us immediately of any unauthorized use at <Link href="mailto:support@vellehide.com" className="hover:underline">support@vellehide.com</Link>. We reserve the right to terminate accounts for violations of these Terms.
                     </p>
                 </div>
 
@@ -46,7 +48,7 @@ export default function TermsOfSale() {
                 <div className="space-y-2">
                     <h2 className="text-xl uppercase">5. Shipping and Delivery</h2>
                     <p className="text-sm tracking-wide font-light">
-                        Shipping is handled as per our <a href="/policy/shipping-policy" className="hover:underline">Shipping Policy</a>. For international orders, delivery times may vary due to customs processing. You bear the risk of loss once the order is shipped. We are not liable for delays caused by carriers, customs, or force majeure events.
+                        Shipping is handled as per our <Link href="/policy/shipping-policy" className="hover:underline">Shipping Policy</Link>. For international orders, delivery times may vary due to customs processing. You bear the risk of loss once the order is shipped. We are not liable for delays caused by carriers, customs, or force majeure events.
                     </p>
                 </div>
 
@@ -54,7 +56,7 @@ export default function TermsOfSale() {
                 <div className="space-y-2">
                     <h2 className="text-xl uppercase">6. Returns, Exchanges, and Refunds</h2>
                     <p className="text-sm tracking-wide font-light">
-                        Returns and refunds are governed by our <a href="/policy/return-and-refund-policy" className="hover:underline">Return & Refund Policy</a>. For cross-border returns, you are responsible for return shipping and any associated duties or fees.
+                        Returns and refunds are governed by our <Link href="/policy/return-and-refund-policy" className="hover:underline">Return & Refund Policy</Link>. For cross-border returns, you are responsible for return shipping and any associated duties or fees.
                     </p>
                 </div>
 
@@ -94,7 +96,7 @@ export default function TermsOfSale() {
                 <div className="space-y-2">
                     <h2 className="text-xl uppercase">11. Privacy Policy</h2>
                     <p className="text-sm tracking-wide font-light">
-                        Your use of the Site is also subject to our <a href="/policy/privacy-policy" className="hover:underline">Privacy Policy</a>, which explains how we collect, use, and protect your personal information.
+                        Your use of the Site is also subject to our <Link href="/policy/privacy-policy" className="hover:underline">Privacy Policy</Link>, which explains how we collect, use, and protect your personal information.
                     </p>
                 </div>
 
@@ -134,7 +136,7 @@ export default function TermsOfSale() {
                 <div className="space-y-2">
                     <h2 className="text-xl uppercase">16. Contact Us</h2>
                     <p className="text-sm tracking-wide font-light">
-                        For questions or concerns, contact us at <a href="mailto:support@vellehide.com" className="hover:underline">support@vellehide.com</a>.
+                        For questions or concerns, contact us at <Link href="mailto:support@vellehide.com" className="hover:underline">support@vellehide.com</Link>.
                     </p>
                 </div>
             </section>

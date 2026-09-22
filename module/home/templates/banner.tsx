@@ -42,22 +42,20 @@ export default function HeroCarousel() {
             <div className="absolute bottom-0 inset-x-0 z-30">
                 <div className="flex items-center justify-between px-4 py-4 sm:px-6 sm:py-5 md:px-10 lg:px-14">
                     {/* Dot indicators */}
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-0">
                         {heroSlides.map((_, i) => (
                             <button
                                 key={i}
                                 type="button"
                                 onClick={() => scrollTo(i)}
                                 aria-label={`Go to slide ${i + 1}`}
-                                className="group relative h-2 transition-all duration-500 ease-out focus-visible:outline-2 focus-visible:outline-ring"
-                                style={{ width: selectedIndex === i ? '2rem' : '0.5rem' }}
+                                className="group flex items-center justify-center p-2 focus-visible:outline-none"
                             >
                                 <span
-                                    className="absolute inset-0 rounded-full transition-all duration-500"
+                                    className="block h-2 rounded-full transition-all duration-500 ring-offset-neutral-950 group-focus-visible:ring-2 group-focus-visible:ring-white group-focus-visible:ring-offset-2"
                                     style={{
-                                        backgroundColor: selectedIndex === i
-                                            ? heroSlides[selectedIndex]?.accentColor ?? '#fff'
-                                            : 'rgba(255,255,255,0.35)',
+                                        width: selectedIndex === i ? '2rem' : '0.5rem',
+                                        backgroundColor: selectedIndex === i ? heroSlides[selectedIndex]?.accentColor ?? '#fff' : 'rgba(255,255,255,0.35)',
                                     }}
                                 />
                             </button>
@@ -206,7 +204,7 @@ function HeroSlideCard({ slide, isActive, index }: HeroSlideCardProps) {
 
             {/* Decorative accent line */}
             <div
-                className="absolute bottom-0 left-0 h-[3px] transition-all duration-1000 ease-out"
+                className="absolute bottom-0 left-0 h-0.75 transition-all duration-1000 ease-out"
                 style={{
                     width: isActive ? '100%' : '0%',
                     background: `linear-gradient(90deg, ${slide.accentColor}, ${slide.accentColor}80, transparent)`,

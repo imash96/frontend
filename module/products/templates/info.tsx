@@ -4,6 +4,7 @@ import RatingSystem from "@/ui/rating-system"
 import ProductPrice from "../components/price"
 import { TrustBadges } from "../components/trust-badge"
 import { ProductCalculatedPrice } from "@/lib/util/get-product-price"
+import Link from "next/link"
 
 export default function ProductInfo({ product, initialPrice, }: {
     product: StoreProduct
@@ -41,9 +42,9 @@ export default function ProductInfo({ product, initialPrice, }: {
                 )}
             </div>
             <div className="flex flex-wrap items-center gap-3">
-                <a href="#reviews" className="transition-opacity hover:opacity-80">
+                <Link href="#reviews" className="transition-opacity hover:opacity-80">
                     <RatingSystem averageRating={4.8} reviewCount={247} size="md" />
-                </a>
+                </Link>
                 {hasMidCode && (
                     <>
                         <span className="h-4 w-px bg-divider" aria-hidden />

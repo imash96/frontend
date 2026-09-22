@@ -386,12 +386,10 @@ function HeroPanelImageV1({
                         </h3>
                         {description && (
                             <p className="text-xs line-clamp-2 leading-relaxed mb-3 text-white/80">
-                                {description.length > 80
-                                    ? `${description.slice(0, 80)}…`
-                                    : description}
+                                {description.length > 80 ? `${description.slice(0, 80)}…` : description}
                             </p>
                         )}
-                        <a
+                        <Link
                             href={href}
                             onClick={(e) => {
                                 e.preventDefault();
@@ -404,7 +402,7 @@ function HeroPanelImageV1({
                                 className="w-3 h-3 group-hover:translate-x-0.5 transition-transform"
                                 aria-hidden="true"
                             />
-                        </a>
+                        </Link>
                     </motion.div>
                 </AnimatePresence>
             </div>

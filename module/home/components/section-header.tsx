@@ -33,7 +33,7 @@ export default function SectionHeader({
             <div className={`flex flex-col gap-4 ${isCenter ? "items-center text-center" : "sm:flex-row sm:items-end sm:justify-between gap-5"} mb-7 md:mb-9`}>
                 <div className={`flex flex-col gap-2 ${isCenter ? "max-w-2xl" : "max-w-xl"}`}>
                     {eyebrow && (
-                        <p className={`inline-flex items-center gap-2.5 text-[10px] font-semibold tracking-[0.30em] uppercase text-accent ${isCenter ? "mx-auto" : ""}`}>
+                        <p className={`inline-flex items-center gap-2.5 text-[10px] font-semibold tracking-[0.30em] uppercase text-text-accent ${isCenter ? "mx-auto" : ""}`}>
                             <span className="block h-px w-7 bg-accent" aria-hidden="true" />
                             {eyebrow}
                             {isCenter && <span className="block h-px w-7 bg-accent" aria-hidden="true" />}

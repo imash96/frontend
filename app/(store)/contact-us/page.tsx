@@ -7,6 +7,7 @@ import Textarea from "@/ui/custom/custom-textarea";
 import Container from "@/ui/container";
 import Instagram from "@/icon/icon-instagram";
 import Facebook from "@/icon/icon-facebok";
+import Link from "next/link";
 
 export default function Page() {
   return (
@@ -31,20 +32,20 @@ export default function Page() {
             <p className="text-sm tracking-wide text-foreground-muted">
               We invite you to get in touch with us.{" "}
             </p>
-            <a
+            <Link
               className="flex items-center gap-2 text-sm tracking-wide text-foreground-muted "
               href="mailto:contact@vellehide.com"
             >
               <Mail size={15} className="mb-px" strokeWidth={1.5} />
               contact@vellehide.com
-            </a>
-            {/* <a
+            </Link>
+            {/* <Link
                             className="flex items-center gap-2 text-sm tracking-wide text-foreground-muted "
                             href=""
                         >
                             <Phone size={15} className="mb-[1px]" strokeWidth={1.5} />
                             +91 72088 20111
-                        </a> */}
+                        </Link> */}
           </div>
           <div className="space-y-[2vw] lg:space-y-[0.8vw]">
             <h3 className="text-[5.5vw] md:text-[4vw] text-left lg:text-[1.5vw] leading-[1.1]">
@@ -53,7 +54,7 @@ export default function Page() {
             <p className="text-sm tracking-wide text-foreground-muted">
               We invite you to get in touch with us on social media.{" "}
             </p>
-            <a
+            <Link
               className="flex items-center gap-2 text-sm tracking-wide text-foreground-muted "
               href="https://instagram.com/vellehide"
               target="_blank"
@@ -61,8 +62,8 @@ export default function Page() {
             >
               <Instagram className="size-5" />
               Instagram
-            </a>
-            <a
+            </Link>
+            <Link
               className="flex items-center gap-2 text-sm tracking-wide text-foreground-muted "
               href="https://facebook.com/vellehide"
               target="_blank"
@@ -70,7 +71,7 @@ export default function Page() {
             >
               <Facebook className="size-5" />
               Facebook
-            </a>
+            </Link>
           </div>
           <div className="space-y-[2vw] lg:space-y-[0.8vw]">
             <h3 className="text-[5.5vw] md:text-[4vw] text-left lg:text-[1.5vw] leading-[1.1]">

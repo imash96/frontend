@@ -51,6 +51,7 @@ export default function ReviewCard({ review }: { review: CustomerReview }) {
             )}
             {/* Stars */}
             <div
+              role="img"
               className="flex items-center gap-0.5 mt-1"
               aria-label={`${rating} out of 5 stars`}
             >

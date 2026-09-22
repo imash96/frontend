@@ -4,6 +4,7 @@ import { convertToLocale } from "@/lib/util/money"
 import OrderLineitem from "@/module/order/components/order-lineitem"
 import Container from "@/ui/container"
 import { CheckCircle, MapPin, Package, Truck } from "lucide-react"
+import Link from "next/link"
 import { notFound } from "next/navigation"
 import Script from "next/script"
 
@@ -161,9 +162,9 @@ export default async function Page(props: PageProps<"/order/[id]">) {
                 <p className="text-lg font-medium text-foreground mb-1">Thank you for shopping with us!</p>
                 <p className="text-sm text-foreground-muted">
                     Need help? Contact us at{' '}
-                    <a href="mailto:support@vellehide.com" className="text-link hover:underline font-medium">
+                    <Link href="mailto:support@vellehide.com" className="text-link hover:underline font-medium">
                         support@vellehide.com
-                    </a>
+                    </Link>
                 </p>
             </div>
             {process.env.NEXT_PUBLIC_TRUST_PILOT_ID &&

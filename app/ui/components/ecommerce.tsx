@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { SectionHeader } from "./common";
 import { ShoppingCart, Search, User, Grid, List, MapPin, Phone, Mail, Plus, Minus, Trash2, Star, Heart, Eye } from 'lucide-react';
+import Link from "next/link";
 
 
 export default function EcommerceTab() {
@@ -72,13 +73,13 @@ export default function EcommerceTab() {
                             <h2 className="text-lg sm:text-xl font-bold text-text-primary">Velle Hide</h2>
                             <nav className="hidden md:flex items-center gap-4 lg:gap-6">
                                 {['New Arrivals', 'Jackets', 'Coats', 'Blazers', 'Sale'].map((item) => (
-                                    <a
+                                    <Link
                                         key={item}
                                         href="#"
                                         className="text-text-secondary hover:text-text-primary transition-colors font-medium text-sm"
                                     >
                                         {item}
-                                    </a>
+                                    </Link>
                                 ))}
                             </nav>
                         </div>

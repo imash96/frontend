@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function ShippingPolicy() {
     return (
         <>
@@ -14,7 +16,7 @@ export default function ShippingPolicy() {
                 <div className="space-y-2">
                     <h2 className="text-xl uppercase">1. Shipping Locations</h2>
                     <p className="text-sm tracking-wide font-light">
-                        We ship to all locations across India, including metro cities, urban areas, and remote regions (subject to pin code coverage). For international shipping to select countries, additional customs duties, taxes, and fees may apply. Please contact us at <a href="mailto:support@vellehide.com" className="hover:underline">support@vellehide.com</a> for availability and quotes.
+                        We ship to all locations across India, including metro cities, urban areas, and remote regions (subject to pin code coverage). For international shipping to select countries, additional customs duties, taxes, and fees may apply. Please contact us at <Link href="mailto:support@vellehide.com" className="hover:underline">support@vellehide.com</Link> for availability and quotes.
                     </p>
                 </div>
 
@@ -117,7 +119,7 @@ export default function ShippingPolicy() {
                 <div className="space-y-2">
                     <h2 className="text-xl uppercase">8. Damaged, Lost, or Delayed Items</h2>
                     <p className="text-sm tracking-wide font-light">
-                        Report any damaged or lost items within 48 hours of delivery attempt via <a href="mailto:support@vellehide.com" className="hover:underline">support@vellehide.com</a> with photos and order details. We offer shipping insurance for high-value items and will investigate claims promptly, providing replacements or refunds as per our return policy. Delays beyond our control (e.g., natural disasters) are not eligible for compensation.
+                        Report any damaged or lost items within 48 hours of delivery attempt via <Link href="mailto:support@vellehide.com" className="hover:underline">support@vellehide.com</Link> with photos and order details. We offer shipping insurance for high-value items and will investigate claims promptly, providing replacements or refunds as per our return policy. Delays beyond our control (e.g., natural disasters) are not eligible for compensation.
                     </p>
                 </div>
 
@@ -141,7 +143,7 @@ export default function ShippingPolicy() {
                 <div className="space-y-2">
                     <h2 className="text-xl uppercase">11. Contact Us</h2>
                     <p className="text-sm tracking-wide font-light">
-                        For any shipping-related questions, reach out to us at <a href="mailto:support@vellehide.com" className="hover:underline">support@vellehide.com</a>. We're here to assist!
+                        For any shipping-related questions, reach out to us at <Link href="mailto:support@vellehide.com" className="hover:underline">support@vellehide.com</Link>. We're here to assist!
                     </p>
                 </div>
             </section>

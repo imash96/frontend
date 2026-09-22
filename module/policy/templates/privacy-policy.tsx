@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function PrivacyPolicy() {
     return (
         <>
@@ -92,7 +94,7 @@ export default function PrivacyPolicy() {
                         <li>Nominate a representative for data handling in case of incapacity.</li>
                     </ul>
                     <p className="text-sm tracking-wide font-light">
-                        To exercise these rights, email us at <a href="mailto:support@vellehide.com" className="hover:underline">support@vellehide.com</a>. We will respond within the timelines prescribed by law.
+                        To exercise these rights, email us at <Link href="mailto:support@vellehide.com" className="hover:underline">support@vellehide.com</Link>. We will respond within the timelines prescribed by law.
                     </p>
                 </div>
 
@@ -140,7 +142,7 @@ export default function PrivacyPolicy() {
                 <div className="space-y-2">
                     <h2 className="text-xl uppercase">10. Grievance Officer</h2>
                     <p className="text-sm tracking-wide font-light">
-                        As required under the Information Technology Rules, we have appointed a Grievance Officer to address any concerns regarding data handling. Contact: [Name], Email: <a href="mailto:support@vellehide.com" className="hover:underline">support@vellehide.com</a>. Grievances will be resolved within one month.
+                        As required under the Information Technology Rules, we have appointed a Grievance Officer to address any concerns regarding data handling. Contact: [Name], Email: <Link href="mailto:support@vellehide.com" className="hover:underline">support@vellehide.com</Link>. Grievances will be resolved within one month.
                     </p>
                 </div>
 
@@ -159,7 +161,7 @@ export default function PrivacyPolicy() {
                         For questions, concerns, or to exercise your rights, contact us at:
                     </p>
                     <p className="text-sm tracking-wide font-light">
-                        📧 <a href="mailto:support@vellehide.com" className="hover:underline">support@vellehide.com</a>
+                        📧 <Link href="mailto:support@vellehide.com" className="hover:underline">support@vellehide.com</Link>
                     </p>
                 </div>
             </section>

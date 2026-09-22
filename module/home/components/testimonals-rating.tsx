@@ -15,6 +15,7 @@ export default function Rating({
 
     return (
         <div
+            role="img"
             className={`flex items-center gap-0.5 ${className}`}
             aria-label={`${rating} out of 5 stars`}
         >
