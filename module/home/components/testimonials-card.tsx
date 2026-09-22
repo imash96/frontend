@@ -60,12 +60,6 @@ const TestimonialCard = memo(function TestimonialCard({ testimonial: t, }: { tes
                     )}
                 </div>
             </div>
-
-            {t.product && (
-                <p className="mt-2.5 text-[10px] font-medium text-accent truncate">
-                    Purchased: {t.product}
-                </p>
-            )}
         </article>
     );
 });

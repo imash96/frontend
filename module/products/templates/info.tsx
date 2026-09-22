@@ -53,7 +53,7 @@ export default function ProductInfo({ product, initialPrice, }: {
                     </>
                 )}
             </div>
-            {tags && tags.length > 0 && (
+            {/* {tags && tags.length > 0 && (
                 <div className="flex flex-wrap gap-1.5">
                     {tags.map((tag) => (
                         <span
@@ -64,7 +64,7 @@ export default function ProductInfo({ product, initialPrice, }: {
                         </span>
                     ))}
                 </div>
-            )}
+            )} */}
             <ProductPrice fallback={initialPrice} />
             <div className="h-px bg-divider" />
             <TrustBadges />

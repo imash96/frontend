@@ -196,7 +196,7 @@ function SuccessState() {
 
             <div className="mt-8">
                 <Link
-                    href="/login"
+                    href="/auth"
                     className="group inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#4f3424] px-6 text-sm font-semibold text-white shadow-lg shadow-[#4f3424]/15 transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#3e291e] hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-[#4f3424]/30 focus:ring-offset-2 active:translate-y-0"
                 >
                     Go to login
@@ -266,7 +266,7 @@ function ErrorState() {
 
             <div className="mt-8">
                 <Link
-                    href="/login"
+                    href="/auth"
                     className="group inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl border border-[#4f3424]/15 bg-white px-6 text-sm font-semibold text-[#4f3424] shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-[#4f3424]/25 hover:bg-[#faf8f6] hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[#4f3424]/20 focus:ring-offset-2 active:translate-y-0"
                 >
                     Return to login

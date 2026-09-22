@@ -3,26 +3,11 @@
 import { sdk } from "@/lib/sdk"
 import medusaError from "@/lib/util/medusa-error"
 import { HttpTypes } from "@medusajs/types"
-import { FetchError } from "@medusajs/js-sdk"
+import { AuthRedirectResponse, FetchError } from "@medusajs/js-sdk"
 import { redirect } from "next/navigation"
-import {
-    getAuthHeaders,
-    getCacheOptions,
-    getCartId,
-    getPendingCustomer,
-    removeAuthToken,
-    removeCartId,
-    removePendingCustomer,
-    setAuthToken,
-    setPendingCustomer,
-    updateCacheTags,
-} from "./cookies"
+import { getAuthHeaders, getCacheOptions, getCartId, getPendingCustomer, removeAuthToken, removeCartId, removePendingCustomer, setAuthToken, setPendingCustomer, updateCacheTags, } from "./cookies"
 
-export type CustomerAuthState =
-    | { state: "error"; error: string }
-    | { state: "verification_required"; email: string }
-    | { state: "success" }
-    | null
+export type CustomerAuthState = { state: "error"; error: string } | { state: "verification_required"; email: string } | { state: "success" } | null
 
 // Requests a verification email for the given customer. The request must be
 // authenticated with a token tied to the auth identity (the token returned by
@@ -128,8 +113,6 @@ export async function login(
 ): Promise<CustomerAuthState> {
     "use server"
 
-    console.log("login")
-
     const email = formData.get("email") as string
     const password = formData.get("password") as string
 
@@ -150,8 +133,7 @@ async function completeLogin(
     } catch (error) {
         return { state: "error", error: String(error) }
     }
-    console.log("result")
-    console.log(result)
+
 
     // A `location` is returned by third-party auth providers, which this flow
     // doesn't support.
@@ -174,7 +156,7 @@ async function completeLogin(
         } catch {
             // Ignore: the customer can resend from the verification page.
         }
-        return { state: "verification_required", email }
+        redirect(`/auth/check-email?email=${encodeURIComponent(email)}`)
     }
 
     if (typeof result !== "string") {
@@ -197,7 +179,7 @@ async function completeLogin(
 
     if (!customerExists) {
         const pending = await getPendingCustomer()
-
+        console.log(`pending: ${pending}`)
         try {
             await sdk.store.customer.create(
                 {
@@ -460,4 +442,212 @@ export async function updatePassword(
     }
 
     return { success: true, error: null }
+}
+
+// ── Password Reset ──────────────────────────────────────────────────────
+
+export async function requestPasswordReset(
+    _currentState: unknown,
+    formData: FormData
+): Promise<{ success: boolean; error: string | null }> {
+    "use server"
+
+    const email = formData.get("email") as string
+
+    if (!email) {
+        return { success: false, error: "Email address is required." }
+    }
+
+    try {
+        await sdk.client.fetch(`/auth/customer/emailpass/reset-password`, {
+            method: "POST",
+            body: { identifier: email },
+        })
+    } catch {
+        // Always show success to prevent email enumeration attacks
+    }
+
+    return { success: true, error: null }
+}
+
+export async function resetPasswordWithToken(
+    _currentState: unknown,
+    formData: FormData
+): Promise<{ success: boolean; error: string | null }> {
+    "use server"
+
+    const token = formData.get("token") as string
+    const password = formData.get("password") as string
+    const confirmPassword = formData.get("confirm_password") as string
+
+    if (!token) {
+        return { success: false, error: "Reset token is missing or invalid." }
+    }
+
+    if (!password || !confirmPassword) {
+        return { success: false, error: "Both password fields are required." }
+    }
+
+    if (password !== confirmPassword) {
+        return { success: false, error: "Passwords do not match." }
+    }
+
+    if (password.length < 8) {
+        return { success: false, error: "Password must be at least 8 characters." }
+    }
+
+    try {
+        await sdk.client.fetch(`/auth/customer/emailpass/update`, {
+            method: "POST",
+            body: { password },
+            headers: { authorization: `Bearer ${token}` },
+        })
+    } catch {
+        return {
+            success: false,
+            error: "This reset link is invalid or has expired. Please request a new one.",
+        }
+    }
+
+    return { success: true, error: null }
+}
+
+// ── Google OAuth ────────────────────────────────────────────────────────
+
+export async function googleLogin() {
+    const result = await sdk.auth.login("customer", "google", {}) as AuthRedirectResponse
+
+    if (typeof result === "object" && result.location) {
+
+        redirect(result.location)
+    }
+
+    if (typeof result !== "string") {
+        // result failed, show an error
+        alert("Authentication failed")
+        return
+    }
+
+}
+
+export async function appleLogin() {
+    "use server"
+
+    const backendUrl = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || "http://localhost:9000"
+
+    redirect(`${backendUrl}/auth/customer/apple`)
+}
+
+export async function completeOAuthCallback(
+    provider: string,
+    code: string,
+    params?: string | null
+): Promise<{ success: boolean; error?: string }> {
+    "use server"
+
+    if (!code) {
+        return { success: false, error: "Authentication code is missing." }
+    }
+
+    let token: string | undefined
+
+    try {
+        const query: Record<string, string> = { code }
+        if (params) query.state = params
+
+        const result = await sdk.auth.callback("customer", provider, query)
+        console.log(`callback result: ${result}`)
+        if (typeof result === "string") {
+            token = result
+        } else if (typeof result === "object" && "token" in result) {
+            token = result.token as string
+        } else {
+            return { success: false, error: "Unexpected response from authentication provider." }
+        }
+    } catch (error) {
+        console.error("OAuth callback error:", error)
+        return { success: false, error: "Failed to authenticate with provider." }
+    }
+
+    if (!token) {
+        return { success: false, error: "Failed to retrieve authentication token." }
+    }
+
+    // Decode the JWT payload to extract user_metadata (email, name, etc.)
+    // The token from the callback has actor_id="" because no customer record
+    // is linked yet — we need the user_metadata to create one.
+    let userMetadata: {
+        email?: string
+        name?: string
+        given_name?: string
+        family_name?: string
+    } = {}
+    try {
+        const payloadBase64 = token.split(".")[1]
+        const payloadJson = Buffer.from(payloadBase64, "base64").toString("utf-8")
+        const payload = JSON.parse(payloadJson)
+        userMetadata = payload.user_metadata || {}
+    } catch {
+        // If decoding fails, we'll try to create without metadata
+    }
+
+    // Check if a customer record is already linked to this auth identity
+    const customerExists = await sdk.store.customer
+        .retrieve({}, { authorization: `Bearer ${token}` })
+        .then(() => true)
+        .catch(() => false)
+
+    if (!customerExists) {
+        if (!userMetadata.email) {
+            return {
+                success: false,
+                error: "Could not retrieve email from authentication provider.",
+            }
+        }
+
+        try {
+            await sdk.store.customer.create(
+                {
+                    email: userMetadata.email,
+                    first_name: userMetadata.given_name || userMetadata.name,
+                    last_name: userMetadata.family_name,
+                },
+                {},
+                { authorization: `Bearer ${token}` }
+            )
+        } catch {
+            // Customer may already exist from a previous attempt
+        }
+
+        // After creating the customer, refresh the token to get one that
+        // has the actor_id populated (the original token has actor_id="").
+        try {
+            const refreshedResult = await sdk.auth.refresh(
+                { authorization: `Bearer ${token}` }
+            )
+            if (typeof refreshedResult === "string") {
+                token = refreshedResult
+            } else if (
+                typeof refreshedResult === "object" &&
+                "token" in refreshedResult
+            ) {
+                token = refreshedResult.token as string
+            }
+        } catch (error) {
+            console.error("Token refresh failed after customer creation:", error)
+            // If refresh fails, we still continue with the original token.
+            // The customer was created, so a subsequent login will work.
+        }
+    }
+
+    await setAuthToken(token)
+    await updateCacheTags("customers")
+
+    try {
+        await transferCart()
+    } catch {
+        // Cart transfer failure is non-critical
+    }
+
+    return { success: true }
 }

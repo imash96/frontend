@@ -1,5 +1,5 @@
 import type { StoreCart } from "@medusajs/types";
-import { ArrowRight, Lock } from "lucide-react";
+import { ArrowRight, Lock, Shield } from "lucide-react";
 import { convertToLocale } from "@/lib/util/money";
 import Button from "@/ui/button";
 import DiscountCode from "../components/discount-code";
@@ -21,42 +21,42 @@ export default function CartSummary({ cart }: { cart: StoreCart }) {
 
       <div className="space-y-3 text-sm">
         <div className="flex items-center justify-between">
-          <span className="text-foreground-secondary">Subtotal</span>
-          <span>
+          <span className="text-text-secondary">Subtotal</span>
+          <span className="tabular-nums text-text-primary">
             {convertToLocale({ amount: subtotal ?? 0, currency_code })}
           </span>
         </div>
 
         {!!gift_card_total && (
           <div className="flex items-center justify-between">
-            <span className="text-foreground-secondary">Gift Card</span>
-            <span>
+            <span className="text-text-secondary">Gift Card</span>
+            <span className="tabular-nums text-text-primary">
               -{convertToLocale({ amount: gift_card_total, currency_code })}
             </span>
           </div>
         )}
 
         {!!discount_total && (
-          <div className="flex items-center justify-between text-price-save">
-            <span>Discount</span>
-            <span>
+          <div className="flex items-center justify-between">
+            <span className="text-text-secondary">Discount</span>
+            <span className="tabular-nums text-success">
               -{convertToLocale({ amount: discount_total, currency_code })}
             </span>
           </div>
         )}
 
         <div className="flex items-center justify-between">
-          <span className="text-foreground-secondary">Shipping</span>
-          <span>
-            {shipping_subtotal
-              ? convertToLocale({ amount: shipping_subtotal, currency_code })
-              : "Calculated at checkout"}
+          <span className="text-text-secondary">Shipping</span>
+          <span className="tabular-nums text-text-primary">
+            {shipping_subtotal ? convertToLocale({ amount: shipping_subtotal, currency_code }) : "Calculated at checkout"}
           </span>
         </div>
 
         <div className="flex items-center justify-between">
-          <span className="text-foreground-secondary">Taxes</span>
-          <span>{convertToLocale({ amount: tax_total ?? 0, currency_code })}</span>
+          <span className="text-text-secondary">Taxes</span>
+          <span className="tabular-nums text-text-primary">
+            {convertToLocale({ amount: tax_total ?? 0, currency_code })}
+          </span>
         </div>
       </div>
 
@@ -66,9 +66,11 @@ export default function CartSummary({ cart }: { cart: StoreCart }) {
 
       <hr className="border-divider" />
 
-      <div className="flex items-center justify-between text-base font-semibold text-foreground">
-        <span>Total</span>
-        <span>{convertToLocale({ amount: total ?? 0, currency_code })}</span>
+      <div className="flex items-baseline justify-between">
+        <span className="font-heading text-base font-semibold text-text-primary">Total</span>
+        <span className="font-heading text-2xl font-bold tabular-nums text-price-current">
+          {convertToLocale({ amount: total ?? 0, currency_code })}
+        </span>
       </div>
 
       <Button
@@ -82,10 +84,17 @@ export default function CartSummary({ cart }: { cart: StoreCart }) {
         Proceed to Checkout
       </Button>
 
-      <p className="flex items-center justify-center gap-1.5 text-xs text-foreground-tertiary">
-        <Lock className="w-3 h-3" />
-        Secure checkout
-      </p>
+      <div className="flex items-center justify-center gap-3 text-xs text-text-tertiary">
+        <span className="flex items-center gap-1">
+          <Lock className="size-3.5" />
+          Secure checkout
+        </span>
+        <span className="h-3 w-px bg-divider" />
+        <span className="flex items-center gap-1">
+          <Shield className="size-3.5" />
+          Genuine leather
+        </span>
+      </div>
     </div>
   );
 }

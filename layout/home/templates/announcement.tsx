@@ -2,8 +2,6 @@
 
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Container from '@/ui/container';
-import type { AnnouncementItem } from '@/types/homepage';
-import Link from "next/link";
 import { useCarousel } from "@/lib/hook/use-carousel";
 
 export default function AnnouncementBar({ items }: { items: string[] }) {

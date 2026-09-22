@@ -9,7 +9,7 @@ export default function LineItemPrice({
   const originalPrice = item.original_total ?? currentPrice;
   const hasReducedPrice = currentPrice < originalPrice;
   return (
-    <div className="flex md:flex-col gap-x-1.5 md:gap-y-0.5 items-center md:items-end shrink-0">
+    <div className="flex flex-col gap-x-1.5 md:gap-y-0.5 items-center md:items-end shrink-0">
       <span
         className={`font-medium ${hasReducedPrice ? "text-destructive" : ""}`}
       >

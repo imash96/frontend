@@ -59,14 +59,6 @@ function CategoryCard({ category, isHero, className = "", priority = false, }: C
 
             {/* Scrim */}
             <div
-                className="absolute inset-0 pointer-events-none"
-                aria-hidden="true"
-                style={{
-                    background: "linear-gradient(to top, var(--scrim) 0%, transparent 70%)",
-                }}
-            />
-
-            <div
                 className="absolute inset-0 bg-linear-to-r from-neutral-950/60 to-transparent"
                 aria-hidden="true"
             />

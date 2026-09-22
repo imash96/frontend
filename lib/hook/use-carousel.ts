@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import useEmblaCarousel from "embla-carousel-react"
 import Autoplay from "embla-carousel-autoplay"
 import type { EmblaOptionsType } from "embla-carousel"
@@ -9,40 +9,37 @@ type UseCarouselOptions = {
     options?: EmblaOptionsType
 }
 
-export function useCarousel({ autoplay = false, autoplayDelay = 4500, options }: UseCarouselOptions = {}) {
+export function useCarousel({ autoplay = false, autoplayDelay = 300, options }: UseCarouselOptions = {}) {
     const [selectedIndex, setSelectedIndex] = useState(0)
-
-    const autoplayPlugin = useMemo(() => (
-        autoplay ? Autoplay({
-            delay: autoplayDelay,
-            instant: false,
-            defaultInteraction: false,
-            stopOnLastSnap: false,
-        }) : null
-    ), [autoplay, autoplayDelay]);
 
     const [emblaRef, emblaApi] = useEmblaCarousel(
         options,
-        autoplayPlugin ? [autoplayPlugin] : [],
+        autoplay ? [Autoplay({
+            delay: autoplayDelay,
+            instant: false,
+            defaultInteraction: true,
+            stopOnLastSnap: false,
+        })] : [],
     );
 
     const scrollTo = useCallback((index: number) => {
         emblaApi?.goTo(index);
-        autoplayPlugin?.reset()
+        emblaApi?.plugins()?.autoplay?.reset()
     }, [emblaApi])
 
     const scrollPrev = useCallback(() => {
         emblaApi?.goToPrev();
-        autoplayPlugin?.reset()
+        emblaApi?.plugins()?.autoplay?.reset()
     }, [emblaApi]);
 
     const scrollNext = useCallback(() => {
         emblaApi?.goToNext();
-        autoplayPlugin?.reset()
+        emblaApi?.plugins()?.autoplay?.reset()
     }, [emblaApi]);
 
     useEffect(() => {
         if (!emblaApi) return
+        if (autoplay) emblaApi.plugins().autoplay?.play()
         const onSelect = () => setSelectedIndex(emblaApi.selectedSnap());
         onSelect();
         emblaApi.on("select", onSelect);

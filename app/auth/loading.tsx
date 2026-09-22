@@ -32,7 +32,7 @@ export default function AuthLoading() {
             <div className="h-px w-full bg-border" />
 
             {/* Social buttons skeleton */}
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="h-10 rounded-md bg-muted animate-shimmer" style={{ backgroundImage: "linear-gradient(90deg, transparent 0%, var(--muted-hover) 50%, transparent 100%)", backgroundSize: "200% 100%", animationDelay: "500ms" }} />
               <div className="h-10 rounded-md bg-muted animate-shimmer" style={{ backgroundImage: "linear-gradient(90deg, transparent 0%, var(--muted-hover) 50%, transparent 100%)", backgroundSize: "200% 100%", animationDelay: "600ms" }} />
             </div>

@@ -3,7 +3,7 @@ import Input from "@/ui/input";
 export default function SIGNUP() {
   return (
     <>
-      <div className="flex gap-x-2 w-full">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
         <Input
           label="First name"
           name="first_name"

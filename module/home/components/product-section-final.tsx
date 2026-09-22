@@ -14,7 +14,44 @@ type ProductSectionProps = {
     eyebrow?: string
 }
 
-// ─── Skeleton grid ────────────────────────────────────────────────────────────
+// ─── Skeleton ─────────────────────────────────────────────────────────────────
+
+// Used as a Suspense fallback for the entire section
+export function ProductSectionSkeleton({ title = "Loading...", eyebrow = "" }: { title?: string, eyebrow?: string }) {
+    const cols = 6
+    return (
+        <SectionHeaderClassic title={title} desc="..." sectionName="skeleton" eyebrow={eyebrow}>
+            {/* Mobile: horizontal scroll */}
+            <div className="md:hidden -mx-4 px-4 overflow-x-auto overscroll-x-contain flex gap-3 pb-3 no-scrollbar">
+                {Array.from({ length: 4 }).map((_, i) => (
+                    <div key={i} className="flex-[0_0_44%] min-w-0">
+                        <div className="aspect-3/4 skeleton rounded-sm bg-surface" />
+                        <div className="mt-3 space-y-2">
+                            <div className="h-4 w-3/4 skeleton rounded-sm bg-surface" />
+                            <div className="h-4 w-1/2 skeleton rounded-sm bg-surface" />
+                        </div>
+                    </div>
+                ))}
+                <div className="flex-[0_0_4%] shrink-0" aria-hidden="true" />
+            </div>
+
+            {/* Tablet + Desktop: grid */}
+            <div className="hidden md:grid grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4">
+                {Array.from({ length: cols }).map((_, i) => (
+                    <div key={i} className="min-w-0">
+                        <div className="aspect-3/4 skeleton rounded-sm bg-surface" />
+                        <div className="mt-3 space-y-2">
+                            <div className="h-4 w-3/4 skeleton rounded-sm bg-surface" />
+                            <div className="h-4 w-1/2 skeleton rounded-sm bg-surface" />
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </SectionHeaderClassic>
+    )
+}
+
+// ─── Skeleton grid (for empty states) ─────────────────────────────────────────
 
 function SkeletonGrid({ cols = 6 }: { cols?: number }) {
     return (

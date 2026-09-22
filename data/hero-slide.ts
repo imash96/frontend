@@ -5,165 +5,165 @@ export const heroSlides: HeroSlide[] = [
     {
         id: 1,
         variant: "brand-story",
-        badge: "VELLEHIDE",
-        tagline: "Premium Leather. Honest Value.",
-        title: "Leather Goods Made",
-        titleAccent: "to Last",
+        badge: "HERITAGE & CRAFT",
+        tagline: "Since the First Stitch",
+        title: "Leather That",
+        titleAccent: "Lives With You.",
         description:
-            "Premium leather goods designed for everyday life, crafted with care and priced fairly. From jackets and bags to wallets, belts and footwear - made for men, women and kids.",
+            "Every Vellehide piece begins as raw, hand-selected hide and ends as an heirloom. Crafted by artisans who believe the best leather tells the story of its owner.",
         features: [
-            "Premium Materials",
-            "Made for Everyday",
-            "Fair Pricing",
+            "Artisan Crafted",
+            "Generational Quality",
+            "Timeless Design",
         ],
         cta: {
             primary: {
-                text: "Shop Leather Goods",
-                href: "/collections",
-            },
-            secondary: {
                 text: "Our Story",
                 href: "/about",
             },
+            secondary: {
+                text: "Shop All",
+                href: "/collections",
+            },
         },
         image:
-            "https://images.pexels.com/photos/35055788/pexels-photo-35055788.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=1800",
+            "https://images.unsplash.com/photo-1531310197839-ccf54634509e?auto=format&fit=crop&q=80&w=1600",
         imageAlt:
-            "Leather artisan carefully working on a handcrafted leather product",
+            "Artisan hand-stitching a premium leather wallet on a workshop bench",
         overlayGradient:
-            "linear-gradient(105deg, rgba(15,12,9,0.90) 0%, rgba(28,21,15,0.72) 45%, rgba(20,15,10,0.28) 100%)",
-        accentColor: "#C9A57A",
+            "linear-gradient(to top, rgba(10,8,6,0.92) 0%, rgba(20,16,12,0.55) 40%, rgba(30,25,20,0.12) 75%, transparent 100%)",
+        accentColor: "#D4AF37",
         icon: Sparkles
     },
     {
         id: 2,
         variant: "collection",
-        badge: "EXPLORE THE COLLECTION",
-        tagline: "Everyday Leather Essentials",
-        title: "From Wardrobe",
-        titleAccent: "to Everyday Carry",
+        badge: "NEW ARRIVALS",
+        tagline: "The Autumn Edit",
+        title: "Bold Lines.",
+        titleAccent: "Soft Leather.",
         description:
-            "Discover leather essentials across every part of your day - jackets, coats, bags, wallets, belts, footwear and accessories, with options for the whole family.",
+            "Explore this season's must-haves — structured jackets, slouchy totes and buttery-soft accessories designed for the way you actually live.",
         features: [
-            "Men & Women",
-            "Kids Collection",
-            "Bags & Accessories",
+            "Modern Silhouettes",
+            "Versatile Wear",
+            "Premium Hardware",
         ],
         cta: {
             primary: {
-                text: "Shop All Collections",
-                href: "/collections",
+                text: "Shop Men",
+                href: "/collections/men",
             },
             secondary: {
-                text: "Explore Best Sellers",
-                href: "/collections/best-sellers",
+                text: "Shop Women",
+                href: "/collections/women",
             },
         },
         image:
-            "https://images.unsplash.com/photo-1521223890158-f9f7c3d5d504?auto=format&fit=crop&w=1800&q=80",
+            "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&q=80&w=1600",
         imageAlt:
-            "Model wearing a premium leather jacket in a modern setting",
+            "Person carrying a rich brown leather messenger bag on the street",
         overlayGradient:
-            "linear-gradient(110deg, rgba(15,11,8,0.90) 0%, rgba(30,22,15,0.70) 42%, rgba(25,18,12,0.25) 100%)",
-        accentColor: "#D2AF83",
+            "linear-gradient(to top, rgba(10,8,6,0.92) 0%, rgba(20,16,12,0.55) 40%, rgba(30,25,20,0.12) 75%, transparent 100%)",
+        accentColor: "#E2C285",
         icon: Scissors
     },
     {
         id: 3,
         variant: "leather-quality",
-        badge: "CRAFTED WITH CARE",
-        tagline: "Materials That Age Beautifully",
-        title: "Good Leather",
-        titleAccent: "Gets Better",
+        badge: "OUR MATERIALS",
+        tagline: "The Soul of the Hide",
+        title: "Full-Grain.",
+        titleAccent: "Full Character.",
         description:
-            "We focus on dependable leather, thoughtful construction and finishes that become more personal with use. Every piece is made to be worn, carried and enjoyed.",
+            "We work exclusively with full-grain leather — the kind that develops a rich patina, softens with every touch, and never looks the same twice.",
         features: [
-            "Quality Leather",
-            "Carefully Finished",
-            "Built for Daily Use",
+            "Full-Grain Leather",
+            "Vegetable Tanned",
+            "Rich Patina",
         ],
         cta: {
             primary: {
-                text: "Discover Our Materials",
+                text: "Our Materials",
                 href: "/materials",
             },
             secondary: {
-                text: "Leather Care Guide",
+                text: "Care Guide",
                 href: "/leather-care",
             },
         },
         image:
-            "https://images.pexels.com/photos/3160389/pexels-photo-3160389.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=1800",
+            "https://images.unsplash.com/photo-1473188588951-666fce8e7c68?auto=format&fit=crop&q=80&w=1600",
         imageAlt:
-            "Close-up of premium leather showing natural texture",
+            "Close-up of naturally tanned leather showing beautiful grain and patina",
         overlayGradient:
-            "linear-gradient(108deg, rgba(18,13,9,0.92) 0%, rgba(42,29,19,0.72) 45%, rgba(36,24,15,0.25) 100%)",
-        accentColor: "#B98A60",
+            "linear-gradient(to top, rgba(10,8,6,0.92) 0%, rgba(20,16,12,0.55) 40%, rgba(30,25,20,0.12) 75%, transparent 100%)",
+        accentColor: "#C9A57A",
         icon: ShieldCheck
     },
     {
         id: 4,
         variant: "d2c-value",
-        badge: "PREMIUM WITHOUT THE EXCESS",
-        tagline: "Better Value by Design",
-        title: "Quality Leather",
-        titleAccent: "at a Fair Price",
+        badge: "DIRECT TO YOU",
+        tagline: "No Middlemen. No Markups.",
+        title: "Luxury Leather.",
+        titleAccent: "Fair Prices.",
         description:
-            "We focus on the product instead of unnecessary layers of markup. That means you can invest in better materials, useful design and lasting craftsmanship without paying only for a label.",
+            "We sell directly to you — no wholesalers, no department stores, no inflated price tags. Just premium materials, honest craftsmanship and a fair deal.",
         features: [
-            "Fair Pricing",
-            "Thoughtful Design",
-            "No Unnecessary Markups",
+            "No Retail Markups",
+            "Direct Sourcing",
+            "Unbeatable Value",
         ],
         cta: {
             primary: {
-                text: "Shop Best Sellers",
+                text: "Best Sellers",
                 href: "/collections/best-sellers",
             },
             secondary: {
-                text: "Why Vellehide?",
+                text: "Why Vellehide",
                 href: "/about#why-vellehide",
             },
         },
         image:
-            "https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=1800&q=80",
+            "https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=1600&q=80",
         imageAlt:
-            "Person wearing a premium leather jacket in an urban setting",
+            "Person wearing a premium leather jacket in a modern setting",
         overlayGradient:
-            "linear-gradient(108deg, rgba(15,11,8,0.92) 0%, rgba(33,24,16,0.76) 45%, rgba(30,21,14,0.24) 100%)",
+            "linear-gradient(to top, rgba(10,8,6,0.92) 0%, rgba(20,16,12,0.55) 40%, rgba(30,25,20,0.12) 75%, transparent 100%)",
         accentColor: "#C6A47A",
         icon: DollarSign
     },
     {
         id: 5,
         variant: "bespoke",
-        badge: "BESPOKE & CUSTOM ORDERS",
-        tagline: "Made Around Your Idea",
+        badge: "BESPOKE STUDIO",
+        tagline: "One of a Kind",
         title: "Your Design.",
-        titleAccent: "Our Craft.",
+        titleAccent: "Our Hands.",
         description:
-            "Looking for something specific? We create made-to-order and bespoke leather pieces including clothing, bags, wallets, belts, footwear and home accents such as cushions and covers.",
+            "From the leather you choose to the thread colour and monogram — every bespoke piece is built around your idea and finished to our exacting standards.",
         features: [
-            "Custom Designs",
-            "Made-to-Order",
+            "Custom Dimensions",
             "Personalized Details",
+            "Exclusive Leathers",
         ],
         cta: {
             primary: {
-                text: "Start a Bespoke Order",
+                text: "Start Your Order",
                 href: "/bespoke",
             },
             secondary: {
-                text: "View Custom Options",
-                href: "/bespoke#options",
+                text: "View Gallery",
+                href: "/bespoke#gallery",
             },
         },
         image:
-            "https://images.pexels.com/photos/17783369/pexels-photo-17783369.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=1800",
+            "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1600&q=80",
         imageAlt:
-            "Leather artisan working on a custom leather product",
+            "Bespoke leather crafting tools resting on rich unworked leather",
         overlayGradient:
-            "linear-gradient(108deg, rgba(16,11,7,0.93) 0%, rgba(38,26,15,0.76) 46%, rgba(32,21,13,0.24) 100%)",
+            "linear-gradient(to top, rgba(10,8,6,0.92) 0%, rgba(20,16,12,0.55) 40%, rgba(30,25,20,0.12) 75%, transparent 100%)",
         accentColor: "#D6B386",
         icon: ShoppingBag
     },

@@ -16,7 +16,7 @@ export const footerLinks = {
     "Support": [
         { name: "Contact Us", href: "/contact-us#" },
         { name: "Shipping & Returns", href: "/policy" },
-        { name: "Size Guide", href: "/size-guide" },
+        { name: "Size Guide", href: "/guides/size-guide" },
         { name: "FAQs", href: "/faqs" },
         { name: 'Blogs', href: '/blogs' },
     ],

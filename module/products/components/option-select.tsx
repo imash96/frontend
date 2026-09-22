@@ -66,8 +66,8 @@ export default function OptionSelect({ option, value, onSelect, disabled, produc
                                     onClick={() => onSelect(c)}
                                     disabled={disabled}
                                     className={`relative flex size-12 items-center justify-center overflow-hidden rounded-full border-2 transition-all duration-200 ${selected
-                                            ? "scale-110 border-primary ring-2 ring-primary/20"
-                                            : "border-border opacity-70 hover:scale-105 hover:border-border-strong hover:opacity-100"
+                                        ? "scale-110 border-primary ring-2 ring-primary/20"
+                                        : "border-border opacity-70 hover:scale-105 hover:border-border-strong hover:opacity-100"
                                         }`}
                                     title={c}
                                     aria-label={c}
@@ -101,7 +101,7 @@ export default function OptionSelect({ option, value, onSelect, disabled, produc
                         </span>
                         {isSize && (
                             <Link
-                                href="/size-guide"
+                                href="/guides/size-guide"
                                 className="text-xs text-link underline underline-offset-2 transition-colors hover:text-link-hover"
                             >
                                 Size Guide
@@ -119,10 +119,10 @@ export default function OptionSelect({ option, value, onSelect, disabled, produc
                                     disabled={disabled}
                                     aria-pressed={selected}
                                     className={`min-w-12 rounded-lg border px-4 py-2.5 text-sm font-medium transition-all duration-200 ${selected
-                                            ? "border-primary bg-primary text-primary-foreground shadow-primary"
-                                            : disabled
-                                                ? "cursor-not-allowed border-border-subtle text-text-disabled line-through opacity-50"
-                                                : "border-border text-text-primary hover:border-border-strong hover:bg-muted"
+                                        ? "border-primary bg-primary text-primary-foreground shadow-primary"
+                                        : disabled
+                                            ? "cursor-not-allowed border-border-subtle text-text-disabled line-through opacity-50"
+                                            : "border-border text-text-primary hover:border-border-strong hover:bg-muted"
                                         }`}
                                 >
                                     {c}
