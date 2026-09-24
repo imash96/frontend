@@ -4,9 +4,8 @@ import { CollectionsHero } from "@/module/collections/templates/collections-hero
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "Collections | Cordova Premium Leather",
-    description:
-        "Browse our curated collections of premium leather apparel, accessories, and footwear.",
+    title: "Collections | Velle Hide",
+    description: "Browse our curated collections of premium leather apparel, accessories, and footwear.",
 };
 
 export default async function Page() {

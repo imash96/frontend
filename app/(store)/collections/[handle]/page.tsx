@@ -12,6 +12,25 @@ import CategoryHero from "@/module/categories/templates/category-hero"
 
 /* ─── Constants ──────────────────────────────────────────────────────── */
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://vellehide.com"
+
+export async function generateMetadata({ params }: { params: Promise<{ handle: string }> }) {
+    const { handle } = await params
+    const collection = await getCollectionByHandle(handle)
+
+    if (!collection) {
+        return {
+            title: "Collection Not Found | Velle Hide",
+        }
+    }
+
+    return {
+        title: `${collection.title} Collection | Velle Hide`,
+        description: collection.metadata?.description as string || `Shop our premium ${collection.title.toLowerCase()} leather collection at Velle Hide.`,
+        alternates: {
+            canonical: `${baseUrl}/collections/${handle}`,
+        },
+    }
+}
 export const PRODUCTS_PER_PAGE = 28
 
 /* Opt out of instant navigation — this route reads searchParams + cookies */

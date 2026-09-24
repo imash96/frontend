@@ -17,7 +17,7 @@ export const accordions = [
     {
         id: "care",
         title: "Care & Maintenance",
-        content: "To maintain the beauty of your leather jacket: Store on a padded hanger in a breathable garment bag. Apply leather conditioner every 3-6 months using our recommended Cordova Leather Care Kit. Avoid prolonged exposure to direct sunlight or heat. If wet, allow to air dry naturally. For stains, consult a professional leather cleaner. Do not machine wash or dry clean with standard solvents.",
+        content: "To maintain the beauty of your leather jacket: Store on a padded hanger in a breathable garment bag. Apply leather conditioner every 3-6 months using our recommended Velle Hide Leather Care Kit. Avoid prolonged exposure to direct sunlight or heat. If wet, allow to air dry naturally. For stains, consult a professional leather cleaner. Do not machine wash or dry clean with standard solvents.",
     },
     {
         id: "returns",
