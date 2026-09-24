@@ -1,7 +1,7 @@
 import "server-only"
 
 import { sdk } from "@/lib/sdk"
-import { StoreCollection, StoreCollectionListResponse } from "@medusajs/types"
+import { StoreCollection, StoreCollectionListResponse, } from "@medusajs/types"
 
 export const retrieveCollection = async (id: string) => {
 
@@ -16,9 +16,7 @@ export const retrieveCollection = async (id: string) => {
     ).then(({ collection }) => collection)
 }
 
-export const listCollections = async (
-    queryParams: Record<string, string> = {}
-): Promise<{ collections: StoreCollection[]; count: number }> => {
+export const listCollections = async (queryParams: Record<string, string> = {}): Promise<{ collections: StoreCollection[]; count: number }> => {
 
     queryParams.limit = queryParams.limit || "100"
     queryParams.offset = queryParams.offset || "0"
@@ -32,7 +30,7 @@ export const listCollections = async (
             },
             cache: "force-cache",
         }
-    ).then(({ collections }) => ({ collections, count: collections.length }))
+    ).then(({ collections, count }) => ({ collections, count: count ?? collections.length }))
 }
 
 export const getCollectionByHandle = async (
@@ -40,7 +38,7 @@ export const getCollectionByHandle = async (
 ): Promise<StoreCollection | null> => {
 
     return await sdk.client.fetch<StoreCollectionListResponse>(`/store/collections`, {
-        query: { handle, fields: "*products" },
+        query: { handle, fields: "id,title,handle,metadata" },
         next: {
             tags: [`collections-${handle}`],
         },

@@ -9,7 +9,7 @@ type Crumb = { label: string; href: string }
 interface CategoryHeroProps {
     name: string
     desc: string
-    crumbs: Crumb[]
+    crumbs?: Crumb[]
 }
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://vellehide.com"
@@ -19,7 +19,7 @@ export default function CategoryHero({ name, desc, crumbs }: CategoryHeroProps) 
     const breadcrumbJsonLd = {
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
-        itemListElement: crumbs.map((crumb, index) => ({
+        itemListElement: crumbs?.map((crumb, index) => ({
             "@type": "ListItem",
             position: index + 1,
             name: crumb.label,
@@ -51,11 +51,11 @@ export default function CategoryHero({ name, desc, crumbs }: CategoryHeroProps) 
             />
 
             {/* JSON-LD Breadcrumb */}
-            <JsonLd data={breadcrumbJsonLd} />
+            {crumbs && crumbs.length > 0 && <JsonLd data={breadcrumbJsonLd} />}
 
             <Container size="2xl" className="py-6 sm:py-8 md:py-10 lg:py-14 relative z-10">
                 {/* Breadcrumb Navigation */}
-                <nav aria-label="Breadcrumb" className="mb-4 sm:mb-6">
+                {crumbs && <nav aria-label="Breadcrumb" className="mb-4 sm:mb-6">
                     <ol className="flex items-center gap-1 sm:gap-1.5 flex-wrap text-xs sm:text-sm">
                         {crumbs.map((c, i) => {
                             const isLast = i === crumbs.length - 1
@@ -86,7 +86,7 @@ export default function CategoryHero({ name, desc, crumbs }: CategoryHeroProps) 
                             )
                         })}
                     </ol>
-                </nav>
+                </nav>}
 
                 {/* Title & Description */}
                 <div className="max-w-2xl">

@@ -19,7 +19,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     const staticRoutes: MetadataRoute.Sitemap = [
         { url: baseUrl, lastModified: now, changeFrequency: "daily", priority: 1 },
-        { url: `${baseUrl}/categories`, lastModified: now, changeFrequency: "daily", priority: 0.9 },
+        { url: `${baseUrl}/categories`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
+        { url: `${baseUrl}/collections`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
         { url: `${baseUrl}/about-us`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },
         { url: `${baseUrl}/contact-us`, lastModified: now, changeFrequency: "monthly", priority: 0.5 },
         { url: `${baseUrl}/faqs`, lastModified: now, changeFrequency: "monthly", priority: 0.4 },
@@ -41,7 +42,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const collectionRoutes: MetadataRoute.Sitemap = product_collections
         .filter((c) => c.metadata?.is_active)
         .map((c) => ({
-            url: `${baseUrl}/collection/${c.handle}`,
+            url: `${baseUrl}/collections${c.handle}`,
             lastModified: now,
             changeFrequency: "weekly",
             priority: 0.6,

@@ -24,13 +24,7 @@ export default function ProductGrid({
         <div className="space-y-8">
             {/* Product Grid — spacious, breathable layout */}
             <div
-                className="grid gap-x-4 gap-y-8
-                    grid-cols-1
-                    xs:grid-cols-2
-                    sm:gap-x-5 sm:gap-y-10
-                    md:grid-cols-3 md:gap-x-6 md:gap-y-12
-                    lg:grid-cols-4 lg:gap-x-7
-                    xl:gap-x-8 xl:gap-y-14"
+                className="grid gap-x-4 gap-y-8 grid-cols-1 xs:grid-cols-2 sm:gap-x-5 sm:gap-y-10 md:grid-cols-3 md:gap-x-6 md:gap-y-12 lg:grid-cols-4 lg:gap-x-7 xl:gap-x-8 xl:gap-y-14"
             >
                 {products.map((product, idx) => (
                     <ProductCard

@@ -21,7 +21,7 @@ export async function NewArrival({ region_id }: { region_id: string }) {
             <ProductSectionClassic
                 title={collection.title}
                 desc={(collection.metadata as any)?.description ?? ""}
-                buttonLink={`/collection/${collection.handle}`}
+                buttonLink={`/collections/${collection.handle}`}
                 sectionName={collection.handle}
                 products={products}
                 eyebrow="Just Dropped"
@@ -48,7 +48,7 @@ export async function TrendingNow({ region_id }: { region_id: string }) {
             <ProductSectionClassic
                 title={collection.title}
                 desc={(collection.metadata as any)?.description ?? ""}
-                buttonLink={`/collection/${collection.handle}`}
+                buttonLink={`/collections/${collection.handle}`}
                 sectionName={collection.handle}
                 products={products}
                 eyebrow="Popular"
@@ -75,7 +75,7 @@ export async function OnSale({ region_id }: { region_id: string }) {
             <ProductSectionClassic
                 title={collection.title}
                 desc={(collection.metadata as any)?.description ?? ""}
-                buttonLink={`/collection/${collection.handle}`}
+                buttonLink={`/collections/${collection.handle}`}
                 sectionName={collection.handle}
                 products={products}
                 eyebrow="Most Loved"

@@ -24,7 +24,7 @@ export const instant = false
 
 /* ─── Types ──────────────────────────────────────────────────────────── */
 
-type SearchParams = {
+export type SearchParams = {
     sort?: SortOptions
     page?: string
     optionValueIds?: string | string[]
@@ -49,10 +49,7 @@ export default async function Page({
     const sort: SortOptions = sp.sort ?? "created_at"
     const page = Math.max(1, parseInt(sp.page ?? "1", 10))
     const optionValueIds = toArray(sp.optionValueIds)
-    const countryCode =
-        (await cookies()).get("__country_code")?.value ||
-        process.env.NEXT_PUBLIC_DEFAULT_REGION ||
-        "us"
+    const countryCode = (await cookies()).get("__country_code")?.value || process.env.NEXT_PUBLIC_DEFAULT_REGION || "us"
 
     // ── Fetch products ──
     const {
@@ -229,7 +226,7 @@ function buildCrumbs(
     return crumbs
 }
 
-function toArray(v: string | string[] | undefined): string[] {
+export function toArray(v: string | string[] | undefined): string[] {
     if (!v) return []
     return Array.isArray(v) ? v : [v]
 }
@@ -238,7 +235,7 @@ function toArray(v: string | string[] | undefined): string[] {
  * Extract unique product options (Size, Color, Material, etc.) from fetched products
  * to populate the filter drawer dynamically.
  */
-function extractProductOptions(
+export function extractProductOptions(
     products: { options?: { id: string; title: string; values?: { id: string; value: string }[] }[] | null }[],
 ): ProductOption[] {
     const optionMap = new Map<

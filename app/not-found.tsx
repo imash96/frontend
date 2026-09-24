@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function RootNotFound() {
     return (
-        <main className="flex min-h-dvh flex-col items-center justify-center gap-6 px-5 text-center">
+        <main className="flex min-h-dvh flex-col items-center justify-center gap-6 px-5 text-center" tabIndex={-1}>
             <p className="font-heading text-7xl font-bold text-primary/20">404</p>
             <div className="max-w-sm space-y-2">
                 <h1 className="text-xl font-semibold">We couldn&apos;t find that page</h1>

@@ -125,7 +125,7 @@ export default function HeaderNav() {
                 >
                     {link.label}
                     {link.badge && (
-                        <span className="text-[8px] px-1 py-0.5 bg-accent text-accent-foreground rounded font-bold leading-none">
+                        <span className="text-[8px] px-1 py-0.5 bg-accent text-accent-subtle rounded font-bold leading-none">
                             {link.badge}
                         </span>
                     )}
@@ -168,7 +168,7 @@ function MegaPanel({ category, onMouseEnter, onMouseLeave, onClose }: MegaPanelP
                 aria-hidden="true"
                 className="h-px"
                 style={{
-                    background: "linear-linear(to right, transparent, var(--accent) 30%, var(--accent) 70%, transparent)",
+                    background: "linear-gradient(to right, transparent, var(--accent) 30%, var(--accent) 70%, transparent)",
                 }}
             />
 

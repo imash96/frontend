@@ -74,7 +74,7 @@ export default async function Collection() {
 
       <div className="flex justify-center mt-8 md:mt-10">
         <Button
-          href="/collection"
+          href="/collections"
           variant="outline"
           icon={<ArrowRight className="size-3.5" />}
           iconPosition="right"
