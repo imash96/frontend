@@ -8,7 +8,7 @@ import ThemeButton from "./button-theme"
 import CartDrawerButton from "./button-cart-drawer"
 import MobileDrawer from "../templates/mobile-drawer"
 import Container from "@/ui/container"
-import { useUIStore } from "@/lib/store/ui-store"
+import { useDrawerStore } from "@/lib/store/drawer-store"
 import dynamic from "next/dynamic"
 
 const SearchModal = dynamic(
@@ -44,7 +44,7 @@ export default function HeaderClient({ initialTheme, totalItems, children }: Hea
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-    const { active, open: openMenu } = useUIStore()
+    const { active, open: openMenu } = useDrawerStore()
 
     return (
         <>

@@ -13,7 +13,7 @@ import { useCallback, useState } from "react"
 import { ERROR_MESSAGES } from "@/data/payment"
 import { placeCheckOrder } from "@/lib/action/checkout"
 import { isManual, isPaypal, isStripe } from "@/lib/constant"
-import { useCheckStore } from "@/lib/store/check-store"
+import { useCheckStore } from "@/lib/store/checkout-store"
 import Button from "@/ui/button"
 import ErrorMessage from "@/module/common/templates/error-message"
 
@@ -229,7 +229,7 @@ function PayPalPayment({
         `${MEDUSA_BACKEND_URL}/store/paypal/create-order`,
         {
           method: "POST",
-          headers: { 
+          headers: {
             "Content-Type": "application/json",
             "x-publishable-api-key": PUBLISHABLE_API_KEY ?? "",
           },
@@ -258,7 +258,7 @@ function PayPalPayment({
           `${MEDUSA_BACKEND_URL}/store/paypal/capture-order`,
           {
             method: "POST",
-            headers: { 
+            headers: {
               "Content-Type": "application/json",
               "x-publishable-api-key": PUBLISHABLE_API_KEY ?? "",
             },

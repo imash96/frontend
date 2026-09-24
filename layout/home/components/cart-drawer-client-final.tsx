@@ -1,11 +1,11 @@
 "use client"
 
-import { useUIStore } from "@/lib/store/ui-store";
+import { useDrawerStore } from "@/lib/store/drawer-store";
 import { Drawer } from "@/ui/drawer";
 import { ShoppingBagIcon, X } from "lucide-react";
 
 export default function CartDrawerClient({ children }: React.PropsWithChildren) {
-    const { active, close: closeCart } = useUIStore()
+    const { active, close: closeCart } = useDrawerStore()
     return (
         <Drawer
             isOpen={active === 'cart'}

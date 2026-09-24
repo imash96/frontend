@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef } from "react"
-import { useCheckStore } from "@/lib/store/check-store"
+import { useCheckStore } from "@/lib/store/checkout-store"
 import type { StepType } from "@/types/common"
 
 /**

@@ -6,6 +6,7 @@ import { HttpTypes } from "@medusajs/types"
 import { AuthRedirectResponse, FetchError } from "@medusajs/js-sdk"
 import { redirect } from "next/navigation"
 import { getAuthHeaders, getCacheOptions, getCartId, getPendingCustomer, removeAuthToken, removeCartId, removePendingCustomer, setAuthToken, setPendingCustomer, updateCacheTags, } from "./cookies"
+import type { Route } from "next";
 
 export type CustomerAuthState = { state: "error"; error: string } | { state: "verification_required"; email: string } | { state: "success" } | null
 
@@ -519,7 +520,7 @@ export async function googleLogin() {
 
     if (typeof result === "object" && result.location) {
 
-        redirect(result.location)
+        redirect(result.location as Route)
     }
 
     if (typeof result !== "string") {
@@ -528,14 +529,6 @@ export async function googleLogin() {
         return
     }
 
-}
-
-export async function appleLogin() {
-    "use server"
-
-    const backendUrl = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || "http://localhost:9000"
-
-    redirect(`${backendUrl}/auth/customer/apple`)
 }
 
 export async function completeOAuthCallback(

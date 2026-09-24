@@ -2,13 +2,13 @@
 
 import type { StoreCart } from "@medusajs/types"
 import { convertToLocale } from "@/lib/util/money"
-import { useUIStore } from "@/lib/store/ui-store"
+import { useDrawerStore } from "@/lib/store/drawer-store"
 import Button from "@/ui/button";
 import { ArrowRight } from "lucide-react";
 import { div as Div } from "motion/react-client"
 
 export default function CartFooter({ cart }: { cart: StoreCart }) {
-    const { close } = useUIStore();
+    const { close } = useDrawerStore();
     return (
         <Div
             initial={{ opacity: 0, y: 10 }}

@@ -46,14 +46,12 @@ export default function LeafScrollRow({ leaves, maxRows }: { leaves: StoreProduc
 function LeafCategoryCircle({ cat }: { cat: StoreProductCategory }) {
     const img = getCategoryImage(cat.handle)
 
-    // Build correct path: handle is "men/jackets" → /category/men/jackets
     const segments = cat.handle.split("/")
     const [parentSeg, ...rest] = segments
-    const href = rest.length === 0 ? `/category/${parentSeg}` : `/category/${parentSeg}/${rest.join("/")}`
 
     return (
         <Link
-            href={href}
+            href={rest.length === 0 ? `/categories/${parentSeg}` : `/categories/${parentSeg}/${rest.join("/")}`}
             className="group flex flex-col items-center gap-2.5 shrink-0 w-22 sm:w-25"
         >
             <div className="relative w-18 h-18 sm:w-21 sm:h-21 rounded-full overflow-hidden border-2 border-border bg-surface-sunken group-hover:border-primary group-hover:shadow-md transition-all duration-300">

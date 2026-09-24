@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { blogData } from "@/data/blog";
 import usePagination from "@/lib/hook/use-pagination";
-import Pagination from "@/ui/custom/custom-pagination";
 import BlogCard from "@/module/home/components/blog-card";
 import SectionHeader from "@/module/home/components/section-header";
 
@@ -19,16 +18,16 @@ export default async function Page(props: PageProps<"/blog">) {
   const currentPage = Number(query.page) || 1;
   const totalBlogs = blogData.length;
   const limit = 12;
-  const { start, end, totalPages, getPageNumbers } = usePagination(
+  const { pages, totalPages, canPrev, canNext, buildPageUrl } = usePagination({
     currentPage,
-    totalBlogs,
-    limit,
-  );
+    totalPages: Math.ceil(totalBlogs / limit),
+    siblingCount: 1,
+  });
   const sortedBlogs = [...blogData].sort(
     (a, b) =>
       new Date(b.uploadDate).getTime() - new Date(a.uploadDate).getTime(),
   );
-  const blogsToShow = sortedBlogs.slice(start, end);
+  const blogsToShow = sortedBlogs.slice(currentPage, totalPages);
   return (
     <SectionHeader
       title="Our Blog"

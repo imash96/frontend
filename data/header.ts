@@ -54,19 +54,19 @@ export const features: Record<MegaMenu, MenuSection[]> = {
 export const navLinks = [
     {
         label: 'Kids',
-        href: '/category/kids',
+        href: '/categories/kids',
     },
     {
         label: 'Accessories',
-        href: '/category/accessories',
+        href: '/categories/accessories',
     },
     {
         label: 'Home Decor',
-        href: '/category/home-decor',
+        href: '/categories/home-decor',
         badge: "New"
     },
     {
         label: 'Gifting',
-        href: '/category/gifting',
+        href: '/categories/gifting',
     },
 ];

@@ -1,5 +1,3 @@
-export const dynamic = 'force-static'
-
 import buildJsonLd from "@/lib/util/jsonld"
 import ReturnRefundPolicy from "@/module/policy/templates/return-refund-policy"
 import type { Metadata } from "next"

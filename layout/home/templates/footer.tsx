@@ -5,6 +5,7 @@ import Link from 'next/link';
 import LogoRect from '@/icon/logo-rect';
 import { cookies } from 'next/headers';
 import RegionModal from './region-modal';
+import type { Route } from "next";
 
 export default async function FooterVariant4() {
 
@@ -101,7 +102,7 @@ export default async function FooterVariant4() {
                                 <ul className="space-y-2.5 pl-0">
                                     {links.map((item) => (
                                         <li key={item.name}>
-                                            <Link href={item.href} className="relative group inline-flex gap-x-2 items-center text-sm text-card-hover transition-colors duration-200 hover:text-card-border">
+                                            <Link href={item.href as Route} className="relative group inline-flex gap-x-2 items-center text-sm text-card-hover transition-colors duration-200 hover:text-card-border">
                                                 <span className="w-0 group-hover:w-3 h-px bg-primary transition-all duration-200" />
                                                 <span>{item.name}</span>
                                             </Link>

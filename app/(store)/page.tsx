@@ -14,7 +14,6 @@ import { NewArrival, OnSale, TrendingNow } from "@/module/home/templates/list-co
 import CustomMadeBanner from "@/module/home/templates/custom-made";
 import Container from "@/ui/container";
 import Button from "@/ui/button";
-import { ProductSectionSkeleton } from "@/module/home/components/product-section-final";
 import JsonLd from "@/module/products/templates/json-ld";
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://vellehide.com";

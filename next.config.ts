@@ -5,9 +5,18 @@ const nextConfig: NextConfig = {
   compiler: {
     removeConsole: process.env.NODE_ENV === "production",
   },
+  typedRoutes: true,
   reactStrictMode: true,
   allowedDevOrigins: ['192.168.0.101'],
   reactCompiler: true,
+  cacheComponents: true,
+  // cacheLife: {
+  //   static: {
+  //     stale: 3600,
+  //     revalidate: 900,
+  //     expire: 86400,
+  //   },
+  // },
   logging: {
     fetches: {
       fullUrl: true,

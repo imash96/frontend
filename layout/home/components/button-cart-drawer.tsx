@@ -1,12 +1,12 @@
 "use client"
 
 import { ShoppingBag } from "lucide-react"
-import { useUIStore } from "@/lib/store/ui-store";
+import { useDrawerStore } from "@/lib/store/drawer-store";
 import { motion } from "motion/react"
 
 // TODO: mix cartbutton with cart drawer
 export default function CartDrawerButton({ className, totalItems }: CartDrawerButtonProps) {
-    const { open: openCart } = useUIStore();
+    const { open: openCart } = useDrawerStore();
 
     return (
         <button onClick={openCart.bind(null, 'cart')} className={`relative ${className}`} aria-label={`Shopping cart with ${totalItems} items`}>

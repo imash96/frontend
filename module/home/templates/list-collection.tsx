@@ -12,6 +12,7 @@ export async function NewArrival({ region_id }: { region_id: string }) {
         products = await fetchProductsByCollection({
             regionId: region_id,
             collectionId: collection.id,
+            limit: 6
         })
         // FIX 3: hide section when no products
         if (!products?.length) return null
@@ -39,6 +40,7 @@ export async function TrendingNow({ region_id }: { region_id: string }) {
         const products = await fetchProductsByCollection({
             collectionId: collection.id,
             regionId: region_id,
+            limit: 6
         })
         if (!products?.length) return null
 
@@ -65,6 +67,7 @@ export async function OnSale({ region_id }: { region_id: string }) {
         const products = await fetchProductsByCollection({
             regionId: region_id,
             collectionId: collection.id,
+            limit: 6
         })
         if (!products?.length) return null
 

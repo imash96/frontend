@@ -38,7 +38,7 @@ export default function SIGNUP() {
       />
       <p className="text-xs text-muted-foreground leading-relaxed -mt-1">
         By creating an account, you agree to our{" "}
-        <Link href="/policy/terms-and-conditions" className="underline underline-offset-2 hover:text-foreground transition-colors">
+        <Link href="/policy/terms-of-sale" className="underline underline-offset-2 hover:text-foreground transition-colors">
           Terms of Service
         </Link>{" "}
         and{" "}

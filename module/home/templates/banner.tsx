@@ -7,6 +7,7 @@ import { useCarousel } from "@/lib/hook/use-carousel"
 import { HeroSlideCardProps } from "@/types/homepage"
 import { heroSlides } from "@/data/hero-slide"
 import { memo } from "react"
+import type { Route } from "next";
 
 export default function HeroCarousel() {
     const { emblaRef, selectedIndex, scrollTo, scrollNext, scrollPrev } = useCarousel({
@@ -184,7 +185,7 @@ function HeroSlideCard({ slide, isActive, index }: HeroSlideCardProps) {
                 >
                     {slide.cta?.primary && (
                         <Link
-                            href={slide.cta.primary.href}
+                            href={slide.cta.primary.href as Route}
                             className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-white/95 px-5 py-2.5 text-xs sm:text-sm font-medium text-neutral-900 transition-all duration-300 hover:bg-white active:scale-[0.97]"
                         >
                             <span className="relative z-10">{slide.cta.primary.text}</span>
@@ -193,7 +194,7 @@ function HeroSlideCard({ slide, isActive, index }: HeroSlideCardProps) {
                     )}
                     {slide.cta?.secondary && (
                         <Link
-                            href={slide.cta.secondary.href}
+                            href={slide.cta.secondary.href as Route}
                             className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/8 backdrop-blur-sm px-5 py-2.5 text-xs sm:text-sm font-medium text-white/85 transition-all duration-300 hover:bg-white/15 hover:text-white active:scale-[0.97]"
                         >
                             {slide.cta.secondary.text}

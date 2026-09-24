@@ -1,7 +1,7 @@
 "use client"
 
-import { useUIStore } from "@/lib/store/ui-store"
-import { useProductStore } from "@/lib/store/use-product"
+import { useDrawerStore } from "@/lib/store/drawer-store"
+import { useProductStore } from "@/lib/store/product-store"
 import { StoreProduct } from "@medusajs/types"
 import { useCallback, useEffect, useState } from "react"
 import OptionSelect from "../components/option-select"
@@ -22,7 +22,7 @@ export default function ProductActions({ product, countryCode }: ProductActionsP
         lastError,
         handleAddToCart,
     } = useProductStore()
-    const open = useUIStore((s) => s.open)
+    const open = useDrawerStore((s) => s.open)
 
     const [customizing, setCustomizing] = useState(false)
     const [customization, setCustomization] = useState<CustomizationState>(INITIAL_CUSTOMIZATION)

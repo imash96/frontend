@@ -1,7 +1,7 @@
 "use client"
 
 import { Edit } from "lucide-react"
-import { useCheckStore } from "@/lib/store/check-store"
+import { useCheckStore } from "@/lib/store/checkout-store"
 import type { StepType } from "@/types/common"
 
 export default function CheckStepHeader({

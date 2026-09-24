@@ -1,11 +1,12 @@
 "use client"
 
-import { useUIStore } from "@/lib/store/ui-store"
+import { useDrawerStore } from "@/lib/store/drawer-store"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/ui/modal"
 import { ArrowRight, Clock, Search, TrendingUp, X } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { useDeferredValue, useEffect, useMemo, useRef, useState } from "react"
+import type { Route } from "next";
 
 const LISTBOX_ID = "search-results-listbox"
 const MIN_QUERY_LENGTH = 2
@@ -13,7 +14,7 @@ const MIN_QUERY_LENGTH = 2
 export function SearchModal() {
     const [query, setQuery] = useState("")
     const inputRef = useRef<HTMLInputElement>(null)
-    const { active, toggle: toggleSearch, close: closeSearch } = useUIStore()
+    const { active, toggle: toggleSearch, close: closeSearch } = useDrawerStore()
 
     /* ─────────────────────────────────────────────
        Autofocus when opened
@@ -146,7 +147,7 @@ export function SearchModal() {
                                 {/* View all results link */}
                                 {hasResults && !isStale && (
                                     <Link
-                                        href={`/search?q=${encodeURIComponent(query.trim())}`}
+                                        href={`/search?q=${encodeURIComponent(query.trim())}` as Route}
                                         className="inline-flex items-center gap-1 text-[12px] font-semibold tracking-wider uppercase text-primary hover:text-primary-hover transition-colors duration-150"
                                     >
                                         View all

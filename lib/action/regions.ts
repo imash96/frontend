@@ -11,27 +11,24 @@ export const listRegions = async () => {
         ...(await getCacheOptions("regions")),
     }
 
-    return await sdk.client
-        .fetch<{ regions: HttpTypes.StoreRegion[] }>(`/store/regions`, {
-            method: "GET",
-            next,
-            cache: "force-cache",
-        })
-        .then(({ regions }) => regions)
+    return await sdk.client.fetch<{ regions: HttpTypes.StoreRegion[] }>(`/store/regions`, {
+        method: "GET",
+        next: {
+            tags: ["regions"],
+        },
+        cache: "force-cache",
+    }).then(({ regions }) => regions)
 }
 
 export const retrieveRegion = async (id: string) => {
-    const next = {
-        ...(await getCacheOptions(["regions", id].join("-"))),
-    }
 
-    return await sdk.client
-        .fetch<{ region: HttpTypes.StoreRegion }>(`/store/regions/${id}`, {
-            method: "GET",
-            next,
-            cache: "force-cache",
-        })
-        .then(({ region }) => region)
+    return await sdk.client.fetch<{ region: HttpTypes.StoreRegion }>(`/store/regions/${id}`, {
+        method: "GET",
+        next: {
+            tags: [`regions-${id}`],
+        },
+        cache: "force-cache",
+    }).then(({ region }) => region)
 }
 
 /**

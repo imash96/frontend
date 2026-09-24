@@ -7,6 +7,7 @@ import { ArrowRight, ArrowUpRight, ChevronDown, Sparkles } from "lucide-react"
 import { AnimatePresence, motion } from "motion/react"
 import Link from "next/link"
 import { useCallback, useRef, useState } from "react"
+import type { Route } from "next";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -119,7 +120,7 @@ export default function HeaderNav() {
             {navLinks.map((link) => (
                 <Link
                     key={link.href}
-                    href={link.href}
+                    href={link.href as Route}
                     className="flex items-center gap-1.5 px-3.5 py-2 text-sm font-medium text-foreground-secondary hover:text-foreground transition-colors duration-150"
                 >
                     {link.label}
@@ -147,7 +148,7 @@ function MegaPanel({ category, onMouseEnter, onMouseLeave, onClose }: MegaPanelP
 
     const heroLabel = hoveredSub?.name ?? category.name
     const heroDesc = hoveredSub?.description ?? category.description ?? ""
-    const heroHref = `/category/${hoveredSub?.handle ?? category.handle}`
+    const heroHref = `/categories/${hoveredSub?.handle ?? category.handle}`
     const heroBadge = hoveredSub ? "Category" : "Collection"
 
     return (
@@ -220,7 +221,7 @@ function MegaPanel({ category, onMouseEnter, onMouseLeave, onClose }: MegaPanelP
                             {feats.map((fc) => (
                                 <Link
                                     key={fc.id}
-                                    href={`/collection/${fc.handle}`}
+                                    href={`/collections/${fc.handle}` as Route}
                                     onClick={onClose}
                                     className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-border text-[11px] font-medium text-foreground-secondary hover:text-accent hover:border-accent transition-colors duration-150 cursor-pointer"
                                 >
@@ -231,7 +232,7 @@ function MegaPanel({ category, onMouseEnter, onMouseLeave, onClose }: MegaPanelP
                         </div>
 
                         <Link
-                            href={`/category/${category.handle}`}
+                            href={`/categories/${category.handle}`}
                             onClick={onClose}
                             className="text-[13px] font-semibold text-accent hover:text-accent-hover transition-colors inline-flex items-center gap-1.5 cursor-pointer group"
                         >
@@ -306,7 +307,7 @@ export function HeroPanelImage({ src, label, description, href, badge, onClose }
                             </p>
                         )}
                         <Link
-                            href={href}
+                            href={href as Route}
                             onClick={() => { onClose(); }}
                             className="inline-flex items-center gap-2 px-4 py-2 bg-accent text-accent-foreground text-[11px] font-bold uppercase tracking-wider rounded-sm hover:bg-accent-hover transition-colors duration-200 group"
                         >
@@ -390,7 +391,7 @@ function HeroPanelImageV1({
                             </p>
                         )}
                         <Link
-                            href={href}
+                            href={href as Route}
                             onClick={(e) => {
                                 e.preventDefault();
                                 onClose();
@@ -437,7 +438,7 @@ function MegaColumn({
             onMouseEnter={onHover}
             className="group/col h-full"
         >
-            <Link href={`/category/${category.handle}`} className="block mb-4 group/head">
+            <Link href={`/categories/${category.handle}`} className="block mb-4 group/head">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2.5">
                         <motion.div
@@ -475,7 +476,7 @@ function MegaColumn({
                     {children.map((child) => (
                         <li key={child.handle}>
                             <Link
-                                href={`/category/${child.handle}`}
+                                href={`/categories/${child.handle}`}
                                 className="group/link flex items-center gap-3 py-2.5 border-b border-border-subtle last:border-b-0 transition-colors duration-150 hover:bg-muted/50 -ml-5 pl-5 pr-3"
                                 onClick={() => { onClose(); }}
                             >
@@ -508,7 +509,7 @@ function MegaColumn({
             {/* Explore link */}
             <div className="mt-4">
                 <Link
-                    href={`/category/${category.handle}`}
+                    href={`/categories/${category.handle}`}
                     className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.15em] text-accent hover:text-accent-hover transition-colors duration-150 group/all"
                     onClick={() => { onClose(); }}
                 >

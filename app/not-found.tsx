@@ -23,7 +23,7 @@ export default function RootNotFound() {
                 <Button href="/" variant="primary">
                     Back to homepage
                 </Button>
-                <Button href="/category" variant="outline" icon={<Compass className="h-4 w-4" />}>
+                <Button href="/categories" variant="outline" icon={<Compass className="h-4 w-4" />}>
                     Browse collections
                 </Button>
             </div>

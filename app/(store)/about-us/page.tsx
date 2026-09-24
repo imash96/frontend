@@ -1,5 +1,3 @@
-export const dynamic = "force-static";
-
 import Badge from "@/ui/custom/custom-badge"
 import Card, { CardContent } from "@/ui/custom/custom-card"
 import Button from "@/ui/button"

@@ -22,7 +22,7 @@ export default function StoreNotFound() {
                 </p>
             </div>
             <div className="flex flex-wrap justify-center gap-3">
-                <Button href="/category" variant="primary" icon={<Compass className="h-4 w-4" />}>
+                <Button href="/categories" variant="primary" icon={<Compass className="h-4 w-4" />}>
                     Browse collections
                 </Button>
                 <Button href="/" variant="outline">

@@ -1,5 +1,5 @@
 import { product_categories } from "@/data/category";
-import { useUIStore } from "@/lib/store/ui-store";
+import { useDrawerStore } from "@/lib/store/drawer-store";
 import { ProductCategory } from "@/types/common";
 import { Drawer } from "@/ui/drawer";
 import { ChevronLeft, ChevronRight, Contact, Home, Info, Menu, TableOfContents, User, X } from "lucide-react";
@@ -7,9 +7,10 @@ import { AnimatePresence, motion } from "motion/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useState } from "react";
+import type { Route } from "next";
 
 export default function MobileDrawer() {
-    const { active, close: closeMenu } = useUIStore()
+    const { active, close: closeMenu } = useDrawerStore()
     const [navStack, setNavStack] = useState<NavState[]>([
         { level: 0, category: null, breadcrumb: [] },
     ]);
@@ -111,7 +112,7 @@ export default function MobileDrawer() {
                                         </button>
                                     ) : (
                                         <Link
-                                            href={`/${cat.handle}`}
+                                            href={`/${cat.handle}` as Route}
                                             onClick={(e) => { e.preventDefault(); handleClose(); }}
                                             className="block w-full px-4 py-3.5 rounded-xl text-[15px] text-foreground font-medium hover:bg-muted/70 transition-all duration-200 active:scale-[0.98] border-l-2 border-transparent hover:border-accent"
                                         >
@@ -214,7 +215,7 @@ const FooterSlot = ({ handleClose }: Pick<HeaderSlotProps, "handleClose">) => (
             ].map(({ icon: Icon, label, href }) => (
                 <Link
                     key={label}
-                    href={href}
+                    href={href as Route}
                     onClick={handleClose}
                     className="flex flex-col items-center gap-1 py-2 rounded-lg text-foreground-tertiary hover:text-foreground hover:bg-muted/50 transition-colors"
                 >

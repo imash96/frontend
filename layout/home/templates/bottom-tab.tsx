@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation"
 import { House, Menu, Search, ShoppingBag, User } from "lucide-react"
-import { useUIStore } from "@/lib/store/ui-store"
+import { useDrawerStore } from "@/lib/store/drawer-store"
 import Link from "next/link"
 import type { Route } from "next"
 
@@ -10,7 +10,7 @@ type Tab = { type: "link"; href: Route; label: string; Icon: typeof House } | { 
 
 export default function BottomTabs() {
     const pathname = usePathname()
-    const { toggle } = useUIStore()
+    const { toggle } = useDrawerStore()
 
     // Hide on product pages for better UX
     if (pathname.includes("/product")) return null

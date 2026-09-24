@@ -45,7 +45,7 @@ function CategoryCard({ category, isHero, className = "", priority = false, }: C
     const tags = category.category_children?.slice(0, 3).map((c) => c.name)
     return (
         <Link
-            href={`/category/${category.handle}`}
+            href={`/categories/${category.handle}`}
             className={`group relative overflow-hidden border border-border-subtle bg-muted ring-1 ring-border/0 hover:ring-border/60 transition-all duration-300 ease-(--ease-spring) hover:shadow-primary active:scale-[0.99] focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background ${className}`}
         >
             <Image
@@ -123,7 +123,7 @@ function CategoryCard({ category, isHero, className = "", priority = false, }: C
 
 const CategoryAction = () => (
     <Link
-        href="/category"
+        href="/categories"
         className="hidden sm:inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-primary hover:text-primary-hover transition-colors group"
     >
         View All

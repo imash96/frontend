@@ -12,7 +12,7 @@ export default function ProductInfo({ product, initialPrice, }: {
 }) {
     const crumbs = product.categories?.map((c) => ({
         label: c.name,
-        href: `/category/${c.handle}`,
+        href: `/categories/${c.handle}`,
     }))
 
     const typeName = (product as any).type?.value as string | undefined

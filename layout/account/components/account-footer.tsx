@@ -1,4 +1,5 @@
 import { HelpCircle, Mail, RotateCcw } from "lucide-react";
+import type { Route } from "next";
 import Link from "next/link";
 
 const quickLinks = [
@@ -32,7 +33,7 @@ export default function AccountFooter() {
         {quickLinks.map((link) => (
           <Link
             key={link.href}
-            href={link.href}
+            href={link.href as Route}
             className="group flex items-start gap-3 p-4 rounded-xl border border-border bg-background-elevated hover:bg-background-muted hover:border-border-strong transition-all duration-200"
           >
             <div className="p-2 rounded-lg bg-accent/10 text-accent group-hover:bg-accent/20 transition-colors shrink-0">

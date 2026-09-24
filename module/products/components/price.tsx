@@ -1,6 +1,6 @@
 "use client"
 
-import { useProductStore } from "@/lib/store/use-product"
+import { useProductStore } from "@/lib/store/product-store"
 import { ProductCalculatedPrice } from "@/lib/util/get-product-price";
 
 export default function ProductPrice({ fallback }: { fallback: ProductCalculatedPrice }) {

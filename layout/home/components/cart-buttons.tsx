@@ -4,7 +4,7 @@ import { ArrowRight, Award, LoaderCircle, Trash } from "lucide-react";
 import { deleteLineItem, updateLineItem } from "@/lib/action/cart";
 import { useTransition } from "react";
 import Button from "@/ui/button";
-import { useUIStore } from "@/lib/store/ui-store";
+import { useDrawerStore } from "@/lib/store/drawer-store";
 import CartEmpty from "@/icon/empty-cart";
 
 
@@ -43,7 +43,7 @@ export function RemoveButton({ itemId }: { itemId: string }) {
 }
 
 export function EmptyCart() {
-    const { close } = useUIStore()
+    const { close } = useDrawerStore()
     return (
         <div className="flex flex-col items-center justify-center h-full p-8 text-center">
             <div className="space-y-6" >
@@ -78,7 +78,7 @@ export function EmptyCart() {
 }
 
 export function CompleteOrder() {
-    const { close } = useUIStore()
+    const { close } = useDrawerStore()
     return (
         <Button
             onClick={close}

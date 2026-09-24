@@ -1,6 +1,7 @@
 import { ChevronRight } from "lucide-react"
 import Link from "next/link"
 import type { Crumb } from "@/types/common"
+import type { Route } from "next";
 
 export default function Breadcrumbs({ items }: { items: Crumb[] }) {
     if (items.length < 2) return null
@@ -19,7 +20,7 @@ export default function Breadcrumbs({ items }: { items: Crumb[] }) {
                                 </span>
                             ) : (
                                 <Link
-                                    href={item.href}
+                                    href={item.href as Route}
                                     className="whitespace-nowrap transition-colors hover:text-text-primary hover:underline"
                                 >
                                     {item.label}

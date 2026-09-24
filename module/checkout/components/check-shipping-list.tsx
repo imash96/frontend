@@ -5,7 +5,7 @@ import { CheckCircle, Clock, Truck, TruckElectric } from "lucide-react"
 import { motion } from "motion/react"
 import { useTransition } from "react"
 import { setCheckShipping } from "@/lib/action/checkout"
-import { useCheckStore } from "@/lib/store/check-store"
+import { useCheckStore } from "@/lib/store/checkout-store"
 import { convertToLocale } from "@/lib/util/money"
 
 export default function CheckShippingList({
@@ -52,8 +52,8 @@ export default function CheckShippingList({
             whileHover={!isPending ? { scale: 1.01 } : undefined}
             whileTap={!isPending ? { scale: 0.99 } : undefined}
             className={`relative flex w-full items-start rounded-xl border p-3 sm:p-4 text-left shadow-sm transition-all duration-200 ${isSelected
-                ? "bg-accent/5 ring-2 ring-offset-1 ring-accent border-accent"
-                : "border-border hover:border-accent hover:shadow-md"
+              ? "bg-accent/5 ring-2 ring-offset-1 ring-accent border-accent"
+              : "border-border hover:border-accent hover:shadow-md"
               } ${isPending ? "opacity-50 cursor-wait" : "cursor-pointer"}`}
           >
             <span className="flex-1 min-w-0">

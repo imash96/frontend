@@ -3,7 +3,7 @@
 import type { StoreCart, StoreCustomer } from "@medusajs/types"
 import { BookUser } from "lucide-react"
 import { AnimatePresence, motion } from "motion/react"
-import { useCheckStore } from "@/lib/store/check-store"
+import { useCheckStore } from "@/lib/store/checkout-store"
 import CheckAddressCard from "../components/check-address-card"
 import CheckAddressForm from "../components/check-address-form"
 import CheckStepHeader from "../components/check-step-header"

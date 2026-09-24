@@ -4,6 +4,7 @@ import { product_collections } from "@/data/collection"
 import Button from "@/ui/button"
 import SectionHeader from "../components/section-header"
 import { ArrowRight } from "lucide-react"
+import type { Route } from "next";
 
 export default async function Collection() {
   const active = product_collections.filter((col) =>
@@ -21,7 +22,7 @@ export default async function Collection() {
         {active.map((item) => (
           <Link
             key={item.id}
-            href={`/collection/${item.handle}`}
+            href={`/collections/${item.handle}` as Route}
             className="group flex flex-col gap-3 ring-1 ring-border/40 hover:ring-border overflow-hidden transition-all duration-300"
           >
             {/* FIX 1: aspect-[3/4] prevents CLS */}

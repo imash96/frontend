@@ -3,7 +3,7 @@
 import type { StoreCart, StoreCartShippingOption } from "@medusajs/types"
 import { Truck } from "lucide-react"
 import { AnimatePresence, motion } from "motion/react"
-import { useCheckStore } from "@/lib/store/check-store"
+import { useCheckStore } from "@/lib/store/checkout-store"
 import CheckShippingList from "../components/check-shipping-list"
 import CheckShippingShow from "../components/check-shipping-show"
 import CheckStepHeader from "../components/check-step-header"

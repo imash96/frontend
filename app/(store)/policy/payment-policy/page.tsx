@@ -1,5 +1,3 @@
-export const dynamic = 'force-static'
-
 import buildJsonLd from "@/lib/util/jsonld"
 import PaymentPolicy from "@/module/policy/templates/payment-policy"
 import type { Metadata } from "next"

@@ -10,6 +10,7 @@ import { ProductCategory } from "@/types/common";
 import { AnimatePresence } from "motion/react";
 import { div as Div } from "motion/react-client";
 import { MEGA_MENU, MegaMenu } from "@/data/header";
+import type { Route } from "next";
 
 type NavigationProps = {
     links: Array<{
@@ -47,7 +48,7 @@ export default function HeaderServer({ links }: NavigationProps) {
                         onMouseLeave={handleMouseLeave}
                     >
                         <Link
-                            href={`/category/${category.handle}`}
+                            href={`/categories/${category.handle}`}
                             className={`flex items-center gap-1 px-3 xl:px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 ${isActive ? "text-accent bg-accent/10" : "text-foreground over:text-accent hover:bg-muted/50"}`}
                         >
                             {category.name}
@@ -96,7 +97,7 @@ export default function HeaderServer({ links }: NavigationProps) {
 
                                                 {category.metadata?.thumbnail as string && (
                                                     <Link
-                                                        href={`/category/${category.handle}`}
+                                                        href={`/categories/${category.handle}`}
                                                         className="relative overflow-hidden rounded-lg group mb-4 aspect-3/4 block"
                                                     >
                                                         <Image
@@ -118,7 +119,7 @@ export default function HeaderServer({ links }: NavigationProps) {
                                                 )}
 
                                                 <Link
-                                                    href={`/category/${category.handle}`}
+                                                    href={`/categories/${category.handle}`}
                                                     className="mt-auto text-sm font-medium text-accent hover:text-accent-hover transition-colors duration-200 flex items-center gap-2 group"
                                                 >
                                                     <span>Shop All {category.name}</span>
@@ -142,7 +143,7 @@ export default function HeaderServer({ links }: NavigationProps) {
                 return (
                     <Link
                         key={`link-${link.href}`}
-                        href={link.href}
+                        href={link.href as Route}
                         className={`px-3 xl:px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 ${isActive ? "text-accent bg-accent/10" : "text-foreground hover:text-accent hover:bg-muted/50"}`}
                     >
                         {link.label}
@@ -158,7 +159,7 @@ function MegaMenuColumn({ category }: { category: ProductCategory }) {
     return (
         <div className="space-y-3">
             <Link
-                href={`/category/${category.handle}`}
+                href={`/categories/${category.handle}`}
                 className="block group"
             >
                 <h3 className="font-heading font-semibold text-sm uppercase tracking-wide text-foreground mb-3 group-hover:text-accent transition-colors duration-200">
@@ -171,7 +172,7 @@ function MegaMenuColumn({ category }: { category: ProductCategory }) {
                     {category.category_children.slice(0, 6).map((subCat) => (
                         <li key={`submenu-${subCat.id || subCat.handle}`}>
                             <Link
-                                href={`/category/${subCat.handle}`}
+                                href={`/categories/${subCat.handle}`}
                                 className="text-sm text-foreground-secondary hover:text-accent transition-colors duration-200 flex items-center gap-2 group"
                             >
                                 <span className="group-hover:translate-x-1 transition-transform duration-200">
@@ -188,7 +189,7 @@ function MegaMenuColumn({ category }: { category: ProductCategory }) {
                     {category.category_children.length > 6 && (
                         <li>
                             <Link
-                                href={`/category/${category.handle}`}
+                                href={`/categories/${category.handle}`}
                                 className="text-sm font-medium text-accent hover:text-accent-hover transition-colors duration-200 inline-flex items-center gap-1 mt-2"
                             >
                                 <span>View All</span>

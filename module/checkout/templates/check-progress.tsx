@@ -2,7 +2,7 @@
 
 import { Check, CreditCard, MapPin, Truck } from "lucide-react"
 import { motion } from "motion/react"
-import { useCheckStore } from "@/lib/store/check-store"
+import { useCheckStore } from "@/lib/store/checkout-store"
 import type { StepType } from "@/types/common"
 
 const steps: {
@@ -11,25 +11,25 @@ const steps: {
   subtitle: string
   Icon: typeof MapPin
 }[] = [
-  {
-    id: "address",
-    name: "Address",
-    subtitle: "Shipping & billing",
-    Icon: MapPin,
-  },
-  {
-    id: "shipping",
-    name: "Shipping",
-    subtitle: "Delivery method",
-    Icon: Truck,
-  },
-  {
-    id: "payment",
-    name: "Payment",
-    subtitle: "Payment details",
-    Icon: CreditCard,
-  },
-]
+    {
+      id: "address",
+      name: "Address",
+      subtitle: "Shipping & billing",
+      Icon: MapPin,
+    },
+    {
+      id: "shipping",
+      name: "Shipping",
+      subtitle: "Delivery method",
+      Icon: Truck,
+    },
+    {
+      id: "payment",
+      name: "Payment",
+      subtitle: "Payment details",
+      Icon: CreditCard,
+    },
+  ]
 
 export default function CheckProgress() {
   const currentStep = useCheckStore((s) => s.currentStep)
@@ -55,13 +55,12 @@ export default function CheckProgress() {
               }
             >
               <div
-                className={`flex flex-col sm:flex-row items-center sm:items-start gap-1.5 sm:gap-0 ${
-                  isClickable
+                className={`flex flex-col sm:flex-row items-center sm:items-start gap-1.5 sm:gap-0 ${isClickable
                     ? "cursor-pointer"
                     : isCurrent
                       ? "cursor-default"
                       : "cursor-not-allowed"
-                }`}
+                  }`}
                 aria-current={isCurrent ? "step" : undefined}
                 aria-disabled={!isClickable && !isCurrent}
                 aria-label={`${step.name} step${isCompleted ? ", completed" : isCurrent ? ", current" : ""}`}
@@ -70,19 +69,16 @@ export default function CheckProgress() {
                 }}
               >
                 <motion.div
-                  className={`flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-full border-2 text-xs sm:text-sm font-medium transition-colors duration-300 ${
-                    isCompleted
+                  className={`flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-full border-2 text-xs sm:text-sm font-medium transition-colors duration-300 ${isCompleted
                       ? "border-primary bg-primary text-primary-foreground shadow-sm"
                       : ""
-                  } ${
-                    isCurrent
+                    } ${isCurrent
                       ? "border-accent text-accent ring-4 ring-accent/10"
                       : ""
-                  } ${
-                    !isCompleted && !isCurrent
+                    } ${!isCompleted && !isCurrent
                       ? "border-foreground-muted/30 text-foreground-muted/50"
                       : ""
-                  }`}
+                    }`}
                   layout
                 >
                   {isCompleted ? (
@@ -103,24 +99,22 @@ export default function CheckProgress() {
                 </motion.div>
                 <div className="text-center sm:text-left sm:ml-3">
                   <p
-                    className={`text-[10px] sm:text-sm font-semibold leading-tight transition-colors ${
-                      isCurrent
+                    className={`text-[10px] sm:text-sm font-semibold leading-tight transition-colors ${isCurrent
                         ? "text-accent"
                         : isCompleted
                           ? "text-primary"
                           : "text-foreground-muted/50"
-                    }`}
+                      }`}
                   >
                     {step.name}
                   </p>
                   <p
-                    className={`text-[9px] sm:text-xs leading-tight hidden sm:block ${
-                      isCurrent
+                    className={`text-[9px] sm:text-xs leading-tight hidden sm:block ${isCurrent
                         ? "text-foreground"
                         : isCompleted
                           ? "text-foreground-muted"
                           : "text-foreground-disabled"
-                    }`}
+                      }`}
                   >
                     {step.subtitle}
                   </p>
