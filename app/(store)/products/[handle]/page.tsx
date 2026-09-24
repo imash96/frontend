@@ -1,8 +1,8 @@
-import { cache } from "react"
 import { cookies } from "next/headers"
 import { notFound } from "next/navigation"
 import type { Metadata } from "next"
 import { Suspense } from "react"
+import { cacheLife } from "next/cache"
 import { listProducts } from "@/lib/action/product"
 import { getRegion } from "@/lib/action/regions"
 import { sdk } from "@/lib/sdk"
@@ -18,8 +18,9 @@ import ProductReview from "@/module/products/templates/review"
 
 const PRODUCT_FIELDS = "*variants.calculated_price,*variants.prices,*variants.options,+variants.inventory_quantity,+variants.sku,+variants.manage_inventory,+variants.allow_backorder,*variants.images,+variant_rank,*images,*options,*options.values,*categories,*categories.id,*categories.name,*categories.handle,+tags.value,+type.value,+material,+origin_country,+weight,+length,+width,+height,+subtitle,+collection"
 
-const loadPageData = cache(async (handle: string) => {
+async function loadPageData(handle: string) {
     'use cache: private'
+    cacheLife({ stale: 60 })
     const countryCode =
         (await cookies()).get("__country_code")?.value || process.env.NEXT_PUBLIC_DEFAULT_REGION || "us"
 
@@ -34,7 +35,7 @@ const loadPageData = cache(async (handle: string) => {
     if (!product?.id) return null
 
     return { product, region, countryCode }
-})
+}
 
 export default async function ProductDetailPage(props: PageProps<"/products/[handle]">) {
     const { handle } = await props.params

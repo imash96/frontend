@@ -8,6 +8,9 @@ import Link from "next/link"
 import { notFound } from "next/navigation"
 import Script from "next/script"
 
+/* Order pages are fully user-specific (auth cookies + dynamic [id]) */
+export const instant = false
+
 export default async function Page(props: PageProps<"/order/[id]">) {
     const { id } = await props.params
     const order = await retrieveOrder(id).catch(() => null)

@@ -1,4 +1,4 @@
-"use server"
+import "server-only"
 
 import { sdk } from "@/lib/sdk"
 import { StoreProductCategory, StoreProductCategoryListResponse } from "@medusajs/types"

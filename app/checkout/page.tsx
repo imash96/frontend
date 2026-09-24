@@ -14,6 +14,9 @@ import StepPayment from "@/module/checkout/templates/step-payment"
 import CheckStoreInitializer from "@/module/checkout/templates/check-store-initializer"
 import type { StepType } from "@/types/common"
 
+/* Checkout is fully user-specific (reads cookies for auth + cart ID) */
+export const instant = false
+
 export default async function CheckPage() {
   const cart = await getCheckCart()
 

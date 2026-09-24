@@ -7,6 +7,9 @@ import DashNav from "@/layout/account/templates/dash-nav";
 import { retrieveCustomer } from "@/lib/action/customer";
 import Container from "@/ui/container";
 
+/* Account section is fully user-specific (reads auth cookies) */
+export const instant = false
+
 export default function Layout({ children }: LayoutProps<"/account">) {
   const customer = use(retrieveCustomer());
   if (!customer) return notFound();

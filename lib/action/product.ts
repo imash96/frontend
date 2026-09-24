@@ -1,11 +1,11 @@
 import "server-only"
 
+import { cacheLife, cacheTag } from "next/cache"
 import { sdk } from "@/lib/sdk"
 import { OptionValueIds } from "@/lib/util/product-option-filters"
 import { sortProducts } from "@/lib/util/sort-products"
 import { FindParams, StoreProduct, StoreProductListParams } from "@medusajs/types"
 import { SortOptions } from "@/types/common"
-import { getAuthHeaders } from "./cookies"
 import { getRegion, retrieveRegion } from "./regions"
 
 type ProductListQueryParams = (FindParams &
@@ -37,10 +37,6 @@ export const listProducts = async ({
         }
     }
 
-    const headers = {
-        ...(await getAuthHeaders()),
-    }
-
     const tags = queryParams?.category_id ? [`products-${region?.id}-${queryParams.category_id}`] : [`products-${region?.id}`]
 
     return sdk.client
@@ -55,7 +51,6 @@ export const listProducts = async ({
                     fields: "*variants.calculated_price,+variants.inventory_quantity,*variants.images,*variants.options,+metadata,+tags,",
                     ...queryParams,
                 },
-                headers,
                 next: {
                     tags,
                 },
@@ -97,9 +92,9 @@ export const listProductsWithSort = async ({
     } = await listProducts({
         pageParam: 0,
         queryParams: {
+            limit: 100,
             ...queryParams,
             ...(optionFilters.length ? { option_value_id: optionFilters } : {}),
-            limit: 100,
         },
         countryCode,
     })
@@ -125,7 +120,9 @@ export const listProductsWithSort = async ({
 }
 
 export async function fetchProductsByCollection({ regionId, collectionId, limit = 6 }: FetchByCollectionProps): Promise<StoreProduct[]> {
-    'use cache'
+    'use cache: private'
+    cacheLife('hours')
+    cacheTag(`products-collection-${collectionId}`)
     const { response: { products } } = await listProducts(
         {
             regionId,

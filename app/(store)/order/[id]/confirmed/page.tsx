@@ -8,6 +8,9 @@ import { notFound } from "next/navigation"
 import Script from "next/script"
 import Container from "@/ui/container"
 
+/* Order confirmed is fully user-specific (auth cookies + dynamic [id]) */
+export const instant = false
+
 export default async function Page(props: PageProps<"/order/[id]">) {
     const { id } = await props.params
     const order = await retrieveOrder(id).catch(() => null)

@@ -19,6 +19,9 @@ import { Suspense } from "react"
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://vellehide.com"
 const PRODUCTS_PER_PAGE = 28
 
+/* Opt out of instant navigation — this route reads searchParams + cookies */
+export const instant = false
+
 /* ─── Types ──────────────────────────────────────────────────────────── */
 
 type SearchParams = {

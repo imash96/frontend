@@ -24,10 +24,10 @@ export default function ProductCard({
         price.original_amount > (price.calculated_amount ?? 0)
     const discountPct = hasDiscount
         ? Math.round(
-              ((price.original_amount! - (price.calculated_amount ?? 0)) /
-                  price.original_amount!) *
-                  100,
-          )
+            ((price.original_amount! - (price.calculated_amount ?? 0)) /
+                price.original_amount!) *
+            100,
+        )
         : 0
 
     return (
@@ -36,18 +36,14 @@ export default function ProductCard({
             className="group block relative"
         >
             {/* Image Container */}
-            <div className="relative overflow-hidden rounded-xl sm:rounded-2xl mb-3 sm:mb-4 aspect-[3/4] bg-surface-sunken">
+            <div className="relative overflow-hidden mb-3 sm:mb-4 aspect-3/4 bg-white">
                 {firstImg && (
                     <Image
                         src={firstImg}
                         alt={product.title}
                         fill
                         sizes="(max-width:480px) 100vw, (max-width:768px) 50vw, (max-width:1024px) 33vw, 25vw"
-                        className={`object-cover transition-all duration-700 ease-out ${
-                            secondImg
-                                ? "group-hover:opacity-0 group-hover:scale-105"
-                                : "group-hover:scale-[1.06]"
-                        }`}
+                        className={`object-contain transition-all duration-700 ease-out ${secondImg ? "group-hover:opacity-0 group-hover:scale-105" : "group-hover:scale-[1.06]"}`}
                         priority={priority}
                     />
                 )}
@@ -58,7 +54,7 @@ export default function ProductCard({
                         alt=""
                         fill
                         sizes="(max-width:480px) 100vw, (max-width:768px) 50vw, (max-width:1024px) 33vw, 25vw"
-                        className="object-cover opacity-0 group-hover:opacity-100 transition-all duration-700 ease-out scale-105 group-hover:scale-100"
+                        className="object-contain opacity-0 group-hover:opacity-100 transition-all duration-700 ease-out scale-105 group-hover:scale-100"
                         loading="lazy"
                     />
                 )}
@@ -104,11 +100,10 @@ export default function ProductCard({
                 {price && (
                     <div className="flex items-baseline gap-2 pt-0.5">
                         <span
-                            className={`text-sm sm:text-base font-semibold ${
-                                hasDiscount
-                                    ? "text-red-600"
-                                    : "text-text-primary"
-                            }`}
+                            className={`text-sm sm:text-base font-semibold ${hasDiscount
+                                ? "text-red-600"
+                                : "text-text-primary"
+                                }`}
                         >
                             {convertToLocale({
                                 amount: price.calculated_amount ?? 0,

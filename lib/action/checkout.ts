@@ -228,7 +228,7 @@ export async function initCheckPayment(
       },
     )
     .then(async (resp) => {
-      await updateCacheTags("carts", "fulfillments")
+      await updateCacheTags("carts", "fulfillment")
       return resp
     })
     .catch(medusaError)

@@ -1,7 +1,5 @@
-import { cookies } from "next/headers";
 import Link from "next/link";
 import { Metadata, Viewport } from "next";
-import { use } from "react";
 import { Bricolage_Grotesque, Inter } from "next/font/google";
 
 import "@/css/globals.css";
@@ -32,14 +30,22 @@ export const viewport: Viewport = {
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
-  const theme = use(cookies()).get('__theme')?.value
   return (
     <html
       lang="en"
-      data-theme={theme ? theme : "light"}
+      data-theme="light"
       className={`${inter.variable} ${bricolage.variable} h-full antialiased`}
       data-scroll-behavior="smooth"
+      suppressHydrationWarning
     >
+      <head>
+        {/* Read theme cookie before first paint — no flash, page stays static */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var m=document.cookie.match(/(?:^|; )__theme=([^;]*)/);if(m)document.documentElement.setAttribute("data-theme",decodeURIComponent(m[1]))}catch(e){}})()`,
+          }}
+        />
+      </head>
       <body className="min-h-dvh">
         <SkipToContent />
         {children}

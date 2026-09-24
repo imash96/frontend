@@ -1,6 +1,8 @@
 import Container from "@/ui/container"
 import Image from "next/image"
 
+const YEAR = new Date().getFullYear()
+
 export default async function CheckFooter() {
   return (
     <footer
@@ -22,7 +24,7 @@ export default async function CheckFooter() {
             alt="Stripe Payment Secure"
           />
           <p className="text-xs sm:text-sm">
-            &copy; {new Date().getFullYear()} Velle Hide
+            &copy; {YEAR} Velle Hide
           </p>
         </div>
       </Container>

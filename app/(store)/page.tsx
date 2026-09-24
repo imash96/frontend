@@ -19,9 +19,6 @@ import JsonLd from "@/module/products/templates/json-ld";
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://vellehide.com";
 
 export default async function Page() {
-  const countryCode = (await cookies()).get("__country_code")?.value || process.env.NEXT_PUBLIC_DEFAULT_REGION || "us"
-  const region = await getRegion(countryCode);
-
   return (
     <>
       <JsonLd data={organizationJsonLd} />
@@ -32,39 +29,51 @@ export default async function Page() {
       <HeroCarousel />
       <IconGridSection items={uspData} />
       <Category />
-      {region ? (
-        <>
-          <Suspense fallback={<ProductRowSkeleton />}>
-            <NewArrival region_id={region.id} />
-          </Suspense>
-          <Collection />
-          <CustomMadeBanner />
-          <Suspense fallback={<ProductRowSkeleton />}>
-            <TrendingNow region_id={region.id} />
-          </Suspense>
-          <GalleryWall />
-          <Testimonials />
-          <Suspense fallback={<ProductRowSkeleton />}>
-            <OnSale region_id={region.id} />
-          </Suspense>
-        </>
-      ) : (
-        // Previously `return null` here — a blank 200-status page for
-        // both visitors and crawlers if region lookup ever failed.
-        <Container size="2xl" className="py-16 text-center">
-          <p className="text-sm text-text-secondary">
-            We couldn&apos;t load products for your region right now.
-          </p>
-          <Button href="/" variant="outline" className="mt-4">
-            Refresh
-          </Button>
-          <div className="mt-10">
-            <Collection />
-          </div>
-        </Container>
-      )}
+      <Suspense fallback={<ProductRowSkeleton />}>
+        <RegionProducts />
+      </Suspense>
       <Blog />
       <IconGridSection items={podData} type="bottom" />
+    </>
+  );
+}
+
+/** Reads the country cookie and renders region-dependent product sections */
+async function RegionProducts() {
+  const countryCode = (await cookies()).get("__country_code")?.value || process.env.NEXT_PUBLIC_DEFAULT_REGION || "us"
+  const region = await getRegion(countryCode);
+
+  if (!region) {
+    return (
+      <Container size="2xl" className="py-16 text-center">
+        <p className="text-sm text-text-secondary">
+          We couldn&apos;t load products for your region right now.
+        </p>
+        <Button href="/" variant="outline" className="mt-4">
+          Refresh
+        </Button>
+        <div className="mt-10">
+          <Collection />
+        </div>
+      </Container>
+    );
+  }
+
+  return (
+    <>
+      <Suspense fallback={<ProductRowSkeleton />}>
+        <NewArrival region_id={region.id} />
+      </Suspense>
+      <Collection />
+      <CustomMadeBanner />
+      <Suspense fallback={<ProductRowSkeleton />}>
+        <TrendingNow region_id={region.id} />
+      </Suspense>
+      <GalleryWall />
+      <Testimonials />
+      <Suspense fallback={<ProductRowSkeleton />}>
+        <OnSale region_id={region.id} />
+      </Suspense>
     </>
   );
 }

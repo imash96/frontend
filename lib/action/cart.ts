@@ -7,7 +7,6 @@ import { redirect } from "next/navigation"
 import {
     getAuthHeaders,
     getCacheOptions,
-    getCacheTag,
     getCartId,
     removeCartId,
     setCartId,
@@ -16,7 +15,6 @@ import {
 } from "./cookies"
 import { getRegion } from "./regions"
 import { getLocale } from "./locale"
-import { revalidateTag } from "next/cache"
 
 /**
  * Retrieves a cart by its ID. If no ID is provided, it will use the cart ID from the cookies.
@@ -214,7 +212,7 @@ export async function setShippingMethod({
             headers,
         );
 
-        updateCacheTags("carts")
+        await updateCacheTags("carts")
 
         return { success: true };
     } catch (err) {
@@ -490,11 +488,10 @@ export async function updateRegion(countryCode: string) {
         // updateCart() already revalidates "carts" (and "fulfillment")
         // internally - no need to revalidate it again here.
         await updateCart({ region_id: region.id })
-        revalidateTag(await getCacheTag("carts"), 'max');
+        await updateCacheTags("carts")
     }
 
-    revalidateTag(await getCacheTag("regions"), 'max');
-    revalidateTag(await getCacheTag("products"), 'max');
+    await updateCacheTags("regions", "products")
 
     await setCountryCode(countryCode);
 }

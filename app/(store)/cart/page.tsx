@@ -17,6 +17,8 @@ export const metadata: Metadata = {
   description: "Review the items in your cart before checkout.",
   robots: { index: false, follow: true },
 };
+/* Cart is fully user-specific (reads cookies for auth + cart ID) */
+export const instant = false
 
 export default async function Page() {
   const [customer, cart] = await Promise.all([

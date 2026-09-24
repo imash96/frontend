@@ -119,7 +119,8 @@ export default async function FooterVariant4() {
                     <div className="mx-auto max-w-7xl px-6 py-5 flex flex-col md:flex-row items-center justify-between gap-4">
                         {/* Copyright */}
                         <p className="text-[11px] text-card uppercase tracking-widest">
-                            &copy; {new Date().getFullYear()} Velle Hide · Handcrafted with care
+                            {/* &copy; {new Date().getFullYear()} Velle Hide · Handcrafted with care */}
+                            &copy; 2026 Velle Hide · Handcrafted with care
                         </p>
 
                         {/* Region */}
