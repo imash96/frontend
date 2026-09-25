@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     robots: { index: false, follow: false },
 };
 
-export default function RootNotFound() {
+export default function CollectionsNotFound() {
     return (
         <main className="flex min-h-dvh flex-col items-center justify-center gap-6 px-5 text-center" tabIndex={-1}>
             <p className="font-heading text-7xl font-bold text-primary/20">404</p>
@@ -23,7 +23,7 @@ export default function RootNotFound() {
                 <Button href="/" variant="primary">
                     Back to homepage
                 </Button>
-                <Button href="/categories" variant="outline" icon={<Compass className="h-4 w-4" />}>
+                <Button href="/collections" variant="outline" icon={<Compass className="h-4 w-4" />}>
                     Browse collections
                 </Button>
             </div>

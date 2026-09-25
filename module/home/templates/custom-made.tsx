@@ -19,7 +19,7 @@ export default function CustomMadeBanner() {
 
             {/* Content */}
             <div className="flex flex-col items-center justify-center text-center relative z-10 mx-auto max-w-3xl px-4">
-                
+
                 {/* Decorative Icon */}
                 <div className="mb-6 inline-flex items-center justify-center size-12 rounded-full border border-accent/30 bg-accent/10 backdrop-blur-sm text-accent">
                     <Scissors className="size-5" />
@@ -46,7 +46,7 @@ export default function CustomMadeBanner() {
 
                 {/* CTA */}
                 <Button
-                    href="/bespoke"
+                    href="/guides/bespoke-order"
                     variant="secondary"
                     size="lg"
                     shape="rounded"

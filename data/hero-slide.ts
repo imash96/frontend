@@ -19,7 +19,7 @@ export const heroSlides: HeroSlide[] = [
         cta: {
             primary: {
                 text: "Our Story",
-                href: "/about",
+                href: "/about-us",
             },
             secondary: {
                 text: "Shop All",
@@ -52,11 +52,11 @@ export const heroSlides: HeroSlide[] = [
         cta: {
             primary: {
                 text: "Shop Men",
-                href: "/collections/men",
+                href: "/collections/mens-leather-apparel",
             },
             secondary: {
                 text: "Shop Women",
-                href: "/collections/women",
+                href: "/collections/womens-leather-apparel",
             },
         },
         image:
@@ -89,7 +89,7 @@ export const heroSlides: HeroSlide[] = [
             },
             secondary: {
                 text: "Care Guide",
-                href: "/leather-care",
+                href: "/guides/care-guide",
             },
         },
         image:
@@ -118,11 +118,11 @@ export const heroSlides: HeroSlide[] = [
         cta: {
             primary: {
                 text: "Best Sellers",
-                href: "/collections/best-sellers",
+                href: "/collections/best-seller",
             },
             secondary: {
                 text: "Why Vellehide",
-                href: "/about#why-vellehide",
+                href: "/about-us#why-vellehide",
             },
         },
         image:
@@ -151,11 +151,11 @@ export const heroSlides: HeroSlide[] = [
         cta: {
             primary: {
                 text: "Start Your Order",
-                href: "/bespoke",
+                href: "/guides/bespoke-order",
             },
             secondary: {
                 text: "View Gallery",
-                href: "/bespoke#gallery",
+                href: "/guides/bespoke-order#gallery",
             },
         },
         image:
