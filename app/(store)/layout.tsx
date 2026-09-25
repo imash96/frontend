@@ -9,8 +9,10 @@ import { Suspense } from "react";
 export default function StoreLayout({ children }: LayoutProps<"/">) {
     return (
         <>
-            <AnnouncementBar items={announcements} />
-            <Suspense fallback={<header className="h-20 w-full" />}>
+            <Suspense fallback={<div className="h-9 w-full bg-card-foreground" />}>
+                <AnnouncementBar items={announcements} />
+            </Suspense>
+            <Suspense fallback={<header className="h-16 lg:h-20 w-full" />}>
                 <Header />
             </Suspense>
             <Suspense fallback={null}>

@@ -1,5 +1,3 @@
-"use client"
-
 import { create } from "zustand"
 import { devtools } from "zustand/middleware"
 import type { StoreProduct, StoreProductVariant } from "@medusajs/types"
@@ -16,7 +14,7 @@ type ProductState = {
     isPending: boolean
     lastError: string | null
 
-    // derived - recomputed by computeState() whenever product/options change
+    // derived - recomputed inline whenever product/options change
     selectedVariant?: StoreProductVariant
     isValidVariant: boolean
     inStock: boolean
@@ -29,7 +27,6 @@ type ProductState = {
     setQuantity: (quantity: number) => void
     incrementQuantity: () => void
     decrementQuantity: () => void
-    computeState: () => void
     handleAddToCart: () => Promise<boolean>
     reset: () => void
 }
@@ -45,6 +42,47 @@ const areOptionsEqual = (a: VariantOptions, b: VariantOptions) => {
     const bKeys = Object.keys(b)
     if (aKeys.length === 0 || aKeys.length !== bKeys.length) return false
     return aKeys.every((k) => a[k] !== undefined && a[k] === b[k])
+}
+
+/**
+ * Computes derived state (selected variant, pricing, stock) from current
+ * product and selected options. Called inline within setProduct/setOption
+ * to produce a single atomic state update instead of two sequential ones.
+ */
+function computeDerived(product: StoreProduct, options: VariantOptions, currentQuantity: number) {
+    const selectedVariant = product.variants?.find((v) =>
+        areOptionsEqual(optionsAsKeymap(v.options), options)
+    )
+
+    const { cheapestPrice, variantPrice } = getProductPrice({
+        product,
+        variantId: selectedVariant?.id,
+    })
+
+    let inStock = false
+    let availableQuantity: number | null = null
+
+    if (selectedVariant) {
+        if (!selectedVariant.manage_inventory) {
+            inStock = true
+        } else if (selectedVariant.allow_backorder) {
+            inStock = true
+            availableQuantity = selectedVariant.inventory_quantity ?? null
+        } else {
+            availableQuantity = selectedVariant.inventory_quantity ?? 0
+            inStock = availableQuantity > 0
+        }
+    }
+
+    return {
+        selectedVariant,
+        isValidVariant: Boolean(selectedVariant),
+        cheapestPrice,
+        variantPrice,
+        inStock,
+        availableQuantity,
+        quantity: Math.min(currentQuantity, Math.max(1, availableQuantity ?? 99)),
+    }
 }
 
 const DEFAULT_SLICE = {
@@ -68,9 +106,7 @@ export const useProductStore = create<ProductState>()(
             ...DEFAULT_SLICE,
 
             setProduct: (product, countryCode) => {
-                // Pre-fill any option that only has one possible value - there's
-                // nothing to choose, so the shopper should never have to interact
-                // with it for the variant to become selectable.
+                // Pre-fill any option that only has one possible value
                 const autoOptions: VariantOptions = {}
                 product.options?.forEach((option) => {
                     if (option.values?.length === 1) {
@@ -78,13 +114,31 @@ export const useProductStore = create<ProductState>()(
                     }
                 })
 
-                set({ ...DEFAULT_SLICE, product, countryCode, options: autoOptions })
-                get().computeState()
+                const derived = computeDerived(product, autoOptions, 1)
+                set({
+                    ...DEFAULT_SLICE,
+                    product,
+                    countryCode,
+                    options: autoOptions,
+                    ...derived,
+                })
             },
 
             setOption: (optionId, value) => {
-                set((state) => ({ options: { ...state.options, [optionId]: value }, lastError: null }))
-                get().computeState()
+                const state = get()
+                const nextOptions = { ...state.options, [optionId]: value }
+
+                if (!state.product) {
+                    set({ options: nextOptions, lastError: null })
+                    return
+                }
+
+                const derived = computeDerived(state.product, nextOptions, state.quantity)
+                set({
+                    options: nextOptions,
+                    lastError: null,
+                    ...derived,
+                })
             },
 
             setQuantity: (quantity) => {
@@ -101,45 +155,6 @@ export const useProductStore = create<ProductState>()(
             decrementQuantity: () => {
                 const { quantity } = get()
                 if (quantity > 1) set({ quantity: quantity - 1 })
-            },
-
-            computeState: () => {
-                const { product, options } = get()
-                if (!product) return
-
-                const selectedVariant = product.variants?.find((v) =>
-                    areOptionsEqual(optionsAsKeymap(v.options), options)
-                )
-
-                const { cheapestPrice, variantPrice } = getProductPrice({
-                    product,
-                    variantId: selectedVariant?.id,
-                })
-
-                let inStock = false
-                let availableQuantity: number | null = null
-
-                if (selectedVariant) {
-                    if (!selectedVariant.manage_inventory) {
-                        inStock = true
-                    } else if (selectedVariant.allow_backorder) {
-                        inStock = true
-                        availableQuantity = selectedVariant.inventory_quantity ?? null
-                    } else {
-                        availableQuantity = selectedVariant.inventory_quantity ?? 0
-                        inStock = availableQuantity > 0
-                    }
-                }
-
-                set((state) => ({
-                    selectedVariant,
-                    isValidVariant: Boolean(selectedVariant),
-                    cheapestPrice,
-                    variantPrice,
-                    inStock,
-                    availableQuantity,
-                    quantity: Math.min(state.quantity, Math.max(1, availableQuantity ?? 99)),
-                }))
             },
 
             handleAddToCart: async () => {

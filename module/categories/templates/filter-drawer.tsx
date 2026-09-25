@@ -1,7 +1,7 @@
 "use client"
 
 import { useDrawerStore, useIsUIOpen } from "@/lib/store/drawer-store"
-import { useFilterStore, buildFilterParams } from "@/lib/store/filter-store"
+import { useFilterStore, buildFilterParams, useActiveFilterCount } from "@/lib/store/filter-store"
 import { StoreProductCategory } from "@medusajs/types"
 import { useRouter, usePathname, useSearchParams } from "next/navigation"
 import { useCallback, useEffect, useRef, useTransition } from "react"
@@ -53,7 +53,6 @@ export default function FilterDrawer({
         setMaxPrice,
         toggleOptionValue,
         clearAll,
-        activeCount,
     } = useFilterStore()
 
     const [, startTransition] = useTransition()
@@ -123,7 +122,7 @@ export default function FilterDrawer({
 
     const children = currentCategory?.category_children ?? []
     const parent = currentCategory?.parent_category
-    const totalActive = activeCount()
+    const totalActive = useActiveFilterCount()
 
     /* ── Price range match ─────────────────────────────────────────── */
 
@@ -135,11 +134,10 @@ export default function FilterDrawer({
             {/* Overlay */}
             <div
                 aria-hidden="true"
-                className={`fixed inset-0 z-40 bg-black/40 backdrop-blur-[2px] transition-opacity duration-300 ${
-                    isOpen
+                className={`fixed inset-0 z-40 bg-black/40 backdrop-blur-[2px] transition-opacity duration-300 ${isOpen
                         ? "opacity-100 pointer-events-auto"
                         : "opacity-0 pointer-events-none"
-                }`}
+                    }`}
                 onClick={closeDrawer}
             />
 
@@ -148,9 +146,8 @@ export default function FilterDrawer({
                 role="dialog"
                 aria-modal="true"
                 aria-labelledby="filter-drawer-title"
-                className={`fixed left-0 top-0 z-50 h-full w-[88vw] max-w-sm flex flex-col bg-surface shadow-2xl transition-transform duration-300 ease-out ${
-                    isOpen ? "translate-x-0" : "-translate-x-full"
-                }`}
+                className={`fixed left-0 top-0 z-50 h-full w-[88vw] max-w-sm flex flex-col bg-surface shadow-2xl transition-transform duration-300 ease-out ${isOpen ? "translate-x-0" : "-translate-x-full"
+                    }`}
             >
                 {/* ── Header ──────────────────────────────────────────── */}
                 <header className="flex items-center justify-between px-5 sm:px-6 py-4 border-b border-border shrink-0">
@@ -237,11 +234,10 @@ export default function FilterDrawer({
                                                 toggleOptionValue(val.id)
                                             }
                                             aria-pressed={active}
-                                            className={`px-3.5 py-2 text-xs font-medium rounded-xl border transition-all duration-200 ${
-                                                active
+                                            className={`px-3.5 py-2 text-xs font-medium rounded-xl border transition-all duration-200 ${active
                                                     ? "bg-primary/10 text-primary border-primary shadow-sm"
                                                     : "border-border text-text-secondary hover:border-text-tertiary hover:text-text-primary"
-                                            }`}
+                                                }`}
                                         >
                                             {val.value}
                                         </button>
@@ -270,11 +266,10 @@ export default function FilterDrawer({
                                             }
                                         }}
                                         aria-pressed={active}
-                                        className={`px-3 py-1.5 text-xs font-medium rounded-lg border transition-all duration-200 ${
-                                            active
+                                        className={`px-3 py-1.5 text-xs font-medium rounded-lg border transition-all duration-200 ${active
                                                 ? "bg-primary/10 text-primary border-primary"
                                                 : "border-border text-text-secondary hover:border-text-tertiary"
-                                        }`}
+                                            }`}
                                     >
                                         {range.label}
                                     </button>

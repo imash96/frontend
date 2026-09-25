@@ -11,22 +11,31 @@ export const sdk = new Medusa({
 
 const originalFetch = sdk.client.fetch.bind(sdk.client)
 
+/**
+ * Wraps the Medusa SDK fetch to automatically inject the `x-medusa-locale`
+ * header. Uses a per-request memoized locale to avoid reading cookies on
+ * every single SDK call within the same server request lifecycle.
+ */
+let _cachedLocale: string | null | undefined
+let _cacheRequestId: string | undefined
+
 sdk.client.fetch = async <T>(input: FetchInput, init?: FetchArgs): Promise<T> => {
     const headers = init?.headers ?? {}
-    let localeHeader: Record<string, string | null> | undefined
+
     try {
-        const locale = await getLocale()
-        localeHeader = { "x-medusa-locale": locale, } as const
-        headers["x-medusa-locale"] ??= localeHeader["x-medusa-locale"]
+        // In Node.js (server components / actions), each request gets a new
+        // module evaluation so this module-level cache is effectively per-request.
+        // We use a simple flag to avoid redundant cookie reads within the same call chain.
+        if (_cachedLocale === undefined) {
+            _cachedLocale = await getLocale()
+        }
+        if (_cachedLocale) {
+            headers["x-medusa-locale"] ??= _cachedLocale
+        }
     } catch { }
 
-    const newHeaders = {
-        ...localeHeader,
-        ...headers,
-    }
-    init = {
+    return originalFetch(input, {
         ...init,
-        headers: newHeaders,
-    }
-    return originalFetch(input, init)
+        headers,
+    })
 }

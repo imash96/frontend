@@ -178,7 +178,7 @@ function SwatchSection({ title, priceLabel, options, selectedId, onSelect }: Swa
                                     width={56}
                                     height={56}
                                     sizes="56px"
-                                    quality={50}
+                                    quality={60}
                                     className="size-full object-cover"
                                 />
                             </div>

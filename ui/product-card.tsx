@@ -73,6 +73,14 @@ function ProductCard({ product }: { product: StoreProduct }) {
                 </Link>
 
                 <RatingSystem averageRating={4.4} reviewCount={50} size="xs" />
+                {/* TODO */}
+                {/* {product.metadata?.average_rating && (
+                    <RatingSystem
+                        averageRating={Number(product.metadata.average_rating)}
+                        reviewCount={Number(product.metadata.review_count ?? 0)}
+                        size="xs"
+                    />
+                )} */}
 
                 {/* Price row */}
                 <div className="flex items-baseline gap-2 pt-0.5">

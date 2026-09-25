@@ -1,5 +1,3 @@
-"use client"
-
 import { create } from "zustand"
 import { devtools } from "zustand/middleware"
 import { SortOptions } from "@/types/common"
@@ -33,8 +31,6 @@ export interface FilterActions {
     clearAll: () => void
     /** Hydrate state from URL search params */
     hydrate: (params: URLSearchParams | Record<string, string | string[] | undefined>) => void
-    /** Get active filter count (excludes sort & page) */
-    activeCount: () => number
 }
 
 export type FilterStore = FilterState & FilterActions
@@ -132,14 +128,7 @@ export const useFilterStore = create<FilterStore>()(
                 )
             },
 
-            activeCount: () => {
-                const state = get()
-                let count = 0
-                if (state.minPrice || state.maxPrice) count += 1
-                count += state.optionValueIds.length
-                if (state.query) count += 1
-                return count
-            },
+
         }),
         {
             name: "FilterStore",
@@ -181,11 +170,10 @@ export function buildFilterParams(state: FilterState): URLSearchParams {
 
 /* ─── Selectors ──────────────────────────────────────────────────────── */
 
-export const useActiveFilterCount = () =>
-    useFilterStore((s) => {
-        let count = 0
-        if (s.minPrice || s.maxPrice) count += 1
-        count += s.optionValueIds.length
-        if (s.query) count += 1
-        return count
-    })
+export const useActiveFilterCount = () => useFilterStore((s) => {
+    let count = 0
+    if (s.minPrice || s.maxPrice) count += 1
+    count += s.optionValueIds.length
+    if (s.query) count += 1
+    return count
+})

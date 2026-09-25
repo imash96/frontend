@@ -48,7 +48,7 @@ async function getRegionMap(cacheId: string) {
         },
         next: {
             revalidate: REGION_CACHE_TTL_MS / 1000,
-            tags: [`regions-${cacheId}`],
+            tags: [`regions`],
         },
         cache: "force-cache",
     })

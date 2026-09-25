@@ -98,7 +98,7 @@ export default function ProductGallery({ product, title }: Props) {
                                         width={80}
                                         height={107}
                                         sizes="80px"
-                                        quality={50}
+                                        quality={60}
                                         className="object-contain size-full p-0.5"
                                     />
                                 </button>

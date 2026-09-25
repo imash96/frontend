@@ -60,7 +60,7 @@ function StoryBlock({ storyBlocks }: { storyBlocks: StoryBlocks }) {
                             alt={block.imageAlt}
                             fill
                             sizes="(max-width: 768px) 100vw, 50vw"
-                            quality={70}
+                            quality={75}
                             className="object-cover"
                         />
                     </div>

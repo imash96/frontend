@@ -90,7 +90,7 @@ function HeroSlideCard({ slide, isActive, index }: HeroSlideCardProps) {
                 priority={index === 0}
                 fetchPriority={index === 0 ? 'high' : 'auto'}
                 loading={index === 0 ? "eager" : "lazy"}
-                sizes="(max-width: 640px) 88vw, (max-width: 768px) 65vw, (max-width: 1024px) 55vw, (max-width: 1280px) 45vw, 36vw"
+                sizes="(max-width: 640px) 92vw, (max-width: 1024px) 69vw, (max-width: 1280px) 59vw, 33vw"
                 className="object-cover transition-transform duration-[1.6s] ease-out will-change-transform"
                 style={{
                     transform: isActive ? 'scale(1.04)' : 'scale(1)',

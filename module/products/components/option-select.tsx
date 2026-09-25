@@ -80,7 +80,7 @@ export default function OptionSelect({ option, value, onSelect, disabled, produc
                                             width={48}
                                             height={48}
                                             sizes="48px"
-                                            quality={50}
+                                            quality={60}
                                             className="size-full object-cover"
                                         />
                                     ) : (

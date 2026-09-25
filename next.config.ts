@@ -10,13 +10,6 @@ const nextConfig: NextConfig = {
   allowedDevOrigins: ['192.168.0.101'],
   reactCompiler: true,
   cacheComponents: true,
-  // cacheLife: {
-  //   static: {
-  //     stale: 3600,
-  //     revalidate: 900,
-  //     expire: 86400,
-  //   },
-  // },
   logging: {
     fetches: {
       fullUrl: true,
@@ -24,18 +17,35 @@ const nextConfig: NextConfig = {
   },
   images: {
     formats: ["image/avif", "image/webp"],
-    qualities: [50, 60, 70, 75, 78, 80, 100],
+    // Reduced from 7 levels to 3 — fewer variants means better CDN cache hit
+    // rates and faster image delivery. Most images only need these tiers.
+    qualities: [60, 75, 90],
     minimumCacheTTL: 60 * 60 * 24 * 30,
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "*",
+        hostname: "*.unsplash.com",
       },
       {
-        protocol: "http",
-        hostname: "*",
+        protocol: "https",
+        hostname: "*.leathercult.com",
       },
-    ]
+      {
+        protocol: "https",
+        hostname: "*.vellehide.com",
+      },
+      {
+        protocol: "https",
+        hostname: "**.amazonaws.com",
+      },
+      {
+        protocol: "https",
+        hostname: "*.artisanhide.com",
+      },
+      // Add your actual image CDN domains here. The wildcard `hostname: "*"`
+      // was removed because it disables Next.js image optimizer security checks
+      // and prevents domain-specific optimizations.
+    ],
   },
   experimental: {
     useLightningcss: true, // Speeds up Webpack CSS minification

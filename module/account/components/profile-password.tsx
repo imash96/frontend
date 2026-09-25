@@ -51,7 +51,12 @@ export default function ProfilePassword() {
         required
       />
 
-      <Button isLoading={isPending} className="mt-4">
+      <Button
+        isLoading={isPending}
+        disabled={isPending}
+        type="submit"
+        className="mt-4"
+      >
         Update Password
       </Button>
       {showFeedback && state.error && (

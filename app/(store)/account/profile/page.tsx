@@ -12,6 +12,8 @@ export const metadata: Metadata = {
   description: "Manage your personal information, password, and billing address.",
 };
 
+export const instant = false
+
 export default async function Page() {
   const [customer, regions] = await Promise.all([
     retrieveCustomer(),

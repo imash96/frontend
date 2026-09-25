@@ -9,8 +9,7 @@ import { googleLogin } from "@/lib/action/customer";
 
 export const metadata: Metadata = {
   title: "Sign In | Velle Hide",
-  description:
-    "Sign in or create an account to access your Velle Hide dashboard, track orders, manage addresses, and enjoy a personalized leather shopping experience.",
+  description: "Sign in or create an account to access your Velle Hide dashboard, track orders, manage addresses, and enjoy a personalized leather shopping experience.",
   robots: { index: false, follow: false },
 };
 

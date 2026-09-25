@@ -39,7 +39,7 @@ export const retrieveCustomer =
             .fetch<{ customer: HttpTypes.StoreCustomer }>(`/store/customers/me`, {
                 method: "GET",
                 query: {
-                    fields: "*orders",
+                    // fields: "*orders",
                 },
                 headers,
                 next,
@@ -50,8 +50,6 @@ export const retrieveCustomer =
     }
 
 export const updateCustomer = async (body: HttpTypes.StoreUpdateCustomer) => {
-    "use server"
-
     const headers = {
         ...(await getAuthHeaders()),
     }
@@ -66,11 +64,7 @@ export const updateCustomer = async (body: HttpTypes.StoreUpdateCustomer) => {
     return updateRes
 }
 
-export async function signup(
-    _currentState: unknown,
-    formData: FormData
-): Promise<CustomerAuthState> {
-    "use server"
+export async function signup(_currentState: unknown, formData: FormData): Promise<CustomerAuthState> {
 
     const password = formData.get("password") as string
     const customerForm = {
@@ -108,12 +102,7 @@ export async function signup(
     return completeLogin(customerForm.email, password)
 }
 
-export async function login(
-    _currentState: unknown,
-    formData: FormData
-): Promise<CustomerAuthState> {
-    "use server"
-
+export async function login(_currentState: unknown, formData: FormData): Promise<CustomerAuthState> {
     const email = formData.get("email") as string
     const password = formData.get("password") as string
 
@@ -123,10 +112,7 @@ export async function login(
 // Logs the customer in and reconciles the customer record. The behavior is
 // driven entirely by the backend's login response, so it works whether or not
 // email verification is enabled.
-async function completeLogin(
-    email: string,
-    password: string
-): Promise<CustomerAuthState> {
+async function completeLogin(email: string, password: string): Promise<CustomerAuthState> {
     let result: Awaited<ReturnType<typeof sdk.auth.login>>
 
     try {
@@ -180,7 +166,6 @@ async function completeLogin(
 
     if (!customerExists) {
         const pending = await getPendingCustomer()
-        console.log(`pending: ${pending}`)
         try {
             await sdk.store.customer.create(
                 {
@@ -220,10 +205,7 @@ async function completeLogin(
 //
 // The confirm route doesn't require authentication, so this works even when the
 // customer opens the link on a different device than the one they signed up on.
-export async function confirmEmailVerification(
-    token: string
-): Promise<{ success: boolean; error?: string }> {
-    "use server"
+export async function confirmEmailVerification(token: string): Promise<{ success: boolean; error?: string }> {
 
     if (!token) {
         return {
@@ -241,19 +223,15 @@ export async function confirmEmailVerification(
 }
 
 export async function signout() {
-    "use server"
-
     await sdk.auth.logout()
     await removeAuthToken()
     await removeCartId()
     await updateCacheTags("customers", "carts")
 
-    redirect(`/account`)
+    redirect(`/auth`)
 }
 
 export async function transferCart() {
-    "use server"
-
     const cartId = await getCartId()
 
     if (!cartId) {
@@ -266,11 +244,7 @@ export async function transferCart() {
     await updateCacheTags("carts")
 }
 
-export const addCustomerAddress = async (
-    currentState: Record<string, unknown>,
-    formData: FormData
-): Promise<{ success: boolean; error: string | null }> => {
-    "use server"
+export const addCustomerAddress = async (currentState: Record<string, unknown>, formData: FormData): Promise<{ success: boolean; error: string | null }> => {
 
     const isDefaultBilling = (currentState.isDefaultBilling as boolean) || false
     const isDefaultShipping = (currentState.isDefaultShipping as boolean) || false
@@ -305,10 +279,7 @@ export const addCustomerAddress = async (
         })
 }
 
-export const deleteCustomerAddress = async (
-    addressId: string
-): Promise<void> => {
-    "use server"
+export const deleteCustomerAddress = async (addressId: string): Promise<void> => {
 
     const headers = {
         ...(await getAuthHeaders()),
@@ -325,14 +296,8 @@ export const deleteCustomerAddress = async (
         })
 }
 
-export const updateCustomerAddress = async (
-    currentState: Record<string, unknown>,
-    formData: FormData
-): Promise<{ success: boolean; error: string | null }> => {
-    "use server"
-
-    const addressId =
-        (currentState.addressId as string) || (formData.get("addressId") as string)
+export const updateCustomerAddress = async (currentState: Record<string, unknown>, formData: FormData): Promise<{ success: boolean; error: string | null }> => {
+    const addressId = (currentState.addressId as string) || (formData.get("addressId") as string)
 
     if (!addressId) {
         return { success: false, error: "Address ID is required" }
@@ -371,11 +336,7 @@ export const updateCustomerAddress = async (
         })
 }
 
-export async function updatePassword(
-    _currentState: unknown,
-    formData: FormData
-): Promise<{ success: boolean; error: string | null }> {
-    "use server"
+export async function updatePassword(_currentState: unknown, formData: FormData): Promise<{ success: boolean; error: string | null }> {
 
     const currentPassword = formData.get("current_password") as string
     const newPassword = formData.get("new_password") as string
@@ -409,35 +370,17 @@ export async function updatePassword(
         return { success: false, error: "Current password is incorrect." }
     }
 
-    // Step 3: Request a reset token
+    // Step 3: Request a token
     try {
-        await sdk.client.fetch(`/auth/customer/emailpass/reset-password`, {
-            method: "POST",
-            body: { identifier: customer.email },
-        })
-    } catch {
-        return { success: false, error: "Unable to initiate password reset. Please try again." }
-    }
-
-    // Step 4: Use the reset token to update the password
-    // The reset-password endpoint returns a token we can use
-    try {
-        const { token } = await sdk.client.fetch<{ token: string }>(
-            `/auth/customer/emailpass/reset-password`,
+        const { token } = await sdk.auth.refresh()
+        sdk.auth.updateProvider(
+            "customer",
+            "emailpass",
             {
-                method: "POST",
-                body: { identifier: customer.email },
-            }
-        )
-
-        await sdk.client.fetch(`/auth/customer/emailpass/update`, {
-            method: "POST",
-            body: {
-                email: customer.email,
-                password: newPassword,
+                password: newPassword
             },
-            headers: { authorization: `Bearer ${token}` },
-        })
+            token
+        )
     } catch {
         return { success: false, error: "Failed to update password. Please try again." }
     }
@@ -447,12 +390,7 @@ export async function updatePassword(
 
 // ── Password Reset ──────────────────────────────────────────────────────
 
-export async function requestPasswordReset(
-    _currentState: unknown,
-    formData: FormData
-): Promise<{ success: boolean; error: string | null }> {
-    "use server"
-
+export async function requestPasswordReset(_currentState: unknown, formData: FormData): Promise<{ success: boolean; error: string | null }> {
     const email = formData.get("email") as string
 
     if (!email) {
@@ -460,9 +398,8 @@ export async function requestPasswordReset(
     }
 
     try {
-        await sdk.client.fetch(`/auth/customer/emailpass/reset-password`, {
-            method: "POST",
-            body: { identifier: email },
+        await sdk.auth.resetPassword("customer", "emailpass", {
+            identifier: email
         })
     } catch {
         // Always show success to prevent email enumeration attacks
@@ -471,12 +408,7 @@ export async function requestPasswordReset(
     return { success: true, error: null }
 }
 
-export async function resetPasswordWithToken(
-    _currentState: unknown,
-    formData: FormData
-): Promise<{ success: boolean; error: string | null }> {
-    "use server"
-
+export async function resetPasswordWithToken(_currentState: unknown, formData: FormData): Promise<{ success: boolean; error: string | null }> {
     const token = formData.get("token") as string
     const password = formData.get("password") as string
     const confirmPassword = formData.get("confirm_password") as string
@@ -519,25 +451,11 @@ export async function googleLogin() {
     const result = await sdk.auth.login("customer", "google", {}) as AuthRedirectResponse
 
     if (typeof result === "object" && result.location) {
-
         redirect(result.location as Route)
     }
-
-    if (typeof result !== "string") {
-        // result failed, show an error
-        alert("Authentication failed")
-        return
-    }
-
 }
 
-export async function completeOAuthCallback(
-    provider: string,
-    code: string,
-    params?: string | null
-): Promise<{ success: boolean; error?: string }> {
-    "use server"
-
+export async function completeOAuthCallback(provider: string, code: string, params?: string | null): Promise<{ success: boolean; error?: string }> {
     if (!code) {
         return { success: false, error: "Authentication code is missing." }
     }
@@ -549,7 +467,6 @@ export async function completeOAuthCallback(
         if (params) query.state = params
 
         const result = await sdk.auth.callback("customer", provider, query)
-        console.log(`callback result: ${result}`)
         if (typeof result === "string") {
             token = result
         } else if (typeof result === "object" && "token" in result) {

@@ -70,7 +70,7 @@ export function ProductThumbnailN({
     className = "",
     children,
     sizes = DEFAULT_SIZES,
-    quality = 70,
+    quality = 75,
     preload = false,
     loading,
     ...rest

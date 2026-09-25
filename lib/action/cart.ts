@@ -386,59 +386,6 @@ export async function setAddresses(currentState: unknown, formData: FormData) {
 }
 
 /**
- * Like setAddresses but returns a result instead of redirecting.
- * Used by the /checkout flow for client-side step transitions.
- */
-export async function setCheckAddresses(currentState: unknown, formData: FormData) {
-    try {
-        if (!formData) {
-            throw new Error("No form data found when setting addresses")
-        }
-        const cartId = await getCartId()
-        if (!cartId) {
-            throw new Error("No existing cart found when setting addresses")
-        }
-
-        const data = {
-            shipping_address: {
-                first_name: formData.get("shipping_address.first_name"),
-                last_name: formData.get("shipping_address.last_name"),
-                address_1: formData.get("shipping_address.address_1"),
-                address_2: "",
-                company: formData.get("shipping_address.company"),
-                postal_code: formData.get("shipping_address.postal_code"),
-                city: formData.get("shipping_address.city"),
-                country_code: formData.get("shipping_address.country_code"),
-                province: formData.get("shipping_address.province"),
-                phone: formData.get("shipping_address.phone"),
-            },
-            email: formData.get("email"),
-        } as any
-
-        const sameAsBilling = formData.get("same_as_billing")
-        if (sameAsBilling === "on") data.billing_address = data.shipping_address
-
-        if (sameAsBilling !== "on")
-            data.billing_address = {
-                first_name: formData.get("billing_address.first_name"),
-                last_name: formData.get("billing_address.last_name"),
-                address_1: formData.get("billing_address.address_1"),
-                address_2: "",
-                company: formData.get("billing_address.company"),
-                postal_code: formData.get("billing_address.postal_code"),
-                city: formData.get("billing_address.city"),
-                country_code: formData.get("billing_address.country_code"),
-                province: formData.get("billing_address.province"),
-                phone: formData.get("billing_address.phone"),
-            }
-        await updateCart(data)
-        return { success: true, error: null }
-    } catch (e: any) {
-        return { success: false, error: e.message }
-    }
-}
-
-/**
  * Places an order for a cart. If no cart ID is provided, it will use the cart ID from the cookies.
  * @param cartId - optional - The ID of the cart to place an order for.
  * @returns The cart object if the order was successful, or null if not.
@@ -488,7 +435,6 @@ export async function updateRegion(countryCode: string) {
         // updateCart() already revalidates "carts" (and "fulfillment")
         // internally - no need to revalidate it again here.
         await updateCart({ region_id: region.id })
-        await updateCacheTags("carts")
     }
 
     await updateCacheTags("regions", "products")

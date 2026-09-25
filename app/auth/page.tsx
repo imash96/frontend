@@ -13,10 +13,7 @@ export default function Page() {
   const [view, setView] = useState<LoginView>("SIGN_IN");
   const isSignIn = view === "SIGN_IN";
 
-  const safeAction = async (
-    _state: CustomerAuthState,
-    formData: FormData,
-  ): Promise<CustomerAuthState> => {
+  const safeAction = async (_state: CustomerAuthState, formData: FormData,): Promise<CustomerAuthState> => {
     return isSignIn ? login(_state, formData) : signup(_state, formData);
   };
 
@@ -30,9 +27,7 @@ export default function Page() {
           {isSignIn ? "Welcome back" : "Become a Member"}
         </h1>
         <p className="mt-2 text-sm text-muted-foreground leading-relaxed max-w-xs mx-auto">
-          {isSignIn
-            ? "Sign in to access your account and enjoy personalized shopping."
-            : "Create your account to enjoy a personalized and enhanced shopping experience."}
+          {isSignIn ? "Sign in to access your account and enjoy personalized shopping." : "Create your account to enjoy a personalized and enhanced shopping experience."}
         </p>
       </div>
 

@@ -41,7 +41,7 @@ export default function CheckProgress() {
     <nav aria-label="Checkout progress" className="w-full">
       <ol className="flex items-center justify-between">
         {steps.map((step, index) => {
-          const isCompleted = completedSteps.has(step.id)
+          const isCompleted = completedSteps.includes(step.id)
           const isCurrent = index === currentIndex
           const isClickable = isCompleted
 
@@ -56,10 +56,10 @@ export default function CheckProgress() {
             >
               <div
                 className={`flex flex-col sm:flex-row items-center sm:items-start gap-1.5 sm:gap-0 ${isClickable
-                    ? "cursor-pointer"
-                    : isCurrent
-                      ? "cursor-default"
-                      : "cursor-not-allowed"
+                  ? "cursor-pointer"
+                  : isCurrent
+                    ? "cursor-default"
+                    : "cursor-not-allowed"
                   }`}
                 aria-current={isCurrent ? "step" : undefined}
                 aria-disabled={!isClickable && !isCurrent}
@@ -70,8 +70,8 @@ export default function CheckProgress() {
               >
                 <motion.div
                   className={`flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-full border-2 text-xs sm:text-sm font-medium transition-colors duration-300 ${isCompleted
-                      ? "border-primary bg-primary text-primary-foreground shadow-sm"
-                      : ""
+                    ? "border-primary bg-primary text-primary-foreground shadow-sm"
+                    : ""
                     } ${isCurrent
                       ? "border-accent text-accent ring-4 ring-accent/10"
                       : ""
@@ -100,20 +100,20 @@ export default function CheckProgress() {
                 <div className="text-center sm:text-left sm:ml-3">
                   <p
                     className={`text-[10px] sm:text-sm font-semibold leading-tight transition-colors ${isCurrent
-                        ? "text-accent"
-                        : isCompleted
-                          ? "text-primary"
-                          : "text-foreground-muted/50"
+                      ? "text-accent"
+                      : isCompleted
+                        ? "text-primary"
+                        : "text-foreground-muted/50"
                       }`}
                   >
                     {step.name}
                   </p>
                   <p
                     className={`text-[9px] sm:text-xs leading-tight hidden sm:block ${isCurrent
-                        ? "text-foreground"
-                        : isCompleted
-                          ? "text-foreground-muted"
-                          : "text-foreground-disabled"
+                      ? "text-foreground"
+                      : isCompleted
+                        ? "text-foreground-muted"
+                        : "text-foreground-disabled"
                       }`}
                   >
                     {step.subtitle}

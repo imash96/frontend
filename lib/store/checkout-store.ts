@@ -7,7 +7,8 @@ const STEP_ORDER: StepType[] = ["address", "shipping", "payment"]
 
 interface CheckState {
   currentStep: StepType
-  completedSteps: Set<StepType>
+  /** Completed steps stored as a sorted array for stable reference equality */
+  completedSteps: StepType[]
   isPending: boolean
 
   // Actions
@@ -20,7 +21,7 @@ interface CheckState {
 
 const initialState = {
   currentStep: "address" as StepType,
-  completedSteps: new Set<StepType>(),
+  completedSteps: [] as StepType[],
   isPending: false,
 }
 
@@ -35,7 +36,7 @@ export const useCheckStore = create<CheckState>()(
           const currentIndex = STEP_ORDER.indexOf(state.currentStep)
 
           // Allow going back to completed steps
-          if (state.completedSteps.has(step)) {
+          if (state.completedSteps.includes(step)) {
             return { currentStep: step }
           }
 
@@ -46,7 +47,7 @@ export const useCheckStore = create<CheckState>()(
 
           // Allow jumping if all previous steps are completed
           const allPrevCompleted = STEP_ORDER.slice(0, newIndex).every((s) =>
-            state.completedSteps.has(s),
+            state.completedSteps.includes(s),
           )
           if (allPrevCompleted) {
             return { currentStep: step }
@@ -57,18 +58,16 @@ export const useCheckStore = create<CheckState>()(
 
       markCompleted: (step) =>
         set((state) => {
-          if (state.completedSteps.has(step)) return state
-          const next = new Set(state.completedSteps)
-          next.add(step)
-          return { completedSteps: next }
+          if (state.completedSteps.includes(step)) return state
+          return { completedSteps: [...state.completedSteps, step] }
         }, false, "check/markCompleted"),
 
       canGoTo: (step) => {
         const state = get()
-        if (state.completedSteps.has(step)) return true
+        if (state.completedSteps.includes(step)) return true
         const targetIndex = STEP_ORDER.indexOf(step)
         return STEP_ORDER.slice(0, targetIndex).every((s) =>
-          state.completedSteps.has(s),
+          state.completedSteps.includes(s),
         )
       },
 
