@@ -1,23 +1,20 @@
-import { getCategoryByHandle } from "@/lib/action/categories"
-import { listProductsWithSort } from "@/lib/action/product"
-import CategoryHero from "@/module/categories/templates/category-hero"
-import FilternSort from "@/module/categories/templates/filter-n-sort"
-import FilterDrawer from "@/module/categories/templates/filter-drawer"
-import type { ProductOption } from "@/module/categories/templates/filter-drawer"
-import ProductGrid from "@/module/categories/templates/product-grid"
-import ProductGridSkeleton from "@/module/skeleton/product-grid"
-import { SortOptions } from "@/types/common"
-import Container from "@/ui/container"
-import JsonLd from "@/module/products/templates/json-ld"
 import { StoreProductCategory } from "@medusajs/types"
 import { Metadata } from "next"
 import { cookies } from "next/headers"
 import { notFound } from "next/navigation"
 import { Suspense } from "react"
-
-/* ─── Constants ──────────────────────────────────────────────────────── */
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://vellehide.com"
-const PRODUCTS_PER_PAGE = 28
+import { getCategoryByHandle } from "@/lib/action/categories"
+import { listProductsWithSort } from "@/lib/action/product"
+import { baseURL, PRODUCTS_PER_PAGE } from "@/lib/constant"
+import CategoryHero from "@/module/categories/templates/category-hero"
+import type { ProductOption } from "@/module/categories/templates/filter-drawer"
+import FilterDrawer from "@/module/categories/templates/filter-drawer"
+import FilternSort from "@/module/categories/templates/filter-n-sort"
+import ProductGrid from "@/module/categories/templates/product-grid"
+import JsonLd from "@/module/products/templates/json-ld"
+import ProductGridSkeleton from "@/module/skeleton/product-grid"
+import { SortOptions } from "@/types/common"
+import Container from "@/ui/container"
 
 /* Opt out of instant navigation — this route reads searchParams + cookies */
 export const instant = false
@@ -88,7 +85,7 @@ export default async function Page({
         description:
             category.description ||
             `Shop our premium ${category.name.toLowerCase()} leather collection at Velle Hide.`,
-        url: `${baseUrl}/categories/${fullHandle}`,
+        url: `${baseURL}/categories/${fullHandle}`,
         numberOfItems: count,
         ...(category.metadata?.thumbnail
             ? { image: category.metadata.thumbnail as string }
@@ -146,7 +143,7 @@ export async function generateMetadata({
     const fullHandle = handle.join("/")
     const category = await getCategoryByHandle([fullHandle])
     const name = category?.name ?? handle.at(-1) ?? "Collection"
-    const canonical = `${baseUrl}/categories/${fullHandle}`
+    const canonical = `${baseURL}/categories/${fullHandle}`
 
     const title = `${name} | Velle Hide — Premium Leather`
     const description =
@@ -174,7 +171,7 @@ export async function generateMetadata({
                 ]
                 : [
                     {
-                        url: `${baseUrl}/store.jpg`,
+                        url: `${baseURL}/store.jpg`,
                         width: 1200,
                         height: 630,
                         alt: "Velle Hide leather goods",
@@ -187,7 +184,7 @@ export async function generateMetadata({
             description,
             images: category?.metadata?.thumbnail
                 ? [category.metadata.thumbnail as string]
-                : [`${baseUrl}/store.jpg`],
+                : [`${baseURL}/store.jpg`],
         },
         robots: {
             index: true,

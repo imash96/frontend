@@ -1,5 +1,5 @@
-import type { Metadata } from "next";
 import { Package } from "lucide-react";
+import type { Metadata } from "next";
 import { listOrders } from "@/lib/action/order";
 import OrderCard from "@/module/account/templates/order-card";
 

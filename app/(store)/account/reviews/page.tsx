@@ -1,5 +1,5 @@
-import type { Metadata } from "next";
 import { MessageSquare } from "lucide-react";
+import type { Metadata } from "next";
 import { listCustomerReviews } from "@/lib/action/review";
 import ReviewCard from "@/module/account/components/review-card";
 

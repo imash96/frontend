@@ -1,8 +1,8 @@
 'use client';
 
-import { ModalSize } from "@/types/index";
-import { Dialog, DialogPortal, DialogTrigger, DialogClose as DialogClosePri, DialogOverlay as DialogOverlayPri, DialogContent as DialogContentPri, DialogTitle as DialogTitlePri, DialogDescription as DialogDescriptionPri } from "@radix-ui/react-dialog"
+import { Dialog, DialogClose as DialogClosePri, DialogContent as DialogContentPri, DialogDescription as DialogDescriptionPri, DialogOverlay as DialogOverlayPri, DialogPortal, DialogTitle as DialogTitlePri, DialogTrigger } from "@radix-ui/react-dialog"
 import { X } from "lucide-react";
+import { ModalSize } from "@/types/index";
 
 const sizeClasses: Record<ModalSize, string> = {
     xs: 'max-w-xs',

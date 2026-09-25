@@ -4,11 +4,11 @@ import {
   addCustomerAddress,
   updateCustomerAddress,
 } from "@/lib/action/customer";
-import { DialogClose } from "@/ui/modal";
 import type { FormState } from "@/types/common";
-import Input from "@/ui/input";
-import NativeSelect from "@/ui/native-select";
 import Button from "@/ui/button";
+import Input from "@/ui/input";
+import { DialogClose } from "@/ui/modal";
+import NativeSelect from "@/ui/native-select";
 
 export default function AddressForm({
   mode,

@@ -1,10 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import CustomModal, { AlertModal, ModalButton } from '@/ui/custom/custom-modal';
 import { CustomAccordion, FAQAccordion, ProductDetailsAccordion, } from '@/ui/custom/custom-accordion';
 import { ActionsMenu, CustomDropdownMenu, FilterMenu, UserMenu, } from '@/ui/custom/custom-dropdown';
 import CustomInput from '@/ui/custom/custom-input';
+import CustomModal, { AlertModal, ModalButton } from '@/ui/custom/custom-modal';
 
 // FAQ data
 const faqItems = [

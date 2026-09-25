@@ -1,8 +1,8 @@
 import { ArrowRight } from "lucide-react"
-import BlogCard from "../components/blog-card-new"
-import Button from "@/ui/button"
-import SectionHeader from "../components/section-header"
 import { blogData } from "@/data/blog"
+import Button from "@/ui/button"
+import BlogCard from "../components/blog-card-new"
+import SectionHeader from "../components/section-header"
 
 export default function Blog() {
     return (
@@ -14,7 +14,7 @@ export default function Blog() {
             action={
                 // Desktop inline CTA - hidden on mobile
                 <Button
-                    href="/blog"
+                    href="s"
                     variant="outline"
                     icon={<ArrowRight className="size-3.5" />}
                     iconPosition="right"
@@ -34,7 +34,7 @@ export default function Blog() {
             {/* Mobile CTA - visible only below sm */}
             <div className="flex justify-center mt-6 sm:hidden">
                 <Button
-                    href="/blog"
+                    href="/blogs"
                     variant="outline"
                     icon={<ArrowRight className="size-4" />}
                     iconPosition="right"

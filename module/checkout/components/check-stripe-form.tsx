@@ -1,10 +1,10 @@
 "use client"
 
+import type { StoreCart } from "@medusajs/types"
 import { PaymentElement } from "@stripe/react-stripe-js"
 import type { StripePaymentElementOptions } from "@stripe/stripe-js"
-import type { StoreCart } from "@medusajs/types"
-import { useState } from "react"
 import { CheckCircle2 } from "lucide-react"
+import { useState } from "react"
 import CheckPaymentContainer from "./check-payment-container"
 
 export default function CheckStripeForm({ cart }: { cart: StoreCart }) {

@@ -1,12 +1,12 @@
 "use client"
 
-import { useDrawerStore } from "@/lib/store/drawer-store"
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/ui/modal"
 import { ArrowRight, Clock, Search, TrendingUp, X } from "lucide-react"
+import type { Route } from "next";
 import Image from "next/image"
 import Link from "next/link"
 import { useDeferredValue, useEffect, useMemo, useRef, useState } from "react"
-import type { Route } from "next";
+import { useDrawerStore } from "@/lib/store/drawer-store"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/ui/modal"
 
 const LISTBOX_ID = "search-results-listbox"
 const MIN_QUERY_LENGTH = 2

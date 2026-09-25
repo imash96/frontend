@@ -4,9 +4,9 @@ import type { StoreCartPromotion } from "@medusajs/types";
 import { Loader2, Tag, X } from "lucide-react";
 import { useActionState, useEffect, useState, useTransition } from "react";
 import { applyPromotions } from "@/lib/action/cart";
+import type { FormState } from "@/types/common";
 import Button from "@/ui/button";
 import CustomInput from "@/ui/input";
-import type { FormState } from "@/types/common";
 
 const handlePromoCode = async (
   _prevState: FormState,

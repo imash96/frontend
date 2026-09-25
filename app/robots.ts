@@ -1,6 +1,5 @@
 import type { MetadataRoute } from "next";
-
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://vellehide.com";
+import { baseURL } from "@/lib/constant";
 
 export default function robots(): MetadataRoute.Robots {
     return {
@@ -22,7 +21,7 @@ export default function robots(): MetadataRoute.Robots {
                 ],
             },
         ],
-        sitemap: `${baseUrl}/sitemap.xml`,
-        host: baseUrl,
+        sitemap: `${baseURL}/sitemap.xml`,
+        host: baseURL,
     };
 }

@@ -24,7 +24,7 @@ export default function ShippingPolicy() {
                 <div className="space-y-2">
                     <h2 className="text-xl uppercase">2. Order Processing Time</h2>
                     <p className="text-sm tracking-wide font-light">
-                        Orders are typically processed within 2–4 business days after payment confirmation. Custom or personalized items may require additional time (up to 7 days). During peak seasons, sales, or holidays, processing may extend slightly. You will receive an email confirmation once your order is ready for shipment.
+                        Orders are typically processed within 2-4 business days after payment confirmation. Custom or personalized items may require additional time (up to 7 days). During peak seasons, sales, or holidays, processing may extend slightly. You will receive an email confirmation once your order is ready for shipment.
                     </p>
                 </div>
 
@@ -36,7 +36,7 @@ export default function ShippingPolicy() {
                     </p>
                     <ul className="list-inside list-disc space-y-2 text-sm tracking-wide font-light">
                         <li><strong>Standard Shipping:</strong> Cost-effective for most orders.</li>
-                        <li><strong>Express Shipping:</strong> Available at an additional cost for faster delivery (1–3 business days in metros).</li>
+                        <li><strong>Express Shipping:</strong> Available at an additional cost for faster delivery (1-3 business days in metros).</li>
                         <li><strong>Cash on Delivery (COD):</strong> Offered in select areas with extra fees.</li>
                     </ul>
                     <p className="text-sm tracking-wide font-light">
@@ -62,18 +62,18 @@ export default function ShippingPolicy() {
                             <tbody>
                                 <tr className="border-t">
                                     <td className="p-3">Metro Cities (e.g., Mumbai, Delhi)</td>
-                                    <td className="p-3">2–5 business days</td>
-                                    <td className="p-3">1–3 business days</td>
+                                    <td className="p-3">2-5 business days</td>
+                                    <td className="p-3">1-3 business days</td>
                                 </tr>
                                 <tr className="border-t">
                                     <td className="p-3">Urban/Other Regions</td>
-                                    <td className="p-3">5–9 business days</td>
-                                    <td className="p-3">3–5 business days</td>
+                                    <td className="p-3">5-9 business days</td>
+                                    <td className="p-3">3-5 business days</td>
                                 </tr>
                                 <tr className="border-t">
                                     <td className="p-3">Remote Areas</td>
-                                    <td className="p-3">7–14 business days</td>
-                                    <td className="p-3">5–7 business days</td>
+                                    <td className="p-3">7-14 business days</td>
+                                    <td className="p-3">5-7 business days</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -90,8 +90,8 @@ export default function ShippingPolicy() {
                     <ul className="list-inside list-disc space-y-2 text-sm tracking-wide font-light">
                         <li>Free shipping on all prepaid orders above ₹999.</li>
                         <li>A flat fee of ₹79 for orders below ₹999 (standard shipping).</li>
-                        <li>Additional ₹50–₹100 for COD orders, depending on location.</li>
-                        <li>Express shipping: ₹100–₹300 extra, based on package details.</li>
+                        <li>Additional ₹50-₹100 for COD orders, depending on location.</li>
+                        <li>Express shipping: ₹100-₹300 extra, based on package details.</li>
                         <li>International: Variable, starting from ₹500, plus customs.</li>
                     </ul>
                     <p className="text-sm tracking-wide font-light">
@@ -127,7 +127,7 @@ export default function ShippingPolicy() {
                 <div className="space-y-2">
                     <h2 className="text-xl uppercase">9. Customs and International Shipping</h2>
                     <p className="text-sm tracking-wide font-light">
-                        For international orders, customers are responsible for customs duties, taxes, and import fees. Delivery times may extend to 10–21 days. We comply with all export regulations.
+                        For international orders, customers are responsible for customs duties, taxes, and import fees. Delivery times may extend to 10-21 days. We comply with all export regulations.
                     </p>
                 </div>
 

@@ -1,9 +1,11 @@
 "use client";
 
-import { useActionState, useEffect, useState } from "react";
 import Image from "next/image";
-import { submitReview, updateReview } from "@/lib/action/review";
+import { useActionState, useEffect, useState } from "react";
 import type { CustomerReview, ReviewFormState } from "@/lib/action/review";
+import { submitReview, updateReview } from "@/lib/action/review";
+import Button from "@/ui/button";
+import Input from "@/ui/input";
 import {
   Dialog,
   DialogClose,
@@ -13,8 +15,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/ui/modal";
-import Button from "@/ui/button";
-import Input from "@/ui/input";
 import StarRatingInput from "./star-rating-input";
 
 interface ReviewModalProps {

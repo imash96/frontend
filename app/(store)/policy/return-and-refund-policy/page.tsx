@@ -1,6 +1,6 @@
+import type { Metadata } from "next"
 import buildJsonLd from "@/lib/util/jsonld"
 import ReturnRefundPolicy from "@/module/policy/templates/return-refund-policy"
-import type { Metadata } from "next"
 
 export default function Page() {
     return <ReturnRefundPolicy />

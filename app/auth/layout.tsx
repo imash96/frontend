@@ -1,11 +1,11 @@
-import type { Metadata } from "next";
 import { Home } from "lucide-react";
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import Button from "@/ui/button";
 import Google from "@/icon/icon-google";
 import Logo from "@/icon/logo";
 import { googleLogin } from "@/lib/action/customer";
+import Button from "@/ui/button";
 
 export const metadata: Metadata = {
   title: "Sign In | Velle Hide",

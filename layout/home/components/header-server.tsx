@@ -1,16 +1,16 @@
 "use client";
 
 import { ChevronDown } from "lucide-react";
+import { AnimatePresence } from "motion/react";
+import { div as Div } from "motion/react-client";
+import type { Route } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { product_categories } from "@/data/category";
-import { ProductCategory } from "@/types/common";
-import { AnimatePresence } from "motion/react";
-import { div as Div } from "motion/react-client";
 import { MEGA_MENU, MegaMenu } from "@/data/header";
-import type { Route } from "next";
+import { ProductCategory } from "@/types/common";
 
 type NavigationProps = {
     links: Array<{

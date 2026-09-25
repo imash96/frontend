@@ -1,11 +1,11 @@
-import { ArrowRight, Sparkles, Globe } from 'lucide-react';
-import { footerLinks, contactInfo, socialLinks } from '@/data/footer';
-import AccordionSection from '../components/footer-links';
-import Link from 'next/link';
-import LogoRect from '@/icon/logo-rect';
-import { cookies } from 'next/headers';
-import RegionModal from './region-modal';
+import { ArrowRight, Sparkles } from 'lucide-react';
 import type { Route } from "next";
+import { cookies } from 'next/headers';
+import Link from 'next/link';
+import { contactInfo, footerLinks, socialLinks } from '@/data/footer';
+import LogoRect from '@/icon/logo-rect';
+import AccordionSection from '../components/footer-links';
+import RegionModal from './region-modal';
 
 export default async function FooterVariant4() {
 
@@ -119,8 +119,7 @@ export default async function FooterVariant4() {
                     <div className="mx-auto max-w-7xl px-6 py-5 flex flex-col md:flex-row items-center justify-between gap-4">
                         {/* Copyright */}
                         <p className="text-[11px] text-card uppercase tracking-widest">
-                            {/* &copy; {new Date().getFullYear()} Velle Hide · Handcrafted with care */}
-                            &copy; 2026 Velle Hide · Handcrafted with care
+                            &copy; {await getRenderedAt()} Velle Hide · Handcrafted with care
                         </p>
 
                         {/* Region */}
@@ -130,4 +129,9 @@ export default async function FooterVariant4() {
             </div>
         </footer>
     );
+}
+
+async function getRenderedAt() {
+    'use cache'
+    return new Date().getFullYear()
 }

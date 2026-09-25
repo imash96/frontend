@@ -1,7 +1,7 @@
 import "server-only"
 
-import { sdk } from "@/lib/sdk"
 import { HttpTypes } from "@medusajs/types"
+import { sdk } from "@/lib/sdk"
 import { getAuthHeaders, getCacheOptions } from "./cookies"
 
 export const listCartShippingMethods = async (cartId: string) => {

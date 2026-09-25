@@ -1,4 +1,5 @@
 import { isArray } from "./isEmpty";
+
 // TODO delete
 type ClassValue = ClassValue[] | Record<string, any> | string | number | bigint | null | boolean | undefined;
 

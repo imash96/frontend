@@ -1,12 +1,12 @@
 "use client"
 
-import { useActionState } from "react"
-import { useSearchParams } from "next/navigation"
 import { AlertCircle, ArrowLeft, CheckCircle2, Lock } from "lucide-react"
-import { resetPasswordWithToken } from "@/lib/action/customer"
-import Input from "@/ui/input"
-import Button from "@/ui/button"
 import Link from "next/link"
+import { useSearchParams } from "next/navigation"
+import { useActionState } from "react"
+import { resetPasswordWithToken } from "@/lib/action/customer"
+import Button from "@/ui/button"
+import Input from "@/ui/input"
 
 export default function ResetPasswordPage() {
     const searchParams = useSearchParams()

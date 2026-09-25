@@ -1,7 +1,7 @@
 import "server-only"
 
-import { sdk } from "@/lib/sdk"
 import { HttpTypes } from "@medusajs/types"
+import { sdk } from "@/lib/sdk"
 
 const DEFAULT_REGION = process.env.NEXT_PUBLIC_DEFAULT_REGION || "dk"
 

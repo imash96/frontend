@@ -1,9 +1,9 @@
+import { Clock, Mail, MessageCircleQuestionMark } from "lucide-react";
 import Facebook from "@/icon/icon-facebok";
 import Instagram from "@/icon/icon-instagram";
 import Pinterest from "@/icon/icon-pinterest";
 import TikTok from "@/icon/icon-tiktok";
 import Info from "@/icon/info";
-import { Clock, Mail, MessageCircleQuestionMark } from "lucide-react";
 
 export const footerLinks = {
     "Shop": [

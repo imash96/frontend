@@ -1,7 +1,7 @@
 import { StoreOrderLineItem } from "@medusajs/types";
-import ProductThumbnail from "@/module/products/components/product-thumbnail";
 import Link from "next/link";
 import { convertToLocale } from "@/lib/util/money";
+import ProductThumbnail from "@/module/products/components/product-thumbnail";
 
 export default function OrderLineitem({ item, currencyCode, className = "" }: OrderLineitemProp) {
     return (

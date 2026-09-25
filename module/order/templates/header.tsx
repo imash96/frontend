@@ -1,6 +1,6 @@
-import CreditCard from "@/icon/checkout-creditcard";
 import { StoreOrder } from "@medusajs/types";
 import { Package, Truck } from "lucide-react";
+import CreditCard from "@/icon/checkout-creditcard";
 
 // TODO color
 export default function OrderHeader({ order }: { order: StoreOrder }) {

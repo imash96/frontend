@@ -1,9 +1,9 @@
-import SizeGuide from "@/module/guides/templates/size-guide"
-import buildJsonLd from "@/lib/util/jsonld"
 import type { Metadata } from "next"
+import buildJsonLd from "@/lib/util/jsonld"
+import SizeGuide from "@/module/guides/templates/size-guide"
 
 export default function Page() {
-    return <SizeGuide />
+    return <SizeGuide />;
 }
 
 export async function generateMetadata(): Promise<Metadata> {

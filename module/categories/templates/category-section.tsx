@@ -1,8 +1,8 @@
 import { StoreProductCategory } from "@medusajs/types";
 import { ArrowRight, ChevronRight } from "lucide-react";
 import Link from "next/link";
-import LeafScrollRow from "../components/leaf-category";
 import Button from "@/ui/button";
+import LeafScrollRow from "../components/leaf-category";
 
 export default function CategorySection({ category, isLast, index }: { category: StoreProductCategory; isLast: boolean; index: number }) {
     const leaves = getLeafCategories(category);

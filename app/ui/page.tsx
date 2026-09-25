@@ -7,20 +7,20 @@
 
 "use client";
 
+import { Lightbulb, LightbulbOff, Menu } from 'lucide-react';
 import { useState } from 'react';
-import { LightbulbOff, Lightbulb, Menu } from 'lucide-react';
+import Container from '@/ui/container';
+import ButtonTab from './components/button';
 import ColorTab from './components/color';
 import { Tabs } from './components/common';
 import ComponentTab from './components/component';
+import CustomTab from './components/custom';
+import DrawerTab from './components/drawer';
 import EcommerceTab from './components/ecommerce';
+import ExtraTab from './components/extra';
 import FontTab from './components/font';
 import InputTab from './components/input';
-import ButtonTab from './components/button';
-import ExtraTab from './components/extra';
-import DrawerTab from './components/drawer';
 import PaginationTab from './components/pagination';
-import CustomTab from './components/custom';
-import Container from '@/ui/container';
 
 export default function InteractiveTestPage() {
     const [activeTab, setActiveTab] = useState<Tabs>('colors');

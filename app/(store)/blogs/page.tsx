@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { blogData } from "@/data/blog";
-import usePagination from "@/lib/hook/use-pagination";
+import { baseURL } from "@/lib/constant";
+import Pagination from "@/module/categories/components/pagination";
 import BlogCard from "@/module/home/components/blog-card";
 import SectionHeader from "@/module/home/components/section-header";
 
@@ -9,20 +10,16 @@ export const metadata: Metadata = {
   description:
     "Discover the latest trends, care tips, and style inspiration from the world of leather fashion at Velle Hide.",
   alternates: {
-    canonical: `${process.env.NEXT_PUBLIC_BASE_URL}/blog`,
+    canonical: `${baseURL}/blogs`,
   },
 };
 
-export default async function Page(props: PageProps<"/blog">) {
+export default async function Page(props: PageProps<"/blogs">) {
   const query = await props.searchParams;
   const currentPage = Number(query.page) || 1;
   const totalBlogs = blogData.length;
   const limit = 12;
-  const { pages, totalPages, canPrev, canNext, buildPageUrl } = usePagination({
-    currentPage,
-    totalPages: Math.ceil(totalBlogs / limit),
-    siblingCount: 1,
-  });
+  const totalPages = Math.ceil(totalBlogs / limit);
   const sortedBlogs = [...blogData].sort(
     (a, b) =>
       new Date(b.uploadDate).getTime() - new Date(a.uploadDate).getTime(),
@@ -48,11 +45,11 @@ export default async function Page(props: PageProps<"/blog">) {
       )}
 
       {/* Pagination */}
-      {/* <Pagination
-        totalPages={totalPages}
+      <Pagination
         currentPage={currentPage}
-        onPageChange={() => { }}
-      /> */}
+        totalPages={totalPages}
+        href="/blogs"
+      />
     </SectionHeader>
   );
 }

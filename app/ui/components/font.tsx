@@ -1,5 +1,5 @@
+import { Check, ChevronRight, Heart, Minus, Plus, ShoppingCart, Star, X } from 'lucide-react';
 import { SectionHeader } from "./common";
-import { Star, Heart, ShoppingCart, Check, X, ChevronRight, Plus, Minus } from 'lucide-react';
 
 export default function FontTab() {
     return (

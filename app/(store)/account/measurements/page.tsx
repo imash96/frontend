@@ -1,5 +1,5 @@
-import type { Metadata } from "next";
 import { PencilRuler } from "lucide-react";
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Measurements | Velle Hide",

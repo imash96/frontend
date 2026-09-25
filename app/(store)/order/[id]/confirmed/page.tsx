@@ -1,11 +1,11 @@
-import { retrieveOrder } from "@/lib/action/order"
-import { convertToLocale } from "@/lib/util/money" // Assuming this is available; add if not
-import Button from "@/ui/button"
-import OrderLineitem from "@/module/order/components/order-lineitem"
-import ConfettiWarapper from "@/module/order/templates/confetti-wrapper"
 import { CheckCircle, CreditCard, MapPin } from "lucide-react"
 import { notFound } from "next/navigation"
 import Script from "next/script"
+import { retrieveOrder } from "@/lib/action/order"
+import { convertToLocale } from "@/lib/util/money" // Assuming this is available; add if not
+import OrderLineitem from "@/module/order/components/order-lineitem"
+import ConfettiWarapper from "@/module/order/templates/confetti-wrapper"
+import Button from "@/ui/button"
 import Container from "@/ui/container"
 
 /* Order confirmed is fully user-specific (auth cookies + dynamic [id]) */

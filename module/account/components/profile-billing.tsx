@@ -6,10 +6,10 @@ import {
   addCustomerAddress,
   updateCustomerAddress,
 } from "@/lib/action/customer";
+import type { FormState } from "@/types/common";
 import Button from "@/ui/button";
 import Input from "@/ui/input";
 import Select from "@/ui/native-select";
-import type { FormState } from "@/types/common";
 
 export default function ProfileBilling({ customer, regions }: CustomerProps) {
   const billingAddress = customer.addresses?.find(

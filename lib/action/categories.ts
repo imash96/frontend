@@ -1,7 +1,7 @@
 import "server-only"
 
-import { sdk } from "@/lib/sdk"
 import { StoreProductCategory, StoreProductCategoryListResponse } from "@medusajs/types"
+import { sdk } from "@/lib/sdk"
 
 export const listCategories = async (query?: Record<string, unknown>) => {
     const limit = query?.limit || 100

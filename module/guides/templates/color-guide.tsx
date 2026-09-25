@@ -195,7 +195,7 @@ export default function ColorGuide() {
                     <div className="space-y-3">
                         {finishTypes.map((finish) => (
                             <div key={finish.name} className="flex gap-3 py-2 border-b border-border/30 last:border-0">
-                                <span className="text-sm font-medium min-w-[140px] sm:min-w-[180px] shrink-0">{finish.name}</span>
+                                <span className="text-sm font-medium min-w-35 sm:min-w-45 shrink-0">{finish.name}</span>
                                 <span className="text-sm font-light tracking-wide text-foreground-secondary">{finish.desc}</span>
                             </div>
                         ))}

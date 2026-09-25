@@ -1,12 +1,12 @@
 "use client"
 
 import type { StoreCart } from "@medusajs/types"
-import { loadStripe } from "@stripe/stripe-js"
-import { Elements } from "@stripe/react-stripe-js"
 import {
   PayPalScriptProvider,
   type ReactPayPalScriptOptions,
 } from "@paypal/react-paypal-js"
+import { Elements } from "@stripe/react-stripe-js"
+import { loadStripe } from "@stripe/stripe-js"
 import { isPaypal, isStripe } from "@/lib/constant"
 
 const stripeKey = process.env.NEXT_PUBLIC_STRIPE_KEY

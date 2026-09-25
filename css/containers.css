@@ -47,7 +47,7 @@
 
         /* Fluid padding token - overridden per breakpoint below */
         --container-px: 1rem;
-        /* 375–639px   : 16px  */
+        /* 375-639px   : 16px  */
         padding-inline: var(--container-px);
     }
 

@@ -1,5 +1,5 @@
-import { SortOptions } from "@/types/common"
 import { StoreProduct } from "@medusajs/types"
+import { SortOptions } from "@/types/common"
 
 interface MinPricedProduct extends StoreProduct {
     _minPrice?: number

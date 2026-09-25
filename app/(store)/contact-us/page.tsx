@@ -1,13 +1,13 @@
 "use client";
 
 import { Mail } from "lucide-react";
-import Button from "@/ui/button";
-import CustomInput from "@/ui/input";
-import Textarea from "@/ui/custom/custom-textarea";
-import Container from "@/ui/container";
-import Instagram from "@/icon/icon-instagram";
-import Facebook from "@/icon/icon-facebok";
 import Link from "next/link";
+import Facebook from "@/icon/icon-facebok";
+import Instagram from "@/icon/icon-instagram";
+import Button from "@/ui/button";
+import Container from "@/ui/container";
+import Textarea from "@/ui/custom/custom-textarea";
+import CustomInput from "@/ui/input";
 
 export default function Page() {
   return (

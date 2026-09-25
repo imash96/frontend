@@ -2,7 +2,7 @@
 
 import { AlertCircle, LogIn } from "lucide-react";
 import { useActionState, useState } from "react";
-import { login, signup, type CustomerAuthState } from "@/lib/action/customer";
+import { type CustomerAuthState, login, signup } from "@/lib/action/customer";
 import SIGNIN from "@/module/auth/templates/sign-in";
 import SIGNUP from "@/module/auth/templates/sign-up";
 import Button from "@/ui/button";

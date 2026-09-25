@@ -1,6 +1,6 @@
-import Placeholder from "@/icon/img-placeholder";
 import { StoreProductImage } from "@medusajs/types";
 import Image from "next/image";
+import Placeholder from "@/icon/img-placeholder";
 
 export default function ProductThumbnail({ src, alt, className = "", children, ...props }: ProductThumbnailProps) {
     const hasMultipleImages = Array.isArray(src) && src.length > 1;

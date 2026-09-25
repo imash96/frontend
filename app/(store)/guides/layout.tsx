@@ -1,11 +1,11 @@
 "use client"
 
-import { Scissors, Droplets, Palette, Ruler, BookOpen, ShieldCheck, Sparkles } from "lucide-react"
+import { BookOpen, Droplets, Palette, Ruler, Scissors, ShieldCheck, Sparkles } from "lucide-react"
+import type { Route } from "next"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import type { Route } from "next"
-import Container from "@/ui/container"
 import InteractiveLink from "@/module/common/templates/interactive-link"
+import Container from "@/ui/container"
 
 export default function GuidesLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()

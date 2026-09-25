@@ -1,9 +1,9 @@
-import { ProductSectionProps } from "@/types/homepage";
-import { SectionHeaderEditorial } from "./section-header-editorial";
-import Button from "@/ui/button";
 import { ArrowRight } from "lucide-react";
-import ProductCard from "@/ui/product-card";
 import { getProductPrice } from "@/lib/util/get-product-price";
+import { ProductSectionProps } from "@/types/homepage";
+import Button from "@/ui/button";
+import ProductCard from "@/ui/product-card";
+import { SectionHeaderEditorial } from "./section-header-editorial";
 
 export function ProductSectionEditorial({ products, title, desc, sectionName, buttonLink = '#', buttonText = 'Shop Now', eyebrow, }: ProductSectionProps) {
     const featured = products[0];

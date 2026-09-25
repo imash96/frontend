@@ -1,6 +1,6 @@
 "use client"
 
-import { useRouter, usePathname, useSearchParams } from "next/navigation"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useCallback } from "react"
 
 export default function EmptyState() {

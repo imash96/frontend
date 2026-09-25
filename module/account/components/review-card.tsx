@@ -1,11 +1,11 @@
 "use client";
 
-import type { CustomerReview } from "@/lib/action/review";
-import { deleteReview } from "@/lib/action/review";
-import { Edit, Star, Trash2, LoaderCircle } from "lucide-react";
+import { Edit, LoaderCircle, Star, Trash2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useTransition } from "react";
+import type { CustomerReview } from "@/lib/action/review";
+import { deleteReview } from "@/lib/action/review";
 import { AlertModal } from "@/ui/alert-modal";
 import ReviewModal from "./review-modal";
 

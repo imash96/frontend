@@ -1,8 +1,8 @@
 "use client"
 
+import { Check, Heart, Loader2, Minus, Plus, ShoppingCart } from 'lucide-react';
 import { memo, useState } from 'react';
-import { Heart, ShoppingCart, Check, Loader2, Minus, Plus } from 'lucide-react';
-import { Button, IconButton, type ButtonSize } from './button';
+import { Button, type ButtonSize, IconButton } from './button';
 
 // ============================================================================
 // AddToCartButton - components/molecules/CommerceButtons.tsx

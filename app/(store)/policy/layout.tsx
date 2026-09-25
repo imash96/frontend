@@ -1,11 +1,11 @@
 "use client"
 
-import { ShieldCheck, RotateCcw, Truck, CreditCard, FileText } from "lucide-react"
+import { CreditCard, FileText, RotateCcw, ShieldCheck, Truck } from "lucide-react"
+import type { Route } from "next"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import type { Route } from "next"
-import Container from "@/ui/container"
 import InteractiveLink from "@/module/common/templates/interactive-link"
+import Container from "@/ui/container"
 
 export default function DashLayout({ children }: LayoutProps<"/policy">) {
   const pathname = usePathname()

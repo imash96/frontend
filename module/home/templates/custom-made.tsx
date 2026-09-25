@@ -1,8 +1,8 @@
 "use client"
 
+import { ArrowRightIcon, Scissors } from "lucide-react"
 import Button from "@/ui/button"
 import Container from "@/ui/container"
-import { ArrowRightIcon, Scissors } from "lucide-react"
 
 export default function CustomMadeBanner() {
     return (

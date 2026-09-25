@@ -59,9 +59,9 @@ const giftByOccasion = [
 
 const budgetGuide = [
     { range: "Under ₹2,000", items: "Keychains, cardholders, bookmarks, leather coasters" },
-    { range: "₹2,000 – ₹5,000", items: "Wallets, belts, phone cases, small pouches" },
-    { range: "₹5,000 – ₹15,000", items: "Handbags, messenger bags, leather gloves, pillow covers" },
-    { range: "₹15,000 – ₹30,000", items: "Leather jackets, blazers, duffle bags" },
+    { range: "₹2,000 - ₹5,000", items: "Wallets, belts, phone cases, small pouches" },
+    { range: "₹5,000 - ₹15,000", items: "Handbags, messenger bags, leather gloves, pillow covers" },
+    { range: "₹15,000 - ₹30,000", items: "Leather jackets, blazers, duffle bags" },
     { range: "₹30,000+", items: "Bespoke jackets, custom-designed leather goods, luxury sets" },
 ]
 

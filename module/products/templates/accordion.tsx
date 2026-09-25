@@ -1,10 +1,10 @@
 "use client"
 
-import { Accordion, AccordionContent, AccordionItemT, AccordionTrigger } from "@/ui/custom/custom-accordion"
 import { StoreProduct } from "@medusajs/types"
-import { accordions } from "@/data/accordion"
-import { useEffect, useRef, useState } from "react"
 import { ChevronDown } from "lucide-react"
+import { useEffect, useRef, useState } from "react"
+import { accordions } from "@/data/accordion"
+import { Accordion, AccordionContent, AccordionItemT, AccordionTrigger } from "@/ui/custom/custom-accordion"
 
 export default function ProductAccordion({ product }: { product: StoreProduct }) {
     const details = product.description?.trim() || accordions.find((a) => a.id === "details")?.content || ""

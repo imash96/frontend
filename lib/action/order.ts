@@ -1,9 +1,9 @@
 import "server-only"
 
+import { HttpTypes } from "@medusajs/types"
 import { sdk } from "@/lib/sdk"
 import medusaError from "@/lib/util/medusa-error"
 import { getAuthHeaders, getCacheOptions, updateCacheTags } from "./cookies"
-import { HttpTypes } from "@medusajs/types"
 
 // Plain read, not a Server Action - see the note in locale-actions.ts.
 export const retrieveOrder = async (id: string) => {

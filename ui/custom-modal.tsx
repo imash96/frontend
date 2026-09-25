@@ -1,6 +1,6 @@
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "./modal";
-import { ModalSize } from "@/types/common";
 import { div as Div } from "motion/react-client"
+import { ModalSize } from "@/types/common";
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "./modal";
 
 export interface CustomModalProps {
     open?: boolean;

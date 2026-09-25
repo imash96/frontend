@@ -1,11 +1,11 @@
-import { Clock, CreditCard } from "lucide-react"
-import CheckStripeForm from "./check-stripe-form"
-import CheckPayPalPreview from "./check-paypal-preview"
-import CheckPayPalCard from "./check-paypal-card"
-import CheckManualPreview from "./check-manual-preview"
-import PayPal from "@/icon/checkout-paypal"
-import type { ComponentType } from "react"
 import type { StoreCart } from "@medusajs/types"
+import { Clock, CreditCard } from "lucide-react"
+import type { ComponentType } from "react"
+import PayPal from "@/icon/checkout-paypal"
+import CheckManualPreview from "./check-manual-preview"
+import CheckPayPalCard from "./check-paypal-card"
+import CheckPayPalPreview from "./check-paypal-preview"
+import CheckStripeForm from "./check-stripe-form"
 
 export const checkPaymentInfoMap = {
   pp_stripe_stripe: {

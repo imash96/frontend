@@ -1,11 +1,11 @@
 "use client"
 
 import type { StoreCart } from "@medusajs/types"
-import { convertToLocale } from "@/lib/util/money"
-import { useDrawerStore } from "@/lib/store/drawer-store"
-import Button from "@/ui/button";
 import { ArrowRight } from "lucide-react";
 import { div as Div } from "motion/react-client"
+import { useDrawerStore } from "@/lib/store/drawer-store"
+import { convertToLocale } from "@/lib/util/money"
+import Button from "@/ui/button";
 
 export default function CartFooter({ cart }: { cart: StoreCart }) {
     const { close } = useDrawerStore();

@@ -1,9 +1,9 @@
-import CareGuide from "@/module/guides/templates/care-guide"
-import buildJsonLd from "@/lib/util/jsonld"
 import type { Metadata } from "next"
+import buildJsonLd from "@/lib/util/jsonld"
+import CareGuide from "@/module/guides/templates/care-guide"
 
 export default function Page() {
-    return <CareGuide />
+    return <CareGuide />;
 }
 
 export async function generateMetadata(): Promise<Metadata> {

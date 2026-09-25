@@ -1,9 +1,9 @@
-import GiftingGuide from "@/module/guides/templates/gifting-guide"
-import buildJsonLd from "@/lib/util/jsonld"
 import type { Metadata } from "next"
+import buildJsonLd from "@/lib/util/jsonld"
+import GiftingGuide from "@/module/guides/templates/gifting-guide"
 
 export default function Page() {
-    return <GiftingGuide />
+    return <GiftingGuide />;
 }
 
 export async function generateMetadata(): Promise<Metadata> {

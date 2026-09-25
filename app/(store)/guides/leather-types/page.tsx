@@ -1,9 +1,9 @@
-import LeatherTypes from "@/module/guides/templates/leather-types"
-import buildJsonLd from "@/lib/util/jsonld"
 import type { Metadata } from "next"
+import buildJsonLd from "@/lib/util/jsonld"
+import LeatherTypes from "@/module/guides/templates/leather-types"
 
 export default function Page() {
-    return <LeatherTypes />
+    return <LeatherTypes />;
 }
 
 export async function generateMetadata(): Promise<Metadata> {

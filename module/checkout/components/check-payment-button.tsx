@@ -4,9 +4,9 @@ import type { StoreCart } from "@medusajs/types"
 import type { OnApproveActions, OnApproveData } from "@paypal/paypal-js"
 import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js"
 import {
+  PaymentElement,
   useElements,
   useStripe,
-  PaymentElement,
 } from "@stripe/react-stripe-js"
 import { AlertCircle, Clock, CreditCard, Loader, Lock } from "lucide-react"
 import { useCallback, useState } from "react"
@@ -14,8 +14,8 @@ import { ERROR_MESSAGES } from "@/data/payment"
 import { placeCheckOrder } from "@/lib/action/checkout"
 import { isManual, isPaypal, isStripe } from "@/lib/constant"
 import { useCheckStore } from "@/lib/store/checkout-store"
-import Button from "@/ui/button"
 import ErrorMessage from "@/module/common/templates/error-message"
+import Button from "@/ui/button"
 
 const MEDUSA_BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL
 const PUBLISHABLE_API_KEY = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY

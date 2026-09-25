@@ -1,7 +1,7 @@
 import Button from "@/ui/button"
+import Container from "@/ui/container"
 import RatingSystem from "@/ui/rating-system"
 import RatingBreakdown from "../components/review"
-import Container from "@/ui/container"
 
 const reviews = {
     rating: {

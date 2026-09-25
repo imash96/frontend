@@ -1,6 +1,6 @@
+import type { Metadata } from "next"
 import buildJsonLd from "@/lib/util/jsonld"
 import PaymentPolicy from "@/module/policy/templates/payment-policy"
-import type { Metadata } from "next"
 
 export default function Page() {
     return (

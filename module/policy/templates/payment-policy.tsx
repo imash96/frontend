@@ -91,7 +91,7 @@ export default function PaymentPolicy() {
                 <div className="space-y-2">
                     <h2 className="text-xl uppercase text-templateBrown font-light">7. Refunds and Cancellations</h2>
                     <p className="text-sm tracking-wide font-light">
-                        Refunds are processed as per our <Link href="/policy/return-and-refund-policy" className="text-templateBrown hover:underline">Return & Refund Policy</Link>. Approved refunds are issued to the original payment method within 2 business days, though bank processing may take 5–10 days. For international refunds, currency conversion applies.
+                        Refunds are processed as per our <Link href="/policy/return-and-refund-policy" className="text-templateBrown hover:underline">Return & Refund Policy</Link>. Approved refunds are issued to the original payment method within 2 business days, though bank processing may take 5-10 days. For international refunds, currency conversion applies.
                     </p>
                     <p className="text-sm tracking-wide font-light">
                         Orders can be canceled before shipment for a full refund; post-shipment cancellations follow the return policy.

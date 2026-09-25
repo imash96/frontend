@@ -1,9 +1,9 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
-import { useSearchParams, useRouter } from "next/navigation"
-import { completeOAuthCallback } from "@/lib/action/customer"
 import { CheckCircle2, Loader2, XCircle } from "lucide-react"
+import { useRouter, useSearchParams } from "next/navigation"
+import { useEffect, useRef, useState } from "react"
+import { completeOAuthCallback } from "@/lib/action/customer"
 
 export default function GoogleCallbackPage() {
     const searchParams = useSearchParams()

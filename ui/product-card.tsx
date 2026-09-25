@@ -1,9 +1,9 @@
-import { memo } from "react"
-import Link from "next/link"
-import { getProductPrice } from "@/lib/util/get-product-price"
-import { ProductThumbnailN as ProductThumbnail } from "@/module/products/components/product-thumbnail"
 import { StoreProduct } from "@medusajs/types"
 import { Heart, ShoppingBag } from "lucide-react"
+import Link from "next/link"
+import { memo } from "react"
+import { getProductPrice } from "@/lib/util/get-product-price"
+import { ProductThumbnailN as ProductThumbnail } from "@/module/products/components/product-thumbnail"
 import RatingSystem from "./rating-system"
 
 function ProductCard({ product }: { product: StoreProduct }) {

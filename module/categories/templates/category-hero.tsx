@@ -1,8 +1,9 @@
-import Container from "@/ui/container"
 import { ChevronRight } from "lucide-react"
-import Link from "next/link"
 import type { Route } from "next"
+import Link from "next/link"
+import { baseURL } from "@/lib/constant"
 import JsonLd from "@/module/products/templates/json-ld"
+import Container from "@/ui/container"
 
 type Crumb = { label: string; href: string }
 
@@ -11,8 +12,6 @@ interface CategoryHeroProps {
     desc: string
     crumbs?: Crumb[]
 }
-
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://vellehide.com"
 
 export default function CategoryHero({ name, desc, crumbs }: CategoryHeroProps) {
     // Build JSON-LD BreadcrumbList for SEO
@@ -24,9 +23,7 @@ export default function CategoryHero({ name, desc, crumbs }: CategoryHeroProps) 
             position: index + 1,
             name: crumb.label,
             ...(crumb.href !== "#" && {
-                item: crumb.href.startsWith("http")
-                    ? crumb.href
-                    : `${baseUrl}${crumb.href.startsWith("/") ? crumb.href : `/${crumb.href}`}`,
+                item: crumb.href.startsWith("http") ? crumb.href : `${baseURL}${crumb.href.startsWith("/") ? crumb.href : `/${crumb.href}`}`,
             }),
         })),
     }

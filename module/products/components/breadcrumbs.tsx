@@ -1,7 +1,7 @@
 import { ChevronRight } from "lucide-react"
+import type { Route } from "next";
 import Link from "next/link"
 import type { Crumb } from "@/types/common"
-import type { Route } from "next";
 
 export default function Breadcrumbs({ items }: { items: Crumb[] }) {
     if (items.length < 2) return null

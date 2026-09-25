@@ -1,8 +1,8 @@
 import "server-only"
 
+import { HttpTypes } from "@medusajs/types"
 import { sdk } from "@/lib/sdk"
 import { getAuthHeaders, getCacheOptions } from "./cookies"
-import { HttpTypes } from "@medusajs/types"
 
 export const listCartPaymentMethods = async (regionId: string) => {
     const headers = {

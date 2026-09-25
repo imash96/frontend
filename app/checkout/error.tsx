@@ -1,16 +1,10 @@
 "use client"
 
+import { AlertTriangle } from "lucide-react"
 import { motion } from "motion/react"
 import Button from "@/ui/button"
-import { AlertTriangle } from "lucide-react"
 
-export default function CheckError({
-  error,
-  reset,
-}: {
-  error: Error & { digest?: string }
-  reset: () => void
-}) {
+export default function CheckError({ error, reset, }: { error: Error & { digest?: string }; reset: () => void }) {
   return (
     <motion.div
       className="lg:col-span-10 flex flex-col items-center justify-center min-h-[50vh] text-center px-4 space-y-4"

@@ -1,7 +1,7 @@
 'use client'
 
 import { Eye, EyeOff } from 'lucide-react'
-import { useState, useId, useRef } from 'react'
+import { useId, useRef, useState } from 'react'
 
 type InputProps = {
     label: string

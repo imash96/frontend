@@ -1,9 +1,9 @@
 "use server"
 
-import { sdk } from "@/lib/sdk"
-import medusaError from "@/lib/util/medusa-error"
 import { HttpTypes, SelectParams, StoreInitializePaymentSession } from "@medusajs/types"
 import { redirect } from "next/navigation"
+import { sdk } from "@/lib/sdk"
+import medusaError from "@/lib/util/medusa-error"
 import {
     getAuthHeaders,
     getCacheOptions,
@@ -13,8 +13,8 @@ import {
     setCountryCode,
     updateCacheTags,
 } from "./cookies"
-import { getRegion } from "./regions"
 import { getLocale } from "./locale"
+import { getRegion } from "./regions"
 
 /**
  * Retrieves a cart by its ID. If no ID is provided, it will use the cart ID from the cookies.

@@ -1,6 +1,6 @@
+import type { StoreProduct, StoreProductVariant } from "@medusajs/types"
 import { create } from "zustand"
 import { devtools } from "zustand/middleware"
-import type { StoreProduct, StoreProductVariant } from "@medusajs/types"
 import { addToCart } from "@/lib/action/cart"
 import { getProductPrice, type ProductCalculatedPrice } from "@/lib/util/get-product-price"
 

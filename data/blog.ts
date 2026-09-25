@@ -6,7 +6,7 @@ export const blogData: BlogPost[] = [
         uploadDate: "2025-09-08",
         author: {
             name: "Emma Johnson",
-            avatar: "/images/blog/authors/emma-johnson.png",
+            avatar: "/images/blogs/authors/emma-johnson.png",
         },
         category: "Product Care",
         tags: [
@@ -22,7 +22,7 @@ export const blogData: BlogPost[] = [
             "long-lasting leather",
         ],
         excerpt: "Learn expert tips to maintain your leather jacket’s style and durability with Velle Hide’s care guide.",
-        thumbnail: "/images/blog/blog-001/thumbnail.png",
+        thumbnail: "/images/blogs/blog-001/thumbnail.png",
         content: [
             {
                 type: "text",
@@ -42,7 +42,7 @@ export const blogData: BlogPost[] = [
                     "Velle Hide recommends eco-friendly cleaners for safe, effective results."
                 ],
                 imageLeft: true,
-                thumbnail: "/images/blog/blog-001/cleaning-leather.png",
+                thumbnail: "/images/blogs/blog-001/cleaning-leather.png",
             },
             {
                 type: "text",
@@ -62,7 +62,7 @@ export const blogData: BlogPost[] = [
                     "Recondition post-exposure to restore suppleness and prevent damage."
                 ],
                 imageLeft: false,
-                thumbnail: "/images/blog/blog-001/leather-protection.png",
+                thumbnail: "/images/blogs/blog-001/leather-protection.png",
                 href: "/products/leather-care-kits"
             },
             {
@@ -83,7 +83,7 @@ export const blogData: BlogPost[] = [
                     "Overusing sprays can clog leather pores, so use sparingly for best results."
                 ],
                 imageLeft: true,
-                thumbnail: "/images/blog/blog-001/leather-storage.png",
+                thumbnail: "/images/blogs/blog-001/leather-storage.png",
             },
             {
                 type: "faq",
@@ -112,10 +112,10 @@ export const blogData: BlogPost[] = [
                 "long-lasting leather jackets",
                 "eco-friendly leather care"
             ],
-            canonicalUrl: "https://vellehide.com/blog/ultimate-guide-caring-leather-jacket-tips-longevity",
+            canonicalUrl: "https://vellehide.com/blogs/ultimate-guide-caring-leather-jacket-tips-longevity",
             ogTitle: "How to Care for Your Leather Jacket",
             ogDescription: "Keep your leather jacket pristine with Velle Hide’s expert care tips.",
-            ogImage: "/images/blog/blog-001/leather-care-og.png",
+            ogImage: "/images/blogs/blog-001/leather-care-og.png",
             twitterCard: "summary_large_image",
         },
     },
@@ -126,7 +126,7 @@ export const blogData: BlogPost[] = [
         uploadDate: "2025-09-07",
         author: {
             name: "Alex Harper",
-            avatar: "/images/blog/authors/alex-harper.png",
+            avatar: "/images/blogs/authors/alex-harper.png",
         },
         category: "Trends",
         tags: [
@@ -142,7 +142,7 @@ export const blogData: BlogPost[] = [
             "modern leather styles"
         ],
         excerpt: "Discover 2025’s hottest leather trends, from vibrant colors to eco-friendly designs with Velle Hide.",
-        thumbnail: "/images/blog/blog-002/thumbnail.png",
+        thumbnail: "/images/blogs/blog-002/thumbnail.png",
         content: [
             {
                 type: "text",
@@ -162,7 +162,7 @@ export const blogData: BlogPost[] = [
                     "Pair bold pieces with neutrals for balanced, eye-catching outfits."
                 ],
                 imageLeft: true,
-                thumbnail: "/images/blog/blog-002/bold-leather-colors.png",
+                thumbnail: "/images/blogs/blog-002/bold-leather-colors.png",
             },
             {
                 type: "text",
@@ -182,7 +182,7 @@ export const blogData: BlogPost[] = [
                     "Perfect for fall and winter, blending warmth with high fashion."
                 ],
                 imageLeft: false,
-                thumbnail: "/images/blog/blog-002/oversized-leather.png",
+                thumbnail: "/images/blogs/blog-002/oversized-leather.png",
                 href: "/products/oversized-leather-coats"
             },
             {
@@ -203,8 +203,8 @@ export const blogData: BlogPost[] = [
                     "Explore Velle Hide’s curated collection for inspiration."
                 ],
                 imageLeft: true,
-                thumbnail: "/images/blog/blog-002/leather-fabric-mix.png",
-                href: "/blog/womens-leather-fashion-empowering-styles-2025"
+                thumbnail: "/images/blogs/blog-002/leather-fabric-mix.png",
+                href: "/blogs/womens-leather-fashion-empowering-styles-2025"
             },
             {
                 type: "faq",
@@ -230,10 +230,10 @@ export const blogData: BlogPost[] = [
                 "leather textures 2025",
                 "eco-friendly leather fashion"
             ],
-            canonicalUrl: "https://vellehide.com/blog/top-leather-fashion-trends-2025",
+            canonicalUrl: "https://vellehide.com/blogs/top-leather-fashion-trends-2025",
             ogTitle: "2025’s Hottest Leather Fashion Trends",
             ogDescription: "Bold, sustainable leather styles from Velle Hide for 2025.",
-            ogImage: "/images/blog/blog-002/leather-trends-og.png",
+            ogImage: "/images/blogs/blog-002/leather-trends-og.png",
             twitterCard: "summary_large_image",
         },
     },
@@ -244,7 +244,7 @@ export const blogData: BlogPost[] = [
         uploadDate: "2025-09-06",
         author: {
             name: "Sophie Clark",
-            avatar: "/images/blog/authors/sophie-clark.png",
+            avatar: "/images/blogs/authors/sophie-clark.png",
         },
         category: "Fashion Tips",
         tags: [
@@ -260,7 +260,7 @@ export const blogData: BlogPost[] = [
             "women’s leather fashion"
         ],
         excerpt: "Style leather pants for work, casual, or evening looks with Velle Hide’s versatile fashion tips.",
-        thumbnail: "/images/blog/blog-003/thumbnail.png",
+        thumbnail: "/images/blogs/blog-003/thumbnail.png",
         content: [
             {
                 type: "text",
@@ -280,7 +280,7 @@ export const blogData: BlogPost[] = [
                     "Leather shorts work great for warmer days with similar styling."
                 ],
                 imageLeft: true,
-                thumbnail: "/images/blog/blog-003/casual-leather-pants.png",
+                thumbnail: "/images/blogs/blog-003/casual-leather-pants.png",
             },
             {
                 type: "text",
@@ -300,7 +300,7 @@ export const blogData: BlogPost[] = [
                     "Gold jewelry complements bold leather for a statement look."
                 ],
                 imageLeft: false,
-                thumbnail: "/images/blog/blog-003/evening-leather-pants.png",
+                thumbnail: "/images/blogs/blog-003/evening-leather-pants.png",
             },
             {
                 type: "text",
@@ -320,7 +320,7 @@ export const blogData: BlogPost[] = [
                     "Pair with heels or flats to enhance your silhouette."
                 ],
                 imageLeft: true,
-                thumbnail: "/images/blog/blog-003/body-type-styling.png",
+                thumbnail: "/images/blogs/blog-003/body-type-styling.png",
                 href: "/products/womens-leather-pants"
             },
             {
@@ -347,10 +347,10 @@ export const blogData: BlogPost[] = [
                 "evening leather outfits",
                 "versatile leather fashion"
             ],
-            canonicalUrl: "https://vellehide.com/blog/style-leather-pants-any-occasion",
+            canonicalUrl: "https://vellehide.com/blogs/style-leather-pants-any-occasion",
             ogTitle: "How to Style Leather Pants for Every Event",
             ogDescription: "Versatile outfit ideas for leather pants from Velle Hide.",
-            ogImage: "/images/blog/blog-003/leather-pants-og.png",
+            ogImage: "/images/blogs/blog-003/leather-pants-og.png",
             twitterCard: "summary_large_image",
         },
     },
@@ -361,7 +361,7 @@ export const blogData: BlogPost[] = [
         uploadDate: "2025-09-05",
         author: {
             name: "James Carter",
-            avatar: "/images/blog/authors/james-carter.png",
+            avatar: "/images/blogs/authors/james-carter.png",
         },
         category: "History",
         tags: [
@@ -375,7 +375,7 @@ export const blogData: BlogPost[] = [
             "leather in culture"
         ],
         excerpt: "Explore leather’s journey in fashion, from ancient armor to modern runways, with Velle Hide.",
-        thumbnail: "/images/blog/blog-004/thumbnail.png",
+        thumbnail: "/images/blogs/blog-004/thumbnail.png",
         content: [
             {
                 type: "text",
@@ -395,7 +395,7 @@ export const blogData: BlogPost[] = [
                     "Artisan guilds, like Velle Hide today, perfected craftsmanship."
                 ],
                 imageLeft: true,
-                thumbnail: "/images/blog/blog-004/medieval-leather.png",
+                thumbnail: "/images/blogs/blog-004/medieval-leather.png",
             },
             {
                 type: "text",
@@ -415,7 +415,7 @@ export const blogData: BlogPost[] = [
                     "Leather became a symbol of both glamour and counterculture."
                 ],
                 imageLeft: false,
-                thumbnail: "/images/blog/blog-004/20th-century-leather.png",
+                thumbnail: "/images/blogs/blog-004/20th-century-leather.png",
             },
             {
                 type: "text",
@@ -435,8 +435,8 @@ export const blogData: BlogPost[] = [
                     "Velle Hide honors this legacy with handcrafted excellence."
                 ],
                 imageLeft: true,
-                thumbnail: "/images/blog/blog-004/leather-culture.png",
-                href: "/blog/sustainable-leather-myths-facts"
+                thumbnail: "/images/blogs/blog-004/leather-culture.png",
+                href: "/blogs/sustainable-leather-myths-facts"
             },
             {
                 type: "text",
@@ -462,10 +462,10 @@ export const blogData: BlogPost[] = [
                 "historical leather fashion",
                 "leather cultural impact"
             ],
-            canonicalUrl: "https://vellehide.com/blog/history-leather-fashion",
+            canonicalUrl: "https://vellehide.com/blogs/history-leather-fashion",
             ogTitle: "Leather’s Fashion Journey Through Time",
             ogDescription: "From ancient armor to modern style, leather’s rich history.",
-            ogImage: "/images/blog/blog-004/leather-history-og.png",
+            ogImage: "/images/blogs/blog-004/leather-history-og.png",
             twitterCard: "summary_large_image",
         },
     },
@@ -476,7 +476,7 @@ export const blogData: BlogPost[] = [
         uploadDate: "2025-09-04",
         author: {
             name: "Sarah Brooks",
-            avatar: "/images/blog/authors/sarah-brooks.png",
+            avatar: "/images/blogs/authors/sarah-brooks.png",
         },
         category: "Product Reviews",
         tags: [
@@ -490,7 +490,7 @@ export const blogData: BlogPost[] = [
             "leather backpack travel"
         ],
         excerpt: "Find durable, stylish leather travel bags for your adventures with Velle Hide’s top picks.",
-        thumbnail: "/images/blog/blog-005/thumbnail.png",
+        thumbnail: "/images/blogs/blog-005/thumbnail.png",
         content: [
             {
                 type: "text",
@@ -510,7 +510,7 @@ export const blogData: BlogPost[] = [
                     "Multiple compartments keep essentials organized on short trips."
                 ],
                 imageLeft: true,
-                thumbnail: "/images/blog/blog-005/duffel-bag.png",
+                thumbnail: "/images/blogs/blog-005/duffel-bag.png",
             },
             {
                 type: "text",
@@ -530,7 +530,7 @@ export const blogData: BlogPost[] = [
                     "Quick-access flaps make them ideal for fast-paced environments."
                 ],
                 imageLeft: false,
-                thumbnail: "/images/blog/blog-005/messenger-bag.png",
+                thumbnail: "/images/blogs/blog-005/messenger-bag.png",
             },
             {
                 type: "text",
@@ -550,7 +550,7 @@ export const blogData: BlogPost[] = [
                     "Velle Hide’s travel bags blend function with timeless aesthetics."
                 ],
                 imageLeft: true,
-                thumbnail: "/images/blog/blog-005/travel-bag-sizing.png",
+                thumbnail: "/images/blogs/blog-005/travel-bag-sizing.png",
                 href: "/products/leather-travel-bags"
             },
             {
@@ -577,10 +577,10 @@ export const blogData: BlogPost[] = [
                 "stylish leather backpacks",
                 "functional travel gear"
             ],
-            canonicalUrl: "https://vellehide.com/blog/best-leather-bags-travel-durable-stylish",
+            canonicalUrl: "https://vellehide.com/blogs/best-leather-bags-travel-durable-stylish",
             ogTitle: "Top Leather Bags for Stylish Travel",
             ogDescription: "Durable, elegant leather bags for your adventures.",
-            ogImage: "/images/blog/blog-005/travel-bags-og.png",
+            ogImage: "/images/blogs/blog-005/travel-bags-og.png",
             twitterCard: "summary_large_image",
         },
     },
@@ -591,7 +591,7 @@ export const blogData: BlogPost[] = [
         uploadDate: "2025-09-03",
         author: {
             name: "Daniel Lee",
-            avatar: "/images/blog/authors/daniel-lee.png",
+            avatar: "/images/blogs/authors/daniel-lee.png",
         },
         category: "Buying Guides",
         tags: [
@@ -607,7 +607,7 @@ export const blogData: BlogPost[] = [
             "custom wallets"
         ],
         excerpt: "Find the perfect leather wallet with Velle Hide’s guide to styles, features, and quality.",
-        thumbnail: "/images/blog/blog-006/thumbnail.png",
+        thumbnail: "/images/blogs/blog-006/thumbnail.png",
         content: [
             {
                 type: "text",
@@ -627,7 +627,7 @@ export const blogData: BlogPost[] = [
                     "Choose cowhide for sturdiness or lambskin for a luxurious feel."
                 ],
                 imageLeft: true,
-                thumbnail: "/images/blog/blog-006/wallet-materials.png",
+                thumbnail: "/images/blogs/blog-006/wallet-materials.png",
             },
             {
                 type: "text",
@@ -647,7 +647,7 @@ export const blogData: BlogPost[] = [
                     "Choose colors that align with your wardrobe for cohesive style."
                 ],
                 imageLeft: false,
-                thumbnail: "/images/blog/blog-006/wallet-gender-styles.png",
+                thumbnail: "/images/blogs/blog-006/wallet-gender-styles.png",
             },
             {
                 type: "text",
@@ -667,8 +667,8 @@ export const blogData: BlogPost[] = [
                     "Explore Velle Hide’s customization services for bespoke wallets."
                 ],
                 imageLeft: true,
-                thumbnail: "/images/blog/blog-006/wallet-personalization.png",
-                href: "/blog/personalizing-leather-goods-monogramming-more"
+                thumbnail: "/images/blogs/blog-006/wallet-personalization.png",
+                href: "/blogs/personalizing-leather-goods-monogramming-more"
             },
             {
                 type: "text",
@@ -695,10 +695,10 @@ export const blogData: BlogPost[] = [
                 "RFID leather wallets",
                 "custom leather wallets"
             ],
-            canonicalUrl: "https://vellehide.com/blog/choosing-perfect-leather-wallet-buyers-guide",
+            canonicalUrl: "https://vellehide.com/blogs/choosing-perfect-leather-wallet-buyers-guide",
             ogTitle: "Pick the Perfect Leather Wallet",
             ogDescription: "Style, quality, and function in Velle Hide’s wallet guide.",
-            ogImage: "/images/blog/blog-006/wallet-guide-og.png",
+            ogImage: "/images/blogs/blog-006/wallet-guide-og.png",
             twitterCard: "summary_large_image",
         },
     },
@@ -709,7 +709,7 @@ export const blogData: BlogPost[] = [
         uploadDate: "2025-09-02",
         author: {
             name: "Lily Evans",
-            avatar: "/images/blog/authors/lily-evans.png",
+            avatar: "/images/blogs/authors/lily-evans.png",
         },
         category: "Sustainability",
         tags: [
@@ -723,7 +723,7 @@ export const blogData: BlogPost[] = [
             "recycled leather"
         ],
         excerpt: "Uncover truths about sustainable leather and Velle Hide’s eco-friendly practices.",
-        thumbnail: "/images/blog/blog-007/thumbnail.png",
+        thumbnail: "/images/blogs/blog-007/thumbnail.png",
         content: [
             {
                 type: "text",
@@ -743,7 +743,7 @@ export const blogData: BlogPost[] = [
                     "Velle Hide’s sustainable methods support greener fashion."
                 ],
                 imageLeft: true,
-                thumbnail: "/images/blog/blog-007/eco-leather.png",
+                thumbnail: "/images/blogs/blog-007/eco-leather.png",
             },
             {
                 type: "text",
@@ -763,7 +763,7 @@ export const blogData: BlogPost[] = [
                     "Ethical leather supports responsible farming and production."
                 ],
                 imageLeft: false,
-                thumbnail: "/images/blog/blog-007/ethical-sourcing.png",
+                thumbnail: "/images/blogs/blog-007/ethical-sourcing.png",
             },
             {
                 type: "text",
@@ -783,8 +783,8 @@ export const blogData: BlogPost[] = [
                     "Future fashion blends tradition with cutting-edge eco-tech."
                 ],
                 imageLeft: true,
-                thumbnail: "/images/blog/blog-007/green-leather-innovations.png",
-                href: "/blog/leather-sustainable-fashion-eco-innovations"
+                thumbnail: "/images/blogs/blog-007/green-leather-innovations.png",
+                href: "/blogs/leather-sustainable-fashion-eco-innovations"
             },
             {
                 type: "faq",
@@ -811,10 +811,10 @@ export const blogData: BlogPost[] = [
                 "recycled leather",
                 "green fashion trends"
             ],
-            canonicalUrl: "https://vellehide.com/blog/sustainable-leather-myths-facts",
+            canonicalUrl: "https://vellehide.com/blogs/sustainable-leather-myths-facts",
             ogTitle: "Sustainable Leather: Truths Uncovered",
             ogDescription: "Learn eco-friendly leather facts from Velle Hide.",
-            ogImage: "/images/blog/blog-007/sustainable-leather-og.png",
+            ogImage: "/images/blogs/blog-007/sustainable-leather-og.png",
             twitterCard: "summary_large_image",
         },
     },
@@ -825,7 +825,7 @@ export const blogData: BlogPost[] = [
         uploadDate: "2025-09-01",
         author: {
             name: "Claire Morgan",
-            avatar: "/images/blog/authors/claire-morgan.png",
+            avatar: "/images/blogs/authors/claire-morgan.png",
         },
         category: "Comparisons",
         tags: [
@@ -839,7 +839,7 @@ export const blogData: BlogPost[] = [
             "faux leather care"
         ],
         excerpt: "Genuine vs. faux leather: Compare pros, cons, and choose with Velle Hide’s guide.",
-        thumbnail: "/images/blog/blog-008/thumbnail.png",
+        thumbnail: "/images/blogs/blog-008/thumbnail.png",
         content: [
             {
                 type: "text",
@@ -859,7 +859,7 @@ export const blogData: BlogPost[] = [
                     "Ideal for budget-conscious or ethical shoppers, but longevity varies."
                 ],
                 imageLeft: true,
-                thumbnail: "/images/blog/blog-008/faux-leather.png",
+                thumbnail: "/images/blogs/blog-008/faux-leather.png",
             },
             {
                 type: "text",
@@ -879,8 +879,8 @@ export const blogData: BlogPost[] = [
                     "Vegan leather appeals to animal-free values but varies in eco-impact."
                 ],
                 imageLeft: false,
-                thumbnail: "/images/blog/blog-008/leather-ethics.png",
-                href: "/blog/sustainable-leather-myths-facts"
+                thumbnail: "/images/blogs/blog-008/leather-ethics.png",
+                href: "/blogs/sustainable-leather-myths-facts"
             },
             {
                 type: "text",
@@ -900,7 +900,7 @@ export const blogData: BlogPost[] = [
                     "Choose based on your willingness to maintain your items."
                 ],
                 imageLeft: true,
-                thumbnail: "/images/blog/blog-008/leather-care-comparison.png",
+                thumbnail: "/images/blogs/blog-008/leather-care-comparison.png",
             },
             {
                 type: "faq",
@@ -926,10 +926,10 @@ export const blogData: BlogPost[] = [
                 "leather durability",
                 "eco-friendly leather options"
             ],
-            canonicalUrl: "https://vellehide.com/blog/leather-vs-faux-leather-comparison",
+            canonicalUrl: "https://vellehide.com/blogs/leather-vs-faux-leather-comparison",
             ogTitle: "Genuine vs. Faux Leather: Which is Best?",
             ogDescription: "Compare materials to find your perfect fit with Velle Hide.",
-            ogImage: "/images/blog/blog-008/leather-vs-faux-og.png",
+            ogImage: "/images/blogs/blog-008/leather-vs-faux-og.png",
             twitterCard: "summary_large_image",
         },
     },
@@ -940,7 +940,7 @@ export const blogData: BlogPost[] = [
         uploadDate: "2025-08-31",
         author: {
             name: "Thomas Reed",
-            avatar: "/images/blog/authors/thomas-reed.png",
+            avatar: "/images/blogs/authors/thomas-reed.png",
         },
         category: "Custom Fashion",
         tags: [
@@ -953,7 +953,7 @@ export const blogData: BlogPost[] = [
             "leather suit care"
         ],
         excerpt: "Order a custom leather suit with Velle Hide’s guide to measurements, styles, and care.",
-        thumbnail: "/images/blog/blog-009/thumbnail.png",
+        thumbnail: "/images/blogs/blog-009/thumbnail.png",
         content: [
             {
                 type: "text",
@@ -973,7 +973,7 @@ export const blogData: BlogPost[] = [
                     "Consider posture and desired fit-slim or relaxed-for comfort."
                 ],
                 imageLeft: true,
-                thumbnail: "/images/blog/blog-009/measurements-suit.png",
+                thumbnail: "/images/blogs/blog-009/measurements-suit.png",
             },
             {
                 type: "text",
@@ -993,7 +993,7 @@ export const blogData: BlogPost[] = [
                     "Personal consultations make your suit a true reflection of style."
                 ],
                 imageLeft: false,
-                thumbnail: "/images/blog/blog-009/tailoring-process.png",
+                thumbnail: "/images/blogs/blog-009/tailoring-process.png",
             },
             {
                 type: "text",
@@ -1013,7 +1013,7 @@ export const blogData: BlogPost[] = [
                     "Avoid moisture and heat to ensure longevity of your bespoke suit."
                 ],
                 imageLeft: true,
-                thumbnail: "/images/blog/blog-009/custom-suit-care.png",
+                thumbnail: "/images/blogs/blog-009/custom-suit-care.png",
                 href: "/products/custom-leather-suits"
             },
             {
@@ -1040,10 +1040,10 @@ export const blogData: BlogPost[] = [
                 "custom suit styling",
                 "leather suit maintenance"
             ],
-            canonicalUrl: "https://vellehide.com/blog/custom-tailored-leather-suits-guide",
+            canonicalUrl: "https://vellehide.com/blogs/custom-tailored-leather-suits-guide",
             ogTitle: "Guide to Custom Leather Suits",
             ogDescription: "Craft your perfect leather suit with Velle Hide.",
-            ogImage: "/images/blog/blog-009/custom-suits-og.png",
+            ogImage: "/images/blogs/blog-009/custom-suits-og.png",
             twitterCard: "summary_large_image",
         },
     },
@@ -1054,7 +1054,7 @@ export const blogData: BlogPost[] = [
         uploadDate: "2025-08-30",
         author: {
             name: "Olivia Bennett",
-            avatar: "/images/blog/authors/olivia-bennett.png",
+            avatar: "/images/blogs/authors/olivia-bennett.png",
         },
         category: "Seasonal Fashion",
         tags: [
@@ -1067,7 +1067,7 @@ export const blogData: BlogPost[] = [
             "leather coat care"
         ],
         excerpt: "Stay warm and stylish with Velle Hide’s top winter leather coats for 2025.",
-        thumbnail: "/images/blog/blog-010/thumbnail.png",
+        thumbnail: "/images/blogs/blog-010/thumbnail.png",
         content: [
             {
                 type: "text",
@@ -1087,7 +1087,7 @@ export const blogData: BlogPost[] = [
                     "Perfect for commuting or outdoor winter adventures."
                 ],
                 imageLeft: true,
-                thumbnail: "/images/blog/blog-010/long-winter-coat.png",
+                thumbnail: "/images/blogs/blog-010/long-winter-coat.png",
             },
             {
                 type: "text",
@@ -1107,7 +1107,7 @@ export const blogData: BlogPost[] = [
                     "Maintain with salt removal and conditioning for pristine condition."
                 ],
                 imageLeft: false,
-                thumbnail: "/images/blog/blog-010/winter-coat-styling.png",
+                thumbnail: "/images/blogs/blog-010/winter-coat-styling.png",
             },
             {
                 type: "text",
@@ -1127,7 +1127,7 @@ export const blogData: BlogPost[] = [
                     "Store in breathable bags post-season to maintain shape."
                 ],
                 imageLeft: true,
-                thumbnail: "/images/blog/blog-010/winter-coat-care.png",
+                thumbnail: "/images/blogs/blog-010/winter-coat-care.png",
                 href: "/products/winter-leather-coats"
             },
             {
@@ -1153,10 +1153,10 @@ export const blogData: BlogPost[] = [
                 "leather coat styling",
                 "winter coat maintenance"
             ],
-            canonicalUrl: "https://vellehide.com/blog/best-winter-leather-coats-warmth-style",
+            canonicalUrl: "https://vellehide.com/blogs/best-winter-leather-coats-warmth-style",
             ogTitle: "Winter Leather Coats: Warmth and Style",
             ogDescription: "Stay cozy with Velle Hide’s top leather coats.",
-            ogImage: "/images/blog/blog-010/winter-coats-og.png",
+            ogImage: "/images/blogs/blog-010/winter-coats-og.png",
             twitterCard: "summary_large_image",
         },
     },
@@ -1167,7 +1167,7 @@ export const blogData: BlogPost[] = [
         uploadDate: "2025-09-07",
         author: {
             name: "Laura Benson",
-            avatar: "/images/blog/authors/laura-benson.png",
+            avatar: "/images/blogs/authors/laura-benson.png",
         },
         category: "Accessories",
         tags: [
@@ -1183,7 +1183,7 @@ export const blogData: BlogPost[] = [
             "RFID accessories"
         ],
         excerpt: "Elevate your work style with Velle Hide’s leather wallets, belts, and bags for professionals.",
-        thumbnail: "/images/blog/blog-011/thumbnail.png",
+        thumbnail: "/images/blogs/blog-011/thumbnail.png",
         content: [
             {
                 type: "text",
@@ -1203,7 +1203,7 @@ export const blogData: BlogPost[] = [
                     "Choose minimalist designs for sleek, professional functionality."
                 ],
                 imageLeft: true,
-                thumbnail: "/images/blog/blog-011/professional-wallet.png",
+                thumbnail: "/images/blogs/blog-011/professional-wallet.png",
             },
             {
                 type: "text",
@@ -1223,7 +1223,7 @@ export const blogData: BlogPost[] = [
                     "Transition seamlessly from office to evening events."
                 ],
                 imageLeft: false,
-                thumbnail: "/images/blog/blog-011/leather-briefcase.png",
+                thumbnail: "/images/blogs/blog-011/leather-briefcase.png",
                 href: "/products/leather-briefcases"
             },
             {
@@ -1244,8 +1244,8 @@ export const blogData: BlogPost[] = [
                     "Explore Velle Hide’s customization for unique pieces."
                 ],
                 imageLeft: true,
-                thumbnail: "/images/blog/blog-011/personalized-accessories.png",
-                href: "/blog/personalizing-leather-goods-monogramming-more"
+                thumbnail: "/images/blogs/blog-011/personalized-accessories.png",
+                href: "/blogs/personalizing-leather-goods-monogramming-more"
             },
             {
                 type: "faq",
@@ -1271,10 +1271,10 @@ export const blogData: BlogPost[] = [
                 "leather briefcases",
                 "RFID leather accessories"
             ],
-            canonicalUrl: "https://vellehide.com/blog/essential-leather-accessories-modern-professional",
+            canonicalUrl: "https://vellehide.com/blogs/essential-leather-accessories-modern-professional",
             ogTitle: "Leather Accessories for the Modern Professional",
             ogDescription: "Elevate your work style with Velle Hide’s leather essentials.",
-            ogImage: "/images/blog/blog-011/professional-accessories-og.png",
+            ogImage: "/images/blogs/blog-011/professional-accessories-og.png",
             twitterCard: "summary_large_image",
         },
     },
@@ -1285,7 +1285,7 @@ export const blogData: BlogPost[] = [
         uploadDate: "2025-09-06",
         author: {
             name: "Michael Foster",
-            avatar: "/images/blog/authors/michael-foster.png",
+            avatar: "/images/blogs/authors/michael-foster.png",
         },
         category: "Trends",
         tags: [
@@ -1301,7 +1301,7 @@ export const blogData: BlogPost[] = [
             "fall shoe trends"
         ],
         excerpt: "Step into fall 2025 with Velle Hide’s trendy leather boots and shoes for all styles.",
-        thumbnail: "/images/blog/blog-012/thumbnail.png",
+        thumbnail: "/images/blogs/blog-012/thumbnail.png",
         content: [
             {
                 type: "text",
@@ -1321,7 +1321,7 @@ export const blogData: BlogPost[] = [
                     "Vintage finishes add retro flair to modern wardrobes."
                 ],
                 imageLeft: true,
-                thumbnail: "/images/blog/blog-012/fall-boots.png",
+                thumbnail: "/images/blogs/blog-012/fall-boots.png",
             },
             {
                 type: "text",
@@ -1341,7 +1341,7 @@ export const blogData: BlogPost[] = [
                     "Sustainable vegetable-tanned options align with eco-trends."
                 ],
                 imageLeft: false,
-                thumbnail: "/images/blog/blog-012/footwear-textures.png",
+                thumbnail: "/images/blogs/blog-012/footwear-textures.png",
             },
             {
                 type: "text",
@@ -1361,7 +1361,7 @@ export const blogData: BlogPost[] = [
                     "Velle Hide’s footwear collection elevates fall outfits."
                 ],
                 imageLeft: true,
-                thumbnail: "/images/blog/blog-012/footwear-styling.png",
+                thumbnail: "/images/blogs/blog-012/footwear-styling.png",
                 href: "/products/leather-footwear"
             },
             {
@@ -1388,10 +1388,10 @@ export const blogData: BlogPost[] = [
                 "fall fashion trends",
                 "sustainable leather footwear"
             ],
-            canonicalUrl: "https://vellehide.com/blog/leather-footwear-trends-boots-shoes-fall-2025",
+            canonicalUrl: "https://vellehide.com/blogs/leather-footwear-trends-boots-shoes-fall-2025",
             ogTitle: "Fall 2025 Leather Footwear Trends",
             ogDescription: "Stylish leather boots and shoes for the season.",
-            ogImage: "/images/blog/blog-012/fall-footwear-og.png",
+            ogImage: "/images/blogs/blog-012/fall-footwear-og.png",
             twitterCard: "summary_large_image",
         },
     },
@@ -1402,7 +1402,7 @@ export const blogData: BlogPost[] = [
         uploadDate: "2025-09-05",
         author: {
             name: "Isabella Hayes",
-            avatar: "/images/blog/authors/isabella-hayes.png",
+            avatar: "/images/blogs/authors/isabella-hayes.png",
         },
         category: "Home Decor",
         tags: [
@@ -1416,7 +1416,7 @@ export const blogData: BlogPost[] = [
             "leather decor care"
         ],
         excerpt: "Elevate your home with Velle Hide’s leather pillow covers and decor for luxury and style.",
-        thumbnail: "/images/blog/blog-013/thumbnail.png",
+        thumbnail: "/images/blogs/blog-013/thumbnail.png",
         content: [
             {
                 type: "text",
@@ -1436,7 +1436,7 @@ export const blogData: BlogPost[] = [
                     "Place on sofas or beds for instant luxury and comfort."
                 ],
                 imageLeft: true,
-                thumbnail: "/images/blog/blog-013/leather-pillow-styling.png",
+                thumbnail: "/images/blogs/blog-013/leather-pillow-styling.png",
             },
             {
                 type: "text",
@@ -1456,7 +1456,7 @@ export const blogData: BlogPost[] = [
                     "Use leather-safe cleaners for easy, effective maintenance."
                 ],
                 imageLeft: false,
-                thumbnail: "/images/blog/blog-013/leather-decor-care.png",
+                thumbnail: "/images/blogs/blog-013/leather-decor-care.png",
             },
             {
                 type: "text",
@@ -1476,7 +1476,7 @@ export const blogData: BlogPost[] = [
                     "Explore Velle Hide’s decor for versatile styling options."
                 ],
                 imageLeft: true,
-                thumbnail: "/images/blog/blog-013/leather-material-mix.png",
+                thumbnail: "/images/blogs/blog-013/leather-material-mix.png",
                 href: "/products/leather-home-decor"
             },
             {
@@ -1502,10 +1502,10 @@ export const blogData: BlogPost[] = [
                 "leather home styling",
                 "leather decor maintenance"
             ],
-            canonicalUrl: "https://vellehide.com/blog/crafting-perfect-leather-home-decor-pillow-covers",
+            canonicalUrl: "https://vellehide.com/blogs/crafting-perfect-leather-home-decor-pillow-covers",
             ogTitle: "Leather Home Decor: Pillows and Beyond",
             ogDescription: "Add luxury with Velle Hide’s leather decor.",
-            ogImage: "/images/blog/blog-013/home-decor-og.png",
+            ogImage: "/images/blogs/blog-013/home-decor-og.png",
             twitterCard: "summary_large_image",
         },
     },
@@ -1516,7 +1516,7 @@ export const blogData: BlogPost[] = [
         uploadDate: "2025-09-04",
         author: {
             name: "William Hayes",
-            avatar: "/images/blog/authors/william-hayes.png",
+            avatar: "/images/blogs/authors/william-hayes.png",
         },
         category: "Kids Fashion",
         tags: [
@@ -1530,7 +1530,7 @@ export const blogData: BlogPost[] = [
             "kids leather care"
         ],
         excerpt: "Dress kids in durable, stylish leather jackets and shoes from Velle Hide’s collection.",
-        thumbnail: "/images/blog/blog-014/thumbnail.png",
+        thumbnail: "/images/blogs/blog-014/thumbnail.png",
         content: [
             {
                 type: "text",
@@ -1550,7 +1550,7 @@ export const blogData: BlogPost[] = [
                     "Layer over tees or hoodies for versatile, cool looks."
                 ],
                 imageLeft: true,
-                thumbnail: "/images/blog/blog-014/kids-leather-jacket.png",
+                thumbnail: "/images/blogs/blog-014/kids-leather-jacket.png",
             },
             {
                 type: "text",
@@ -1570,7 +1570,7 @@ export const blogData: BlogPost[] = [
                     "Durable designs ensure longevity through active use."
                 ],
                 imageLeft: false,
-                thumbnail: "/images/blog/blog-014/kids-leather-accessories.png",
+                thumbnail: "/images/blogs/blog-014/kids-leather-accessories.png",
             },
             {
                 type: "text",
@@ -1590,7 +1590,7 @@ export const blogData: BlogPost[] = [
                     "Velle Hide’s kids’ collection balances fun and durability."
                 ],
                 imageLeft: true,
-                thumbnail: "/images/blog/blog-014/kids-leather-styling.png",
+                thumbnail: "/images/blogs/blog-014/kids-leather-styling.png",
                 href: "/products/kids-leather-clothing"
             },
             {
@@ -1617,10 +1617,10 @@ export const blogData: BlogPost[] = [
                 "kids leather styling",
                 "leather care for kids"
             ],
-            canonicalUrl: "https://vellehide.com/blog/kids-leather-fashion-durable-styles",
+            canonicalUrl: "https://vellehide.com/blogs/kids-leather-fashion-durable-styles",
             ogTitle: "Durable Leather Fashion for Kids",
             ogDescription: "Stylish, tough leather for young adventurers.",
-            ogImage: "/images/blog/blog-014/kids-fashion-og.png",
+            ogImage: "/images/blogs/blog-014/kids-fashion-og.png",
             twitterCard: "summary_large_image",
         },
     },
@@ -1631,7 +1631,7 @@ export const blogData: BlogPost[] = [
         uploadDate: "2025-09-03",
         author: {
             name: "William Hayes",
-            avatar: "/images/blog/authors/william-hayes.png",
+            avatar: "/images/blogs/authors/william-hayes.png",
         },
         category: "Behind the Scenes",
         tags: [
@@ -1644,7 +1644,7 @@ export const blogData: BlogPost[] = [
             "sustainable crafting"
         ],
         excerpt: "Discover Velle Hide’s leather crafting process, from hide selection to finished goods.",
-        thumbnail: "/images/blog/blog-015/thumbnail.png",
+        thumbnail: "/images/blogs/blog-015/thumbnail.png",
         content: [
             {
                 type: "text",
@@ -1664,7 +1664,7 @@ export const blogData: BlogPost[] = [
                     "Each hide’s unique grain shapes the final product’s character."
                 ],
                 imageLeft: true,
-                thumbnail: "/images/blog/blog-015/selecting-hide.png",
+                thumbnail: "/images/blogs/blog-015/selecting-hide.png",
             },
             {
                 type: "text",
@@ -1684,7 +1684,7 @@ export const blogData: BlogPost[] = [
                     "Personalization options like engraving add unique flair."
                 ],
                 imageLeft: false,
-                thumbnail: "/images/blog/blog-015/leather-finishing.png",
+                thumbnail: "/images/blogs/blog-015/leather-finishing.png",
             },
             {
                 type: "text",
@@ -1704,7 +1704,7 @@ export const blogData: BlogPost[] = [
                     "Explore Velle Hide’s collections to see their work."
                 ],
                 imageLeft: true,
-                thumbnail: "/images/blog/blog-015/artisan-team.png",
+                thumbnail: "/images/blogs/blog-015/artisan-team.png",
                 href: "/about/our-artisans"
             },
             {
@@ -1731,10 +1731,10 @@ export const blogData: BlogPost[] = [
                 "sustainable leather crafting",
                 "leather production process"
             ],
-            canonicalUrl: "https://vellehide.com/blog/art-leather-crafting-behind-scenes-vellehide",
+            canonicalUrl: "https://vellehide.com/blogs/art-leather-crafting-behind-scenes-vellehide",
             ogTitle: "Inside Velle Hide’s Leather Crafting",
             ogDescription: "Discover the art of handmade leather goods.",
-            ogImage: "/images/blog/blog-015/crafting-og.png",
+            ogImage: "/images/blogs/blog-015/crafting-og.png",
             twitterCard: "summary_large_image",
         },
     },
@@ -1745,7 +1745,7 @@ export const blogData: BlogPost[] = [
         uploadDate: "2025-09-02",
         author: {
             name: "Israel Perez",
-            avatar: "/images/blog/authors/israel-perez.png",
+            avatar: "/images/blogs/authors/israel-perez.png",
         },
         category: "Women’s Fashion",
         tags: [
@@ -1759,7 +1759,7 @@ export const blogData: BlogPost[] = [
             "leather skirts"
         ],
         excerpt: "Discover bold women’s leather styles for 2025 with Velle Hide’s empowering fashion guide.",
-        thumbnail: "/images/blog/blog-016/thumbnail.png",
+        thumbnail: "/images/blogs/blog-016/thumbnail.png",
         content: [
             {
                 type: "text",
@@ -1779,7 +1779,7 @@ export const blogData: BlogPost[] = [
                     "Cropped or oversized fits cater to diverse style preferences."
                 ],
                 imageLeft: true,
-                thumbnail: "/images/blog/blog-016/womens-leather-jacket.png",
+                thumbnail: "/images/blogs/blog-016/womens-leather-jacket.png",
             },
             {
                 type: "text",
@@ -1799,7 +1799,7 @@ export const blogData: BlogPost[] = [
                     "Statement boots elevate any ensemble with confidence."
                 ],
                 imageLeft: false,
-                thumbnail: "/images/blog/blog-016/womens-leather-accessories.png",
+                thumbnail: "/images/blogs/blog-016/womens-leather-accessories.png",
             },
             {
                 type: "text",
@@ -1819,7 +1819,7 @@ export const blogData: BlogPost[] = [
                     "Explore Velle Hide’s empowering 2025 collection."
                 ],
                 imageLeft: true,
-                thumbnail: "/images/blog/blog-016/womens-leather-styling.png",
+                thumbnail: "/images/blogs/blog-016/womens-leather-styling.png",
                 href: "/products/womens-leather-collection"
             },
             {
@@ -1846,10 +1846,10 @@ export const blogData: BlogPost[] = [
                 "women’s leather skirts",
                 "empowering leather styles"
             ],
-            canonicalUrl: "https://vellehide.com/blog/womens-leather-fashion-empowering-styles-2025",
+            canonicalUrl: "https://vellehide.com/blogs/womens-leather-fashion-empowering-styles-2025",
             ogTitle: "2025 Women’s Leather Fashion Trends",
             ogDescription: "Bold, sustainable leather styles for confident women.",
-            ogImage: "/images/blog/blog-016/womens-fashion-og.png",
+            ogImage: "/images/blogs/blog-016/womens-fashion-og.png",
             twitterCard: "summary_large_image",
         },
     },
@@ -1860,7 +1860,7 @@ export const blogData: BlogPost[] = [
         uploadDate: "2025-09-01",
         author: {
             name: "Olivia Bennett",
-            avatar: "/images/blog/authors/olivia-bennett.png",
+            avatar: "/images/blogs/authors/olivia-bennett.png",
         },
         category: "Men's Fashion",
         tags: [
@@ -1876,7 +1876,7 @@ export const blogData: BlogPost[] = [
             "sustainable men’s fashion"
         ],
         excerpt: "Build a lasting wardrobe with men’s leather essentials from Velle Hide’s timeless collection.",
-        thumbnail: "/images/blog/blog-017/thumbnail.png",
+        thumbnail: "/images/blogs/blog-017/thumbnail.png",
         content: [
             {
                 type: "text",
@@ -1896,7 +1896,7 @@ export const blogData: BlogPost[] = [
                     "Layer with knits or scarves for warmth and refined style."
                 ],
                 imageLeft: true,
-                thumbnail: "/images/blog/blog-017/mens-leather-coat.png",
+                thumbnail: "/images/blogs/blog-017/mens-leather-coat.png",
             },
             {
                 type: "text",
@@ -1916,7 +1916,7 @@ export const blogData: BlogPost[] = [
                     "Choose full-grain leather for durability and a rich patina."
                 ],
                 imageLeft: false,
-                thumbnail: "/images/blog/blog-017/mens-leather-accessories.png",
+                thumbnail: "/images/blogs/blog-017/mens-leather-accessories.png",
             },
             {
                 type: "text",
@@ -1936,7 +1936,7 @@ export const blogData: BlogPost[] = [
                     "Explore Velle Hide’s men’s collection for cohesive wardrobe ideas."
                 ],
                 imageLeft: true,
-                thumbnail: "/images/blog/blog-017/mens-leather-styling.png",
+                thumbnail: "/images/blogs/blog-017/mens-leather-styling.png",
                 href: "/products/mens-leather-collection"
             },
             {
@@ -1963,10 +1963,10 @@ export const blogData: BlogPost[] = [
                 "classic leather styles",
                 "sustainable men’s leather"
             ],
-            canonicalUrl: "https://vellehide.com/blog/mens-leather-essentials-timeless-wardrobe",
+            canonicalUrl: "https://vellehide.com/blogs/mens-leather-essentials-timeless-wardrobe",
             ogTitle: "Timeless Men’s Leather Wardrobe Essentials",
             ogDescription: "Build lasting style with Velle Hide’s leather pieces.",
-            ogImage: "/images/blog/blog-017/mens-essentials-og.png",
+            ogImage: "/images/blogs/blog-017/mens-essentials-og.png",
             twitterCard: "summary_large_image",
         },
     },
@@ -1977,7 +1977,7 @@ export const blogData: BlogPost[] = [
         uploadDate: "2025-08-31",
         author: {
             name: "Israel Perez",
-            avatar: "/images/blog/authors/israel-perez.png",
+            avatar: "/images/blogs/authors/israel-perez.png",
         },
         category: "Sustainability",
         tags: [
@@ -1992,7 +1992,7 @@ export const blogData: BlogPost[] = [
             "sustainable style"
         ],
         excerpt: "Learn how sustainable leather innovations make eco-friendly fashion possible with Velle Hide.",
-        thumbnail: "/images/blog/blog-018/thumbnail.png",
+        thumbnail: "/images/blogs/blog-018/thumbnail.png",
         content: [
             {
                 type: "text",
@@ -2012,7 +2012,7 @@ export const blogData: BlogPost[] = [
                     "Velle Hide’s veg-tanned products are eco-friendly and durable."
                 ],
                 imageLeft: true,
-                thumbnail: "/images/blog/blog-018/vegetable-tanning.png",
+                thumbnail: "/images/blogs/blog-018/vegetable-tanning.png",
             },
             {
                 type: "text",
@@ -2032,7 +2032,7 @@ export const blogData: BlogPost[] = [
                     "Velle Hide explores bio-based innovations for future collections."
                 ],
                 imageLeft: false,
-                thumbnail: "/images/blog/blog-018/bio-based-leather.png",
+                thumbnail: "/images/blogs/blog-018/bio-based-leather.png",
             },
             {
                 type: "text",
@@ -2052,8 +2052,8 @@ export const blogData: BlogPost[] = [
                     "Support innovations that prioritize eco-friendly fashion solutions."
                 ],
                 imageLeft: true,
-                thumbnail: "/images/blog/blog-018/sustainable-consumer.png",
-                href: "/blog/sustainable-leather-myths-facts"
+                thumbnail: "/images/blogs/blog-018/sustainable-consumer.png",
+                href: "/blogs/sustainable-leather-myths-facts"
             },
             {
                 type: "faq",
@@ -2079,10 +2079,10 @@ export const blogData: BlogPost[] = [
                 "bio-based leather",
                 "ethical leather fashion"
             ],
-            canonicalUrl: "https://vellehide.com/blog/leather-sustainable-fashion-eco-innovations",
+            canonicalUrl: "https://vellehide.com/blogs/leather-sustainable-fashion-eco-innovations",
             ogTitle: "Eco-Friendly Leather Fashion Innovations",
             ogDescription: "Sustainable leather solutions from Velle Hide.",
-            ogImage: "/images/blog/blog-018/eco-innovations-og.png",
+            ogImage: "/images/blogs/blog-018/eco-innovations-og.png",
             twitterCard: "summary_large_image",
         },
     },
@@ -2093,7 +2093,7 @@ export const blogData: BlogPost[] = [
         uploadDate: "2025-08-30",
         author: {
             name: "Laura Benson",
-            avatar: "/images/blog/authors/laura-benson.png",
+            avatar: "/images/blogs/authors/laura-benson.png",
         },
         category: "Seasonal Fashion",
         tags: [
@@ -2107,7 +2107,7 @@ export const blogData: BlogPost[] = [
             "leather accessories"
         ],
         excerpt: "Stay cool and stylish with Velle Hide’s lightweight leather styles for summer 2025.",
-        thumbnail: "/images/blog/blog-019/thumbnail.png",
+        thumbnail: "/images/blogs/blog-019/thumbnail.png",
         content: [
             {
                 type: "text",
@@ -2127,7 +2127,7 @@ export const blogData: BlogPost[] = [
                     "Light colors like tan or white reflect heat for comfort."
                 ],
                 imageLeft: true,
-                thumbnail: "/images/blog/blog-019/summer-leather-bottoms.png",
+                thumbnail: "/images/blogs/blog-019/summer-leather-bottoms.png",
             },
             {
                 type: "text",
@@ -2147,7 +2147,7 @@ export const blogData: BlogPost[] = [
                     "Choose soft grips and natural finishes for all-day comfort."
                 ],
                 imageLeft: false,
-                thumbnail: "/images/blog/blog-019/summer-leather-accessories.png",
+                thumbnail: "/images/blogs/blog-019/summer-leather-accessories.png",
             },
             {
                 type: "text",
@@ -2167,7 +2167,7 @@ export const blogData: BlogPost[] = [
                     "Explore Velle Hide’s summer collection for versatile pieces."
                 ],
                 imageLeft: true,
-                thumbnail: "/images/blog/blog-019/summer-leather-styling.png",
+                thumbnail: "/images/blogs/blog-019/summer-leather-styling.png",
                 href: "/products/summer-leather-collection"
             },
             {
@@ -2193,10 +2193,10 @@ export const blogData: BlogPost[] = [
                 "leather shorts summer",
                 "summer leather accessories"
             ],
-            canonicalUrl: "https://vellehide.com/blog/summer-leather-lightweight-styles-warm-weather",
+            canonicalUrl: "https://vellehide.com/blogs/summer-leather-lightweight-styles-warm-weather",
             ogTitle: "Lightweight Leather for Summer 2025",
             ogDescription: "Cool, stylish leather pieces for warm weather.",
-            ogImage: "/images/blog/blog-019/summer-leather-og.png",
+            ogImage: "/images/blogs/blog-019/summer-leather-og.png",
             twitterCard: "summary_large_image",
         },
     },
@@ -2207,7 +2207,7 @@ export const blogData: BlogPost[] = [
         uploadDate: "2025-08-29",
         author: {
             name: "Isabella Hayes",
-            avatar: "/images/blog/authors/isabella-hayes.png",
+            avatar: "/images/blogs/authors/isabella-hayes.png",
         },
         category: "Customization",
         tags: [
@@ -2220,7 +2220,7 @@ export const blogData: BlogPost[] = [
             "bespoke leather"
         ],
         excerpt: "Customize your leather goods with monogramming, engravings, and more from Velle Hide.",
-        thumbnail: "/images/blog/blog-020/thumbnail.png",
+        thumbnail: "/images/blogs/blog-020/thumbnail.png",
         content: [
             {
                 type: "text",
@@ -2240,7 +2240,7 @@ export const blogData: BlogPost[] = [
                     "Perfect for gifting or creating signature accessories."
                 ],
                 imageLeft: true,
-                thumbnail: "/images/blog/blog-020/monogramming-leather.png",
+                thumbnail: "/images/blogs/blog-020/monogramming-leather.png",
             },
             {
                 type: "text",
@@ -2260,7 +2260,7 @@ export const blogData: BlogPost[] = [
                     "Seasonal color options add vibrancy to personalized goods."
                 ],
                 imageLeft: false,
-                thumbnail: "/images/blog/blog-020/custom-leather-designs.png",
+                thumbnail: "/images/blogs/blog-020/custom-leather-designs.png",
             },
             {
                 type: "text",
@@ -2280,7 +2280,7 @@ export const blogData: BlogPost[] = [
                     "Velle Hide’s personalization services create unforgettable pieces."
                 ],
                 imageLeft: true,
-                thumbnail: "/images/blog/blog-020/personalized-leather-value.png",
+                thumbnail: "/images/blogs/blog-020/personalized-leather-value.png",
                 href: "/products/custom-leather-goods"
             },
             {
@@ -2306,10 +2306,10 @@ export const blogData: BlogPost[] = [
                 "engraved leather accessories",
                 "bespoke leather products"
             ],
-            canonicalUrl: "https://vellehide.com/blog/personalizing-leather-goods-monogramming-more",
+            canonicalUrl: "https://vellehide.com/blogs/personalizing-leather-goods-monogramming-more",
             ogTitle: "Personalize Your Leather Goods",
             ogDescription: "Unique monogramming and custom designs by Velle Hide.",
-            ogImage: "/images/blog/blog-020/personalized-og.png",
+            ogImage: "/images/blogs/blog-020/personalized-og.png",
             twitterCard: "summary_large_image",
         },
     },

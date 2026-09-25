@@ -3,9 +3,9 @@
 import type { StoreCustomer } from "@medusajs/types";
 import { useActionState, useEffect, useState } from "react";
 import { updateCustomer } from "@/lib/action/customer";
+import type { FormState } from "@/types/common";
 import Button from "@/ui/button";
 import Input from "@/ui/input";
-import type { FormState } from "@/types/common";
 
 export default function ProfilePersonal({
   customer,

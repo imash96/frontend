@@ -1,10 +1,10 @@
 "use client"
 
-import { usePathname } from "next/navigation"
 import { House, Menu, Search, ShoppingBag, User } from "lucide-react"
-import { useDrawerStore } from "@/lib/store/drawer-store"
-import Link from "next/link"
 import type { Route } from "next"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
+import { useDrawerStore } from "@/lib/store/drawer-store"
 
 type Tab = { type: "link"; href: Route; label: string; Icon: typeof House } | { type: "button"; onClick: () => void; label: string; Icon: typeof House }
 

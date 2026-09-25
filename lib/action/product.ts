@@ -1,10 +1,10 @@
 import "server-only"
 
+import { FindParams, StoreProduct, StoreProductListParams } from "@medusajs/types"
 import { cacheLife, cacheTag } from "next/cache"
 import { sdk } from "@/lib/sdk"
 import { OptionValueIds } from "@/lib/util/product-option-filters"
 import { sortProducts } from "@/lib/util/sort-products"
-import { FindParams, StoreProduct, StoreProductListParams } from "@medusajs/types"
 import { SortOptions } from "@/types/common"
 import { getRegion, retrieveRegion } from "./regions"
 

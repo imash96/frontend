@@ -1,8 +1,9 @@
-import Link from "next/link";
 import { Metadata, Viewport } from "next";
 import { Bricolage_Grotesque, Inter } from "next/font/google";
+import Link from "next/link";
 
 import "@/css/globals.css";
+import { baseURL } from "@/lib/constant";
 
 export const inter = Inter({
   subsets: ["latin"],
@@ -16,8 +17,6 @@ export const bricolage = Bricolage_Grotesque({
   display: "swap",
 })
 
-
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://vellehide.com";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -65,7 +64,7 @@ export function SkipToContent() {
 }
 
 export const metadata: Metadata = {
-  metadataBase: new URL(baseUrl),
+  metadataBase: new URL(baseURL),
   title: {
     default: "Velle Hide | Premium Handcrafted Leather Goods",
     template: "%s | Velle Hide",
@@ -96,7 +95,7 @@ export const metadata: Metadata = {
     type: "website",
     siteName: "Velle Hide",
     locale: "en_US",
-    url: baseUrl,
+    url: baseURL,
   },
   twitter: {
     card: "summary_large_image",

@@ -1,5 +1,5 @@
-import { AlertComponent, SectionHeader } from "./common";
 import { AlertCircle, Check, ChevronRight, CreditCard, Eye, Heart, Info, Package, Search, ShoppingCart, Star, Trash2, Truck, User, X } from "lucide-react";
+import { AlertComponent, SectionHeader } from "./common";
 
 export default function ComponentTab() {
 

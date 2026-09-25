@@ -1,7 +1,7 @@
 "use client";
 
-import { useTheme } from "@/lib/hook/use-theme";
 import { Moon, Sun } from "lucide-react";
+import { useTheme } from "@/lib/hook/use-theme";
 
 type ThemeProviderProps = {
     initialTheme: "light" | "dark"

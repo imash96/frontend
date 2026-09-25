@@ -1,7 +1,7 @@
 import { StoreProduct } from "@medusajs/types"
 import EmptyState from "../components/empty-state"
-import ProductCard from "../components/product-card"
 import Pagination from "../components/pagination"
+import ProductCard from "../components/product-card"
 
 type Props = {
     products: StoreProduct[]

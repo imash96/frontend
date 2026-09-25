@@ -1,11 +1,11 @@
 "use client"
 
-import { useActionState, useState } from "react"
 import { AlertCircle, ArrowLeft, CheckCircle2, Mail } from "lucide-react"
-import { requestPasswordReset } from "@/lib/action/customer"
-import Input from "@/ui/input"
-import Button from "@/ui/button"
 import Link from "next/link"
+import { useActionState, useState } from "react"
+import { requestPasswordReset } from "@/lib/action/customer"
+import Button from "@/ui/button"
+import Input from "@/ui/input"
 
 export default function ForgotPasswordPage() {
     const [message, formAction, isPending] = useActionState(requestPasswordReset, null)

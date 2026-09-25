@@ -1,15 +1,11 @@
+import { ChevronRight } from "lucide-react"
+import type { Metadata } from "next"
+import Link from "next/link"
 import { listParentCategories } from "@/lib/action/categories"
+import { baseURL } from "@/lib/constant"
 import CategorySection from "@/module/categories/templates/category-section"
 import JsonLd from "@/module/products/templates/json-ld"
 import Container from "@/ui/container"
-import { Metadata } from "next"
-import Link from "next/link"
-import { ChevronRight } from "lucide-react"
-
-/* ─── Base URL ────────────────────────────────────────────────────────── */
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://vellehide.com"
-
-/* ─── Page ────────────────────────────────────────────────────────────── */
 
 export default async function Page() {
     const categories = await listParentCategories()
@@ -21,7 +17,7 @@ export default async function Page() {
         name: "Shop by Category",
         description:
             "Browse Velle Hide's full range of genuine leather goods by category.",
-        url: `${baseUrl}/categories`,
+        url: `${baseURL}/categories`,
         mainEntity: {
             "@type": "ItemList",
             numberOfItems: categories.length,
@@ -29,7 +25,7 @@ export default async function Page() {
                 "@type": "ListItem",
                 position: idx + 1,
                 name: cat.name,
-                url: `${baseUrl}/categories/${cat.handle}`,
+                url: `${baseURL}/categories/${cat.handle}`,
             })),
         },
     }
@@ -42,7 +38,7 @@ export default async function Page() {
                 "@type": "ListItem",
                 position: 1,
                 name: "Home",
-                item: baseUrl,
+                item: baseURL,
             },
             {
                 "@type": "ListItem",
@@ -154,7 +150,7 @@ export default async function Page() {
 /* ─── SEO Metadata ───────────────────────────────────────────────────── */
 
 export async function generateMetadata(): Promise<Metadata> {
-    const canonical = `${baseUrl}/categories`
+    const canonical = `${baseURL}/categories`
     const title = "Shop by Category | Velle Hide — Premium Leather Collections"
     const description =
         "Browse Velle Hide's full range of genuine leather goods by category — men's and women's apparel, footwear, bags and luggage, accessories, home decor, and kids."
@@ -171,7 +167,7 @@ export async function generateMetadata(): Promise<Metadata> {
             siteName: "Velle Hide",
             images: [
                 {
-                    url: `${baseUrl}/store.jpg`,
+                    url: `${baseURL}/store.jpg`,
                     width: 1200,
                     height: 630,
                     alt: "Velle Hide leather goods categories",
@@ -182,7 +178,7 @@ export async function generateMetadata(): Promise<Metadata> {
             card: "summary_large_image",
             title,
             description,
-            images: [`${baseUrl}/store.jpg`],
+            images: [`${baseURL}/store.jpg`],
         },
         robots: {
             index: true,

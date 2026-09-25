@@ -1,10 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import CustomRadio, { RadioGroup } from '@/ui/custom/custom-radio';
 import CustomCheckbox, { CheckboxGroup } from '@/ui/custom/custom-checkbox';
-import CustomInput from '@/ui/input';
+import CustomRadio, { RadioGroup } from '@/ui/custom/custom-radio';
 import CustomSelect from '@/ui/custom/custom-select';
+import CustomInput from '@/ui/input';
 
 export default function InputTab() {
     const [formData, setFormData] = useState({

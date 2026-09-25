@@ -1,7 +1,7 @@
-import { getCategoryImage } from "@/data/category-page";
 import { StoreProductCategory } from "@medusajs/types";
 import Image from "next/image";
 import Link from "next/link";
+import { getCategoryImage } from "@/data/category-page";
 
 export default function LeafScrollRow({ leaves, maxRows }: { leaves: StoreProductCategory[]; maxRows: number }) {
     const itemsPerRow = 6

@@ -1,12 +1,12 @@
 "use server"
 
+import { AuthRedirectResponse, FetchError } from "@medusajs/js-sdk"
+import { HttpTypes } from "@medusajs/types"
+import type { Route } from "next";
+import { redirect } from "next/navigation"
 import { sdk } from "@/lib/sdk"
 import medusaError from "@/lib/util/medusa-error"
-import { HttpTypes } from "@medusajs/types"
-import { AuthRedirectResponse, FetchError } from "@medusajs/js-sdk"
-import { redirect } from "next/navigation"
 import { getAuthHeaders, getCacheOptions, getCartId, getPendingCustomer, removeAuthToken, removeCartId, removePendingCustomer, setAuthToken, setPendingCustomer, updateCacheTags, } from "./cookies"
-import type { Route } from "next";
 
 export type CustomerAuthState = { state: "error"; error: string } | { state: "verification_required"; email: string } | { state: "success" } | null
 

@@ -2,16 +2,16 @@ import { notFound, redirect } from "next/navigation"
 import {
   getCheckCart,
   getCheckCustomer,
-  getCheckShippingMethods,
   getCheckPaymentMethods,
+  getCheckShippingMethods,
 } from "@/lib/action/checkout"
 import CheckProgress from "@/module/checkout/templates/check-progress"
+import CheckStoreInitializer from "@/module/checkout/templates/check-store-initializer"
 import CheckSummary from "@/module/checkout/templates/check-summary"
 import CheckWrapper from "@/module/checkout/templates/check-wrapper"
 import StepAddress from "@/module/checkout/templates/step-address"
-import StepShipping from "@/module/checkout/templates/step-shipping"
 import StepPayment from "@/module/checkout/templates/step-payment"
-import CheckStoreInitializer from "@/module/checkout/templates/check-store-initializer"
+import StepShipping from "@/module/checkout/templates/step-shipping"
 import type { StepType } from "@/types/common"
 
 /* Checkout is fully user-specific (reads cookies for auth + cart ID) */

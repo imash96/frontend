@@ -19,7 +19,7 @@ export default function CareGuide() {
                         <li><strong>Avoid Direct Sunlight:</strong> Prolonged sun exposure fades and dries leather. Store and display leather goods away from direct sunlight and heat sources.</li>
                         <li><strong>Keep Away from Water:</strong> Leather is naturally porous. Avoid soaking; blot spills immediately with a dry, soft cloth.</li>
                         <li><strong>Never Use Harsh Chemicals:</strong> Avoid bleach, acetone, alcohol-based cleaners, or household detergents. Use leather-specific products only.</li>
-                        <li><strong>Condition Regularly:</strong> Leather needs moisture to stay supple. Apply a quality leather conditioner every 3–6 months, or more frequently in dry climates.</li>
+                        <li><strong>Condition Regularly:</strong> Leather needs moisture to stay supple. Apply a quality leather conditioner every 3-6 months, or more frequently in dry climates.</li>
                         <li><strong>Test First:</strong> Before applying any product, test on a small, hidden area to check for discoloration or damage.</li>
                         <li><strong>Use a Soft Cloth:</strong> Always use a lint-free microfiber cloth for cleaning and conditioning. Avoid abrasive materials.</li>
                     </ul>
@@ -49,8 +49,8 @@ export default function CareGuide() {
                         <div className="space-y-2">
                             <h3 className="text-base font-medium">Conditioning</h3>
                             <ul className="list-inside list-disc space-y-2 text-sm tracking-wide font-light">
-                                <li>Apply a leather conditioner (cream or balm) every 3–6 months. Work in small, circular motions.</li>
-                                <li>Let the conditioner absorb for 15–20 minutes, then buff with a clean cloth for a soft sheen.</li>
+                                <li>Apply a leather conditioner (cream or balm) every 3-6 months. Work in small, circular motions.</li>
+                                <li>Let the conditioner absorb for 15-20 minutes, then buff with a clean cloth for a soft sheen.</li>
                                 <li>Pay extra attention to creases, elbows, and collar — areas prone to drying out.</li>
                             </ul>
                         </div>
@@ -99,7 +99,7 @@ export default function CareGuide() {
                     <ul className="list-inside list-disc space-y-2 text-sm tracking-wide font-light">
                         <li><strong>Regular Dusting:</strong> Dust weekly with a soft, dry cloth or a lint roller to prevent buildup.</li>
                         <li><strong>Spot Cleaning:</strong> Blot spills immediately. Clean with a slightly damp cloth and a mild leather cleaner. Wipe dry immediately after.</li>
-                        <li><strong>Conditioning:</strong> Condition every 4–6 months to prevent cracking, especially if exposed to heated rooms or air conditioning.</li>
+                        <li><strong>Conditioning:</strong> Condition every 4-6 months to prevent cracking, especially if exposed to heated rooms or air conditioning.</li>
                         <li><strong>Sun Damage:</strong> Rotate pillow positions regularly to ensure even fading and prevent one side from darkening.</li>
                         <li><strong>Pet Scratches:</strong> Minor scratches can often be buffed out with a leather conditioner. For deeper scratches, use a leather repair kit or consult a professional.</li>
                         <li><strong>Avoid:</strong> Do not machine wash or dry clean leather pillow covers. Keep away from sharp objects and Velcro.</li>
@@ -134,7 +134,7 @@ export default function CareGuide() {
                 <div className="space-y-3">
                     <h2 className="text-xl uppercase">7. Waterproofing & Weather Protection</h2>
                     <ul className="list-inside list-disc space-y-2 text-sm tracking-wide font-light">
-                        <li>Apply a leather waterproofing spray or wax before the rainy season. Reapply every 2–3 months for active-use garments.</li>
+                        <li>Apply a leather waterproofing spray or wax before the rainy season. Reapply every 2-3 months for active-use garments.</li>
                         <li>Use silicone-free, leather-safe waterproofing products. Silicone can clog pores and dry out the leather over time.</li>
                         <li>After waterproofing, allow 24 hours for the product to fully absorb and cure before wearing.</li>
                         <li>For suede and nubuck, use a suede-specific waterproofing spray. Standard leather protectants can darken or damage these materials.</li>

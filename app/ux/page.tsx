@@ -1,7 +1,7 @@
 "use client"
 
+import { ChevronDown, Eye, Grid, Layers, LayoutGrid, Menu, MousePointer, Shield, Zap } from 'lucide-react';
 import { useState } from 'react';
-import { Eye, MousePointer, Layers, Zap, LayoutGrid, Menu, Grid, ChevronDown, Shield } from 'lucide-react';
 
 // Optimized types
 interface Section {

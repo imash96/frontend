@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useState } from "react"
-import useEmblaCarousel from "embla-carousel-react"
 import type { EmblaOptionsType } from "embla-carousel"
+import useEmblaCarousel from "embla-carousel-react"
+import { useCallback, useEffect, useState } from "react"
 
 type UseCarouselOptions = {
     // autoplay?: boolean

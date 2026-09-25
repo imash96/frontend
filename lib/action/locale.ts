@@ -1,9 +1,9 @@
 "use server"
 
-import { sdk } from "@/lib/sdk"
 import { cookies as nextCookies } from "next/headers"
-import { getAuthHeaders, getCacheOptions, getCartId, updateCacheTags } from "./cookies"
+import { sdk } from "@/lib/sdk"
 import { Locale } from "@/types/index"
+import { getAuthHeaders, getCacheOptions, getCartId, updateCacheTags } from "./cookies"
 
 const LOCALE_COOKIE_NAME = "_medusa_locale"
 

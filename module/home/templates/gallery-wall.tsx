@@ -1,6 +1,6 @@
+import { bottomImages, topImages } from "@/data/gallery-wall";
 import Container from "@/ui/container";
 import ImageMarquee from "../components/marquee";
-import { bottomImages, topImages } from "@/data/gallery-wall";
 
 /* ─── Stats strip ───────────────────────────────────────────────────────── */
 const STATS = [

@@ -2,13 +2,7 @@
 
 import Button from "@/ui/button";
 
-export default function CollectionError({
-    error,
-    reset,
-}: {
-    error: Error & { digest?: string };
-    reset: () => void;
-}) {
+export default function CollectionError({ error, reset, }: { error: Error & { digest?: string }; reset: () => void; }) {
     return (
         <main className="grid min-h-screen place-items-center bg-background px-6">
             <section className="flex max-w-md flex-col items-center text-center">

@@ -1,8 +1,8 @@
-import { ArrowRight } from "lucide-react"
-import { SectionHeaderClassic, SectionHeaderCentered } from "./section-header-final"
 import { StoreProduct } from "@medusajs/types"
+import { ArrowRight } from "lucide-react"
 import Button from "@/ui/button"
 import ProductCard from "@/ui/product-card"
+import { SectionHeaderCentered, SectionHeaderClassic } from "./section-header-final"
 
 type ProductSectionProps = {
     products: StoreProduct[]

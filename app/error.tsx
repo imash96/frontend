@@ -1,15 +1,9 @@
 "use client";
 
-import { AlertTriangle, RefreshCw, Home } from "lucide-react";
+import { AlertTriangle, Home, RefreshCw } from "lucide-react";
 import Button from "@/ui/button";
 
-export default function RootError({
-    error,
-    reset,
-}: {
-    error: Error & { digest?: string };
-    reset: () => void;
-}) {
+export default function RootError({ error, reset, }: { error: Error & { digest?: string }; reset: () => void; }) {
     return (
         <main className="flex min-h-dvh flex-col items-center justify-center gap-6 px-5 text-center">
             <div className="flex h-16 w-16 items-center justify-center rounded-full bg-destructive/10">

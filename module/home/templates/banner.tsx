@@ -1,13 +1,13 @@
 "use client"
 
+import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react"
+import type { Route } from "next";
 import Image from "next/image"
 import Link from "next/link"
-import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react"
+import { memo } from "react"
+import { heroSlides } from "@/data/hero-slide"
 import { useCarousel } from "@/lib/hook/use-carousel"
 import { HeroSlideCardProps } from "@/types/homepage"
-import { heroSlides } from "@/data/hero-slide"
-import { memo } from "react"
-import type { Route } from "next";
 
 export default function HeroCarousel() {
     const { emblaRef, selectedIndex, scrollTo, scrollNext, scrollPrev } = useCarousel({

@@ -1,20 +1,21 @@
+import type { Metadata } from "next"
+import { cacheLife } from "next/cache"
 import { cookies } from "next/headers"
 import { notFound } from "next/navigation"
-import type { Metadata } from "next"
 import { Suspense } from "react"
-import { cacheLife } from "next/cache"
 import { listProducts } from "@/lib/action/product"
 import { getRegion } from "@/lib/action/regions"
+import { baseURL } from "@/lib/constant"
 import { sdk } from "@/lib/sdk"
 import { getProductPrice } from "@/lib/util/get-product-price"
-import Container from "@/ui/container"
+import ProductAccordion from "@/module/products/templates/accordion"
+import ProductActions from "@/module/products/templates/action"
+import ProductDesc from "@/module/products/templates/description"
 import ProductGallery from "@/module/products/templates/gallery"
 import ProductInfo from "@/module/products/templates/info"
-import ProductActions from "@/module/products/templates/action"
-import ProductAccordion from "@/module/products/templates/accordion"
-import ProductDesc from "@/module/products/templates/description"
 import RelatedProducts from "@/module/products/templates/related"
 import ProductReview from "@/module/products/templates/review"
+import Container from "@/ui/container"
 
 const PRODUCT_FIELDS = "*variants.calculated_price,*variants.prices,*variants.options,+variants.inventory_quantity,+variants.sku,+variants.manage_inventory,+variants.allow_backorder,*variants.images,+variant_rank,*images,*options,*options.values,*categories,*categories.id,*categories.name,*categories.handle,+tags.value,+type.value,+material,+origin_country,+weight,+length,+width,+height,+subtitle,+collection"
 
@@ -49,8 +50,7 @@ export default async function ProductDetailPage(props: PageProps<"/products/[han
         if (v.allow_backorder) return true
         return (v.inventory_quantity ?? 0) > 0
     })
-    const site = process.env.NEXT_PUBLIC_BASE_URL
-    const productUrl = `${site}/products/${handle}`
+    const productUrl = `${baseURL}/products/${handle}`
 
     // ─── Compute price range across all variants ───
     const variantPrices = (product.variants ?? [])
@@ -107,13 +107,13 @@ export default async function ProductDetailPage(props: PageProps<"/products/[han
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
         itemListElement: [
-            { "@type": "ListItem", position: 1, name: "Home", item: site },
-            { "@type": "ListItem", position: 2, name: "Products", item: `${site}/products` },
+            { "@type": "ListItem", position: 1, name: "Home", item: baseURL },
+            { "@type": "ListItem", position: 2, name: "Products", item: `${baseURL}/products` },
             ...(product.categories ?? []).map((cat, i) => ({
                 "@type": "ListItem",
                 position: 3 + i,
                 name: cat.name,
-                item: `${site}/categories/${cat.handle}`,
+                item: `${baseURL}/categories/${cat.handle}`,
             })),
             {
                 "@type": "ListItem",
@@ -181,7 +181,7 @@ export async function generateMetadata(props: PageProps<"/products/[handle]">): 
     const title = `${product.title} | Velle Hide`
     const description =
         product.description?.slice(0, 160) ?? `Shop the ${product.title} - handcrafted genuine leather from Velle Hide.`
-    const canonical = `${process.env.NEXT_PUBLIC_BASE_URL}/products/${handle}`
+    const canonical = `${baseURL}/products/${handle}`
     const ogImages = (product.images ?? []).slice(0, 4).map((img) => ({
         url: img.url,
         width: 1200,

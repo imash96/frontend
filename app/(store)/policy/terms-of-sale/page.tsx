@@ -1,6 +1,6 @@
+import type { Metadata } from "next"
 import buildJsonLd from "@/lib/util/jsonld"
 import TermsOfSale from "@/module/policy/templates/term-of-sale"
-import type { Metadata } from "next"
 
 export default function Page() {
     return (

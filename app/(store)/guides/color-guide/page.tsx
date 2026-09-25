@@ -1,9 +1,9 @@
-import ColorGuide from "@/module/guides/templates/color-guide"
-import buildJsonLd from "@/lib/util/jsonld"
 import type { Metadata } from "next"
+import buildJsonLd from "@/lib/util/jsonld"
+import ColorGuide from "@/module/guides/templates/color-guide"
 
 export default function Page() {
-    return <ColorGuide />
+    return <ColorGuide />;
 }
 
 export async function generateMetadata(): Promise<Metadata> {

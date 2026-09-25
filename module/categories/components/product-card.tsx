@@ -1,10 +1,10 @@
 "use client"
 
-import { convertToLocale } from "@/lib/util/money"
 import { StoreProduct } from "@medusajs/types"
 import { Heart } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
+import { convertToLocale } from "@/lib/util/money"
 
 export default function ProductCard({
     product,

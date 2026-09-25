@@ -1,4 +1,4 @@
-import { Scissors, Gem, Ruler, Clock, Layers, Droplets, Heart } from "lucide-react"
+import { Clock, Droplets, Gem, Heart, Layers, Ruler, Scissors } from "lucide-react"
 import Image from "next/image"
 import Container from "@/ui/container"
 

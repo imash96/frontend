@@ -30,3 +30,7 @@ export const noDivisionCurrencies = [
   "xdr",
   "xau",
 ];
+
+export const baseURL = process.env.NEXT_PUBLIC_BASE_URL || "https://vellehide.com";
+
+export const PRODUCTS_PER_PAGE = 28

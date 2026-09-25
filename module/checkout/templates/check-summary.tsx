@@ -2,8 +2,8 @@
 
 import type { StoreCart } from "@medusajs/types"
 import { ChevronDown, ChevronUp, ShoppingBag } from "lucide-react"
-import { useState } from "react"
 import { AnimatePresence, motion } from "motion/react"
+import { useState } from "react"
 import { convertToLocale } from "@/lib/util/money"
 import CheckDiscount from "../components/check-discount"
 import CheckLineItem from "../components/check-line-item"

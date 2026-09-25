@@ -1,6 +1,6 @@
+import { AlertCircle, Check, CreditCard, Info, Package, Search, Truck, X } from "lucide-react";
 import { useState } from "react";
 import { AlertComponent, SectionHeader } from "./common";
-import { AlertCircle, Check, CreditCard, Info, Package, Search, Truck, X } from "lucide-react";
 
 export default function ColorTab() {
 

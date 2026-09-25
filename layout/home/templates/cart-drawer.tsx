@@ -1,13 +1,11 @@
-import { retrieveCart } from "@/lib/action/cart"
-import CartDrawerClient from "../components/cart-drawer-client-final";
-import { convertToLocale } from "@/lib/util/money";
-import { ArrowRight, Award, Gift, Lock, Minus, Plus, Shield, Trash2 } from "lucide-react";
-import { QuntityButton } from "../components/cart-buttons-final";
+import { Gift, Lock, Minus, Plus, Shield, Trash2 } from "lucide-react";
 import { li as Li } from "motion/react-client"
 import Image from "next/image";
 import Link from "next/link";
-import Button from "@/ui/button";
-import { CompleteOrder, EmptyCart } from "../components/cart-buttons";
+import { retrieveCart } from "@/lib/action/cart"
+import { convertToLocale } from "@/lib/util/money";
+import { QuntityButton, CompleteOrder, EmptyCart } from "../components/cart-buttons";
+import CartDrawerClient from "../components/cart-drawer-client";
 
 export default async function CartDrawer() {
     const cart = await retrieveCart();

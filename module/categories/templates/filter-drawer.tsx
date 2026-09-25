@@ -1,11 +1,11 @@
 "use client"
 
-import { useDrawerStore, useIsUIOpen } from "@/lib/store/drawer-store"
-import { useFilterStore, buildFilterParams, useActiveFilterCount } from "@/lib/store/filter-store"
 import { StoreProductCategory } from "@medusajs/types"
-import { useRouter, usePathname, useSearchParams } from "next/navigation"
+import { ChevronRight, RotateCcw, X } from "lucide-react"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useCallback, useEffect, useRef, useTransition } from "react"
-import { ChevronRight, X, RotateCcw } from "lucide-react"
+import { useDrawerStore, useIsUIOpen } from "@/lib/store/drawer-store"
+import { buildFilterParams, useActiveFilterCount, useFilterStore } from "@/lib/store/filter-store"
 
 /* ─── Types ──────────────────────────────────────────────────────────── */
 
@@ -25,9 +25,9 @@ interface FilterDrawerProps {
 
 const PRICE_RANGES = [
     { label: "Under $50", min: "", max: "50" },
-    { label: "$50 – $100", min: "50", max: "100" },
-    { label: "$100 – $200", min: "100", max: "200" },
-    { label: "$200 – $500", min: "200", max: "500" },
+    { label: "$50 - $100", min: "50", max: "100" },
+    { label: "$100 - $200", min: "100", max: "200" },
+    { label: "$200 - $500", min: "200", max: "500" },
     { label: "$500+", min: "500", max: "" },
 ] as const
 
@@ -135,8 +135,8 @@ export default function FilterDrawer({
             <div
                 aria-hidden="true"
                 className={`fixed inset-0 z-40 bg-black/40 backdrop-blur-[2px] transition-opacity duration-300 ${isOpen
-                        ? "opacity-100 pointer-events-auto"
-                        : "opacity-0 pointer-events-none"
+                    ? "opacity-100 pointer-events-auto"
+                    : "opacity-0 pointer-events-none"
                     }`}
                 onClick={closeDrawer}
             />
@@ -235,8 +235,8 @@ export default function FilterDrawer({
                                             }
                                             aria-pressed={active}
                                             className={`px-3.5 py-2 text-xs font-medium rounded-xl border transition-all duration-200 ${active
-                                                    ? "bg-primary/10 text-primary border-primary shadow-sm"
-                                                    : "border-border text-text-secondary hover:border-text-tertiary hover:text-text-primary"
+                                                ? "bg-primary/10 text-primary border-primary shadow-sm"
+                                                : "border-border text-text-secondary hover:border-text-tertiary hover:text-text-primary"
                                                 }`}
                                         >
                                             {val.value}
@@ -267,8 +267,8 @@ export default function FilterDrawer({
                                         }}
                                         aria-pressed={active}
                                         className={`px-3 py-1.5 text-xs font-medium rounded-lg border transition-all duration-200 ${active
-                                                ? "bg-primary/10 text-primary border-primary"
-                                                : "border-border text-text-secondary hover:border-text-tertiary"
+                                            ? "bg-primary/10 text-primary border-primary"
+                                            : "border-border text-text-secondary hover:border-text-tertiary"
                                             }`}
                                     >
                                         {range.label}

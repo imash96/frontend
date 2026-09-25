@@ -1,9 +1,9 @@
-import WarrantyRepairs from "@/module/guides/templates/warranty-repairs"
-import buildJsonLd from "@/lib/util/jsonld"
 import type { Metadata } from "next"
+import buildJsonLd from "@/lib/util/jsonld"
+import WarrantyRepairs from "@/module/guides/templates/warranty-repairs"
 
 export default function Page() {
-    return <WarrantyRepairs />
+    return <WarrantyRepairs />;
 }
 
 export async function generateMetadata(): Promise<Metadata> {

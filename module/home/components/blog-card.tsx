@@ -1,7 +1,7 @@
 "use client"
 
+import { ArrowRight, Calendar, Clock } from "lucide-react"
 import Image from "next/image"
-import { Calendar, Clock, ArrowRight } from "lucide-react"
 import Link from "next/link"
 
 export default function BlogCard({ post }: { post: BlogPost }) {
@@ -13,7 +13,7 @@ export default function BlogCard({ post }: { post: BlogPost }) {
 
     return (
         <Link
-            href={`/blog/${post.slug}`}
+            href={`/blogs/${post.slug}`}
             aria-label={`Read: ${post.title}`}
             className="group block overflow-hidden bg-card border border-card-border transition-all duration-150 ease-out hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
         >

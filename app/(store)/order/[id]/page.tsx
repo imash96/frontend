@@ -1,12 +1,12 @@
+import { CheckCircle, MapPin, Package, Truck } from "lucide-react"
+import Link from "next/link"
+import { notFound } from "next/navigation"
+import Script from "next/script"
 import CreditCard from "@/icon/checkout-creditcard"
 import { retrieveOrder } from "@/lib/action/order"
 import { convertToLocale } from "@/lib/util/money"
 import OrderLineitem from "@/module/order/components/order-lineitem"
 import Container from "@/ui/container"
-import { CheckCircle, MapPin, Package, Truck } from "lucide-react"
-import Link from "next/link"
-import { notFound } from "next/navigation"
-import Script from "next/script"
 
 /* Order pages are fully user-specific (auth cookies + dynamic [id]) */
 export const instant = false

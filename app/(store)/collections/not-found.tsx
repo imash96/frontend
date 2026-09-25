@@ -1,6 +1,6 @@
-import Link from "next/link";
-import type { Metadata } from "next";
 import { Compass } from "lucide-react";
+import type { Metadata } from "next";
+import Link from "next/link";
 import Button from "@/ui/button";
 
 export const metadata: Metadata = {

@@ -1,13 +1,13 @@
 "use client"
 
+import { StoreProduct } from "@medusajs/types"
+import { Palette, ShoppingBag, X } from "lucide-react"
+import { useCallback, useEffect, useState } from "react"
 import { useDrawerStore } from "@/lib/store/drawer-store"
 import { useProductStore } from "@/lib/store/product-store"
-import { StoreProduct } from "@medusajs/types"
-import { useCallback, useEffect, useState } from "react"
-import OptionSelect from "../components/option-select"
-import CustomizePanel, { CustomizationState, INITIAL_CUSTOMIZATION, getCustomizationSurcharge } from "../components/customize-panel"
 import Button from "@/ui/button"
-import { ShoppingBag, X, Palette } from "lucide-react"
+import CustomizePanel, { CustomizationState, getCustomizationSurcharge, INITIAL_CUSTOMIZATION } from "../components/customize-panel"
+import OptionSelect from "../components/option-select"
 import ProductToolbar from "../components/product-toolbar"
 
 export default function ProductActions({ product, countryCode }: ProductActionsProps) {

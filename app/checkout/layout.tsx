@@ -1,6 +1,6 @@
 import type { Metadata } from "next"
-import CheckHeader from "@/module/checkout/templates/check-header"
 import CheckFooter from "@/module/checkout/templates/check-footer"
+import CheckHeader from "@/module/checkout/templates/check-header"
 import Container from "@/ui/container"
 
 export default function CheckLayout({ children }: React.PropsWithChildren) {

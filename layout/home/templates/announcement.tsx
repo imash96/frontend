@@ -1,8 +1,8 @@
 "use client"
 
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import Container from '@/ui/container';
 import { useCarousel } from "@/lib/hook/use-carousel";
+import Container from '@/ui/container';
 
 export default function AnnouncementBar({ items }: { items: string[] }) {
 

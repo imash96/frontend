@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useState, useRef } from 'react';
+import { useRef, useState } from 'react';
 
 export interface ImageZoomProps {
     src: string;

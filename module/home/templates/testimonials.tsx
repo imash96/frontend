@@ -1,11 +1,11 @@
 "use client"
 
-import { testimonials } from "@/data/testimonials"
-import SectionHeader from "../components/section-header"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { memo } from "react"
-import TestimonialCard from "../components/testimonials-card"
+import { testimonials } from "@/data/testimonials"
 import { useCarousel } from "@/lib/hook/use-carousel"
+import SectionHeader from "../components/section-header"
+import TestimonialCard from "../components/testimonials-card"
 
 export default function Testimonials() {
     const { scrollPrev, emblaRef, scrollNext, selectedIndex } = useCarousel({

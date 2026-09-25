@@ -1,7 +1,7 @@
 'use client';
 
 import { Check, ChevronDown } from 'lucide-react';
-import { useState, useId, useRef, useEffect } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 
 export interface SelectOption {
     value: string;

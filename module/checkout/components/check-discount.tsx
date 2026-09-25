@@ -1,7 +1,7 @@
 "use client"
 
 import type { StoreCart } from "@medusajs/types"
-import { Tag, X, Loader2 } from "lucide-react"
+import { Loader2, Tag, X } from "lucide-react"
 import { AnimatePresence, motion } from "motion/react"
 import { useState, useTransition } from "react"
 import { applyCheckDiscount, removeCheckDiscount } from "@/lib/action/checkout"

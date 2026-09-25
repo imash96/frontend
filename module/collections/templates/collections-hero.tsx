@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { StoreCollection } from "@medusajs/types";
+import Link from "next/link";
 import CollectionCard from "../components/collection-card";
 
 interface CollectionsHeroProps {

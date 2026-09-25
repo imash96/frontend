@@ -1,10 +1,10 @@
+import { ArrowRight } from "lucide-react"
+import type { Route } from "next";
 import Image from "next/image"
 import Link from "next/link"
 import { product_collections } from "@/data/collection"
 import Button from "@/ui/button"
 import SectionHeader from "../components/section-header"
-import { ArrowRight } from "lucide-react"
-import type { Route } from "next";
 
 export default async function Collection() {
   const active = product_collections.filter((col) =>

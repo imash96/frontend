@@ -1,8 +1,8 @@
 "use client"
 
+import { ArrowRight, Calendar, Clock } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
-import { Calendar, Clock, ArrowRight } from "lucide-react"
 
 interface Props {
     post: BlogPost
@@ -66,7 +66,7 @@ export default function BlogCardOverlay({
 
                 {/* Title */}
                 <h3 className="text-base md:text-lg font-semibold leading-snug line-clamp-2">
-                    <Link href={`/blog/${post.slug}`} className="text-white group-hover:text-white/90 transition-colors after:absolute after:inset-0 focus:outline-none"
+                    <Link href={`/blogs/${post.slug}`} className="text-white group-hover:text-white/90 transition-colors after:absolute after:inset-0 focus:outline-none"
                     >
                         {post.title}
                     </Link>

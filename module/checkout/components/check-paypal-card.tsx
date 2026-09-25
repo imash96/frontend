@@ -1,16 +1,16 @@
 "use client"
 
-import { useEffect, useState, useCallback } from "react"
+import type { StoreCart } from "@medusajs/types"
 import {
-  PayPalCardFieldsProvider,
   PayPalCardFieldsForm,
+  PayPalCardFieldsProvider,
   usePayPalCardFields,
 } from "@paypal/react-paypal-js"
-import type { StoreCart } from "@medusajs/types"
-import CheckPaymentContainer from "./check-payment-container"
-import ErrorMessage from "@/module/common/templates/error-message"
 import { Loader2 } from "lucide-react"
+import { useCallback, useEffect, useState } from "react"
 import { placeCheckOrder } from "@/lib/action/checkout"
+import ErrorMessage from "@/module/common/templates/error-message"
+import CheckPaymentContainer from "./check-payment-container"
 
 const MEDUSA_BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL
 const PUBLISHABLE_API_KEY = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY

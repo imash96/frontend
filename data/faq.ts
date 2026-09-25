@@ -19,7 +19,7 @@ export const FAQS = [
   {
     question: "How long does delivery take?",
     answer:
-      "Orders are typically processed within 2–3 business days. Delivery within India takes 5–7 days, while international shipping may take 10–15 days depending on the destination.",
+      "Orders are typically processed within 2-3 business days. Delivery within India takes 5-7 days, while international shipping may take 10-15 days depending on the destination.",
   },
   {
     question: "What if I receive a damaged or wrong item?",

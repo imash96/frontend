@@ -1,13 +1,13 @@
+import { ChevronLeft, ChevronRight, Contact, Home, Info, Menu, TableOfContents, User, X } from "lucide-react";
+import { AnimatePresence, motion } from "motion/react";
+import type { Route } from "next";
+import Image from "next/image";
+import Link from "next/link";
+import { useCallback, useState } from "react";
 import { product_categories } from "@/data/category";
 import { useDrawerStore } from "@/lib/store/drawer-store";
 import { ProductCategory } from "@/types/common";
 import { Drawer } from "@/ui/drawer";
-import { ChevronLeft, ChevronRight, Contact, Home, Info, Menu, TableOfContents, User, X } from "lucide-react";
-import { AnimatePresence, motion } from "motion/react";
-import Image from "next/image";
-import Link from "next/link";
-import { useCallback, useState } from "react";
-import type { Route } from "next";
 
 export default function MobileDrawer() {
     const { active, close: closeMenu } = useDrawerStore()

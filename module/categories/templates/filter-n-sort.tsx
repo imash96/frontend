@@ -1,11 +1,11 @@
 "use client"
 
+import { ArrowUpDown, SlidersHorizontal } from "lucide-react"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useCallback } from "react"
-import { useRouter, usePathname, useSearchParams } from "next/navigation"
-import Container from "@/ui/container"
-import { SlidersHorizontal, ArrowUpDown } from "lucide-react"
 import { useDrawerStore } from "@/lib/store/drawer-store"
 import { useActiveFilterCount } from "@/lib/store/filter-store"
+import Container from "@/ui/container"
 
 type Props = {
     count: number

@@ -1,5 +1,5 @@
-import { HeroSlide } from "@/types/homepage";
 import { DollarSign, Scissors, ShieldCheck, ShoppingBag, Sparkles } from "lucide-react";
+import { HeroSlide } from "@/types/homepage";
 
 export const heroSlides: HeroSlide[] = [
     {
@@ -85,7 +85,7 @@ export const heroSlides: HeroSlide[] = [
         cta: {
             primary: {
                 text: "Our Materials",
-                href: "/materials",
+                href: "/guides/leather-types",
             },
             secondary: {
                 text: "Care Guide",

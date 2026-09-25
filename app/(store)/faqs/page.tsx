@@ -6,15 +6,15 @@ import { useState } from "react";
 import { FAQS } from "@/data/faq";
 import AccountFooter from "@/layout/account/components/account-footer";
 import useDebounce from "@/lib/hook/use-debounce";
+import Button from "@/ui/button";
+import Container from "@/ui/container";
 import {
   Accordion,
   AccordionContent,
-  AccordionTrigger,
   AccordionItemT,
+  AccordionTrigger,
 } from "@/ui/custom/custom-accordion";
-import Button from "@/ui/button";
 import CustomInput from "@/ui/input";
-import Container from "@/ui/container";
 
 export default function Page() {
   const [query, setQuery] = useState("");

@@ -1,8 +1,8 @@
 "use client"
 
 import { ShoppingBag } from "lucide-react"
-import { useDrawerStore } from "@/lib/store/drawer-store";
 import { motion } from "motion/react"
+import { useDrawerStore } from "@/lib/store/drawer-store";
 
 // TODO: mix cartbutton with cart drawer
 export default function CartDrawerButton({ className, totalItems }: CartDrawerButtonProps) {
@@ -20,7 +20,7 @@ export default function CartDrawerButton({ className, totalItems }: CartDrawerBu
                     stiffness: 500,
                     damping: 30
                 }}
-                className="absolute -top-1 -right-1 bg-accent text-accent-foreground text-[10px] font-semibold rounded-full w-5 h-5 flex items-center justify-center ring-2 ring-surface shadow-sm"
+                className="absolute -top-1 -right-1 bg-warning text-warning-foreground text-[10px] font-semibold rounded-full w-5 h-5 flex items-center justify-center ring-2 ring-surface shadow-sm"
                 aria-hidden="true"
             >
                 {totalItems > 99 ? '99+' : totalItems}

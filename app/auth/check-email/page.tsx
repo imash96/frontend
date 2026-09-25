@@ -1,9 +1,9 @@
 "use client"
 
-import { Mail, ArrowLeft, RefreshCw, CheckCircle2, AlertCircle } from "lucide-react"
+import { AlertCircle, ArrowLeft, CheckCircle2, Mail, RefreshCw } from "lucide-react"
+import Link from "next/link"
 import { useSearchParams } from "next/navigation"
 import { useState } from "react"
-import Link from "next/link"
 import Button from "@/ui/button"
 
 export default function CheckEmailPage() {

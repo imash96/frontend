@@ -1,5 +1,5 @@
-import { fetchProductsByCollection } from "@/lib/action/product"
 import { product_collections } from "@/data/collection"
+import { fetchProductsByCollection } from "@/lib/action/product"
 import { ProductSectionClassic } from "../components/product-section-final"
 
 // ─── New Arrival ──────────────────────────────────────────────────────────────

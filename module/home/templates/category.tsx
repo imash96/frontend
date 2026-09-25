@@ -1,11 +1,11 @@
-import Image from "next/image"
-import Link from "next/link"
 import { ArrowRight } from "lucide-react"
-import SectionHeader from "../components/section-header"
-import { product_categories } from "@/data/category"
-import { ProductCategory } from "@/types/common"
 import { AnimatePresence } from "motion/react"
 import { div as Div } from "motion/react-client"
+import Image from "next/image"
+import Link from "next/link"
+import { product_categories } from "@/data/category"
+import { ProductCategory } from "@/types/common"
+import SectionHeader from "../components/section-header"
 
 export default async function Category() {
     const cats = product_categories.slice(0, 6)

@@ -2,9 +2,9 @@
 
 import { useActionState, useEffect, useState } from "react";
 import { updatePassword } from "@/lib/action/customer";
+import type { FormState } from "@/types/common";
 import Button from "@/ui/button";
 import Input from "@/ui/input";
-import type { FormState } from "@/types/common";
 
 export default function ProfilePassword() {
   const [state, formAction, isPending] = useActionState(

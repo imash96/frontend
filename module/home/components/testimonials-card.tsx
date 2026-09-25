@@ -1,8 +1,8 @@
-import { Testimonial } from "@/data/testimonials";
 import { BadgeCheck, Quote } from "lucide-react";
-import Rating from "./testimonals-rating";
 import Image from "next/image";
 import { memo } from "react";
+import { Testimonial } from "@/data/testimonials";
+import Rating from "./testimonals-rating";
 
 // ─── Testimonial card ─────────────────────────────────────────────────────────
 const TestimonialCard = memo(function TestimonialCard({ testimonial: t, }: { testimonial: Testimonial }) {

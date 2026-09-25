@@ -1,9 +1,9 @@
-import BespokeOrder from "@/module/guides/templates/bespoke-order"
-import buildJsonLd from "@/lib/util/jsonld"
 import type { Metadata } from "next"
+import buildJsonLd from "@/lib/util/jsonld"
+import BespokeOrder from "@/module/guides/templates/bespoke-order"
 
 export default function Page() {
-    return <BespokeOrder />
+    return <BespokeOrder />;
 }
 
 export async function generateMetadata(): Promise<Metadata> {

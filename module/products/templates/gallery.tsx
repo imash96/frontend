@@ -1,13 +1,13 @@
 "use client"
 
-import { ChevronLeft, ChevronRight, X, ZoomIn } from "lucide-react"
 import type { StoreProduct } from "@medusajs/types"
-import Placeholder from "@/icon/img-placeholder"
-import { useThumbCarousel } from "@/lib/hook/use-thumb-carousel"
-import { useProductStore, getDisplayImages } from "@/lib/store/product-store"
+import { ChevronLeft, ChevronRight, X, ZoomIn } from "lucide-react"
 import Image from "next/image"
 import { useEffect, useMemo, useRef, useState } from "react"
 import { createPortal } from "react-dom"
+import Placeholder from "@/icon/img-placeholder"
+import { useThumbCarousel } from "@/lib/hook/use-thumb-carousel"
+import { getDisplayImages, useProductStore } from "@/lib/store/product-store"
 
 type Props = {
     product: StoreProduct

@@ -23,7 +23,7 @@ export default function BespokeOrder() {
                         <li><strong>Consultation:</strong> Our design team will reach out to discuss details — leather type, fit, features, and customization preferences.</li>
                         <li><strong>Measurements:</strong> Provide your body measurements using our <Link href="/guides/size-guide" className="underline hover:text-accent">Size & Measurement Guide</Link>, or send a well-fitting garment for reference.</li>
                         <li><strong>Design Confirmation:</strong> We&apos;ll share a detailed specification sheet with material choices, design sketches, and a final quotation for your approval.</li>
-                        <li><strong>Production:</strong> Once approved, your order enters our workshop. Production typically takes 10–18 business days depending on complexity.</li>
+                        <li><strong>Production:</strong> Once approved, your order enters our workshop. Production typically takes 10-18 business days depending on complexity.</li>
                         <li><strong>Quality Check & Shipping:</strong> Each piece undergoes rigorous quality inspection before being carefully packaged and shipped to you.</li>
                     </ul>
                 </div>
@@ -71,7 +71,7 @@ export default function BespokeOrder() {
                         </table>
                     </div>
                     <p className="text-sm tracking-wide font-light text-foreground-muted italic">
-                        Available in various thicknesses (0.6mm – 1.4mm+). See our <Link href="/guides/leather-types" className="underline hover:text-accent">Leather Types Guide</Link> for detailed comparisons.
+                        Available in various thicknesses (0.6mm - 1.4mm+). See our <Link href="/guides/leather-types" className="underline hover:text-accent">Leather Types Guide</Link> for detailed comparisons.
                     </p>
                 </div>
 

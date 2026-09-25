@@ -1,22 +1,22 @@
 "use client"
 
+import { ChevronRight, Globe, X } from "lucide-react";
+import { div as Div, form as Form } from "motion/react-client"
+import { createElement, useMemo, useState, useTransition } from "react"
+import { regions } from "@/data/regions";
+import { updateRegion } from "@/lib/action/cart";
+import Button from "@/ui/button";
+import Input from "@/ui/input";
 import {
     Dialog,
+    DialogClose,
     DialogContent,
+    DialogDescription,
     DialogHeader,
     DialogTitle,
-    DialogDescription,
-    DialogClose,
     DialogTrigger,
 } from "@/ui/modal";
-import { createElement, useMemo, useState, useTransition } from "react"
-import { X, Globe, ChevronRight } from "lucide-react";
-import { updateRegion } from "@/lib/action/cart";
-import { regions } from "@/data/regions";
-import Button from "@/ui/button";
 import NativeSelect from "@/ui/native-select";
-import Input from "@/ui/input";
-import { div as Div, form as Form } from "motion/react-client"
 
 export default function RegionModal({ countryCode }: RegionModalProps) {
     const [showModal, setShowModal] = useState(!countryCode)

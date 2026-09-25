@@ -1,9 +1,9 @@
 import { StoreProduct } from "@medusajs/types"
+import { ArrowRight } from "lucide-react"
 import type { Route } from "next"
-import SectionHeader from "./section-header"
 import Button from "@/ui/button"
 import ProductCard from "@/ui/product-card"
-import { ArrowRight } from "lucide-react"
+import SectionHeader from "./section-header"
 
 type ProductSectionProps = {
     products: StoreProduct[]

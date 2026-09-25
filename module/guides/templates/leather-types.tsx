@@ -12,7 +12,7 @@ const leatherTypes = [
             "Resistant to moisture and wear — gets better with age.",
         ],
         bestFor: "Heritage jackets, biker jackets, premium bags, belts, and items meant to last a lifetime.",
-        care: "Condition every 3–6 months. Minimal cleaning needed — the natural oils keep it supple.",
+        care: "Condition every 3-6 months. Minimal cleaning needed — the natural oils keep it supple.",
     },
     {
         name: "Top-Grain Leather",
@@ -25,7 +25,7 @@ const leatherTypes = [
             "Still very durable, though it develops patina more slowly than full-grain.",
         ],
         bestFor: "Blazers, formal jackets, dress shoes, handbags, and refined leather goods.",
-        care: "Condition every 4–6 months. Clean with a damp cloth and leather-safe cleaner.",
+        care: "Condition every 4-6 months. Clean with a damp cloth and leather-safe cleaner.",
     },
     {
         name: "Lambskin / Sheepskin",
@@ -64,7 +64,7 @@ const leatherTypes = [
             "Heavier than cowhide — ideal for protective and durable applications.",
         ],
         bestFor: "Motorcycle jackets, heavy-duty bags, work boots, and outdoor gear.",
-        care: "Condition every 6–12 months. Very low maintenance due to natural toughness.",
+        care: "Condition every 6-12 months. Very low maintenance due to natural toughness.",
     },
     {
         name: "Suede",
@@ -147,7 +147,7 @@ export default function LeatherTypes() {
                 <div className="space-y-3">
                     <h2 className="text-xl uppercase">Leather Grade Comparison</h2>
                     <div className="overflow-x-auto">
-                        <table className="w-full text-sm border-collapse min-w-[500px]">
+                        <table className="w-full text-sm border-collapse min-w-125">
                             <thead>
                                 <tr className="border-b border-border">
                                     <th className="text-left py-3 px-4 font-semibold uppercase text-xs tracking-wider">Property</th>

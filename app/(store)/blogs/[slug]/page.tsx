@@ -2,9 +2,10 @@ import { ChevronLeft } from "lucide-react";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { blogData } from "@/data/blog";
+import { baseURL } from "@/lib/constant";
 import Button from "@/ui/button";
 
-export async function generateMetadata(props: PageProps<"/blog/[slug]">) {
+export async function generateMetadata(props: PageProps<"/blogs/[slug]">) {
   const { slug } = await props.params;
   const blog = blogData.find((b) => b.slug === slug);
   if (!blog) {
@@ -15,14 +16,14 @@ export async function generateMetadata(props: PageProps<"/blog/[slug]">) {
   }
 
   return {
-    metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL!),
+    metadataBase: new URL(baseURL),
     title: blog.seo?.metaTitle || blog.title,
     description: blog.seo?.metaDescription || blog.excerpt,
     openGraph: {
       siteName: "Velle Hide Blogs",
       title: blog.seo?.ogTitle || blog.title,
       description: blog.seo?.ogDescription || blog.excerpt,
-      url: `${process.env.NEXT_PUBLIC_BASE_URL}/blog/${blog.slug}`,
+      url: `${baseURL}/blogs/${blog.slug}`,
       type: "article",
       images: [
         {
@@ -40,12 +41,12 @@ export async function generateMetadata(props: PageProps<"/blog/[slug]">) {
       images: [blog.thumbnail],
     },
     alternates: {
-      canonical: `${process.env.NEXT_PUBLIC_BASE_URL}/blog/${blog.slug}`,
+      canonical: `${baseURL}/blogs/${blog.slug}`,
     },
   };
 }
 
-export default async function Page(props: PageProps<"/blog/[slug]">) {
+export default async function Page(props: PageProps<"/blogs/[slug]">) {
   const { slug } = await props.params;
   const blog = blogData.find((b) => b.slug === slug);
 
@@ -89,18 +90,18 @@ export default async function Page(props: PageProps<"/blog/[slug]">) {
 
       {/* Blog Content */}
       <div className="space-y-8 md:space-y-10">
-        {blog.content?.map((section, index) => {
+        {blog.content?.map((section) => {
           if (section.type === "faq") {
             return (
-              <section key={index} className="w-full space-y-4 border-t pt-6">
+              <section key={section.heading} className="w-full space-y-4 border-t pt-6">
                 {section.heading && (
                   <h2 className="text-2xl md:text-3xl font-semibold">
                     {section.heading}
                   </h2>
                 )}
                 <dl className="space-y-4">
-                  {section.para.map((faq, faqIndex) => (
-                    <div key={faqIndex} className="space-y-2">
+                  {section.para.map((faq) => (
+                    <div key={faq.Q} className="space-y-2">
                       <dt className="font-medium text-lg">{faq.Q}</dt>
                       <dd className="leading-relaxed text-foreground-muted">
                         {faq.A}
@@ -115,7 +116,7 @@ export default async function Page(props: PageProps<"/blog/[slug]">) {
           if (section.type === "text") {
             return (
               <section
-                key={index}
+                key={section.heading}
                 className={`flex flex-col md:flex-row gap-6 md:gap-8 items-center`}
               >
                 <div className={`w-full space-y-4`}>
@@ -124,8 +125,8 @@ export default async function Page(props: PageProps<"/blog/[slug]">) {
                       {section.heading}
                     </h2>
                   )}
-                  {section.para.map((paragraph, pIndex) => (
-                    <p key={pIndex} className="leading-relaxed">
+                  {section.para.map((paragraph) => (
+                    <p key={paragraph} className="leading-relaxed">
                       {paragraph}
                     </p>
                   ))}
@@ -137,7 +138,7 @@ export default async function Page(props: PageProps<"/blog/[slug]">) {
           if (section.type === "image-text") {
             return (
               <section
-                key={index}
+                key={section.heading}
                 className={`flex flex-col ${section.imageLeft ? "md:flex-row-reverse" : "md:flex-row"} gap-6 md:gap-8 items-center`}
               >
                 <div className="w-full md:w-1/2 relative h-64 shadow-md">
@@ -155,8 +156,8 @@ export default async function Page(props: PageProps<"/blog/[slug]">) {
                       {section.heading}
                     </h2>
                   )}
-                  {section.para.map((paragraph, pIndex) => (
-                    <p key={pIndex} className="leading-relaxed">
+                  {section.para.map((paragraph) => (
+                    <p key={paragraph} className="leading-relaxed">
                       {paragraph}
                     </p>
                   ))}
@@ -171,7 +172,7 @@ export default async function Page(props: PageProps<"/blog/[slug]">) {
 
       {/* Footer / Related or Back */}
       <footer className="pt-8 border-t border-border">
-        <Button href="/blog" variant="outline">
+        <Button href="/blogs" variant="outline">
           <ChevronLeft className="w-5 h-5 mr-2" />
           Back to All Blogs
         </Button>

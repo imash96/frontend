@@ -1,9 +1,9 @@
+import { ArrowRight, Calendar, CheckCircle, Clock, Crown, Eye, Globe, Heart, Quote, Scissors, Shield, Star, Users, } from "lucide-react"
+import { div as Div } from "motion/react-client"
+import Image from "next/image"
+import Button from "@/ui/button"
 import Badge from "@/ui/custom/custom-badge"
 import Card, { CardContent } from "@/ui/custom/custom-card"
-import Button from "@/ui/button"
-import { Users, Shield, Star, Clock, ArrowRight, Calendar, Globe, Quote, Crown, Eye, Scissors, CheckCircle, Heart, } from "lucide-react"
-import Image from "next/image"
-import { div as Div } from "motion/react-client"
 
 export default function Page() {
     return (
@@ -78,7 +78,7 @@ export default function Page() {
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
                         {stats.map((stat, index) => (
                             <Div
-                                key={index}
+                                key={stat.label}
                                 initial={{ opacity: 0, y: 30 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
@@ -137,8 +137,8 @@ export default function Page() {
                                             </p>
                                             <div className="flex items-center gap-2">
                                                 <div className="flex text-yellow-400">
-                                                    {[...Array(5)].map((_, i) => (
-                                                        <Star key={i} className="h-4 w-4 fill-current" />
+                                                    {[...Array(5)].map((_) => (
+                                                        <Star key={_} className="h-4 w-4 fill-current" />
                                                     ))}
                                                 </div>
                                                 <span className="text-sm text-muted-foreground">- Alex R., Los Angeles</span>

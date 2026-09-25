@@ -1,7 +1,7 @@
+import { Eye, Grid, Heart, List, Mail, MapPin, Minus, Phone, Plus, Search, ShoppingCart, Star, Trash2, User } from 'lucide-react';
+import Link from "next/link";
 import { useState } from "react";
 import { SectionHeader } from "./common";
-import { ShoppingCart, Search, User, Grid, List, MapPin, Phone, Mail, Plus, Minus, Trash2, Star, Heart, Eye } from 'lucide-react';
-import Link from "next/link";
 
 
 export default function EcommerceTab() {

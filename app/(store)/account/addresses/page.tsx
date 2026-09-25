@@ -1,5 +1,5 @@
-import type { Metadata } from "next";
 import { BookUser } from "lucide-react";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { retrieveCustomer } from "@/lib/action/customer";
 import { listRegions } from "@/lib/action/regions";

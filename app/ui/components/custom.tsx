@@ -1,21 +1,21 @@
 'use client';
 
-import { useState } from 'react';
-import Card, { ProductCard, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/ui/custom/custom-card';
-import Badge, { NotificationBadge, StatusBadge, SizeBadge, ColorBadge } from '@/ui/custom/custom-badge';
-import { Chip, FilterChip, TagInput, CategoryTag } from '@/ui/custom/custom-chips';
-import { Avatar, AvatarGroup } from '@/ui/custom/custom-avatar';
-import { Price, PriceRange, PriceWithDiscount, InstallmentPrice, SavingsDisplay } from '@/ui/custom/product-price';
-import { RangeSlider, PriceRangeSlider } from '@/ui/custom/custom-range';
-import QuantitySelector, { CompactQuantitySelector } from '@/ui/custom/product-quantity';
-import { ProgressBar, SteppedProgress, CircularProgress } from '@/ui/custom/custom-progress';
-import Divider, { SectionDivider, ContentDivider } from '@/ui/custom/custom-divider';
-import Alert, { BannerAlert, InlineAlert } from '@/ui/custom/custom-alert';
-import { ImageGallery, Carousel } from '@/ui/custom/product-gallery';
-import { ShareButtons } from '@/ui/custom/custom-share';
-import { ImageZoom, LensMagnifier, SideBySideZoom } from '@/ui/custom/product-zoom';
-import { FilterPanel, ActiveFilters } from '@/ui/custom/custom-filter';
 import Image from 'next/image';
+import { useState } from 'react';
+import Alert, { BannerAlert, InlineAlert } from '@/ui/custom/custom-alert';
+import { Avatar, AvatarGroup } from '@/ui/custom/custom-avatar';
+import Badge, { ColorBadge, NotificationBadge, SizeBadge, StatusBadge } from '@/ui/custom/custom-badge';
+import Card, { CardContent, CardDescription, CardFooter, CardHeader, CardTitle, ProductCard } from '@/ui/custom/custom-card';
+import { CategoryTag, Chip, FilterChip, TagInput } from '@/ui/custom/custom-chips';
+import Divider, { ContentDivider, SectionDivider } from '@/ui/custom/custom-divider';
+import { ActiveFilters, FilterPanel } from '@/ui/custom/custom-filter';
+import { CircularProgress, ProgressBar, SteppedProgress } from '@/ui/custom/custom-progress';
+import { PriceRangeSlider, RangeSlider } from '@/ui/custom/custom-range';
+import { ShareButtons } from '@/ui/custom/custom-share';
+import { Carousel, ImageGallery } from '@/ui/custom/product-gallery';
+import { InstallmentPrice, Price, PriceRange, PriceWithDiscount, SavingsDisplay } from '@/ui/custom/product-price';
+import QuantitySelector, { CompactQuantitySelector } from '@/ui/custom/product-quantity';
+import { ImageZoom, LensMagnifier, SideBySideZoom } from '@/ui/custom/product-zoom';
 
 export default function CustomTab() {
     // State for interactive components

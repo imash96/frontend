@@ -1,5 +1,5 @@
-import Input from "@/ui/input";
 import Link from "next/link";
+import Input from "@/ui/input";
 
 export default function SIGNUP() {
   return (

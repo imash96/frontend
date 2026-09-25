@@ -1,22 +1,21 @@
-import { Suspense } from "react";
-import { cookies } from "next/headers";
 import type { Metadata } from "next";
-import HeroCarousel from "@/module/home/templates/banner";
-import IconGridSection from "@/module/home/templates/icon-grid";
-import { podData, uspData } from "@/module/home/components/icon-with-text";
-import GalleryWall from "@/module/home/templates/gallery-wall";
-import Blog from "@/module/home/templates/blog";
+import { cookies } from "next/headers";
+import { Suspense } from "react";
 import { getRegion } from "@/lib/action/regions";
+import { baseURL } from "@/lib/constant";
+import { podData, uspData } from "@/module/home/components/icon-with-text";
+import HeroCarousel from "@/module/home/templates/banner";
+import Blog from "@/module/home/templates/blog";
 import Category from "@/module/home/templates/category";
 import Collection from "@/module/home/templates/collection";
-import Testimonials from "@/module/home/templates/testimonials";
-import { NewArrival, OnSale, TrendingNow } from "@/module/home/templates/list-collection";
 import CustomMadeBanner from "@/module/home/templates/custom-made";
-import Container from "@/ui/container";
-import Button from "@/ui/button";
+import GalleryWall from "@/module/home/templates/gallery-wall";
+import IconGridSection from "@/module/home/templates/icon-grid";
+import { NewArrival, OnSale, TrendingNow } from "@/module/home/templates/list-collection";
+import Testimonials from "@/module/home/templates/testimonials";
 import JsonLd from "@/module/products/templates/json-ld";
-
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://vellehide.com";
+import Button from "@/ui/button";
+import Container from "@/ui/container";
 
 export default async function Page() {
   return (
@@ -102,11 +101,11 @@ export async function generateMetadata(): Promise<Metadata> {
       siteName: "Velle Hide",
       title: `${title} | Velle Hide`,
       description,
-      url: baseUrl,
+      url: baseURL,
       type: "website",
       images: [
         {
-          url: `${baseUrl}/store.jpg`,
+          url: `${baseURL}/store.jpg`,
           width: 1200,
           height: 630,
           alt: "Velle Hide premium leather goods",
@@ -117,7 +116,7 @@ export async function generateMetadata(): Promise<Metadata> {
       card: "summary_large_image",
       title: `${title} | Velle Hide`,
       description,
-      images: [`${baseUrl}/store.jpg`],
+      images: [`${baseURL}/store.jpg`],
     },
     alternates: {
       canonical: "/",
@@ -129,12 +128,12 @@ const websiteJsonLd = {
   "@context": "https://schema.org",
   "@type": "WebSite",
   name: "Velle Hide",
-  url: baseUrl,
+  url: baseURL,
   potentialAction: {
     "@type": "SearchAction",
     target: {
       "@type": "EntryPoint",
-      urlTemplate: `${baseUrl}/search?q={search_term_string}`,
+      urlTemplate: `${baseURL}/search?q={search_term_string}`,
     },
     "query-input": "required name=search_term_string",
   },
@@ -144,8 +143,8 @@ const organizationJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
   name: "Velle Hide",
-  url: baseUrl,
-  logo: `${baseUrl}/logo.png`,
+  url: baseURL,
+  logo: `${baseURL}/logo.png`,
   sameAs: ["https://instagram.com/vellehide", "https://facebook.com/vellehide"],
   contactPoint: {
     "@type": "ContactPoint",

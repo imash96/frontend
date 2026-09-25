@@ -1,17 +1,15 @@
-import { getCollectionByHandle } from "@/lib/action/collections"
-import { notFound } from "next/navigation"
-import { SearchParams } from "../../categories/[...handle]/page"
 import { cookies } from "next/headers"
-import { listProducts } from "@/lib/action/product"
+import { notFound } from "next/navigation"
 import { Suspense } from "react"
-import JsonLd from "@/module/products/templates/json-ld"
-import Container from "@/ui/container"
-import ProductGridSkeleton from "@/module/skeleton/product-grid"
-import ProductGrid from "@/module/categories/templates/product-grid"
+import { getCollectionByHandle } from "@/lib/action/collections"
+import { listProducts } from "@/lib/action/product"
+import { baseURL, PRODUCTS_PER_PAGE } from "@/lib/constant"
 import CategoryHero from "@/module/categories/templates/category-hero"
-
-/* ─── Constants ──────────────────────────────────────────────────────── */
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://vellehide.com"
+import ProductGrid from "@/module/categories/templates/product-grid"
+import JsonLd from "@/module/products/templates/json-ld"
+import ProductGridSkeleton from "@/module/skeleton/product-grid"
+import Container from "@/ui/container"
+import type { SearchParams } from "../../categories/[...handle]/page"
 
 export async function generateMetadata({ params }: { params: Promise<{ handle: string }> }) {
     const { handle } = await params
@@ -27,11 +25,10 @@ export async function generateMetadata({ params }: { params: Promise<{ handle: s
         title: `${collection.title} Collection | Velle Hide`,
         description: collection.metadata?.description as string || `Shop our premium ${collection.title.toLowerCase()} leather collection at Velle Hide.`,
         alternates: {
-            canonical: `${baseUrl}/collections/${handle}`,
+            canonical: `${baseURL}/collections/${handle}`,
         },
     }
 }
-export const PRODUCTS_PER_PAGE = 28
 
 /* Opt out of instant navigation — this route reads searchParams + cookies */
 export const instant = false
@@ -47,7 +44,7 @@ export default async function Page({ params, searchParams, }: PageProps<"/collec
     const pageParam = Math.max(1, parseInt(sp.page ?? "1", 10))
     const countryCode = (await cookies()).get("__country_code")?.value || process.env.NEXT_PUBLIC_DEFAULT_REGION || "us"
 
-    const { response: { products, count }, nextPage, queryParams, } = await listProducts({
+    const { response: { products, count }, queryParams, } = await listProducts({
         pageParam,
         queryParams: {
             collection_id: collection.id,
@@ -65,7 +62,7 @@ export default async function Page({ params, searchParams, }: PageProps<"/collec
         "@type": "CollectionPage",
         name: collection.title,
         description: collection.metadata?.description as string || `Shop our premium ${collection.title.toLowerCase()} leather collection at Velle Hide.`,
-        url: `${baseUrl}/collections/${handle}`,
+        url: `${baseURL}/collections/${handle}`,
         numberOfItems: count, ...(collection.metadata?.thumbnail ? { image: collection.metadata.thumbnail as string } : {}),
     }
 

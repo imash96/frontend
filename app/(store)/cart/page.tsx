@@ -1,6 +1,7 @@
-import Link from "next/link";
-import type { Metadata } from "next";
 import { ArrowLeft } from "lucide-react";
+import type { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
 import { retrieveCart } from "@/lib/action/cart";
 import { retrieveCustomer } from "@/lib/action/customer";
 import CartEditQuantity, { CartRemoveButton } from "@/module/cart/components/quantity-button";
@@ -10,7 +11,6 @@ import SignInPrompt from "@/module/cart/templates/sign-in-prompt";
 import EmptyCart from "@/module/common/templates/empty-cart";
 import ProductThumbnail from "@/module/products/components/product-thumbnail";
 import Container from "@/ui/container";
-import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "Shopping Cart | Velle Hide",
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   robots: { index: false, follow: true },
 };
 /* Cart is fully user-specific (reads cookies for auth + cart ID) */
-export const instant = false
+export const instant = false;
 
 export default async function Page() {
   const [customer, cart] = await Promise.all([
@@ -110,21 +110,21 @@ export default async function Page() {
           ))}
         </ul>
 
-        <div className="flex min-h-18 w-full items-center rounded-xs bg-background-secondary">
+        <div className="flex w-full flex-col items-center gap-3 rounded-xs bg-background-secondary px-4 py-4 sm:flex-row sm:items-center sm:gap-4 sm:px-5 sm:py-0 sm:min-h-18">
           <Image
             src="https://www.leathercult.com/cdn/shop/files/6ee84f472e24cc8805a841276b21378459c95dca.png"
             alt="Cart - free return policy"
             width={64}
             height={64}
-            className="ml-5 mr-4 block h-auto w-full max-w-21 object-contain"
+            className="block h-auto w-12 shrink-0 object-contain sm:w-16 md:max-w-21"
           />
 
-          <div className="flex items-center font-body not-italic">
-            <span className="mr-4 text-xl font-bold text-center uppercase leading-6 text-black">
+          <div className="flex flex-col items-center gap-1 text-center font-body not-italic sm:flex-row sm:items-center sm:gap-4 sm:text-left">
+            <span className="text-base text-center font-bold uppercase leading-5 text-black sm:text-lg sm:leading-6 md:text-xl">
               Order Risk-free
             </span>
 
-            <span className="text-xs font-normal leading-5 text-foreground-secondary">
+            <span className="text-[11px] font-normal leading-4 text-foreground-secondary sm:text-xs sm:leading-5">
               If our measurements differ from what you submitted, we will follow our
               return policy and give a free replacement accordingly.
             </span>

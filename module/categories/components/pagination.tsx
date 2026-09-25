@@ -1,10 +1,10 @@
 "use client"
 
-import usePagination from "@/lib/hook/use-pagination"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import type { Route } from "next"
 import Link from "next/link"
 import { useSearchParams } from "next/navigation"
+import usePagination from "@/lib/hook/use-pagination"
 
 /* ─── Types ──────────────────────────────────────────────────────────── */
 

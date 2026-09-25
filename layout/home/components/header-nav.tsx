@@ -1,13 +1,13 @@
 "use client"
 
+import { ArrowRight, ArrowUpRight, ChevronDown, Sparkles } from "lucide-react"
+import { AnimatePresence, motion } from "motion/react"
+import type { Route } from "next";
+import Link from "next/link"
+import { useCallback, useRef, useState } from "react"
 import { features, getMegaCategories, type MegaMenu, navLinks } from "@/data/header"
 import { ProductCategory } from "@/types/common"
 import Container from "@/ui/container"
-import { ArrowRight, ArrowUpRight, ChevronDown, Sparkles } from "lucide-react"
-import { AnimatePresence, motion } from "motion/react"
-import Link from "next/link"
-import { useCallback, useRef, useState } from "react"
-import type { Route } from "next";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -125,7 +125,7 @@ export default function HeaderNav() {
                 >
                     {link.label}
                     {link.badge && (
-                        <span className="text-[8px] px-1 py-0.5 bg-accent text-accent-subtle rounded font-bold leading-none">
+                        <span className="text-[8px] px-1 py-0.5 bg-warning text-warning-foreground rounded font-bold leading-none">
                             {link.badge}
                         </span>
                     )}

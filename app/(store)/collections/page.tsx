@@ -1,7 +1,7 @@
+import type { Metadata } from "next";
 import { listCollections } from "@/lib/action/collections";
 import { CollectionsGrid } from "@/module/collections/templates/collections-grid";
 import { CollectionsHero } from "@/module/collections/templates/collections-hero";
-import { Metadata } from "next";
 
 export const metadata: Metadata = {
     title: "Collections | Velle Hide",

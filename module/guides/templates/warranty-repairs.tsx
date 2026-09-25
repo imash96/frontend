@@ -88,7 +88,7 @@ export default function WarrantyRepairs() {
                     <ul className="list-inside list-disc space-y-2 text-sm tracking-wide font-light">
                         <li>Email us at <Link href="mailto:support@vellehide.com" className="hover:underline">support@vellehide.com</Link> with your order number and a description of the issue.</li>
                         <li>Include clear photos showing the defect or damage from multiple angles.</li>
-                        <li>Our quality team will review your claim within 2–3 business days.</li>
+                        <li>Our quality team will review your claim within 2-3 business days.</li>
                         <li>If approved, we&apos;ll provide a prepaid return label (for domestic orders) and repair or replace the item at no charge.</li>
                         <li>For international orders, shipping costs for warranty claims are shared.</li>
                     </ul>

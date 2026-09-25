@@ -1,6 +1,6 @@
+import type { Metadata } from "next"
 import buildJsonLd from "@/lib/util/jsonld"
 import ShippingPolicy from "@/module/policy/templates/shipping-policy"
-import type { Metadata } from "next"
 
 export default function Page() {
     return (

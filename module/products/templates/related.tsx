@@ -1,7 +1,7 @@
 import type { StoreProduct, StoreProductListParams, StoreRegion } from "@medusajs/types"
 import { listProducts } from "@/lib/action/product"
-import ProductCard from "@/ui/product-card"
 import SectionHeader from "@/module/home/components/section-header"
+import ProductCard from "@/ui/product-card"
 
 export default async function RelatedProducts({ product, region }: RelatedProductsProps) {
     const queryParams: StoreProductListParams = {

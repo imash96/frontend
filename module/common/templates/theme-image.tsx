@@ -1,5 +1,5 @@
-import styles from './theme-image.module.css'
 import Image, { ImageProps } from 'next/image'
+import styles from './theme-image.module.css'
 
 type Props = Omit<ImageProps, 'src' | 'preload' | 'loading'> & {
     srcLight: string

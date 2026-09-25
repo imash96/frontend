@@ -1,10 +1,10 @@
 import { StoreProduct } from "@medusajs/types"
-import Breadcrumbs from "../components/breadcrumbs"
+import Link from "next/link"
+import { ProductCalculatedPrice } from "@/lib/util/get-product-price"
 import RatingSystem from "@/ui/rating-system"
+import Breadcrumbs from "../components/breadcrumbs"
 import ProductPrice from "../components/price"
 import { TrustBadges } from "../components/trust-badge"
-import { ProductCalculatedPrice } from "@/lib/util/get-product-price"
-import Link from "next/link"
 
 export default function ProductInfo({ product, initialPrice, }: {
     product: StoreProduct

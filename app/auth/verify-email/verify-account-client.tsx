@@ -1,8 +1,8 @@
 "use client"
 
-import { confirmEmailVerification } from "@/lib/action/customer"
 import Link from "next/link"
 import { useEffect, useRef, useState } from "react"
+import { confirmEmailVerification } from "@/lib/action/customer"
 
 type VerificationState =
     | "verifying"
