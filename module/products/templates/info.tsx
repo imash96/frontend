@@ -5,16 +5,17 @@ import RatingSystem from "@/ui/rating-system"
 import Breadcrumbs from "../components/breadcrumbs"
 import ProductPrice from "../components/price"
 import { TrustBadges } from "../components/trust-badge"
+import type { ProductReviewStats } from "@/types/product"
 
-export default function ProductInfo({ product, initialPrice, }: {
+export default function ProductInfo({ product, initialPrice, reviewStats, }: {
     product: StoreProduct
     initialPrice: ProductCalculatedPrice
+    reviewStats?: ProductReviewStats | null
 }) {
     const crumbs = product.categories?.map((c) => ({
         label: c.name,
         href: `/categories/${c.handle}`,
     }))
-
     const typeName = (product as any).type?.value as string | undefined
     const hasMidCode = Boolean(product.mid_code?.trim())
     const tags = (product as any).tags as { id: string; value: string }[] | undefined
@@ -42,9 +43,15 @@ export default function ProductInfo({ product, initialPrice, }: {
                 )}
             </div>
             <div className="flex flex-wrap items-center gap-3">
-                <Link href="#reviews" className="transition-opacity hover:opacity-80">
-                    <RatingSystem averageRating={4.8} reviewCount={247} size="md" />
-                </Link>
+                {reviewStats && reviewStats.review_count > 0 ? (
+                    <Link href="#reviews" className="transition-opacity hover:opacity-80">
+                        <RatingSystem averageRating={reviewStats.average_rating} reviewCount={reviewStats.review_count} size="md" />
+                    </Link>
+                ) : (
+                    <Link href="#reviews" className="text-xs text-text-tertiary transition-opacity hover:opacity-80">
+                        Be the first to review
+                    </Link>
+                )}
                 {hasMidCode && (
                     <>
                         <span className="h-4 w-px bg-divider" aria-hidden />

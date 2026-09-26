@@ -10,6 +10,8 @@ export const metadata: Metadata = {
   description: "View and manage your saved shipping addresses for faster checkout.",
 };
 
+export const instant = false;
+
 export default async function Page() {
   const [customer, regions] = await Promise.all([
     retrieveCustomer(),

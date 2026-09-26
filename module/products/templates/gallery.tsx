@@ -118,7 +118,7 @@ export default function ProductGallery({ product, title }: Props) {
                                         width={1200}
                                         height={1600}
                                         sizes="(max-width: 1024px) 100vw, (max-width: 1680px) 58vw, 960px"
-                                        quality={i === 0 ? 80 : 70}
+                                        quality={i === 0 ? 90 : 75}
                                         className="size-full object-contain object-center"
                                         loading={i === 0 ? "eager" : "lazy"}
                                         priority={i === 0}

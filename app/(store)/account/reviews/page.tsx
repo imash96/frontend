@@ -8,6 +8,8 @@ export const metadata: Metadata = {
   description: "View and manage all the product reviews you've written.",
 };
 
+export const instant = false;
+
 export default async function Page() {
   const reviews = await listCustomerReviews();
 

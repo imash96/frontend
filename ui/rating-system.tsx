@@ -24,7 +24,7 @@ export default function RatingSystem({
         <div
             role="img"
             className={`flex items-center gap-0.5 ${className}`}
-            aria-label={`${averageRating.toFixed(1)} out of 5 stars`}
+            aria-label={`${averageRating} out of 5 stars`}
         >
             {[0, 1, 2, 3, 4].map((i) => (
                 <Star

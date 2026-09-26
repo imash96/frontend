@@ -135,6 +135,7 @@ export default function OrderCard({ order }: { order: StoreOrder }) {
             key={item.id}
             item={item}
             currencyCode={order.currency_code}
+            orderId={order.id}
             orderFulfillmentStatus={order.fulfillment_status}
           />
         ))}

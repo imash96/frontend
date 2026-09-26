@@ -4,7 +4,7 @@ export default function Loading() {
     return (
         <Container size="2xl" className="pt-4 pb-6 lg:pt-8 lg:pb-10">
             <div className="grid grid-cols-1 gap-y-6 lg:grid-cols-12 lg:gap-x-8">
-                    <div className="-mx-[var(--container-px)] lg:mx-0 lg:col-span-7 xl:col-span-8">
+                    <div className="-mx-(--container-px) lg:mx-0 lg:col-span-7 xl:col-span-8">
                     <div className="flex flex-col gap-2 lg:flex-row">
                         <div className="order-2 flex gap-2 lg:order-1 lg:w-20 lg:flex-col">
                             {Array.from({ length: 4 }).map((_, i) => (

@@ -3,6 +3,8 @@ import VerifyAccountClient from "./verify-account-client"
 
 import "@/css/verify-account.css"
 
+export const instant = false;
+
 export const metadata: Metadata = {
     title: "Verify Your Email | VELLE HIDE",
     robots: {

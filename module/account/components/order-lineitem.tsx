@@ -8,10 +8,12 @@ import ReviewModal from "./review-modal";
 export default function OrderLineitem({
   item,
   currencyCode,
+  orderId,
   orderFulfillmentStatus,
 }: {
   item: StoreOrderLineItem;
   currencyCode: string;
+  orderId: string;
   orderFulfillmentStatus?: string | null;
 }) {
   const isFulfilled =
@@ -69,6 +71,8 @@ export default function OrderLineitem({
             productId={item.product_id}
             productTitle={item.product?.title ?? "Product"}
             productThumbnail={item.thumbnail}
+            orderId={orderId}
+            orderLineItemId={item.id}
           >
             <button className="inline-flex items-center gap-1.5 mt-1 px-3 py-1.5 text-xs font-medium text-accent border border-accent/30 rounded-md hover:bg-accent/10 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-1">
               <MessageSquare size={12} />

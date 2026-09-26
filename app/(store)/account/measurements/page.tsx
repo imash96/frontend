@@ -6,6 +6,8 @@ export const metadata: Metadata = {
   description: "Save your body measurements for custom-fitted leather goods.",
 };
 
+export const instant = false;
+
 export default function Page() {
   return (
     <section className="space-y-4 sm:space-y-6">

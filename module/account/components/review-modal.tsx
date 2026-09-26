@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useActionState, useEffect, useState } from "react";
 import type { CustomerReview, ReviewFormState } from "@/lib/action/review";
-import { submitReview, updateReview } from "@/lib/action/review";
+import { submitReview } from "@/lib/action/review";
 import Button from "@/ui/button";
 import Input from "@/ui/input";
 import {
@@ -21,6 +21,8 @@ interface ReviewModalProps {
   productId: string;
   productTitle: string;
   productThumbnail?: string | null;
+  orderId: string;
+  orderLineItemId: string;
   existingReview?: CustomerReview;
   children: React.ReactNode;
 }
@@ -29,17 +31,15 @@ export default function ReviewModal({
   productId,
   productTitle,
   productThumbnail,
+  orderId,
+  orderLineItemId,
   existingReview,
   children,
 }: ReviewModalProps) {
   const [open, setOpen] = useState(false);
   const isEdit = Boolean(existingReview);
 
-  const action = isEdit
-    ? updateReview.bind(null, existingReview!.id)
-    : submitReview;
-
-  const [state, formAction, isPending] = useActionState(action, {
+  const [state, formAction, isPending] = useActionState(submitReview, {
     success: false,
     error: null,
   } as ReviewFormState);
@@ -85,6 +85,8 @@ export default function ReviewModal({
 
         <form action={formAction} className="p-4 sm:p-6 space-y-5">
           <input type="hidden" name="product_id" value={productId} />
+          <input type="hidden" name="order_id" value={orderId} />
+          <input type="hidden" name="order_line_item_id" value={orderLineItemId} />
 
           {/* Star Rating */}
           <div className="space-y-2">

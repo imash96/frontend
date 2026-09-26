@@ -16,8 +16,9 @@ import ProductInfo from "@/module/products/templates/info"
 import RelatedProducts from "@/module/products/templates/related"
 import ProductReview from "@/module/products/templates/review"
 import Container from "@/ui/container"
+import { StoreProductWithReviews } from "@/types/product"
 
-const PRODUCT_FIELDS = "*variants.calculated_price,*variants.prices,*variants.options,+variants.inventory_quantity,+variants.sku,+variants.manage_inventory,+variants.allow_backorder,*variants.images,+variant_rank,*images,*options,*options.values,*categories,*categories.id,*categories.name,*categories.handle,+tags.value,+type.value,+material,+origin_country,+weight,+length,+width,+height,+subtitle,+collection"
+const PRODUCT_FIELDS = "*variants.calculated_price,*variants.prices,*variants.options,+variants.inventory_quantity,+variants.sku,+variants.manage_inventory,+variants.allow_backorder,*variants.images,+variant_rank,*images,*options,*options.values,*categories,+tags.value,+type.value,+material,+origin_country,+weight,+length,+width,+height,+subtitle,+collection,*review_stats,*product_review"
 
 async function loadPageData(handle: string) {
     'use cache: private'
@@ -31,7 +32,7 @@ async function loadPageData(handle: string) {
     const [product] = await listProducts({
         regionId: region.id,
         queryParams: { handle, fields: PRODUCT_FIELDS, limit: 1 },
-    }).then(({ response }) => response.products)
+    }).then(({ response }) => response.products) as StoreProductWithReviews[]
 
     if (!product?.id) return null
 
@@ -44,6 +45,7 @@ export default async function ProductDetailPage(props: PageProps<"/products/[han
     if (!data) notFound()
 
     const { product, region, countryCode } = data
+    console.log(product)
     const { cheapestPrice: initialPrice } = getProductPrice({ product })
     const inStock = product.variants?.some((v) => {
         if (!v.manage_inventory) return true
@@ -81,13 +83,15 @@ export default async function ProductDetailPage(props: PageProps<"/products/[han
         brand: { "@type": "Brand", name: "Velle Hide" },
         ...(product.material && { material: product.material }),
         ...(colorValues && { color: colorValues }),
-        aggregateRating: {
-            "@type": "AggregateRating",
-            ratingValue: "4.8",
-            reviewCount: "247",
-            bestRating: "5",
-            worstRating: "1",
-        },
+        ...(product.review_stats && product.review_stats.review_count > 0 ? {
+            aggregateRating: {
+                "@type": "AggregateRating",
+                ratingValue: String(product.review_stats.average_rating.toFixed(1)),
+                reviewCount: String(product.review_stats.review_count),
+                bestRating: "5",
+                worstRating: "1",
+            },
+        } : {}),
         ...(lowPrice != null && {
             offers: {
                 "@type": "AggregateOffer",
@@ -132,7 +136,7 @@ export default async function ProductDetailPage(props: PageProps<"/products/[han
                         <ProductGallery product={product} title={product.title} />
                     </div>
                     <div className="lg:col-span-5 xl:col-span-4">
-                        <ProductInfo product={product} initialPrice={initialPrice} />
+                        <ProductInfo product={product} initialPrice={initialPrice} reviewStats={product.review_stats} />
                         <ProductActions product={product} countryCode={countryCode} />
                         <ProductAccordion product={product} />
                     </div>
@@ -145,7 +149,7 @@ export default async function ProductDetailPage(props: PageProps<"/products/[han
                 <RelatedProducts product={product} region={region} />
             </Suspense>
 
-            <ProductReview />
+            <ProductReview reviews={product.product_review} rating={product.review_stats} />
 
             <script
                 type="application/ld+json"

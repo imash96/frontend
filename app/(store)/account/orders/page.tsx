@@ -8,6 +8,8 @@ export const metadata: Metadata = {
   description: "View your order history, track shipments, and manage returns.",
 };
 
+export const instant = false;
+
 export default async function Page() {
   const orders = await listOrders();
   return (

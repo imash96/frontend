@@ -108,7 +108,7 @@ export default function ProductActions({ product, countryCode }: ProductActionsP
                 </p>
             )}
 
-            <ProductToolbar title={product.title} />
+            <ProductToolbar title={product.title} variantId={selectedVariant?.id ?? null} />
         </div>
     )
 }
