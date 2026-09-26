@@ -1,69 +1,152 @@
 "use client"
 
-import { ArrowRight, Clock, Search, TrendingUp, X } from "lucide-react"
-import type { Route } from "next";
+import { ArrowRight, Clock, Loader2, Search, Sparkles, TrendingUp, X } from "lucide-react"
+import type { Route } from "next"
 import Image from "next/image"
 import Link from "next/link"
-import { useDeferredValue, useEffect, useMemo, useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
+import { useAlgoliaSearch, type AlgoliaHit } from "@/lib/hook/use-algolia-search"
 import { useDrawerStore } from "@/lib/store/drawer-store"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/ui/modal"
 
 const LISTBOX_ID = "search-results-listbox"
 const MIN_QUERY_LENGTH = 2
+const RECENT_SEARCHES_KEY = "vellehide_recent_searches"
+const MAX_RECENT_SEARCHES = 6
 
+/* ─────────────────────────────────────────────
+   Recent searches (localStorage)
+   ───────────────────────────────────────────── */
+function getRecentSearches(): string[] {
+    if (typeof window === "undefined") return []
+    try {
+        const raw = localStorage.getItem(RECENT_SEARCHES_KEY)
+        return raw ? JSON.parse(raw) : []
+    } catch {
+        return []
+    }
+}
+
+function addRecentSearch(query: string) {
+    if (typeof window === "undefined") return
+    const trimmed = query.trim()
+    if (trimmed.length < MIN_QUERY_LENGTH) return
+    try {
+        const existing = getRecentSearches()
+        const filtered = existing.filter((s) => s.toLowerCase() !== trimmed.toLowerCase())
+        const updated = [trimmed, ...filtered].slice(0, MAX_RECENT_SEARCHES)
+        localStorage.setItem(RECENT_SEARCHES_KEY, JSON.stringify(updated))
+    } catch { }
+}
+
+function clearRecentSearches() {
+    if (typeof window === "undefined") return
+    try {
+        localStorage.removeItem(RECENT_SEARCHES_KEY)
+    } catch { }
+}
+
+/* ─────────────────────────────────────────────
+   Main component
+   ───────────────────────────────────────────── */
 export function SearchModal() {
     const [query, setQuery] = useState("")
+    const [activeIndex, setActiveIndex] = useState(-1)
     const inputRef = useRef<HTMLInputElement>(null)
+    const resultsRef = useRef<HTMLDivElement>(null)
     const { active, toggle: toggleSearch, close: closeSearch } = useDrawerStore()
+
+    const { hits, isLoading, totalHits } = useAlgoliaSearch(query)
 
     /* ─────────────────────────────────────────────
        Autofocus when opened
     ───────────────────────────────────────────── */
     useEffect(() => {
-        if (active === 'search') {
+        if (active === "search") {
             requestAnimationFrame(() => {
                 inputRef.current?.focus()
             })
         }
     }, [active])
 
-    const closeModal = () => {
+    // Reset active index when results change
+    useEffect(() => {
+        setActiveIndex(-1)
+    }, [hits])
+
+    const closeModal = useCallback(() => {
         closeSearch()
         setQuery("")
-    }
+        setActiveIndex(-1)
+    }, [closeSearch])
+
+    const handleSubmit = useCallback(() => {
+        const trimmed = query.trim()
+        if (trimmed.length >= MIN_QUERY_LENGTH) {
+            addRecentSearch(trimmed)
+            closeModal()
+            // Navigate to search results page
+            window.location.href = `/search?q=${encodeURIComponent(trimmed)}`
+        }
+    }, [query, closeModal])
+
+    const handleResultClick = useCallback((hit: AlgoliaHit) => {
+        addRecentSearch(query.trim())
+        closeModal()
+    }, [query, closeModal])
 
     /* ─────────────────────────────────────────────
-       Minimum 2 characters before filtering
+       Keyboard navigation
     ───────────────────────────────────────────── */
-    const filteredResults = useMemo(() => {
-        const trimmed = query.trim().toLowerCase()
-        if (trimmed.length < 2) return []
-        return products.filter(
-            (item) =>
-                item.name.toLowerCase().includes(trimmed) ||
-                item.category.toLowerCase().includes(trimmed)
-        )
-    }, [query])
-
-    const handleSubmit = () => {
-        if (query.trim().length > 1) {
-            // Replace with router push to search page
+    const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
+        if (e.key === "Escape") {
             closeModal()
+            return
         }
-    }
 
-    const deferredQuery = useDeferredValue(query)
-    const isStale = query !== deferredQuery
-    const showEmpty = deferredQuery.trim().length < MIN_QUERY_LENGTH
-    const hasResults = filteredResults.length > 0
+        if (e.key === "Enter") {
+            if (activeIndex >= 0 && activeIndex < hits.length) {
+                const hit = hits[activeIndex]
+                addRecentSearch(query.trim())
+                closeModal()
+                window.location.href = `/products/${hit.handle}`
+            } else {
+                handleSubmit()
+            }
+            return
+        }
+
+        if (e.key === "ArrowDown") {
+            e.preventDefault()
+            setActiveIndex((prev) => (prev < hits.length - 1 ? prev + 1 : 0))
+            return
+        }
+
+        if (e.key === "ArrowUp") {
+            e.preventDefault()
+            setActiveIndex((prev) => (prev > 0 ? prev - 1 : hits.length - 1))
+            return
+        }
+    }, [activeIndex, hits, query, closeModal, handleSubmit])
+
+    // Scroll active item into view
+    useEffect(() => {
+        if (activeIndex >= 0 && resultsRef.current) {
+            const items = resultsRef.current.querySelectorAll("[role='option']")
+            items[activeIndex]?.scrollIntoView({ block: "nearest" })
+        }
+    }, [activeIndex])
+
+    const showEmpty = query.trim().length < MIN_QUERY_LENGTH
+    const hasResults = hits.length > 0
 
     return (
-        <Dialog open={active === 'search'} onOpenChange={toggleSearch.bind(null, 'search')} key="search-modal">
+        <Dialog open={active === "search"} onOpenChange={toggleSearch.bind(null, "search")} key="search-modal">
             <DialogTrigger asChild>
                 <button
                     aria-label="Open search"
                     aria-haspopup="dialog"
-                    aria-expanded={active === 'search'}
+                    aria-expanded={active === "search"}
                     className="flex p-2 rounded-md duration-200 hover:bg-muted transition-colors focus:outline-none focus:ring-2 focus:ring-focus-ring"
                 >
                     <Search className="size-5 text-foreground" strokeWidth={1.5} aria-hidden />
@@ -75,14 +158,18 @@ export function SearchModal() {
                 size="lg"
                 className="bg-surface-elevated shadow-2xl max-w-2xl w-full h-[80vh] lg:h-[60vh] max-h-160 flex flex-col overflow-hidden"
                 aria-label="Search products"
-                aria-describedby="Search produts"
+                aria-describedby="Search products"
             >
                 {/* HEADER */}
                 <DialogHeader className="border-b border-divider">
                     <DialogTitle hidden />
                     <DialogDescription hidden />
                     <div className="flex items-center w-full gap-3 px-5 py-4">
-                        <Search className="size-5 text-text-tertiary" />
+                        {isLoading ? (
+                            <Loader2 className="size-5 text-primary animate-spin" aria-hidden />
+                        ) : (
+                            <Search className="size-5 text-text-tertiary" aria-hidden />
+                        )}
 
                         <input
                             ref={inputRef}
@@ -94,22 +181,23 @@ export function SearchModal() {
                             spellCheck={false}
                             role="combobox"
                             aria-controls={LISTBOX_ID}
-                            aria-expanded={query.length > 1}
+                            aria-expanded={hasResults}
                             aria-autocomplete="list"
+                            aria-activedescendant={activeIndex >= 0 ? `search-result-${activeIndex}` : undefined}
                             value={query}
                             onChange={(e) => setQuery(e.target.value)}
-                            onKeyDown={(e) => {
-                                if (e.key === "Enter") handleSubmit()
-                                if (e.key === "Escape") closeModal()
-                            }}
-                            placeholder="Search..."
+                            onKeyDown={handleKeyDown}
+                            placeholder="Search for products..."
                             className="flex-1 min-w-0 bg-transparent text-base text-text-primary outline-none placeholder:text-input-placeholder"
                         />
 
                         {query && (
                             <button
                                 aria-label="Clear search"
-                                onClick={() => setQuery("")}
+                                onClick={() => {
+                                    setQuery("")
+                                    inputRef.current?.focus()
+                                }}
                                 className="rounded-md p-1 text-text-tertiary transition hover:bg-muted focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-1"
                             >
                                 <X className="size-4" aria-hidden />
@@ -118,36 +206,47 @@ export function SearchModal() {
                     </div>
                 </DialogHeader>
 
-                <div className="flex-1 overflow-y-auto overscroll-contain"
+                {/* BODY */}
+                <div
+                    className="flex-1 overflow-y-auto overscroll-contain"
                     style={{ scrollbarGutter: "stable" }}
                 >
                     {showEmpty ? (
-                        <DiscoveryPanel onSelectQuery={setQuery} />
+                        <DiscoveryPanel
+                            onSelectQuery={(q) => {
+                                setQuery(q)
+                                inputRef.current?.focus()
+                            }}
+                        />
                     ) : (
                         <div className="px-5 py-5 space-y-4">
                             {/* RESULT COUNT */}
                             <div className="flex items-center justify-between">
                                 <p className="text-[12px] font-medium text-text-tertiary uppercase tracking-wider">
-                                    {isStale ? (
-                                        "Searching…"
+                                    {isLoading ? (
+                                        <span className="inline-flex items-center gap-1.5">
+                                            <span className="inline-block size-1.5 rounded-full bg-primary animate-pulse" />
+                                            Searching...
+                                        </span>
                                     ) : (
                                         <>
-                                            {filteredResults.length}{" "}
-                                            {filteredResults.length === 1
-                                                ? "result"
-                                                : "results"}{" "}
-                                            for{" "}
+                                            {totalHits}{" "}
+                                            {totalHits === 1 ? "result" : "results"} for{" "}
                                             <span className="text-text-primary font-semibold">
-                                                &ldquo;{query}&rdquo;
+                                                &ldquo;{query.trim()}&rdquo;
                                             </span>
                                         </>
                                     )}
                                 </p>
 
                                 {/* View all results link */}
-                                {hasResults && !isStale && (
+                                {hasResults && !isLoading && (
                                     <Link
                                         href={`/search?q=${encodeURIComponent(query.trim())}` as Route}
+                                        onClick={() => {
+                                            addRecentSearch(query.trim())
+                                            closeModal()
+                                        }}
                                         className="inline-flex items-center gap-1 text-[12px] font-semibold tracking-wider uppercase text-primary hover:text-primary-hover transition-colors duration-150"
                                     >
                                         View all
@@ -156,56 +255,75 @@ export function SearchModal() {
                                 )}
                             </div>
 
-                            {isStale ? (
+                            {isLoading ? (
                                 <SearchSkeleton />
                             ) : hasResults ? (
                                 <div
+                                    ref={resultsRef}
                                     id={LISTBOX_ID}
                                     role="listbox"
                                     aria-label="Search results"
                                     className="space-y-1.5"
                                 >
-                                    {filteredResults.map((item) => (
+                                    {hits.map((hit, index) => (
                                         <Link
-                                            key={item.handle}
-                                            href={`/products/${item.handle}`}
-                                            className="group flex w-full items-center gap-4 rounded-xl border border-border-subtle hover:border-border-strong hover:bg-card-hover bg-card p-4 text-left transition hover:shadow-primary"
+                                            key={hit.objectID}
+                                            id={`search-result-${index}`}
+                                            role="option"
+                                            aria-selected={activeIndex === index}
+                                            href={`/products/${hit.handle}` as Route}
+                                            onClick={() => handleResultClick(hit)}
+                                            className={`group flex w-full items-center gap-4 rounded-xl border p-4 text-left transition duration-150 ${activeIndex === index
+                                                    ? "border-primary/40 bg-primary/5 shadow-sm"
+                                                    : "border-border-subtle hover:border-border-strong hover:bg-card-hover bg-card hover:shadow-primary"
+                                                }`}
                                         >
+                                            {/* Thumbnail */}
                                             <div className="relative size-16 shrink-0 overflow-hidden rounded-lg bg-muted">
-                                                <Image
-                                                    src={item.image}
-                                                    alt={item.name}
-                                                    fill
-                                                    sizes="64px"
-                                                    className="object-cover motion-safe:transition-transform motion-safe:duration-300 group-hover:scale-105"
-                                                />
+                                                {hit.thumbnail ? (
+                                                    <Image
+                                                        src={hit.thumbnail}
+                                                        alt={hit.title}
+                                                        fill
+                                                        sizes="64px"
+                                                        className="object-cover motion-safe:transition-transform motion-safe:duration-300 group-hover:scale-105"
+                                                    />
+                                                ) : (
+                                                    <div className="flex items-center justify-center size-full text-text-tertiary">
+                                                        <Search className="size-5" strokeWidth={1.5} aria-hidden />
+                                                    </div>
+                                                )}
                                             </div>
 
                                             {/* Info */}
                                             <div className="flex-1 min-w-0 space-y-0.5">
-                                                {/* Highlighted name */}
                                                 <p className="text-sm font-medium text-text-primary truncate">
-                                                    <HighlightMatch text={item.name} query={query} />
+                                                    <HighlightMatch text={hit.title} query={query} />
                                                 </p>
-                                                <p className="text-xs text-text-tertiary truncate">
-                                                    {item.category}
-                                                </p>
-                                            </div>
-
-                                            {/* Price */}
-                                            <div className="shrink-0 text-right space-y-0.5">
-                                                <p className="text-sm font-semibold text-price-current tabular-nums">
-                                                    {item.price}
-                                                </p>
-                                                {item.originalPrice && (
-                                                    <p className="text-xs text-price-original line-through tabular-nums">
-                                                        {item.originalPrice}
+                                                {hit.categories && hit.categories.length > 0 && (
+                                                    <p className="text-xs text-text-tertiary truncate">
+                                                        {hit.categories.map((c) => c.name).join(", ")}
                                                     </p>
+                                                )}
+                                                {hit.tags && hit.tags.length > 0 && (
+                                                    <div className="flex gap-1 mt-1">
+                                                        {hit.tags.slice(0, 3).map((tag) => (
+                                                            <span
+                                                                key={tag.id}
+                                                                className="inline-block px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wider text-text-tertiary bg-muted rounded"
+                                                            >
+                                                                {tag.value}
+                                                            </span>
+                                                        ))}
+                                                    </div>
                                                 )}
                                             </div>
 
                                             <ArrowRight
-                                                className="shrink-0 size-4 text-text-tertiary opacity-0 transition-all duration-150 group-hover:opacity-100 group-hover:translate-x-0.5"
+                                                className={`shrink-0 size-4 transition-all duration-150 ${activeIndex === index
+                                                        ? "text-primary opacity-100 translate-x-0.5"
+                                                        : "text-text-tertiary opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5"
+                                                    }`}
                                                 aria-hidden
                                             />
                                         </Link>
@@ -217,11 +335,17 @@ export function SearchModal() {
                         </div>
                     )}
                 </div>
+
+                {/* FOOTER */}
                 <SearchFooter onSubmit={handleSubmit} hasQuery={query.trim().length >= MIN_QUERY_LENGTH} />
             </DialogContent>
         </Dialog>
     )
 }
+
+/* ─────────────────────────────────────────────
+   Subcomponents
+   ───────────────────────────────────────────── */
 
 function HighlightMatch({ text, query }: { text: string; query: string }) {
     const trimmed = query.trim()
@@ -248,40 +372,68 @@ function HighlightMatch({ text, query }: { text: string; query: string }) {
     )
 }
 
-function DiscoveryPanel({ onSelectQuery, }: { onSelectQuery: (q: string) => void }) {
+function DiscoveryPanel({ onSelectQuery }: { onSelectQuery: (q: string) => void }) {
+    const [recentSearches, setRecentSearches] = useState<string[]>([])
+
+    useEffect(() => {
+        setRecentSearches(getRecentSearches())
+    }, [])
+
+    const handleClearRecent = () => {
+        clearRecentSearches()
+        setRecentSearches([])
+    }
+
     return (
         <div className="px-5 py-5 space-y-7">
-            {/* RECENT */}
-            <section aria-labelledby="recent-label">
-                <h3 id="recent-label" className="mb-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-text-tertiary">
-                    <Clock className="size-3.5" aria-hidden />
-                    Recent
-                </h3>
-                <div className="flex flex-wrap gap-2">
-                    {recent.map((item) => (
-                        <button
-                            key={item}
-                            onClick={() => onSelectQuery(item)}
-                            className="rounded-full bg-muted px-4 py-1.5 text-sm text-text-secondary transition hover:bg-muted-hover"
-                        >
-                            {item}
-                        </button>
-                    ))}
-                </div>
-            </section>
+            {/* RECENT SEARCHES */}
+            {recentSearches.length > 0 && (
+                <>
+                    <section aria-labelledby="recent-label">
+                        <div className="flex items-center justify-between mb-3">
+                            <h3
+                                id="recent-label"
+                                className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-text-tertiary"
+                            >
+                                <Clock className="size-3.5" aria-hidden />
+                                Recent searches
+                            </h3>
+                            <button
+                                onClick={handleClearRecent}
+                                className="text-[11px] font-medium text-text-tertiary hover:text-text-primary transition-colors duration-150"
+                            >
+                                Clear all
+                            </button>
+                        </div>
+                        <div className="flex flex-wrap gap-2">
+                            {recentSearches.map((item) => (
+                                <button
+                                    key={item}
+                                    onClick={() => onSelectQuery(item)}
+                                    className="rounded-full bg-muted px-4 py-1.5 text-sm text-text-secondary transition hover:bg-muted-hover hover:text-text-primary"
+                                >
+                                    {item}
+                                </button>
+                            ))}
+                        </div>
+                    </section>
 
-            {/* Divider */}
-            <div className="h-px bg-divider" aria-hidden />
+                    <div className="h-px bg-divider" aria-hidden />
+                </>
+            )}
 
             {/* TRENDING */}
             <section aria-labelledby="trending-label">
-                <h3 id="trending-label" className="mb-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-text-tertiary">
+                <h3
+                    id="trending-label"
+                    className="mb-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-text-tertiary"
+                >
                     <TrendingUp className="size-3.5" aria-hidden />
-                    Trending
+                    Popular searches
                 </h3>
 
                 <div className="space-y-0.5">
-                    {trending.map((item, i) => (
+                    {TRENDING_SEARCHES.map((item, i) => (
                         <div key={item}>
                             <button
                                 onClick={() => onSelectQuery(item)}
@@ -299,6 +451,29 @@ function DiscoveryPanel({ onSelectQuery, }: { onSelectQuery: (q: string) => void
                     ))}
                 </div>
             </section>
+
+            {/* QUICK CATEGORIES */}
+            <div className="h-px bg-divider" aria-hidden />
+            <section aria-labelledby="quick-categories-label">
+                <h3
+                    id="quick-categories-label"
+                    className="mb-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-text-tertiary"
+                >
+                    <Sparkles className="size-3.5" aria-hidden />
+                    Quick categories
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                    {QUICK_CATEGORIES.map((cat) => (
+                        <button
+                            key={cat}
+                            onClick={() => onSelectQuery(cat)}
+                            className="rounded-full border border-border-subtle px-4 py-1.5 text-sm text-text-secondary transition hover:border-border-strong hover:bg-muted hover:text-text-primary"
+                        >
+                            {cat}
+                        </button>
+                    ))}
+                </div>
+            </section>
         </div>
     )
 }
@@ -306,17 +481,18 @@ function DiscoveryPanel({ onSelectQuery, }: { onSelectQuery: (q: string) => void
 function SearchSkeleton() {
     return (
         <ul className="space-y-1.5" aria-label="Loading results" aria-busy="true">
-            {Array.from({ length: 3 }).map((_, i) => (
+            {Array.from({ length: 4 }).map((_, i) => (
                 <li
                     key={i}
-                    className="flex items-center gap-4 border border-border-subtle bg-card p-3.5"
+                    className="flex items-center gap-4 rounded-xl border border-border-subtle bg-card p-4"
+                    style={{ animationDelay: `${i * 75}ms` }}
                 >
-                    <div className="skeleton size-14 shrink-0" />
+                    <div className="skeleton size-16 shrink-0 rounded-lg" />
                     <div className="flex-1 space-y-2 min-w-0">
-                        <div className="skeleton h-3.5 w-3/5" />
-                        <div className="skeleton h-3 w-2/5" />
+                        <div className="skeleton h-3.5 w-3/5 rounded" />
+                        <div className="skeleton h-3 w-2/5 rounded" />
                     </div>
-                    <div className="skeleton h-4 w-12 shrink-0" />
+                    <div className="skeleton h-4 w-12 shrink-0 rounded" />
                 </li>
             ))}
         </ul>
@@ -326,19 +502,28 @@ function SearchSkeleton() {
 function EmptyResults({ query }: { query: string }) {
     return (
         <div className="flex flex-col items-center justify-center py-14 text-center">
-            <div className="mb-4 flex size-12 items-center justify-center bg-muted text-text-tertiary">
-                <Search className="size-5" strokeWidth={1.5} aria-hidden />
+            <div className="mb-4 flex size-14 items-center justify-center rounded-2xl bg-muted text-text-tertiary">
+                <Search className="size-6" strokeWidth={1.5} aria-hidden />
             </div>
             <p className="text-sm font-medium text-text-primary">
-                No results for &ldquo;{query}&rdquo;
+                No results for &ldquo;{query.trim()}&rdquo;
             </p>
-            <p className="mt-1.5 text-[13px] text-text-tertiary">
-                Try &ldquo;biker jacket&rdquo; or &ldquo;suede coat&rdquo;
+            <p className="mt-1.5 text-[13px] text-text-tertiary max-w-xs">
+                Try searching for a different term or browse our popular categories below
             </p>
+            <div className="flex flex-wrap justify-center gap-2 mt-4">
+                {QUICK_CATEGORIES.slice(0, 4).map((cat) => (
+                    <span
+                        key={cat}
+                        className="rounded-full bg-muted px-3 py-1 text-xs text-text-secondary"
+                    >
+                        {cat}
+                    </span>
+                ))}
+            </div>
         </div>
     )
 }
-
 
 function SearchFooter({
     onSubmit,
@@ -350,16 +535,22 @@ function SearchFooter({
     return (
         <div className="flex items-center justify-between border-t border-divider px-5 py-3 bg-background-secondary">
             <div className="flex items-center gap-4 text-[11px] text-text-tertiary">
-                {/* <span className="flex items-center gap-1.5">
-                    <kbd className="inline-flex h-5 items-center px-1.5 border border-border-strong text-[10px] font-mono">↑↓</kbd>
-                    navigate
-                </span> */}
                 <span className="flex items-center gap-1.5">
-                    <kbd className="inline-flex h-5 items-center px-1.5 border border-border-strong text-[10px] font-mono">↵</kbd>
+                    <kbd className="inline-flex h-5 items-center px-1.5 border border-border-strong text-[10px] font-mono rounded">
+                        ↑↓
+                    </kbd>
+                    navigate
+                </span>
+                <span className="flex items-center gap-1.5">
+                    <kbd className="inline-flex h-5 items-center px-1.5 border border-border-strong text-[10px] font-mono rounded">
+                        ↵
+                    </kbd>
                     select
                 </span>
                 <span className="flex items-center gap-1.5">
-                    <kbd className="inline-flex h-5 items-center px-1.5 border border-border-strong text-[10px] font-mono">esc</kbd>
+                    <kbd className="inline-flex h-5 items-center px-1.5 border border-border-strong text-[10px] font-mono rounded">
+                        esc
+                    </kbd>
                     close
                 </span>
             </div>
@@ -378,10 +569,10 @@ function SearchFooter({
 }
 
 /* ─────────────────────────────────────────────
-   DATA (Replace with Medusa search API)
+   Static data
    ───────────────────────────────────────────── */
 
-const trending = [
+const TRENDING_SEARCHES = [
     "Biker Leather Jacket",
     "Suede Long Coat",
     "Vintage Bomber Jacket",
@@ -389,123 +580,11 @@ const trending = [
     "Women's Moto Jacket",
 ]
 
-const recent = [
-    "Black Leather Jacket",
-    "Men's Brown Blazer",
-    "Women's Cropped Jacket",
-    "Suede Skirt",
-]
-
-const products = [
-    {
-        handle: "mens-black-biker-jacket-1",
-        name: "Men's Black Biker Jacket",
-        category: "Leather Jackets",
-        price: "$289",
-        image: "/images/products/biker-1.jpg",
-    },
-    {
-        handle: "womens-cropped-leather-jacket-1",
-        name: "Women's Cropped Leather Jacket",
-        category: "Women's Collection",
-        price: "$249",
-        image: "/images/products/women-crop.jpg",
-    },
-    {
-        handle: "brown-suede-long-coat-1",
-        name: "Brown Suede Long Coat",
-        category: "Winter Collection",
-        price: "$349",
-        originalPrice: "$420",
-        image: "/images/products/suede-coat.jpg",
-    },
-    {
-        handle: "shearling-aviator-jacket-1",
-        name: "Shearling Aviator Jacket",
-        category: "Men's Collection",
-        price: "$399",
-        image: "/images/products/aviator.jpg",
-    },
-    {
-        handle: "vintage-bomber-jacket-1",
-        name: "Vintage Bomber Jacket",
-        category: "Leather Jackets",
-        price: "$319",
-        originalPrice: "$380",
-        image: "/images/products/bomber.jpg",
-    },
-    {
-        handle: "mens-black-biker-jacket-2",
-        name: "Men's Black Biker Jacket",
-        category: "Leather Jackets",
-        price: "$289",
-        image: "/images/products/biker-1.jpg",
-    },
-    {
-        handle: "womens-cropped-leather-jacket-2",
-        name: "Women's Cropped Leather Jacket",
-        category: "Women's Collection",
-        price: "$249",
-        image: "/images/products/women-crop.jpg",
-    },
-    {
-        handle: "brown-suede-long-coat-2",
-        name: "Brown Suede Long Coat",
-        category: "Winter Collection",
-        price: "$349",
-        originalPrice: "$420",
-        image: "/images/products/suede-coat.jpg",
-    },
-    {
-        handle: "shearling-aviator-jacket-2",
-        name: "Shearling Aviator Jacket",
-        category: "Men's Collection",
-        price: "$399",
-        image: "/images/products/aviator.jpg",
-    },
-    {
-        handle: "vintage-bomber-jacket-2",
-        name: "Vintage Bomber Jacket",
-        category: "Leather Jackets",
-        price: "$319",
-        originalPrice: "$380",
-        image: "/images/products/bomber.jpg",
-    },
-    {
-        handle: "mens-black-biker-jacket-3",
-        name: "Men's Black Biker Jacket",
-        category: "Leather Jackets",
-        price: "$289",
-        image: "/images/products/biker-1.jpg",
-    },
-    {
-        handle: "womens-cropped-leather-jacket-3",
-        name: "Women's Cropped Leather Jacket",
-        category: "Women's Collection",
-        price: "$249",
-        image: "/images/products/women-crop.jpg",
-    },
-    {
-        handle: "brown-suede-long-coat-3",
-        name: "Brown Suede Long Coat",
-        category: "Winter Collection",
-        price: "$349",
-        originalPrice: "$420",
-        image: "/images/products/suede-coat.jpg",
-    },
-    {
-        handle: "shearling-aviator-jacket-3",
-        name: "Shearling Aviator Jacket",
-        category: "Men's Collection",
-        price: "$399",
-        image: "/images/products/aviator.jpg",
-    },
-    {
-        handle: "vintage-bomber-jacket-3",
-        name: "Vintage Bomber Jacket",
-        category: "Leather Jackets",
-        price: "$319",
-        originalPrice: "$380",
-        image: "/images/products/bomber.jpg",
-    },
+const QUICK_CATEGORIES = [
+    "Leather Jackets",
+    "Suede Coats",
+    "Men's Collection",
+    "Women's Collection",
+    "Winter Wear",
+    "Accessories",
 ]
