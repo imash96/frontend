@@ -1,33 +1,13 @@
 import { StoreProduct, StoreProductOption } from "@medusajs/types"
 import Image from "next/image"
 import Link from "next/link"
-
-/**
- * Find the variant image URL for a given color value.
- * Walks all variants, finds the one whose "color"/"colour" option matches,
- * and returns its first image. Falls back to product.images[0].
- */
-function getSwatchUrl(product: StoreProduct, colorValue: string): string | null {
-    const variants = product.variants ?? []
-    for (const v of variants) {
-        const colorOpt = v.options?.find((o) => {
-            const title = (o as any).option?.title?.toLowerCase?.() ?? ""
-            return title === "color" || title === "colour"
-        })
-        if (colorOpt && colorOpt.value === colorValue) {
-            if (v.images && v.images.length > 0) return v.images[0].url
-        }
-    }
-    // Fallback to product's first image
-    return product.images?.[0]?.url ?? null
-}
+import { getSwatchUrl } from "@/lib/store/product-store"
 
 export default function OptionSelect({ option, value, onSelect, disabled, product }: OptionSelectProps) {
     const title = option.title ?? ""
     const key = title.toLowerCase()
     const isSize = key === "size"
     const isColor = key === "color" || key === "colour"
-
     // Sort values by rank when available
     const sortedValues = [...(option.values ?? [])].sort((a, b) => {
         const rankA = (a as any).rank ?? Infinity
@@ -65,10 +45,7 @@ export default function OptionSelect({ option, value, onSelect, disabled, produc
                                     type="button"
                                     onClick={() => onSelect(c)}
                                     disabled={disabled}
-                                    className={`relative flex size-12 items-center justify-center overflow-hidden rounded-full border-2 transition-all duration-200 ${selected
-                                        ? "scale-110 border-primary ring-2 ring-primary/20"
-                                        : "border-border opacity-70 hover:scale-105 hover:border-border-strong hover:opacity-100"
-                                        }`}
+                                    className={`relative flex size-12 items-center justify-center overflow-hidden rounded-full border-2 transition-all duration-200 ${selected ? "scale-110 border-primary ring-2 ring-primary/20" : "border-border opacity-70 hover:scale-105 hover:border-border-strong hover:opacity-100"}`}
                                     title={c}
                                     aria-label={c}
                                     aria-pressed={selected}
@@ -118,12 +95,7 @@ export default function OptionSelect({ option, value, onSelect, disabled, produc
                                     onClick={() => onSelect(c)}
                                     disabled={disabled}
                                     aria-pressed={selected}
-                                    className={`min-w-12 rounded-lg border px-4 py-2.5 text-sm font-medium transition-all duration-200 ${selected
-                                        ? "border-primary bg-primary text-primary-foreground shadow-primary"
-                                        : disabled
-                                            ? "cursor-not-allowed border-border-subtle text-text-disabled line-through opacity-50"
-                                            : "border-border text-text-primary hover:border-border-strong hover:bg-muted"
-                                        }`}
+                                    className={`min-w-12 rounded-lg border px-4 py-2.5 text-sm font-medium transition-all duration-200 ${selected ? "border-primary bg-primary text-primary-foreground shadow-primary" : disabled ? "cursor-not-allowed border-border-subtle text-text-disabled line-through opacity-50" : "border-border text-text-primary hover:border-border-strong hover:bg-muted"}`}
                                 >
                                     {c}
                                 </button>

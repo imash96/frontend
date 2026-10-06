@@ -5,7 +5,7 @@ import { CheckCircle, Circle, CreditCard, Loader2 } from "lucide-react"
 import { AnimatePresence, motion } from "motion/react"
 import { useState, useTransition } from "react"
 import { initCheckPayment } from "@/lib/action/checkout"
-import { isPaypal } from "@/lib/constant"
+import { isPaypal, isPayU } from "@/lib/constant"
 import { useCheckStore } from "@/lib/store/checkout-store"
 import ErrorMessage from "@/module/common/templates/error-message"
 import CheckPaymentButton from "../components/check-payment-button"
@@ -42,7 +42,25 @@ export default function StepPayment({
     setError(null)
     startTransition(async () => {
       try {
-        await initCheckPayment(cart_id, provider_id, collection_id)
+        // PayU requires customer data (phone, name, email) for payment hash.
+        // Pass these from the cart's shipping/billing address.
+        const extraData = isPayU(provider_id)
+          ? {
+              email: cart.email,
+              firstname:
+                cart.shipping_address?.first_name ||
+                cart.billing_address?.first_name,
+              phone:
+                cart.shipping_address?.phone ||
+                cart.billing_address?.phone,
+              shipping_address_phone: cart.shipping_address?.phone,
+              country_code:
+                cart.shipping_address?.country_code ||
+                cart.billing_address?.country_code,
+              cart_id: cart.id,
+            }
+          : undefined
+        await initCheckPayment(cart_id, provider_id, collection_id, extraData)
       } catch (err: any) {
         setError(err.message)
       }

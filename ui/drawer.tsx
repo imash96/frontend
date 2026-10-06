@@ -1,6 +1,6 @@
-import { X } from 'lucide-react';
-import { AnimatePresence, motion, type Transition } from 'motion/react';
 import { useCallback, useEffect } from 'react';
+import { AnimatePresence, motion, type Transition } from 'motion/react';
+import { X } from 'lucide-react';
 
 export type DrawerDirection = 'left' | 'right' | 'bottom';
 export type DrawerSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
@@ -56,27 +56,7 @@ const overlayTransition: Transition = {
     duration: 0.2,
     ease: [0.4, 0, 0.2, 1],
 };
-export function Drawer({
-    isOpen,
-    onClose,
-    direction = 'right',
-    size = 'md',
-    children,
-    title,
-    showCloseButton = true,
-    className = '',
-    overlayClassName = '',
-    headerSlot,
-    footerSlot,
-}: DrawerProps) {
-    useEffect(() => {
-        if (isOpen) {
-            document.body.style.overflow = 'hidden';
-            return () => {
-                document.body.style.overflow = '';
-            };
-        }
-    }, [isOpen]);
+export function Drawer({ isOpen, onClose, direction = 'right', size = 'md', children, title, showCloseButton = true, className = '', overlayClassName = '', headerSlot, footerSlot }: DrawerProps) {
     const handleEscape = useCallback((e: KeyboardEvent) => {
         if (e.key === 'Escape' && isOpen) onClose();
     }, [isOpen, onClose]);

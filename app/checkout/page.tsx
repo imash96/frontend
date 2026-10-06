@@ -4,6 +4,7 @@ import {
   getCheckCustomer,
   getCheckPaymentMethods,
   getCheckShippingMethods,
+  markPaymentComplete,
 } from "@/lib/action/checkout"
 import CheckProgress from "@/module/checkout/templates/check-progress"
 import CheckStoreInitializer from "@/module/checkout/templates/check-store-initializer"
@@ -13,6 +14,8 @@ import StepAddress from "@/module/checkout/templates/step-address"
 import StepPayment from "@/module/checkout/templates/step-payment"
 import StepShipping from "@/module/checkout/templates/step-shipping"
 import type { StepType } from "@/types/common"
+import Button from "@/ui/button"
+import CheckPageButton from "./del"
 
 /* Checkout is fully user-specific (reads cookies for auth + cart ID) */
 export const instant = false
@@ -94,6 +97,7 @@ export default async function CheckPage() {
       {/* Order summary sidebar */}
       <div className="lg:col-span-4 lg:sticky lg:top-24 lg:self-start w-full order-1 lg:order-2">
         <CheckSummary cart={cart} />
+        <CheckPageButton cart={cart} />
       </div>
     </>
   )

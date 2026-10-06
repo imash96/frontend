@@ -199,6 +199,7 @@ export async function initCheckPayment(
   cartId: string,
   providerId: string,
   collectionId?: string,
+  extraData?: Record<string, unknown>,
 ) {
   const headers = { ...(await getAuthHeaders()) }
 
@@ -223,7 +224,10 @@ export async function initCheckPayment(
         headers,
         body: {
           provider_id: providerId,
-          data: { payment_description: "Leather Goods" },
+          data: {
+            payment_description: "Leather Goods",
+            ...extraData,
+          },
         } satisfies StoreInitializePaymentSession,
       },
     )
@@ -304,6 +308,11 @@ export async function removeCheckDiscount(code: string) {
 // ────────────────────────────────────────────────────────────────────────────
 // Place Order
 // ────────────────────────────────────────────────────────────────────────────
+/**
+ * Places an order for a cart. If no cart ID is provided, it will use the cart ID from the cookies.
+ * @param cartId - optional - The ID of the cart to place an order for.
+ * @returns The cart object if the order was successful, or null if not.
+ */
 
 export async function placeCheckOrder(cartId?: string) {
   const id = cartId || (await getCartId())
@@ -327,3 +336,60 @@ export async function placeCheckOrder(cartId?: string) {
 
   return cartRes.cart
 }
+
+// ────────────────────────────────────────────────────────────────────────────
+// PayPal api
+// ────────────────────────────────────────────────────────────────────────────
+
+export async function createToken() {
+  return await sdk.client.fetch<{ client_token: string }>(`/store/paypal/client-token`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+}
+
+export async function createOrder(cartId?: string, isCardPayment = false) {
+  return await sdk.client.fetch<{ id: string }>(`/store/paypal/create-order`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: { cart_id: cartId, is_card_payment: isCardPayment },
+  })
+}
+
+export async function captureOrder(cartId: string, orderId: string) {
+  return await sdk.client.fetch<Record<string, unknown>>(`/store/paypal/capture-order`, {
+    method: "POST",
+    headers: {
+      ...(await getAuthHeaders()),
+      "Content-Type": "application/json",
+    },
+    body: { cart_id: cartId, order_id: orderId },
+  })
+}
+
+export async function markPaymentComplete(cartId: string): Promise<{ ok: boolean } & Record<string, any>> {
+  try {
+    const resp = await sdk.client.fetch(`/store/paypal-complete`, {
+      method: "POST",
+      headers: {
+        ...(await getAuthHeaders()),
+        "Content-Type": "application/json",
+      },
+      body: { cart_id: cartId },
+    })
+
+    console.log(resp)
+
+    console.warn("[PayPal] paypal-complete returned", resp)
+    return { ok: true, ...(resp || {}) }
+  } catch (e) {
+    console.warn("[PayPal] paypal-complete call failed:", e)
+    return { ok: false }
+  }
+}
+
+// { success: boolean, cart_id: string, order_id?: string, request_id?: string, message?: string }

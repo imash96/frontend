@@ -19,9 +19,9 @@ type BaseButtonProps = {
     className?: string;
 }
 
-type ButtonElementProps = BaseButtonProps & React.ComponentPropsWithoutRef<"button"> & { href?: never }
+export type ButtonElementProps = BaseButtonProps & React.ComponentPropsWithoutRef<"button"> & { href?: never }
 
-type AnchorElementProps = BaseButtonProps & Omit<React.ComponentPropsWithoutRef<typeof Link>, "href"> & { href: React.ComponentPropsWithoutRef<typeof Link>["href"] | string }
+export type AnchorElementProps = BaseButtonProps & Omit<React.ComponentPropsWithoutRef<typeof Link>, "href"> & { href: React.ComponentPropsWithoutRef<typeof Link>["href"] | string }
 
 export type ButtonProps = ButtonElementProps | AnchorElementProps;
 

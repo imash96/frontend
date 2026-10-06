@@ -45,7 +45,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           }}
         />
       </head>
-      <body className="min-h-dvh">
+      <body className="flex min-h-dvh flex-col">
         <SkipToContent />
         {children}
       </body>

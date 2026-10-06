@@ -40,7 +40,7 @@ export const setLocaleCookie = async (locale: string) => {
         // exactly that top-level cross-site GET, silently reverting them to
         // the default locale for one page load.
         sameSite: "lax",
-        secure: process.env.NODE_ENV === "production",
+        secure: true,
     })
 }
 

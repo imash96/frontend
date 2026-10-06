@@ -11,14 +11,65 @@ import { getProductPrice } from "@/lib/util/get-product-price"
 import ProductAccordion from "@/module/products/templates/accordion"
 import ProductActions from "@/module/products/templates/action"
 import ProductDesc from "@/module/products/templates/description"
-import ProductGallery from "@/module/products/templates/gallery"
+import ProductGallery from "@/module/products/templates/gallery-new"
 import ProductInfo from "@/module/products/templates/info"
 import RelatedProducts from "@/module/products/templates/related"
 import ProductReview from "@/module/products/templates/review"
 import Container from "@/ui/container"
 import { StoreProductWithReviews } from "@/types/product"
 
-const PRODUCT_FIELDS = "*variants.calculated_price,*variants.prices,*variants.options,+variants.inventory_quantity,+variants.sku,+variants.manage_inventory,+variants.allow_backorder,*variants.images,+variant_rank,*images,*options,*options.values,*categories,+tags.value,+type.value,+material,+origin_country,+weight,+length,+width,+height,+subtitle,+collection,*review_stats,*product_review"
+const PRODUCT_FIELDS = [
+    // Product fields
+    "id",
+    "title",
+    "handle",
+    "subtitle",
+    "material",
+    "origin_country",
+    "weight",
+    "length",
+    "width",
+    "height",
+    // Nested relations
+    "images.id",
+    "images.url",
+    "options.id",
+    "options.title",
+    "options.values.value",
+    "options.values.rank",
+    "categories.id",
+    "categories.name",
+    "categories.handle",
+    "tags.id",
+    "tags.value",
+    "type.value",
+    "collection.id",
+    "collection.title",
+    // Variant fields
+    "variants.allow_backorder",
+    "*variants.calculated_price",
+    "variants.ean",
+    "variants.hs_code",
+    "variants.mid_code",
+    "variants.sku",
+    "variants.upc",
+    "variants.thumbnail",
+    "variants.images.id",
+    "variants.images.url",
+    "variants.id",
+    "variants.manage_inventory",
+    "variants.title",
+    "variants.inventory_quantity",
+    "variants.variant_rank",
+    "variants.options.id",
+    "variants.options.value",
+    "variants.options.title",
+    "variants.options.option",
+    // Custom relations (must be registered with allowFields)
+    "*review_stats",
+    "*product_review",
+    "metadata",
+].join(",")
 
 async function loadPageData(handle: string) {
     'use cache: private'
@@ -45,7 +96,6 @@ export default async function ProductDetailPage(props: PageProps<"/products/[han
     if (!data) notFound()
 
     const { product, region, countryCode } = data
-    console.log(product)
     const { cheapestPrice: initialPrice } = getProductPrice({ product })
     const inStock = product.variants?.some((v) => {
         if (!v.manage_inventory) return true

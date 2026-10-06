@@ -131,7 +131,7 @@ export default async function FooterVariant4() {
     );
 }
 
-async function getRenderedAt() {
+export async function getRenderedAt() {
     'use cache'
     return new Date().getFullYear()
 }

@@ -6,7 +6,10 @@ export const isPaypal = (providerId?: string) =>
   providerId?.startsWith("pp_paypal_");
 
 export const isManual = (providerId?: string) =>
-  providerId?.startsWith("pp_system_default");
+  providerId?.startsWith("pp_system_");
+
+export const isPayU = (providerId?: string) =>
+  providerId?.startsWith("pp_payu_");
 
 // Add currencies that don't need to be divided by 100
 export const noDivisionCurrencies = [
@@ -31,6 +34,6 @@ export const noDivisionCurrencies = [
   "xau",
 ];
 
-export const baseURL = process.env.NEXT_PUBLIC_BASE_URL || "https://vellehide.com";
+export const baseURL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
 export const PRODUCTS_PER_PAGE = 28

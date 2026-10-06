@@ -76,7 +76,7 @@ export const listProducts = async ({
  * It will then return the paginated products based on the page and limit parameters.
  */
 export const listProductsWithSort = async ({
-    page = 0,
+    page = 1,
     queryParams,
     sortBy = "created_at",
     countryCode,
@@ -88,12 +88,13 @@ export const listProductsWithSort = async ({
     )
 
     const {
-        response: { products },
+        response: { products, count },
     } = await listProducts({
-        pageParam: 0,
+        pageParam: 1,
         queryParams: {
-            limit: 100,
             ...queryParams,
+            fields: "id,title,handle,thumbnail,variants.calculated_price",
+            limit: 100,
             ...(optionFilters.length ? { option_value_id: optionFilters } : {}),
         },
         countryCode,
@@ -101,18 +102,19 @@ export const listProductsWithSort = async ({
 
     const sortedProducts = sortProducts(products, sortBy)
 
-    const pageParam = (page - 1) * limit
+    const offset = (page - 1) * limit
 
-    const filteredCount = products.length
+    const nextPage = count > offset + limit ? offset + limit : null
 
-    const nextPage = filteredCount > pageParam + limit ? pageParam + limit : null
-
-    const paginatedProducts = sortedProducts.slice(pageParam, pageParam + limit)
+    const paginatedProducts = sortedProducts.slice(
+        offset,
+        offset + limit
+    )
 
     return {
         response: {
             products: paginatedProducts,
-            count: filteredCount,
+            count,
         },
         nextPage,
         queryParams,

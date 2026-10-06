@@ -5,7 +5,6 @@ import RatingBreakdown from "../components/review"
 import type { ProductReviewStats, StoreProductReview } from "@/types/product"
 
 export default async function ProductReview({ reviews, rating }: { reviews?: StoreProductReview[], rating?: ProductReviewStats }) {
-    console.log({ reviews, rating })
     if (!reviews || reviews.length === 0) return null
     const hasReviews = reviews.length > 0
     const hasStats = !!rating && rating.review_count > 0

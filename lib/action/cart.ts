@@ -386,39 +386,6 @@ export async function setAddresses(currentState: unknown, formData: FormData) {
 }
 
 /**
- * Places an order for a cart. If no cart ID is provided, it will use the cart ID from the cookies.
- * @param cartId - optional - The ID of the cart to place an order for.
- * @returns The cart object if the order was successful, or null if not.
- */
-export async function placeOrder(cartId?: string) {
-    const id = cartId || (await getCartId())
-
-    if (!id) {
-        throw new Error("No existing cart found when placing an order")
-    }
-
-    const headers = {
-        ...(await getAuthHeaders()),
-    }
-
-    const cartRes = await sdk.store.cart
-        .complete(id, {}, headers)
-        .then(async (cartRes) => {
-            await updateCacheTags("carts")
-            return cartRes
-        })
-        .catch(medusaError)
-
-    if (cartRes?.type === "order") {
-        await updateCacheTags("orders")
-        await removeCartId()
-        redirect(`/order/${cartRes?.order.id}/confirmed`)
-    }
-
-    return cartRes.cart
-}
-
-/**
  * Updates the countrycode param and revalidates the regions cache
  * @param regionId
  * @param countryCode

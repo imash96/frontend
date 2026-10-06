@@ -207,7 +207,7 @@ export async function proxy(request: NextRequest) {
             maxAge: COUNTRY_CODE_MAX_AGE,
             path: "/",
             sameSite: "lax",
-            secure: process.env.NODE_ENV === "production",
+            secure: true,
         })
     }
 

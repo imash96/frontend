@@ -1,163 +1,162 @@
 "use client"
 
 import type { StoreCart } from "@medusajs/types"
-import {
-  PayPalCardFieldsForm,
-  PayPalCardFieldsProvider,
-  usePayPalCardFields,
-} from "@paypal/react-paypal-js"
+import { PayPalCardFieldsForm, PayPalCardFieldsProvider, usePayPalCardFields, } from "@paypal/react-paypal-js"
 import { Loader2 } from "lucide-react"
 import { useCallback, useEffect, useState } from "react"
-import { placeCheckOrder } from "@/lib/action/checkout"
+import { captureOrder, createOrder, placeCheckOrder } from "@/lib/action/checkout"
 import ErrorMessage from "@/module/common/templates/error-message"
 import CheckPaymentContainer from "./check-payment-container"
 
-const MEDUSA_BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL
-const PUBLISHABLE_API_KEY = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY
-
-export default function CheckPayPalCard({ cart }: { cart: StoreCart }) {
+export default function CheckPayPalCard({ cart, }: { cart: StoreCart }) {
   const [error, setError] = useState<string | null>(null)
   const [isProcessing, setIsProcessing] = useState(false)
-  const [isAvailable, setIsAvailable] = useState(true)
 
-  useEffect(() => {
-    try {
-      // @ts-ignore
-      if (typeof window !== "undefined" && !window.paypal?.CardFields) {
-        setIsAvailable(false)
-      }
-    } catch {
-      setIsAvailable(false)
-    }
-  }, [])
-
-  const createOrder = useCallback(async () => {
-    try {
-      const res = await fetch(
-        `${MEDUSA_BACKEND_URL}/store/paypal/create-order`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "x-publishable-api-key": PUBLISHABLE_API_KEY ?? "",
-          },
-          body: JSON.stringify({ cart_id: cart.id }),
-        },
-      )
-      const data = await res.json()
-      if (!res.ok || !data.id) {
-        throw new Error(data.message || "Failed to create PayPal order")
-      }
-      return data.id
-    } catch (err: any) {
-      setError(err.message || "Failed to create PayPal order")
-      throw err
-    }
-  }, [cart.id])
-
-  const onApprove = useCallback(async (data: any) => {
-    setIsProcessing(true)
+  const createPaypalOrder = useCallback(async () => {
     setError(null)
+    let response: any = null
+
     try {
-      const captureRes = await fetch(
-        `${MEDUSA_BACKEND_URL}/store/paypal/capture-order`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "x-publishable-api-key": PUBLISHABLE_API_KEY ?? "",
-          },
-          body: JSON.stringify({
-            order_id: data.orderID,
-            cart_id: cart.id,
-          }),
-        },
-      )
-      if (!captureRes.ok) {
-        const errData = await captureRes.json()
-        throw new Error(errData.message || "PayPal capture failed")
-      }
-      await placeCheckOrder()
-    } catch (err: any) {
-      setError(err?.message || "PayPal failed")
-      setIsProcessing(false)
+      const response = await createOrder(cart.id)
+      console.log("[PayPal Card] create order response:", response)
+    } catch {
+      // ignore JSON parse error
     }
+    console.log("[PayPal Card] create order response:", response)
+    if (!response || !response.id) {
+      throw new Error(
+        response?.message ||
+        `Unable to create PayPal order`
+      )
+    }
+
+    return response.id
   }, [cart.id])
 
-  if (!isAvailable) {
-    return (
-      <CheckPaymentContainer>
-        <div className="text-center space-y-2 py-2">
-          <p className="text-xs sm:text-sm text-muted-foreground">
-            Card payment via PayPal is not currently available.
-          </p>
-          <p className="text-[10px] sm:text-xs text-muted-foreground">
-            Please select another payment method.
-          </p>
-        </div>
-      </CheckPaymentContainer>
-    )
-  }
+  const onApprove = useCallback(
+    async (data: any) => {
+      setIsProcessing(true)
+      setError(null)
+
+      try {
+        if (!data?.orderID) {
+          throw new Error("PayPal did not return an order ID")
+        }
+
+        let result: any = null
+
+        try {
+          result = await captureOrder(cart.id, data.orderID)
+        } catch (e: any) {
+          throw new Error(
+            result?.message ||
+            `PayPal capture failed (${e})`
+          )
+        }
+        /*
+         * At this point PayPal has successfully completed the payment.
+         *
+         * Your existing checkout action should now complete the
+         * Medusa cart using the already-selected PayPal payment session.
+         */
+        await placeCheckOrder()
+      } catch (err) {
+        console.error("[PayPal Card] payment failed:", err)
+
+        setError(err instanceof Error ? err.message : "Unable to complete PayPal card payment.")
+      } finally {
+        setIsProcessing(false)
+      }
+    },
+    [cart.id]
+  )
 
   return (
     <CheckPaymentContainer>
-      <div className="w-full space-y-3 sm:space-y-4 text-left relative min-h-[150px]">
-        {/* We use PayPalCardFieldsProvider which needs createOrder and onApprove */}
+      <div className="relative w-full space-y-4 text-left">
         <PayPalCardFieldsProvider
-          createOrder={createOrder}
+          createOrder={createPaypalOrder}
           onApprove={onApprove}
-          onError={(err: any) => {
-            setError("There was an error processing your card. Please try again.")
+          onError={(err) => {
+            console.error("[PayPal Card] SDK error:", err)
+
+            setError(
+              "There was an error processing your card. Please check your card details and try again."
+            )
+
             setIsProcessing(false)
           }}
         >
-          <CardFormInner setIsProcessing={setIsProcessing} error={error} />
+          <CardFormInner
+            isProcessing={isProcessing}
+            setIsProcessing={setIsProcessing}
+            error={error}
+          />
         </PayPalCardFieldsProvider>
-
-        {isProcessing && (
-          <div className="absolute inset-0 bg-background/50 backdrop-blur-sm z-10 flex items-center justify-center gap-2">
-            <Loader2 className="w-5 h-5 animate-spin text-accent" />
-            <span className="text-sm font-medium text-foreground">
-              Processing payment...
-            </span>
-          </div>
-        )}
       </div>
     </CheckPaymentContainer>
   )
 }
 
 function CardFormInner({
+  isProcessing,
   setIsProcessing,
   error,
 }: {
-  setIsProcessing: (val: boolean) => void
+  isProcessing: boolean
+  setIsProcessing: (value: boolean) => void
   error: string | null
 }) {
   const { cardFieldsForm } = usePayPalCardFields()
 
-  useEffect(() => {
-    const handleEvent = () => {
-      if (cardFieldsForm) {
-        setIsProcessing(true)
-        cardFieldsForm
-          .submit()
-          .catch((err: any) => {
-            setIsProcessing(false)
-          })
-      }
+  const handleSubmit = useCallback(async () => {
+    if (!cardFieldsForm) {
+      setIsProcessing(false)
+
+      return
     }
-    window.addEventListener("paypal-card-submit", handleEvent)
-    return () => window.removeEventListener("paypal-card-submit", handleEvent)
+
+    setIsProcessing(true)
+
+    try {
+      await cardFieldsForm.submit()
+    } catch (err) {
+      console.error("[PayPal Card] submit error:", err)
+
+      setIsProcessing(false)
+    }
   }, [cardFieldsForm, setIsProcessing])
+
+  useEffect(() => {
+    const handler = () => {
+      void handleSubmit()
+    }
+
+    window.addEventListener("paypal-card-submit", handler)
+
+    return () => {
+      window.removeEventListener("paypal-card-submit", handler)
+    }
+  }, [handleSubmit])
 
   return (
     <div className="w-full space-y-4">
       <PayPalCardFieldsForm />
+
       <ErrorMessage error={error} />
-      <p className="text-[10px] sm:text-xs text-muted-foreground text-center pt-2">
+
+      <p className="pt-2 text-center text-[10px] text-muted-foreground sm:text-xs">
         Your card details are processed securely by PayPal.
       </p>
+
+      {isProcessing && (
+        <div className="flex items-center justify-center gap-2">
+          <Loader2 className="h-4 w-4 animate-spin" />
+          <span className="text-sm">
+            Processing payment...
+          </span>
+        </div>
+      )}
     </div>
   )
 }

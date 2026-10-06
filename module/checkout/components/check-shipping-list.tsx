@@ -1,9 +1,9 @@
 "use client"
 
 import type { StoreCartShippingOption } from "@medusajs/types"
-import { CheckCircle, Clock, Truck, TruckElectric } from "lucide-react"
+import { CheckCircle, Clock, Loader2, Truck, TruckElectric } from "lucide-react"
 import { motion } from "motion/react"
-import { useTransition } from "react"
+import { useState, useTransition } from "react"
 import { setCheckShipping } from "@/lib/action/checkout"
 import { useCheckStore } from "@/lib/store/checkout-store"
 import { convertToLocale } from "@/lib/util/money"
@@ -15,17 +15,20 @@ export default function CheckShippingList({
   selectedMethodId,
 }: CheckShippingListProps) {
   const [isPending, startTransition] = useTransition()
+  const [pendingOptionId, setPendingOptionId] = useState<string | null>(null)
   const setStep = useCheckStore((s) => s.setStep)
   const markCompleted = useCheckStore((s) => s.markCompleted)
 
   function handleShippingMethod(optionId: string) {
     if (isPending || optionId === selectedMethodId) return
+    setPendingOptionId(optionId)
     startTransition(async () => {
       const res = await setCheckShipping(cartId, optionId)
       if (res?.success) {
         markCompleted("shipping")
         setStep("payment")
       }
+      setPendingOptionId(null)
     })
   }
 
@@ -37,6 +40,7 @@ export default function CheckShippingList({
     >
       {availableMethods.map((method, index) => {
         const isSelected = selectedMethodId === method.id
+        const isLoading = isPending && pendingOptionId === method.id
         const isExpress = method.type?.code === "expedite"
         return (
           <motion.button
@@ -78,7 +82,12 @@ export default function CheckShippingList({
                   })}
               </span>
             </span>
-            {isSelected && (
+            {isLoading ? (
+              <Loader2
+                className="h-5 w-5 text-accent shrink-0 ml-2 animate-spin"
+                aria-hidden="true"
+              />
+            ) : isSelected ? (
               <motion.div
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
@@ -89,7 +98,7 @@ export default function CheckShippingList({
                   aria-hidden="true"
                 />
               </motion.div>
-            )}
+            ) : null}
           </motion.button>
         )
       })}

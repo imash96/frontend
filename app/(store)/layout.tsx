@@ -18,7 +18,7 @@ export default function StoreLayout({ children }: LayoutProps<"/">) {
             <Suspense fallback={null}>
                 <CartDrawer />
             </Suspense>
-            <main id="main-content" tabIndex={-1} className="focus:outline-none">
+            <main id="main-content" tabIndex={-1} className="flex-1 focus:outline-none outline-none">
                 {children}
             </main>
             <BottomTabs />

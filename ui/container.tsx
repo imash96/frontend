@@ -107,11 +107,8 @@ export default function Container<T extends React.ElementType = "div">({
 }: ContainerProps<T>) {
     const Tag = (as ?? "div") as React.ElementType
 
-    const classes = `${sizeClass[size]} ${className} ${paddingClass[padding]}`
-
-
     const inner = (
-        <Tag className={classes} {...props}>
+        <Tag className={`${sizeClass[size]} ${className} ${paddingClass[padding]}`} {...props}>
             {children}
         </Tag>
     )

@@ -187,7 +187,7 @@ export default function ProductGallery({ product, title }: Props) {
                             height={1600}
                             sizes="100vw"
                             quality={80}
-                            className="object-contain"
+                            className="size-full object-contain"
                             priority
                         />
                     </div>
@@ -230,8 +230,7 @@ export default function ProductGallery({ product, title }: Props) {
                     </div>
                 </div>,
                 document.body
-            )
-            }
+            )}
         </>
     )
 }

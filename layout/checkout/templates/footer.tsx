@@ -1,19 +1,20 @@
-import Image from "next/image";
-import Container from "@/ui/container";
+import Image from "next/image"
+import Container from "@/ui/container"
+import { getRenderedAt } from "@/layout/home/templates/footer"
 
-export default async function CheckoutFooter() {
+export default async function CheckFooter() {
   return (
     <footer
-      aria-labelledby="footer-heading"
-      className="footer border-t border-border bg-primary text-primary-foreground"
+      aria-labelledby="check-footer-heading"
+      className="border-t border-border bg-primary text-primary-foreground"
     >
-      <h2 id="footer-heading" className="sr-only">
+      <h2 id="check-footer-heading" className="sr-only">
         Footer
       </h2>
       <Container>
-        <div className="flex flex-col gap-y-4 md:flex-row-reverse py-4 text-center items-center justify-between">
+        <div className="flex flex-col gap-y-3 md:flex-row-reverse py-3 sm:py-4 text-center items-center justify-between">
           <Image
-            className="h-12 w-auto"
+            className="h-10 sm:h-12 w-auto"
             height={100}
             width={200}
             loading="lazy"
@@ -21,9 +22,11 @@ export default async function CheckoutFooter() {
             src="/storefront/images/contents/StripeBadge.png"
             alt="Stripe Payment Secure"
           />
-          <p>&copy; {new Date().getFullYear()} Velle Hide</p>
+          <p className="text-xs sm:text-sm">
+            &copy; {await getRenderedAt()} Velle Hide · Handcrafted with care
+          </p>
         </div>
       </Container>
     </footer>
-  );
+  )
 }
