@@ -195,12 +195,7 @@ export async function setCheckShipping(cartId: string, optionId: string) {
 // Initiate Payment Session
 // ────────────────────────────────────────────────────────────────────────────
 
-export async function initCheckPayment(
-  cartId: string,
-  providerId: string,
-  collectionId?: string,
-  extraData?: Record<string, unknown>,
-) {
+export async function initCheckPayment(cartId: string, providerId: string, collectionId?: string, extraData?: Record<string, unknown>,) {
   const headers = { ...(await getAuthHeaders()) }
 
   if (!collectionId) {
@@ -367,8 +362,12 @@ export async function captureOrder(cartId: string, orderId: string) {
       ...(await getAuthHeaders()),
       "Content-Type": "application/json",
     },
-    body: { cart_id: cartId, order_id: orderId },
+    body: {
+      cart_id: cartId,
+      order_id: orderId
+    },
   })
+
 }
 
 export async function markPaymentComplete(cartId: string): Promise<{ ok: boolean } & Record<string, any>> {

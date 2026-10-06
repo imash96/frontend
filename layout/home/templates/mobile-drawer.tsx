@@ -1,5 +1,6 @@
 import { ChevronLeft, ChevronRight, Contact, Home, Info, Menu, TableOfContents, User, X } from "lucide-react";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence } from "motion/react";
+import { div as Div } from "motion/react-client";
 import type { Route } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -48,7 +49,7 @@ export default function MobileDrawer() {
         >
             {/* ─── Content ─── */}
             <AnimatePresence mode="wait">
-                <motion.div
+                <Div
                     key={`v1-nav-${current.level}-${current.category?.handle || "root"}`}
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
@@ -87,7 +88,7 @@ export default function MobileDrawer() {
                         {categories.map((cat, i) => {
                             const hasChildren = (cat.category_children?.length ?? 0) > 0;
                             return (
-                                <motion.div
+                                <Div
                                     key={cat.handle + i}
                                     initial={{ opacity: 0, x: 12 }}
                                     animate={{ opacity: 1, x: 0 }}
@@ -119,11 +120,11 @@ export default function MobileDrawer() {
                                             {cat.name}
                                         </Link>
                                     )}
-                                </motion.div>
+                                </Div>
                             );
                         })}
                     </div>
-                </motion.div>
+                </Div>
             </AnimatePresence>
             {/* Promo Card */}
             {/* <div className="px-4 sm:px-6 py-4">
@@ -187,7 +188,7 @@ const HeaderSlot = ({ navStack, current, goBack, handleClose }: HeaderSlotProps)
         </div>
         {/* ─── Breadcrumb ─── */}
         {current.breadcrumb.length > 0 && (
-            <motion.div initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.15, delay: 0.05 }} className="px-5 py-3 bg-muted/30 border-b border-divider">
+            <Div initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.15, delay: 0.05 }} className="px-5 py-3 bg-muted/30 border-b border-divider">
                 <div className="flex items-center gap-1.5 text-xs overflow-x-auto no-scrollbar">
                     <Home className="size-3.5 text-foreground-tertiary shrink-0" />
                     {current.breadcrumb.map((cat, index) => (
@@ -197,7 +198,7 @@ const HeaderSlot = ({ navStack, current, goBack, handleClose }: HeaderSlotProps)
                         </div>
                     ))}
                 </div>
-            </motion.div>
+            </Div>
         )}
     </>
 )

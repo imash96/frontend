@@ -1,7 +1,7 @@
 "use client"
 
 import { Check, CreditCard, MapPin, Truck } from "lucide-react"
-import { motion } from "motion/react"
+import { div as Div } from "motion/react-client";
 import { useCheckStore } from "@/lib/store/checkout-store"
 import type { StepType } from "@/types/common"
 
@@ -68,7 +68,7 @@ export default function CheckProgress() {
                   if (isClickable) setStep(step.id)
                 }}
               >
-                <motion.div
+                <Div
                   className={`flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-full border-2 text-xs sm:text-sm font-medium transition-colors duration-300 ${isCompleted
                     ? "border-primary bg-primary text-primary-foreground shadow-sm"
                     : ""
@@ -82,7 +82,7 @@ export default function CheckProgress() {
                   layout
                 >
                   {isCompleted ? (
-                    <motion.div
+                    <Div
                       initial={{ scale: 0, rotate: -180 }}
                       animate={{ scale: 1, rotate: 0 }}
                       transition={{
@@ -92,11 +92,11 @@ export default function CheckProgress() {
                       }}
                     >
                       <Check className="w-4 h-4 sm:w-5 sm:h-5" />
-                    </motion.div>
+                    </Div>
                   ) : (
                     <step.Icon className="w-4 h-4 sm:w-5 sm:h-5" />
                   )}
-                </motion.div>
+                </Div>
                 <div className="text-center sm:text-left sm:ml-3">
                   <p
                     className={`text-[10px] sm:text-sm font-semibold leading-tight transition-colors ${isCurrent
@@ -122,7 +122,7 @@ export default function CheckProgress() {
               </div>
               {index < steps.length - 1 && (
                 <div className="mx-2 sm:ml-4 h-0.5 flex-1 rounded-full bg-border relative overflow-hidden">
-                  <motion.div
+                  <Div
                     className="absolute inset-y-0 left-0 bg-primary rounded-full"
                     initial={{ width: "0%" }}
                     animate={{

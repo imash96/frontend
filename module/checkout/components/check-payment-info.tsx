@@ -3,18 +3,18 @@ import { Clock, CreditCard, Shield } from "lucide-react"
 import type { ComponentType } from "react"
 import PayPal from "@/icon/checkout-paypal"
 import CheckManualPreview from "./check-manual-preview"
-import CheckPayPalCard from "./check-paypal-card-new"
+import CheckPayPalCard from "./check-paypal-card"
 import CheckPayPalPreview from "./check-paypal-preview"
 import CheckPayUPreview from "./check-payu-preview"
-import CheckStripeForm from "./check-stripe-form"
+// import CheckStripeForm from "./check-stripe-form"
 
 export const checkPaymentInfoMap = {
-  pp_stripe_stripe: {
-    title: "Credit Card",
-    desc: "Pay securely with your credit or debit card.",
-    Icon: <CreditCard className="w-6 h-6 sm:w-7 sm:h-7 text-foreground" />,
-    Preview: CheckStripeForm,
-  },
+  // pp_stripe_stripe: {
+  //   title: "Credit Card",
+  //   desc: "Pay securely with your credit or debit card.",
+  //   Icon: <CreditCard className="w-6 h-6 sm:w-7 sm:h-7 text-foreground" />,
+  //   Preview: CheckStripeForm,
+  // },
   pp_paypal_paypal: {
     title: "PayPal",
     desc: "Complete your purchase quickly and securely with PayPal.",

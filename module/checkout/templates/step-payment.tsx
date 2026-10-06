@@ -2,7 +2,8 @@
 
 import type { StoreCart, StorePaymentProvider } from "@medusajs/types"
 import { CheckCircle, Circle, CreditCard, Loader2 } from "lucide-react"
-import { AnimatePresence, motion } from "motion/react"
+import { AnimatePresence } from "motion/react"
+import { div as Div } from "motion/react-client"
 import { useState, useTransition } from "react"
 import { initCheckPayment } from "@/lib/action/checkout"
 import { isPaypal, isPayU } from "@/lib/constant"
@@ -12,16 +13,12 @@ import CheckPaymentButton from "../components/check-payment-button"
 import { checkPaymentInfoMap } from "../components/check-payment-info"
 import CheckStepHeader from "../components/check-step-header"
 
-export default function StepPayment({
-  cart,
-  paymentMethods,
-}: PaymentStepProps) {
+export default function StepPayment({ cart, paymentMethods, }: PaymentStepProps) {
   const currentStep = useCheckStore((s) => s.currentStep)
   const isPending = useCheckStore((s) => s.isPending)
   const [isTransitioning, startTransition] = useTransition()
   const [error, setError] = useState<string | null>(null)
 
-  const isOpen = currentStep === "payment"
   const activeSession = cart.payment_collection?.payment_sessions?.find(
     (s) => s.status === "pending",
   )
@@ -29,37 +26,21 @@ export default function StepPayment({
 
   const isLoading = isTransitioning || isPending
 
-  function setPaymentMethod(
-    cart_id: string,
-    provider_id: string,
-    collection_id?: string,
-  ) {
-    const isBrokenPaypal =
-      provider_id === selectedPaymentMethod &&
-      isPaypal(provider_id) &&
-      !activeSession?.data?.id
+  function setPaymentMethod(cart_id: string, provider_id: string, collection_id?: string,) {
+    const isBrokenPaypal = provider_id === selectedPaymentMethod && isPaypal(provider_id) && !activeSession?.data?.id
     if (provider_id === selectedPaymentMethod && !isBrokenPaypal) return
     setError(null)
     startTransition(async () => {
       try {
         // PayU requires customer data (phone, name, email) for payment hash.
         // Pass these from the cart's shipping/billing address.
-        const extraData = isPayU(provider_id)
-          ? {
-              email: cart.email,
-              firstname:
-                cart.shipping_address?.first_name ||
-                cart.billing_address?.first_name,
-              phone:
-                cart.shipping_address?.phone ||
-                cart.billing_address?.phone,
-              shipping_address_phone: cart.shipping_address?.phone,
-              country_code:
-                cart.shipping_address?.country_code ||
-                cart.billing_address?.country_code,
-              cart_id: cart.id,
-            }
-          : undefined
+        const extraData = isPayU(provider_id) ? {
+          email: cart.email,
+          firstname: cart.shipping_address?.first_name || cart.billing_address?.first_name,
+          phone: cart.shipping_address?.phone || cart.billing_address?.phone,
+          shipping_address_phone: cart.shipping_address?.phone, country_code: cart.shipping_address?.country_code || cart.billing_address?.country_code,
+          cart_id: cart.id,
+        } : undefined
         await initCheckPayment(cart_id, provider_id, collection_id, extraData)
       } catch (err: any) {
         setError(err.message)
@@ -78,8 +59,8 @@ export default function StepPayment({
       />
 
       <AnimatePresence mode="wait">
-        {isOpen && (
-          <motion.div
+        {currentStep === "payment" && (
+          <Div
             key="payment-content"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
@@ -89,15 +70,15 @@ export default function StepPayment({
             <div className="grid gap-2 sm:gap-3 mt-4 sm:mt-6">
               <ErrorMessage error={error} />
               {paymentMethods.map((paymentMethod) => {
-                const isSelected =
-                  selectedPaymentMethod === paymentMethod.id
+                const isSelected = selectedPaymentMethod === paymentMethod.id
                 const Info = checkPaymentInfoMap[paymentMethod.id]
                 const isDisabled = isLoading
                 const isMethodLoading = isTransitioning && !isSelected
 
                 return (
-                  <motion.div
+                  <Div
                     key={paymentMethod.id}
+                    whileTap={!isDisabled ? { scale: 0.99 } : undefined}
                     onClick={() =>
                       !isDisabled &&
                       setPaymentMethod(
@@ -106,11 +87,7 @@ export default function StepPayment({
                         cart.payment_collection?.id,
                       )
                     }
-                    className={`relative flex flex-col border rounded-lg overflow-hidden transition-all duration-200 ${isSelected
-                      ? "border-accent ring-1 ring-accent shadow-sm"
-                      : "border-border hover:border-accent/50"
-                      } ${isDisabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
-                    whileTap={!isDisabled ? { scale: 0.99 } : undefined}
+                    className={`relative flex flex-col border rounded-lg overflow-hidden transition-all duration-200 ${isSelected ? "border-accent ring-1 ring-accent shadow-sm" : "border-border hover:border-accent/50"} ${isDisabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
                   >
                     {/* Header row */}
                     <div className="flex items-center gap-2.5 sm:gap-3 p-3 sm:p-4">
@@ -118,7 +95,7 @@ export default function StepPayment({
                         {isMethodLoading ? (
                           <Loader2 className="w-5 h-5 sm:w-6 sm:h-6 animate-spin text-muted-foreground" />
                         ) : isSelected ? (
-                          <motion.div
+                          <Div
                             initial={{ scale: 0 }}
                             animate={{ scale: 1 }}
                             transition={{
@@ -128,7 +105,7 @@ export default function StepPayment({
                             }}
                           >
                             <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6" />
-                          </motion.div>
+                          </Div>
                         ) : (
                           <Circle className="w-5 h-5 sm:w-6 sm:h-6 text-muted-foreground" />
                         )}
@@ -151,13 +128,13 @@ export default function StepPayment({
                         <Info.Preview key="preview" cart={cart} />
                       )}
                     </AnimatePresence>
-                  </motion.div>
+                  </Div>
                 )
               })}
 
               <CheckPaymentButton cart={cart} />
             </div>
-          </motion.div>
+          </Div>
         )}
       </AnimatePresence>
     </div>

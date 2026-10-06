@@ -2,11 +2,11 @@
 
 import type { StoreCartShippingOption } from "@medusajs/types"
 import { CheckCircle, Clock, Loader2, Truck, TruckElectric } from "lucide-react"
-import { motion } from "motion/react"
 import { useState, useTransition } from "react"
 import { setCheckShipping } from "@/lib/action/checkout"
 import { useCheckStore } from "@/lib/store/checkout-store"
 import { convertToLocale } from "@/lib/util/money"
+import { button as Button, div as Div } from "motion/react-client";
 
 export default function CheckShippingList({
   availableMethods,
@@ -43,7 +43,7 @@ export default function CheckShippingList({
         const isLoading = isPending && pendingOptionId === method.id
         const isExpress = method.type?.code === "expedite"
         return (
-          <motion.button
+          <Button
             key={method.id}
             type="button"
             disabled={isPending}
@@ -88,7 +88,7 @@ export default function CheckShippingList({
                 aria-hidden="true"
               />
             ) : isSelected ? (
-              <motion.div
+              <Div
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ type: "spring", stiffness: 500, damping: 15 }}
@@ -97,9 +97,9 @@ export default function CheckShippingList({
                   className="h-5 w-5 text-accent shrink-0 ml-2"
                   aria-hidden="true"
                 />
-              </motion.div>
+              </Div>
             ) : null}
-          </motion.button>
+          </Button>
         )
       })}
     </div>

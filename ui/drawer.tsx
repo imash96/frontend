@@ -1,5 +1,6 @@
 import { useCallback, useEffect } from 'react';
-import { AnimatePresence, motion, type Transition } from 'motion/react';
+import { AnimatePresence, type Transition } from 'motion/react';
+import { div as Div } from "motion/react-client";
 import { X } from 'lucide-react';
 
 export type DrawerDirection = 'left' | 'right' | 'bottom';
@@ -72,7 +73,7 @@ export function Drawer({ isOpen, onClose, direction = 'right', size = 'md', chil
         <AnimatePresence mode="wait">
             {isOpen && (
                 <>
-                    <motion.div
+                    <Div
                         key="drawer-overlay"
                         variants={overlayVariants}
                         initial="hidden"
@@ -83,7 +84,7 @@ export function Drawer({ isOpen, onClose, direction = 'right', size = 'md', chil
                         className={`fixed inset-0 z-50 bg-overlay backdrop-blur-sm ${overlayClassName}`}
                         aria-hidden
                     />
-                    <motion.div
+                    <Div
                         key="drawer-panel"
                         variants={slideVariants[direction]}
                         initial="hidden"
@@ -115,7 +116,7 @@ export function Drawer({ isOpen, onClose, direction = 'right', size = 'md', chil
                         ) : null}
                         {children}
                         {footerSlot && footerSlot}
-                    </motion.div>
+                    </Div>
                 </>
             )}
         </AnimatePresence>

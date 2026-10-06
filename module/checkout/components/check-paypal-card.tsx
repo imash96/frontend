@@ -1,32 +1,35 @@
 "use client"
 
 import type { StoreCart } from "@medusajs/types"
-import { PayPalCardFieldsForm, PayPalCardFieldsProvider, usePayPalCardFields, } from "@paypal/react-paypal-js"
-import { Loader2 } from "lucide-react"
+import { PayPalButtons, PayPalCardFieldsProvider, PayPalCVVField, PayPalExpiryField, PayPalNameField, PayPalNumberField, usePayPalCardFields, } from "@paypal/react-paypal-js"
 import { useCallback, useEffect, useState } from "react"
-import { captureOrder, createOrder, placeCheckOrder } from "@/lib/action/checkout"
+import { captureOrder, createOrder, markPaymentComplete, placeCheckOrder } from "@/lib/action/checkout"
 import ErrorMessage from "@/module/common/templates/error-message"
 import CheckPaymentContainer from "./check-payment-container"
 
 export default function CheckPayPalCard({ cart, }: { cart: StoreCart }) {
   const [error, setError] = useState<string | null>(null)
   const [isProcessing, setIsProcessing] = useState(false)
-
+  const [isPaying, setIsPaying] = useState(false);
   const createPaypalOrder = useCallback(async () => {
     setError(null)
     let response: any = null
 
     try {
-      const response = await createOrder(cart.id)
-      console.log("[PayPal Card] create order response:", response)
-    } catch {
-      // ignore JSON parse error
+      response = await createOrder(cart.id)
+
+      console.log("creating order response received")
+      console.log(response)
+    } catch (e) {
+      console.error("[PayPal Card] create order request failed:", e)
+      throw e
     }
+
     console.log("[PayPal Card] create order response:", response)
-    if (!response || !response.id) {
+
+    if (!response?.id) {
       throw new Error(
-        response?.message ||
-        `Unable to create PayPal order`
+        response?.message || "Unable to create PayPal order"
       )
     }
 
@@ -43,14 +46,15 @@ export default function CheckPayPalCard({ cart, }: { cart: StoreCart }) {
           throw new Error("PayPal did not return an order ID")
         }
 
-        let result: any = null
-
         try {
-          result = await captureOrder(cart.id, data.orderID)
+          const result = await captureOrder(cart.id, data.orderID)
+          await markPaymentComplete(cart.id)
+          console.log("[PayPal Card] capture response:", result)
         } catch (e: any) {
+          console.error("[PayPal Card] capture failed:", e)
+
           throw new Error(
-            result?.message ||
-            `PayPal capture failed (${e})`
+            e?.message || "PayPal capture failed"
           )
         }
         /*
@@ -71,26 +75,59 @@ export default function CheckPayPalCard({ cart, }: { cart: StoreCart }) {
     [cart.id]
   )
 
+  const onError = useCallback(async (err: any) => {
+    console.error("[PayPal Card] payment failed:", err)
+
+    setError(err instanceof Error ? err.message : "Unable to complete PayPal card payment.")
+  }, [])
+
   return (
     <CheckPaymentContainer>
       <div className="relative w-full space-y-4 text-left">
+
+        <PayPalButtons
+          createOrder={createPaypalOrder}
+          onApprove={onApprove}
+          onError={onError}
+          style={{
+            shape: "rect",
+            layout: "vertical",
+            color: "gold",
+            label: "paypal",
+          }}
+        />
+
         <PayPalCardFieldsProvider
           createOrder={createPaypalOrder}
           onApprove={onApprove}
-          onError={(err) => {
-            console.error("[PayPal Card] SDK error:", err)
-
-            setError(
-              "There was an error processing your card. Please check your card details and try again."
-            )
-
-            setIsProcessing(false)
+          onError={onError}
+          style={{
+            input: {
+              "font-size": "16px",
+              "font-family": "courier, monospace",
+              "font-weight": "lighter",
+              color: "#ccc",
+            },
+            ".invalid": { color: "purple" },
           }}
         >
-          <CardFormInner
-            isProcessing={isProcessing}
-            setIsProcessing={setIsProcessing}
-            error={error}
+          <PayPalNameField
+            style={{
+              input: { color: "blue" },
+              ".invalid": { color: "purple" },
+            }}
+          />
+          <PayPalNumberField />
+          <PayPalExpiryField />
+          <PayPalCVVField />
+
+          {/* Custom client component to handle card fields submission */}
+          <SubmitPayment
+            isPaying={isPaying}
+            setIsPaying={setIsPaying}
+            billingAddress={
+              cart.billing_address
+            }
           />
         </PayPalCardFieldsProvider>
       </div>
@@ -98,65 +135,35 @@ export default function CheckPayPalCard({ cart, }: { cart: StoreCart }) {
   )
 }
 
-function CardFormInner({
-  isProcessing,
-  setIsProcessing,
-  error,
-}: {
-  isProcessing: boolean
-  setIsProcessing: (value: boolean) => void
-  error: string | null
-}) {
-  const { cardFieldsForm } = usePayPalCardFields()
+const SubmitPayment = ({ isPaying, setIsPaying, billingAddress }: any) => {
+  const { cardFieldsForm, fields } = usePayPalCardFields();
 
-  const handleSubmit = useCallback(async () => {
+  const handleClick = async () => {
     if (!cardFieldsForm) {
-      setIsProcessing(false)
+      const childErrorMessage =
+        "Unable to find any child components in the <PayPalCardFieldsProvider />";
 
-      return
+      throw new Error(childErrorMessage);
     }
+    const formState = await cardFieldsForm.getState();
 
-    setIsProcessing(true)
-
-    try {
-      await cardFieldsForm.submit()
-    } catch (err) {
-      console.error("[PayPal Card] submit error:", err)
-
-      setIsProcessing(false)
+    if (!formState.isFormValid) {
+      return alert("The payment form is invalid");
     }
-  }, [cardFieldsForm, setIsProcessing])
+    setIsPaying(true);
 
-  useEffect(() => {
-    const handler = () => {
-      void handleSubmit()
-    }
-
-    window.addEventListener("paypal-card-submit", handler)
-
-    return () => {
-      window.removeEventListener("paypal-card-submit", handler)
-    }
-  }, [handleSubmit])
+    cardFieldsForm.submit({ billingAddress }).catch((err) => {
+      setIsPaying(false);
+    });
+  };
 
   return (
-    <div className="w-full space-y-4">
-      <PayPalCardFieldsForm />
-
-      <ErrorMessage error={error} />
-
-      <p className="pt-2 text-center text-[10px] text-muted-foreground sm:text-xs">
-        Your card details are processed securely by PayPal.
-      </p>
-
-      {isProcessing && (
-        <div className="flex items-center justify-center gap-2">
-          <Loader2 className="h-4 w-4 animate-spin" />
-          <span className="text-sm">
-            Processing payment...
-          </span>
-        </div>
-      )}
-    </div>
-  )
-}
+    <button
+      className={isPaying ? "btn" : "btn btn-primary"}
+      style={{ float: "right" }}
+      onClick={handleClick}
+    >
+      {isPaying ? <div className="spinner tiny" /> : "Pay"}
+    </button>
+  );
+};

@@ -1,24 +1,24 @@
 "use client"
 
 import { AlertTriangle } from "lucide-react"
-import { motion } from "motion/react"
+import { div as Div } from "motion/react-client"
 import Button from "@/ui/button"
 
 export default function CheckError({ error, reset, }: { error: Error & { digest?: string }; reset: () => void }) {
   return (
-    <motion.div
+    <Div
       className="lg:col-span-10 flex flex-col items-center justify-center min-h-[50vh] text-center px-4 space-y-4"
       initial={{ scale: 0.95, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
       transition={{ type: "spring", stiffness: 300, damping: 25 }}
     >
-      <motion.div
+      <Div
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
         transition={{ type: "spring", stiffness: 400, damping: 20, delay: 0.1 }}
       >
         <AlertTriangle className="w-12 h-12 text-warning" />
-      </motion.div>
+      </Div>
 
       <h1 className="text-lg sm:text-xl font-semibold text-foreground">
         Something went wrong
@@ -29,6 +29,6 @@ export default function CheckError({ error, reset, }: { error: Error & { digest?
       <Button onClick={reset} variant="primary" size="md">
         Try Again
       </Button>
-    </motion.div>
+    </Div>
   )
 }

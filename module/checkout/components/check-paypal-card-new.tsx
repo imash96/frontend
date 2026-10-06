@@ -112,11 +112,7 @@ export default function CheckPayPalCard({ cart }: { cart: StoreCart }) {
  * so that the external "Pay with Card" button can trigger the card form
  * submission.
  */
-function CardFormInner({
-  submitting,
-  setSubmitting,
-  error,
-}: {
+function CardFormInner({ submitting, setSubmitting, error, }: {
   submitting: boolean
   setSubmitting: (v: boolean) => void
   error: string | null

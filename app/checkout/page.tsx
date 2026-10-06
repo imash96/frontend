@@ -1,11 +1,5 @@
 import { notFound, redirect } from "next/navigation"
-import {
-  getCheckCart,
-  getCheckCustomer,
-  getCheckPaymentMethods,
-  getCheckShippingMethods,
-  markPaymentComplete,
-} from "@/lib/action/checkout"
+import { getCheckCart, getCheckCustomer, getCheckPaymentMethods, getCheckShippingMethods, } from "@/lib/action/checkout"
 import CheckProgress from "@/module/checkout/templates/check-progress"
 import CheckStoreInitializer from "@/module/checkout/templates/check-store-initializer"
 import CheckSummary from "@/module/checkout/templates/check-summary"
@@ -14,8 +8,6 @@ import StepAddress from "@/module/checkout/templates/step-address"
 import StepPayment from "@/module/checkout/templates/step-payment"
 import StepShipping from "@/module/checkout/templates/step-shipping"
 import type { StepType } from "@/types/common"
-import Button from "@/ui/button"
-import CheckPageButton from "./del"
 
 /* Checkout is fully user-specific (reads cookies for auth + cart ID) */
 export const instant = false
@@ -69,11 +61,7 @@ export default async function CheckPage() {
   const hasAddress = !!cart.shipping_address?.address_1
   const hasShipping = !!(cart.shipping_methods?.length)
 
-  const initialStep: StepType = !hasAddress
-    ? "address"
-    : !hasShipping
-      ? "shipping"
-      : "payment"
+  const initialStep: StepType = !hasAddress ? "address" : !hasShipping ? "shipping" : "payment"
 
   const initialCompleted: StepType[] = []
   if (hasAddress) initialCompleted.push("address")
@@ -97,7 +85,6 @@ export default async function CheckPage() {
       {/* Order summary sidebar */}
       <div className="lg:col-span-4 lg:sticky lg:top-24 lg:self-start w-full order-1 lg:order-2">
         <CheckSummary cart={cart} />
-        <CheckPageButton cart={cart} />
       </div>
     </>
   )

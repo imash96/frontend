@@ -84,7 +84,7 @@ function Channels() {
                                 <div className="text-xs tracking-widest text-foreground-tertiary uppercase">
                                     {title}
                                 </div>
-                                <div className="text-foreground mt-1 text-sm break-words font-medium">
+                                <div className="text-foreground mt-1 text-sm wrap-break-word font-medium">
                                     {content}
                                 </div>
                             </div>

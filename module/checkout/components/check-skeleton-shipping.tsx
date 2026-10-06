@@ -1,12 +1,10 @@
-"use client"
-
-import { motion } from "motion/react"
+import { div as Div } from "motion/react-client";
 
 export default function CheckSkeletonShipping() {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
       {[0, 1].map((i) => (
-        <motion.div
+        <Div
           key={i}
           className="rounded-xl border border-border p-3 sm:p-4 space-y-2"
           initial={{ opacity: 0, y: 8 }}
@@ -22,7 +20,7 @@ export default function CheckSkeletonShipping() {
             <div className="h-3 w-36 rounded skeleton-shimmer" />
           </div>
           <div className="h-4 w-20 rounded skeleton-shimmer mt-2" />
-        </motion.div>
+        </Div>
       ))}
     </div>
   )

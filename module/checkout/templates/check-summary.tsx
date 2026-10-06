@@ -2,7 +2,8 @@
 
 import type { StoreCart } from "@medusajs/types"
 import { ChevronDown, ChevronUp, ShoppingBag } from "lucide-react"
-import { AnimatePresence, motion } from "motion/react"
+import { AnimatePresence } from "motion/react"
+import { div as Div } from "motion/react-client";
 import { useState } from "react"
 import { convertToLocale } from "@/lib/util/money"
 import CheckDiscount from "../components/check-discount"
@@ -53,7 +54,7 @@ export default function CheckSummary({ cart }: { cart: StoreCart }) {
       {/* Content - animated on mobile */}
       <AnimatePresence initial={false}>
         {isExpanded && (
-          <motion.div
+          <Div
             id="check-summary-content"
             className="lg:hidden overflow-hidden"
             initial={{ height: 0, opacity: 0 }}
@@ -71,7 +72,7 @@ export default function CheckSummary({ cart }: { cart: StoreCart }) {
               gift_card_total={gift_card_total}
               total={total}
             />
-          </motion.div>
+          </Div>
         )}
       </AnimatePresence>
 

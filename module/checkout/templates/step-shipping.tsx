@@ -2,7 +2,8 @@
 
 import type { StoreCart, StoreCartShippingOption } from "@medusajs/types"
 import { Truck } from "lucide-react"
-import { AnimatePresence, motion } from "motion/react"
+import { AnimatePresence } from "motion/react"
+import { div as Div } from "motion/react-client";
 import { useCheckStore } from "@/lib/store/checkout-store"
 import CheckShippingList from "../components/check-shipping-list"
 import CheckShippingShow from "../components/check-shipping-show"
@@ -24,7 +25,7 @@ export default function StepShipping({ cart, availableMethods }: ShippingProps) 
 
       <AnimatePresence mode="wait">
         {isOpen ? (
-          <motion.div
+          <Div
             key="shipping-list"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
@@ -37,10 +38,10 @@ export default function StepShipping({ cart, availableMethods }: ShippingProps) 
               currencyCode={cart.currency_code}
               selectedMethodId={cart.shipping_methods?.at(0)?.shipping_option_id}
             />
-          </motion.div>
+          </Div>
         ) : (
           currentStep !== "address" && (
-            <motion.div
+            <Div
               key="shipping-show"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -51,7 +52,7 @@ export default function StepShipping({ cart, availableMethods }: ShippingProps) 
                 methods={cart.shipping_methods}
                 currencyCode={cart.currency_code}
               />
-            </motion.div>
+            </Div>
           )
         )}
       </AnimatePresence>

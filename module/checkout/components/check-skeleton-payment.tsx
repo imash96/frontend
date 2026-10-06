@@ -1,12 +1,10 @@
-"use client"
-
-import { motion } from "motion/react"
+import { div as Div } from "motion/react-client";
 
 export default function CheckSkeletonPayment() {
   return (
     <div className="grid gap-2 sm:gap-3">
       {[0, 1, 2, 3].map((i) => (
-        <motion.div
+        <Div
           key={i}
           className="flex items-center gap-2.5 sm:gap-3 p-3 sm:p-4 border border-border rounded-lg"
           initial={{ opacity: 0, y: 8 }}
@@ -19,7 +17,7 @@ export default function CheckSkeletonPayment() {
             <div className="h-3 w-48 rounded skeleton-shimmer" />
           </div>
           <div className="w-6 h-6 sm:w-7 sm:h-7 rounded skeleton-shimmer shrink-0" />
-        </motion.div>
+        </Div>
       ))}
     </div>
   )

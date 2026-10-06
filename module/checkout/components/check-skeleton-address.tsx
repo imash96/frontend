@@ -1,6 +1,4 @@
-"use client"
-
-import { motion } from "motion/react"
+import { div as Div } from "motion/react-client";
 
 export default function CheckSkeletonAddress() {
   return (
@@ -44,7 +42,7 @@ function Bone({
   delay?: number
 }) {
   return (
-    <motion.div
+    <Div
       className={`skeleton-shimmer ${className}`}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}

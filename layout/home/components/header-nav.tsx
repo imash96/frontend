@@ -1,7 +1,8 @@
 "use client"
 
 import { ArrowRight, ArrowUpRight, ChevronDown, Sparkles } from "lucide-react"
-import { AnimatePresence, motion } from "motion/react"
+import { AnimatePresence, } from "motion/react"
+import { span as Span, div as Div, img as Img } from "motion/react-client"
 import type { Route } from "next";
 import Link from "next/link"
 import { useCallback, useRef, useState } from "react"
@@ -89,7 +90,7 @@ export default function HeaderNav() {
                         />
                         {/* Animated active underline */}
                         {activeMenu === cat.name && (
-                            <motion.span
+                            <Span
                                 layoutId="nav-underline"
                                 className="absolute -bottom-px left-3 right-3 h-px bg-accent"
                                 transition={{ duration: 0.18, ease: [0.4, 0, 0.2, 1] }}
@@ -152,7 +153,7 @@ function MegaPanel({ category, onMouseEnter, onMouseLeave, onClose }: MegaPanelP
     const heroBadge = hoveredSub ? "Category" : "Collection"
 
     return (
-        <motion.div
+        <Div
             role="region"
             aria-label={`${category.name} mega menu`}
             initial={{ opacity: 0, y: -8 }}
@@ -245,7 +246,7 @@ function MegaPanel({ category, onMouseEnter, onMouseLeave, onClose }: MegaPanelP
                     </div>
                 </Container>
             </div>
-        </motion.div>
+        </Div>
     )
 }
 
@@ -266,7 +267,7 @@ export function HeroPanelImage({ src, label, description, href, badge, onClose }
             {/* Background image */}
             <AnimatePresence mode="wait">
                 {src && (
-                    <motion.img
+                    <Img
                         key={src}
                         src={src}
                         alt={label}
@@ -288,7 +289,7 @@ export function HeroPanelImage({ src, label, description, href, badge, onClose }
             {/* Center content */}
             <div className="relative z-10 text-center px-5">
                 <AnimatePresence mode="wait">
-                    <motion.div
+                    <Div
                         key={label}
                         initial={{ opacity: 0, y: 16 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -314,7 +315,7 @@ export function HeroPanelImage({ src, label, description, href, badge, onClose }
                             Shop Now
                             <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
                         </Link>
-                    </motion.div>
+                    </Div>
                 </AnimatePresence>
             </div>
         </div>
@@ -343,7 +344,7 @@ function HeroPanelImageV1({
             {/* Background image */}
             <AnimatePresence mode="wait">
                 {src && (
-                    <motion.img
+                    <Img
                         key={src}
                         src={src}
                         alt={label}
@@ -371,7 +372,7 @@ function HeroPanelImageV1({
             {/* Text content */}
             <div className="absolute bottom-0 left-0 right-0 p-5">
                 <AnimatePresence mode="wait">
-                    <motion.div
+                    <Div
                         key={label}
                         initial={{ opacity: 0, y: 8 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -404,7 +405,7 @@ function HeroPanelImageV1({
                                 aria-hidden="true"
                             />
                         </Link>
-                    </motion.div>
+                    </Div>
                 </AnimatePresence>
             </div>
         </div>
@@ -431,7 +432,7 @@ function MegaColumn({
 }: MegaColumnProps) {
     const children = category.category_children ?? [];
     return (
-        <motion.div
+        <Div
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.04, duration: 0.22, ease: [0.4, 0, 0.2, 1] }}
@@ -441,7 +442,7 @@ function MegaColumn({
             <Link href={`/categories/${category.handle}`} className="block mb-4 group/head">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2.5">
-                        <motion.div
+                        <Div
                             className="w-2 h-2 rounded-xs shrink-0"
                             initial={false}
                             animate={{
@@ -521,6 +522,6 @@ function MegaColumn({
                 </Link>
             </div>
 
-        </motion.div>
+        </Div>
     );
 }

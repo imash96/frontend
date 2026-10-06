@@ -2,7 +2,8 @@
 
 import type { StoreCart, StoreCustomer } from "@medusajs/types"
 import { BookUser } from "lucide-react"
-import { AnimatePresence, motion } from "motion/react"
+import { AnimatePresence } from "motion/react"
+import { div as Div } from "motion/react-client";
 import { useCheckStore } from "@/lib/store/checkout-store"
 import CheckAddressCard from "../components/check-address-card"
 import CheckAddressForm from "../components/check-address-form"
@@ -24,7 +25,7 @@ export default function StepAddress({ cart, customer }: StepAddressProps) {
 
       <AnimatePresence mode="wait">
         {isOpen ? (
-          <motion.div
+          <Div
             key="address-form"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
@@ -32,9 +33,9 @@ export default function StepAddress({ cart, customer }: StepAddressProps) {
             transition={{ duration: 0.3, ease: "easeInOut" }}
           >
             <CheckAddressForm cart={cart} />
-          </motion.div>
+          </Div>
         ) : (
-          <motion.div
+          <Div
             key="address-cards"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -54,7 +55,7 @@ export default function StepAddress({ cart, customer }: StepAddressProps) {
                 type="Billing"
               />
             </div>
-          </motion.div>
+          </Div>
         )}
       </AnimatePresence>
     </div>

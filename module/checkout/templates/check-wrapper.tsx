@@ -1,18 +1,15 @@
 "use client"
 
 import type { StoreCart } from "@medusajs/types"
-import {
-  PayPalScriptProvider,
-  type ReactPayPalScriptOptions,
-} from "@paypal/react-paypal-js"
-import { Elements } from "@stripe/react-stripe-js"
-import { loadStripe } from "@stripe/stripe-js"
+import { PayPalScriptProvider, type ReactPayPalScriptOptions, } from "@paypal/react-paypal-js"
+// import { Elements } from "@stripe/react-stripe-js"
+// import { loadStripe } from "@stripe/stripe-js"
 import { useEffect, useState } from "react"
-import { isPaypal, isStripe } from "@/lib/constant"
+import { isPaypal } from "@/lib/constant"
 import { createToken } from "@/lib/action/checkout"
 
-const stripeKey = process.env.NEXT_PUBLIC_STRIPE_KEY
-const stripePromise = stripeKey ? loadStripe(stripeKey) : null
+// const stripeKey = process.env.NEXT_PUBLIC_STRIPE_KEY
+// const stripePromise = stripeKey ? loadStripe(stripeKey) : null
 
 export default function CheckWrapper({
   cart,
@@ -25,39 +22,39 @@ export default function CheckWrapper({
   )
 
   // --- Stripe ---
-  if (
-    paymentSession &&
-    stripePromise &&
-    isStripe(paymentSession.provider_id)
-  ) {
-    const clientSecret = paymentSession.data?.client_secret as string
-    const isAuthorized = ["requires_capture", "succeeded"].includes(
-      paymentSession.data?.status as string,
-    )
+  // if (
+  //   paymentSession &&
+  //   stripePromise &&
+  //   isStripe(paymentSession.provider_id)
+  // ) {
+  //   const clientSecret = paymentSession.data?.client_secret as string
+  //   const isAuthorized = ["requires_capture", "succeeded"].includes(
+  //     paymentSession.data?.status as string,
+  //   )
 
-    if (isAuthorized) {
-      return <>{children}</>
-    }
+  //   if (isAuthorized) {
+  //     return <>{children}</>
+  //   }
 
-    return (
-      <Elements
-        stripe={stripePromise}
-        options={{
-          clientSecret,
-          appearance: {
-            theme: "flat",
-            "labels": "floating",
-            variables: {
-              borderRadius: "8px",
-              fontFamily: "Inter, system-ui, sans-serif",
-            },
-          },
-        }}
-      >
-        {children}
-      </Elements>
-    )
-  }
+  //   return (
+  //     <Elements
+  //       stripe={stripePromise}
+  //       options={{
+  //         clientSecret,
+  //         appearance: {
+  //           theme: "flat",
+  //           "labels": "floating",
+  //           variables: {
+  //             borderRadius: "8px",
+  //             fontFamily: "Inter, system-ui, sans-serif",
+  //           },
+  //         },
+  //       }}
+  //     >
+  //       {children}
+  //     </Elements>
+  //   )
+  // }
 
   // --- PayPal (standard + card fields) ---
   const paypalClientId = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID as string
@@ -139,6 +136,8 @@ function PayPalWrapper({
     clientId: paypalClientId,
     currency: currency.toUpperCase(),
     intent: "capture",
+    "enableFunding": "venmo",
+    "disableFunding": "",
     dataPageType: "checkout",
     components: "buttons,card-fields",
     ...(isCardFields && clientToken

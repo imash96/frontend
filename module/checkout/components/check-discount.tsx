@@ -2,9 +2,10 @@
 
 import type { StoreCart } from "@medusajs/types"
 import { Loader2, Tag, X } from "lucide-react"
-import { AnimatePresence, motion } from "motion/react"
+import { AnimatePresence } from "motion/react"
 import { useState, useTransition } from "react"
 import { applyCheckDiscount, removeCheckDiscount } from "@/lib/action/checkout"
+import { div as Div, p as P, span as Span } from "motion/react-client";
 
 export default function CheckDiscount({ cart }: { cart: StoreCart }) {
   const [isOpen, setIsOpen] = useState(false)
@@ -60,7 +61,7 @@ export default function CheckDiscount({ cart }: { cart: StoreCart }) {
 
       <AnimatePresence>
         {isOpen && (
-          <motion.div
+          <Div
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
@@ -97,7 +98,7 @@ export default function CheckDiscount({ cart }: { cart: StoreCart }) {
               {/* Error message */}
               <AnimatePresence>
                 {error && (
-                  <motion.p
+                  <P
                     initial={{ y: -8, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     exit={{ y: -8, opacity: 0 }}
@@ -105,14 +106,14 @@ export default function CheckDiscount({ cart }: { cart: StoreCart }) {
                     className="text-xs text-destructive"
                   >
                     {error}
-                  </motion.p>
+                  </P>
                 )}
               </AnimatePresence>
 
               {/* Success message */}
               <AnimatePresence>
                 {success && (
-                  <motion.p
+                  <P
                     initial={{ y: -8, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     exit={{ y: -8, opacity: 0 }}
@@ -120,7 +121,7 @@ export default function CheckDiscount({ cart }: { cart: StoreCart }) {
                     className="text-xs text-green-600"
                   >
                     Promo code applied!
-                  </motion.p>
+                  </P>
                 )}
               </AnimatePresence>
 
@@ -129,7 +130,7 @@ export default function CheckDiscount({ cart }: { cart: StoreCart }) {
                 <div className="flex flex-wrap gap-1.5 pt-1">
                   <AnimatePresence>
                     {appliedCodes.map((appliedCode) => (
-                      <motion.span
+                      <Span
                         key={appliedCode}
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
@@ -152,13 +153,13 @@ export default function CheckDiscount({ cart }: { cart: StoreCart }) {
                             <X className="w-3 h-3" />
                           )}
                         </button>
-                      </motion.span>
+                      </Span>
                     ))}
                   </AnimatePresence>
                 </div>
               )}
             </div>
-          </motion.div>
+          </Div>
         )}
       </AnimatePresence>
     </div>

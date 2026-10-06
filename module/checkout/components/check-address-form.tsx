@@ -1,7 +1,8 @@
 "use client"
 
 import type { StoreCart } from "@medusajs/types"
-import { AnimatePresence, motion } from "motion/react"
+import { AnimatePresence } from "motion/react"
+import { div as Div } from "motion/react-client";
 import { useActionState, useEffect, useMemo } from "react"
 import { setCheckAddresses } from "@/lib/action/checkout"
 import { useToggleState } from "@/lib/hook/use-toggle-state"
@@ -74,7 +75,7 @@ export default function CheckAddressForm({ cart }: { cart: StoreCart }) {
 
       <AnimatePresence mode="wait">
         {!sameAsBilling && (
-          <motion.div
+          <Div
             key="billing-fields"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
@@ -86,7 +87,7 @@ export default function CheckAddressForm({ cart }: { cart: StoreCart }) {
               data={cart.billing_address}
               countryOptions={countryOptions}
             />
-          </motion.div>
+          </Div>
         )}
       </AnimatePresence>
 
@@ -101,7 +102,7 @@ export default function CheckAddressForm({ cart }: { cart: StoreCart }) {
         </Button>
         <AnimatePresence>
           {addressState.error && (
-            <motion.div
+            <Div
               initial={{ y: -8, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: -8, opacity: 0 }}
@@ -111,7 +112,7 @@ export default function CheckAddressForm({ cart }: { cart: StoreCart }) {
               aria-live="polite"
             >
               {addressState.error}
-            </motion.div>
+            </Div>
           )}
         </AnimatePresence>
       </div>
