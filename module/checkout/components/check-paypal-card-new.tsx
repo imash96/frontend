@@ -60,7 +60,7 @@ export default function CheckPayPalCard({ cart }: { cart: StoreCart }) {
       )}
 
       <PayPalCardFieldsProvider
-        style={cardStyle}
+        style={cardStyle as any}
         createOrder={async () => {
           setError(null)
           const r = await createOrder(cart.id, true)
@@ -83,16 +83,19 @@ export default function CheckPayPalCard({ cart }: { cart: StoreCart }) {
             console.error("[PayPal Card] payment failed:", msg)
           } finally {
             setSubmitting(false)
+            window.dispatchEvent(new CustomEvent("paypal-card-submit-done"))
           }
         }}
         onCancel={() => {
           setSubmitting(false)
+          window.dispatchEvent(new CustomEvent("paypal-card-submit-done"))
         }}
         onError={(e: Error | { message?: string }) => {
           const msg = e instanceof Error ? e.message : e?.message || "CardFields error"
           setError(msg)
           console.error("[PayPal Card] payment failed:", msg)
           setSubmitting(false)
+          window.dispatchEvent(new CustomEvent("paypal-card-submit-done"))
         }}
       >
         <CardFormInner
@@ -120,13 +123,17 @@ function CardFormInner({ submitting, setSubmitting, error, }: {
   const { cardFieldsForm } = usePayPalCardFields()
 
   const handleSubmit = useCallback(async () => {
-    if (!cardFieldsForm || submitting) return
+    if (!cardFieldsForm || submitting) {
+      window.dispatchEvent(new CustomEvent("paypal-card-submit-done"))
+      return
+    }
     setSubmitting(true)
     try {
       await cardFieldsForm.submit()
     } catch (err) {
       console.error("[PayPal Card] submit error:", err)
       setSubmitting(false)
+      window.dispatchEvent(new CustomEvent("paypal-card-submit-done"))
     }
   }, [cardFieldsForm, submitting, setSubmitting])
 

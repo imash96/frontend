@@ -4,7 +4,7 @@ import { devtools } from "zustand/middleware"
 import { addToCart } from "@/lib/action/cart"
 import { getProductPrice, type ProductCalculatedPrice } from "@/lib/util/get-product-price"
 
-type VariantOptions = Record<string, string | undefined>
+export type VariantOptions = Record<string, string | undefined>
 
 type ProductState = {
     product: StoreProduct | null
@@ -27,11 +27,11 @@ type ProductState = {
     setQuantity: (quantity: number) => void
     incrementQuantity: () => void
     decrementQuantity: () => void
-    handleAddToCart: () => Promise<boolean>
+    handleAddToCart: (metadata?: Record<string, unknown>) => Promise<boolean>
     reset: () => void
 }
 
-const optionsAsKeymap = (variantOptions: StoreProductVariant["options"]): VariantOptions =>
+export const optionsAsKeymap = (variantOptions: StoreProductVariant["options"]): VariantOptions =>
     (variantOptions ?? []).reduce((acc: VariantOptions, v: any) => {
         // option_id may not be in the API response when only `variants.options.option`
         // is requested — fall back to the nested relation's id
@@ -47,6 +47,39 @@ const areOptionsEqual = (a: VariantOptions, b: VariantOptions) => {
     // Both empty → match (single-variant product with no options)
     if (aKeys.length === 0) return true
     return aKeys.every((k) => a[k] !== undefined && a[k] === b[k])
+}
+
+export function isVariantInStock(v?: StoreProductVariant | null): boolean {
+    if (!v) return false
+    if (!v.manage_inventory) return true
+    if (v.allow_backorder) return true
+    return (v.inventory_quantity ?? 0) > 0
+}
+
+/**
+ * Checks whether selecting `value` for `optionId` (given `currentOptions`)
+ * matches at least one variant that is in stock.
+ */
+export function isOptionValueInStock(
+    product: StoreProduct | null | undefined,
+    currentOptions: VariantOptions,
+    optionId: string,
+    value: string
+): boolean {
+    if (!product?.variants?.length) return true
+    const testOptions = { ...currentOptions, [optionId]: value }
+    // Check if there is an exact match with current other options that is in stock
+    const exactMatch = product.variants.find((v) => {
+        const map = optionsAsKeymap(v.options)
+        return Object.entries(testOptions).every(([k, val]) => !val || map[k] === val)
+    })
+    if (exactMatch) return isVariantInStock(exactMatch)
+
+    // Otherwise check if any variant with this option value is in stock
+    return product.variants.some((v) => {
+        const map = optionsAsKeymap(v.options)
+        return map[optionId] === value && isVariantInStock(v)
+    })
 }
 
 /**
@@ -119,10 +152,25 @@ export const useProductStore = create<ProductState>()(
             ...DEFAULT_SLICE,
 
             setProduct: (product, countryCode) => {
-                // Pre-fill any option that only has one possible value
                 const autoOptions: VariantOptions = {}
+
+                // Pre-fill from the first in-stock variant (or first variant by rank)
+                const sortedVariants = [...(product.variants ?? [])].sort(
+                    (a, b) => ((a as any).variant_rank ?? Infinity) - ((b as any).variant_rank ?? Infinity)
+                )
+                const defaultVariant =
+                    sortedVariants.find((v) => isVariantInStock(v)) ?? sortedVariants[0]
+
+                if (defaultVariant?.options) {
+                    const mapped = optionsAsKeymap(defaultVariant.options)
+                    for (const [k, v] of Object.entries(mapped)) {
+                        if (v) autoOptions[k] = v
+                    }
+                }
+
+                // Ensure any single-value option is also populated
                 product.options?.forEach((option) => {
-                    if (option.values?.length === 1) {
+                    if (option.values?.length && !autoOptions[option.id]) {
                         autoOptions[option.id] = option.values[0].value
                     }
                 })
@@ -170,13 +218,18 @@ export const useProductStore = create<ProductState>()(
                 if (quantity > 1) set({ quantity: quantity - 1 })
             },
 
-            handleAddToCart: async () => {
+            handleAddToCart: async (metadata?: Record<string, unknown>) => {
                 const { selectedVariant, countryCode, quantity, isPending } = get()
                 if (!selectedVariant?.id || isPending) return false
 
                 set({ isPending: true, lastError: null })
                 try {
-                    await addToCart({ variantId: selectedVariant.id, quantity, countryCode })
+                    await addToCart({
+                        variantId: selectedVariant.id,
+                        quantity,
+                        countryCode,
+                        metadata,
+                    })
                     return true
                 } catch (error) {
                     set({ lastError: error instanceof Error ? error.message : "Could not add this item to your bag." })
@@ -194,11 +247,6 @@ export const useProductStore = create<ProductState>()(
 
 // ─── Cached first-variant lookup ───
 
-/**
- * Returns the first variant of a product sorted by variant_rank.
- * The result is cached per product reference via a WeakMap, so
- * repeated calls (e.g. gallery re-renders) never re-sort.
- */
 const firstVariantCache = new WeakMap<StoreProduct, StoreProductVariant | null>()
 
 function getFirstVariant(product: StoreProduct): StoreProductVariant | null {
@@ -215,15 +263,6 @@ function getFirstVariant(product: StoreProduct): StoreProductVariant | null {
     return sorted[0]
 }
 
-/**
- * Derives the images to display in the gallery based on the currently
- * selected variant. Follows the fallback chain:
- *
- * 1. selectedVariant has images → variant images
- * 2. selectedVariant has NO images → product.images
- * 3. No variant selected → first variant (by variant_rank) images
- * 4. First variant also has NO images → product.images
- */
 export function getDisplayImages(product: StoreProduct, selectedVariant?: StoreProductVariant): StoreProductImage[] {
     const productImages = product.images ?? []
 
@@ -232,7 +271,6 @@ export function getDisplayImages(product: StoreProduct, selectedVariant?: StoreP
         return variantImages && variantImages.length > 0 ? variantImages : productImages
     }
 
-    // No variant selected - try the first variant by rank (cached)
     const firstVariant = getFirstVariant(product)
     if (firstVariant?.images && firstVariant.images.length > 0) {
         return firstVariant.images
@@ -243,12 +281,6 @@ export function getDisplayImages(product: StoreProduct, selectedVariant?: StoreP
 
 // ─── Swatch URL lookup ───
 
-/**
- * Builds a color-value → thumbnail URL lookup map for a product.
- * Uses the variant's `thumbnail` field for O(1) resolution.
- * Falls back to the variant's first image URL, then the product's first image.
- * The map is cached per product reference via a WeakMap.
- */
 const swatchMapCache = new WeakMap<StoreProduct, Map<string, string>>()
 
 function getSwatchMap(product: StoreProduct): Map<string, string> {
@@ -263,7 +295,6 @@ function getSwatchMap(product: StoreProduct): Map<string, string> {
             return title === "color" || title === "colour"
         })
         if (colorOpt && colorOpt.value && !map.has(colorOpt.value)) {
-            // Prefer thumbnail → first variant image → skip (caller handles fallback)
             const url = v.thumbnail ?? (v.images && v.images.length > 0 ? v.images[0].url : null)
             if (url) {
                 map.set(colorOpt.value, url)
@@ -275,10 +306,6 @@ function getSwatchMap(product: StoreProduct): Map<string, string> {
     return map
 }
 
-/**
- * Fast swatch URL lookup for a given color value.
- * Returns the variant thumbnail/image URL or the product's first image as fallback.
- */
 export function getSwatchUrl(product: StoreProduct, colorValue: string): string | null {
     const map = getSwatchMap(product)
     return map.get(colorValue) ?? product.images?.[0]?.url ?? null
