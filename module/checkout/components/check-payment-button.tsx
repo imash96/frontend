@@ -4,7 +4,7 @@ import type { StoreCart } from "@medusajs/types"
 import type { OnApproveActions, OnApproveData } from "@paypal/paypal-js"
 import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js"
 import { AlertCircle, Clock, CreditCard, Loader, Lock, Shield } from "lucide-react"
-import { useCallback, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { ERROR_MESSAGES } from "@/data/payment"
 import { captureOrder, createOrder, placeCheckOrder } from "@/lib/action/checkout"
 import { isManual, isPaypal, isPayU, isStripe } from "@/lib/constant"
@@ -334,6 +334,12 @@ function PayPalPaymentInner({
 function PayPalCardPayment({ cart, notReady, }: { cart: StoreCart; notReady: boolean }) {
   const { submitting, setSubmitting, error, handleError } = useCommonHandlers()
 
+  useEffect(() => {
+    const onDone = () => setSubmitting(false)
+    window.addEventListener("paypal-card-submit-done", onDone)
+    return () => window.removeEventListener("paypal-card-submit-done", onDone)
+  }, [setSubmitting])
+
   // PayPal Card Fields are rendered in the preview panel (check-paypal-card.tsx)
   // This button triggers the card fields form submission
   const handleSubmit = useCallback(async () => {
@@ -341,9 +347,6 @@ function PayPalCardPayment({ cart, notReady, }: { cart: StoreCart; notReady: boo
     setSubmitting(true)
 
     try {
-      // The PayPalCardFieldsProvider form is submitted programmatically
-      // through the card fields ref in the preview component
-      // For now, trigger via custom event
       const event = new CustomEvent("paypal-card-submit", {
         detail: { cart_id: cart.id },
       })
@@ -402,9 +405,12 @@ function PayUPayment({
 
     try {
       // Build a hidden form and submit it to redirect to PayU checkout
-      const payuUrl =
+      const rawUrl =
         (session?.data as Record<string, any>)?.paymentUrl ||
         "https://test.payu.in/_payment"
+      const payuUrl = /^https:\/\/(test\.|secure\.)?payu\.(in|com)\//i.test(String(rawUrl))
+        ? String(rawUrl)
+        : "https://test.payu.in/_payment"
 
       const form = document.createElement("form")
       form.method = "POST"

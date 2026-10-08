@@ -69,4 +69,14 @@ export const navLinks = [
         href: '/categories/gifting',
         badge: "New"
     },
+    {
+        label: 'Product Preview',
+        href: '/product-preview/milano-heritage-biker-jacket',
+        badge: "New"
+    },
+    {
+        label: 'Checkout Preview',
+        href: '/checkout-preview',
+        badge: "New"
+    },
 ];

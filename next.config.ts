@@ -7,7 +7,7 @@ const nextConfig: NextConfig = {
   },
   typedRoutes: true,
   reactStrictMode: true,
-  allowedDevOrigins: ['192.168.0.101'],
+  allowedDevOrigins: ['192.168.0.101', '*.e2b.app', '*.e2b.dev', 'localhost'],
   reactCompiler: true,
   cacheComponents: true,
   logging: {

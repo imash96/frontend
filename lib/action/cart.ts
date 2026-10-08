@@ -112,14 +112,18 @@ export async function addToCart({
     variantId,
     quantity,
     countryCode,
+    metadata,
 }: {
     variantId: string
     quantity: number
     countryCode: string
+    metadata?: Record<string, unknown>
 }) {
     if (!variantId) {
         throw new Error("Missing variant ID when adding to cart")
     }
+
+    const safeQuantity = Math.max(1, Math.min(99, Math.trunc(Number(quantity) || 1)))
 
     const cart = await getOrSetCart(countryCode)
 
@@ -136,7 +140,8 @@ export async function addToCart({
             cart.id,
             {
                 variant_id: variantId,
-                quantity,
+                quantity: safeQuantity,
+                ...(metadata && Object.keys(metadata).length > 0 ? { metadata } : {}),
             },
             {},
             headers

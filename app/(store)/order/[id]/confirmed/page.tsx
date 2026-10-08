@@ -27,6 +27,28 @@ export default async function Page(props: PageProps<"/order/[id]">) {
         sku: item.variant_sku,
         mnp: item.variant_barcode
     }))
+    const paymentProviderId = order.payment_collections?.[0]?.payments?.[0]?.provider_id
+    const paymentMethodLabel =
+        paymentProviderId === "pp_paypal_paypal"
+            ? "PayPal"
+            : paymentProviderId === "pp_paypal_card"
+              ? "Debit or Credit Card (via PayPal)"
+              : paymentProviderId?.startsWith("pp_payu_")
+                ? "PayU Secure Checkout"
+                : paymentProviderId?.startsWith("pp_system_")
+                  ? "Pay Later"
+                  : "Card / Online Payment"
+
+    const trustpilotPayload = JSON.stringify({
+        recipientEmail: order.email ?? "",
+        recipientName: `${order.shipping_address?.first_name ?? ""} ${order.shipping_address?.last_name ?? ""}`.trim(),
+        referenceId: order.id,
+        source: "InvitationScript",
+        productSkus: productSkus ?? [],
+        products: products ?? [],
+        tags: tags ?? [],
+    }).replace(/</g, "\\u003c")
+
     return (
         <ConfettiWarapper>
             <Container className="py-12 sm:py-16 lg:py-20 space-y-8 bg-background">
@@ -110,8 +132,8 @@ export default async function Page(props: PageProps<"/order/[id]">) {
                         </h2>
                         <div className="text-sm text-foreground-muted space-y-1">
                             <p>Email: {order.email}</p>
-                            <p>Method: {`Card (via Stripe)`}</p>
-                            <p>Status: {order.payment_status.charAt(0).toUpperCase() + order.payment_status.slice(1)}</p>
+                            <p>Method: {paymentMethodLabel}</p>
+                            <p>Status: {order.payment_status ? order.payment_status.charAt(0).toUpperCase() + order.payment_status.slice(1) : "Authorized"}</p>
                             <p>Amount: {convertToLocale({ amount: order.total, currency_code: order.currency_code })}</p>
                         </div>
                     </div>
@@ -127,7 +149,7 @@ export default async function Page(props: PageProps<"/order/[id]">) {
                         id="trustpilot-script"
                         strategy="lazyOnload"
                         dangerouslySetInnerHTML={{
-                            __html: `document.addEventListener('DOMContentLoaded', function() { const trustpilot_invitation = { recipientEmail: '${order.email}', recipientName: '${order.shipping_address?.first_name} ${order.shipping_address?.last_name}', referenceId: '${order.id}', source: 'InvitationScript', productSkus: ${JSON.stringify(productSkus)}, products: ${JSON.stringify(products)}, tags: '${JSON.stringify(tags)}' }; tp('createInvitation', trustpilot_invitation); });`,
+                            __html: `document.addEventListener('DOMContentLoaded', function() { const trustpilot_invitation = ${trustpilotPayload}; if (typeof tp === 'function') tp('createInvitation', trustpilot_invitation); });`,
                         }}
                     />
                 }

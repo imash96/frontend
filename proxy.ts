@@ -147,7 +147,12 @@ async function handleAuthRoutes(request: NextRequest, pathname: string): Promise
             const customer = await retrieveCustomer(token);
             if (customer.status === 200) {
                 const redirectParam = request.nextUrl.searchParams.get("redirect");
-                const redirectUrl = redirectParam && redirectParam.startsWith("/") ? redirectParam : "/account/profile";
+                const isSafeRelativeRedirect =
+                    typeof redirectParam === "string" &&
+                    redirectParam.startsWith("/") &&
+                    !redirectParam.startsWith("//") &&
+                    !redirectParam.includes("\\");
+                const redirectUrl = isSafeRelativeRedirect ? redirectParam : "/account/profile";
                 return NextResponse.redirect(new URL(redirectUrl, request.url));
             }
         } catch (error) {

@@ -19,7 +19,7 @@ export default async function CheckFooter() {
             width={200}
             loading="lazy"
             aria-hidden="true"
-            src="/storefront/images/contents/StripeBadge.png"
+            src="/images/contents/StripeBadge.png"
             alt="Stripe Payment Secure"
           />
           <p className="text-xs sm:text-sm">
