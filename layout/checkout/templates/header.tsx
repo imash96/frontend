@@ -11,6 +11,7 @@ export default async function CheckHeader() {
     <header className="sticky top-0 z-40 bg-background-muted/80 backdrop-blur-lg border-b border-border shadow-sm">
       <Container
         as="nav"
+        size="xl"
         aria-label="Checkout navigation"
         className="flex items-center justify-between h-14 sm:h-16 lg:h-18"
       >

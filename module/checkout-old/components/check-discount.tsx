@@ -4,7 +4,7 @@ import type { StoreCart } from "@medusajs/types"
 import { Loader2, Tag, X } from "lucide-react"
 import { AnimatePresence } from "motion/react"
 import { useState, useTransition } from "react"
-import { applyCheckDiscount, removeCheckDiscount } from "@/lib/action/checkout"
+import { applyDiscount, removeDiscount } from "@/lib/action/checkout"
 import { div as Div, p as P, span as Span } from "motion/react-client";
 
 export default function CheckDiscount({ cart }: { cart: StoreCart }) {
@@ -25,7 +25,7 @@ export default function CheckDiscount({ cart }: { cart: StoreCart }) {
 
     startTransition(async () => {
       try {
-        await applyCheckDiscount(code.trim())
+        await applyDiscount(code.trim())
         setCode("")
         setSuccess(true)
         setTimeout(() => setSuccess(false), 2000)
@@ -39,7 +39,7 @@ export default function CheckDiscount({ cart }: { cart: StoreCart }) {
     setRemovingCode(codeToRemove)
     startTransition(async () => {
       try {
-        await removeCheckDiscount(codeToRemove)
+        await removeDiscount(codeToRemove)
       } catch (err: any) {
         setError(err.message || "Failed to remove code")
       } finally {

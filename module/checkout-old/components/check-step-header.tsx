@@ -1,7 +1,7 @@
 "use client"
 
 import { Edit } from "lucide-react"
-import { useCheckStore } from "@/lib/store/checkout-store"
+import { useCheckoutStore } from "@/lib/store/checkout-store"
 import type { StepType } from "@/types/common"
 
 export default function CheckStepHeader({
@@ -11,7 +11,7 @@ export default function CheckStepHeader({
   showEdit,
   name,
 }: CheckStepHeaderProps) {
-  const setStep = useCheckStore((s) => s.setStep)
+  const setStep = useCheckoutStore((s) => s.setStep)
   const handleEdit = () => setStep(name)
 
   return (

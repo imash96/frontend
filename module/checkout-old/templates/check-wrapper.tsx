@@ -67,6 +67,7 @@ export default function CheckWrapper({
         paypalClientId={paypalClientId}
         currency={cart.currency_code}
         isCardFields={isCardFields}
+        buyerCountry={cart.billing_address?.country_code}
       >
         {children}
       </PayPalWrapper>
@@ -91,11 +92,13 @@ export default function CheckWrapper({
 function PayPalWrapper({
   paypalClientId,
   currency,
+  buyerCountry,
   isCardFields,
   children,
 }: {
   paypalClientId: string
   currency: string
+  buyerCountry?: string
   isCardFields: boolean
   children: React.ReactNode
 }) {
@@ -136,10 +139,11 @@ function PayPalWrapper({
     clientId: paypalClientId,
     currency: currency.toUpperCase(),
     intent: "capture",
-    "enableFunding": "venmo",
-    "disableFunding": "",
+    enableFunding: "venmo",
+    disableFunding: "",
     dataPageType: "checkout",
     components: "buttons,card-fields",
+    "buyer-country": "US",
     ...(isCardFields && clientToken
       ? { dataClientToken: clientToken }
       : {}),

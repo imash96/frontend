@@ -2,7 +2,7 @@
 
 import { Check, CreditCard, MapPin, Truck } from "lucide-react"
 import { div as Div } from "motion/react-client";
-import { useCheckStore } from "@/lib/store/checkout-store"
+import { useCheckoutStore } from "@/lib/store/checkout-store"
 import type { StepType } from "@/types/common"
 
 const steps: {
@@ -32,9 +32,9 @@ const steps: {
   ]
 
 export default function CheckProgress() {
-  const currentStep = useCheckStore((s) => s.currentStep)
-  const completedSteps = useCheckStore((s) => s.completedSteps)
-  const setStep = useCheckStore((s) => s.setStep)
+  const currentStep = useCheckoutStore((s) => s.currentStep)
+  const completedSteps = useCheckoutStore((s) => s.completedSteps)
+  const setStep = useCheckoutStore((s) => s.setStep)
   const currentIndex = steps.findIndex((s) => s.id === currentStep)
 
   return (

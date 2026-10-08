@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef } from "react"
-import { useCheckStore } from "@/lib/store/checkout-store"
+import { useCheckoutStore } from "@/lib/store/checkout-store"
 import type { StepType } from "@/types/common"
 
 /**
@@ -21,7 +21,7 @@ export default function CheckStoreInitializer({
     if (initialized.current) return
     initialized.current = true
 
-    const store = useCheckStore.getState()
+    const store = useCheckoutStore.getState()
     store.reset()
 
     // Set completed steps

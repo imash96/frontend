@@ -237,64 +237,25 @@ export async function initCheckPayment(cartId: string, providerId: string, colle
 // Discount / Promo Codes (additive apply, individual remove)
 // ────────────────────────────────────────────────────────────────────────────
 
-export async function applyCheckDiscount(code: string) {
+export async function applyDiscount(code: string) {
   const cartId = await getCartId()
   if (!cartId) throw new Error("No existing cart found")
 
   const headers = { ...(await getAuthHeaders()) }
 
-  // Fetch current promo codes from cart
-  const { cart } = await sdk.client.fetch<HttpTypes.StoreCartResponse>(
-    `/store/carts/${cartId}`,
-    {
-      method: "GET",
-      query: { fields: "+promotions.code" },
-      headers,
-    },
-  )
-
-  const existingCodes: string[] =
-    cart.promotions?.map((p: any) => p.code).filter(Boolean) ?? []
-
-  // Additive: keep existing + add new
-  const allCodes = [...new Set([...existingCodes, code])]
-
-  await sdk.store.cart.update(cartId, { promo_codes: allCodes }, {}, headers)
+  await sdk.store.cart.update(cartId, { promo_codes: [code] }, {}, headers)
   await updateCacheTags("carts", "fulfillment")
 
   return { success: true }
 }
 
-export async function removeCheckDiscount(code: string) {
+export async function removeDiscount(code: string) {
   const cartId = await getCartId()
   if (!cartId) throw new Error("No existing cart found")
 
   const headers = { ...(await getAuthHeaders()) }
 
-  // Fetch current promo codes from cart
-  const { cart } = await sdk.client.fetch<HttpTypes.StoreCartResponse>(
-    `/store/carts/${cartId}`,
-    {
-      method: "GET",
-      query: { fields: "+promotions.code" },
-      headers,
-    },
-  )
-
-  const existingCodes: string[] =
-    cart.promotions?.map((p: any) => p.code).filter(Boolean) ?? []
-
-  // Remove the target code
-  const remaining = existingCodes.filter(
-    (c) => c.toLowerCase() !== code.toLowerCase(),
-  )
-
-  await sdk.store.cart.update(
-    cartId,
-    { promo_codes: remaining },
-    {},
-    headers,
-  )
+  await sdk.store.cart.update(cartId, { promo_codes: [] }, {}, headers,)
   await updateCacheTags("carts", "fulfillment")
 
   return { success: true }

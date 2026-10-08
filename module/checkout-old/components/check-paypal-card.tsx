@@ -125,9 +125,6 @@ export default function CheckPayPalCard({ cart, }: { cart: StoreCart }) {
           <SubmitPayment
             isPaying={isPaying}
             setIsPaying={setIsPaying}
-            billingAddress={
-              cart.billing_address
-            }
           />
         </PayPalCardFieldsProvider>
       </div>
@@ -135,7 +132,7 @@ export default function CheckPayPalCard({ cart, }: { cart: StoreCart }) {
   )
 }
 
-const SubmitPayment = ({ isPaying, setIsPaying, billingAddress }: any) => {
+const SubmitPayment = ({ isPaying, setIsPaying }: any) => {
   const { cardFieldsForm, fields } = usePayPalCardFields();
 
   const handleClick = async () => {
@@ -151,10 +148,6 @@ const SubmitPayment = ({ isPaying, setIsPaying, billingAddress }: any) => {
       return alert("The payment form is invalid");
     }
     setIsPaying(true);
-
-    cardFieldsForm.submit({ billingAddress }).catch((err) => {
-      setIsPaying(false);
-    });
   };
 
   return (

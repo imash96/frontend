@@ -6,15 +6,15 @@ import { div as Div } from "motion/react-client";
 import { useActionState, useEffect, useMemo } from "react"
 import { setCheckAddresses } from "@/lib/action/checkout"
 import { useToggleState } from "@/lib/hook/use-toggle-state"
-import { useCheckStore } from "@/lib/store/checkout-store"
+import { useCheckoutStore } from "@/lib/store/checkout-store"
 import compareAddresses from "@/lib/util/compare-addresses"
 import Button from "@/ui/button"
 import CustomInput from "@/ui/input"
 import CustomSelect from "@/ui/native-select"
 
 export default function CheckAddressForm({ cart }: { cart: StoreCart }) {
-  const setStep = useCheckStore((s) => s.setStep)
-  const markCompleted = useCheckStore((s) => s.markCompleted)
+  const setStep = useCheckoutStore((s) => s.setStep)
+  const markCompleted = useCheckoutStore((s) => s.markCompleted)
 
   const [addressState, addressAction, isPending] = useActionState(
     setCheckAddresses,

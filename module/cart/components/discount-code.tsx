@@ -30,7 +30,7 @@ const handlePromoCode = async (
   }
 };
 
-export default function DiscountCode({ promotions, }: { promotions: StoreCartPromotion[]; }) {
+export default function OptimizeDiscountCode({ promotions, }: { promotions: StoreCartPromotion[]; }) {
   const [appliedCode, setAppliedCode] = useState<string | undefined>(promotions[0]?.code);
 
   const initialState: FormState = { success: false, error: null, message: undefined };

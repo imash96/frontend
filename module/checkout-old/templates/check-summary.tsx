@@ -11,18 +11,8 @@ import CheckLineItem from "../components/check-line-item"
 
 export default function CheckSummary({ cart }: { cart: StoreCart }) {
   const [isExpanded, setIsExpanded] = useState(false)
-  const {
-    currency_code,
-    total,
-    subtotal,
-    tax_total,
-    discount_total,
-    gift_card_total,
-    shipping_subtotal,
-  } = cart
-
-  const itemCount =
-    cart.items?.reduce((sum, item) => sum + item.quantity, 0) ?? 0
+  const { currency_code, total, subtotal, tax_total, discount_total, gift_card_total, shipping_subtotal, } = cart
+  const itemCount = cart.items?.reduce((sum, item) => sum + item.quantity, 0) ?? 0
 
   return (
     <div className="border border-border bg-background-elevated rounded-lg overflow-hidden">

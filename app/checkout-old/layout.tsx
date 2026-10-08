@@ -1,0 +1,27 @@
+import type { Metadata } from "next"
+import Container from "@/ui/container"
+import CheckHeader from "@/layout/checkout/templates/header"
+import CheckFooter from "@/layout/checkout/templates/footer"
+
+export default function CheckLayout({ children }: React.PropsWithChildren) {
+  return (
+    <>
+      <CheckHeader />
+      <Container
+        as="main"
+        size="lg"
+        className="flex-1 grid grid-cols-1 gap-x-8 lg:gap-x-14 gap-y-4 sm:gap-y-6 lg:gap-y-8 lg:grid-cols-10 py-4 sm:py-6 md:py-10 lg:py-14"
+        tabIndex={-1}
+      >
+        {children}
+      </Container>
+      <CheckFooter />
+    </>
+  )
+}
+
+export const metadata: Metadata = {
+  title: "Secure Checkout | Velle Hide Store",
+  description:
+    "Complete your purchase securely at Velle Hide Store. Pay with credit card, PayPal, or choose Pay Later.",
+}

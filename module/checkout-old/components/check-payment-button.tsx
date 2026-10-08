@@ -8,7 +8,7 @@ import { useCallback, useState } from "react"
 import { ERROR_MESSAGES } from "@/data/payment"
 import { captureOrder, createOrder, placeCheckOrder } from "@/lib/action/checkout"
 import { isManual, isPaypal, isPayU, isStripe } from "@/lib/constant"
-import { useCheckStore } from "@/lib/store/checkout-store"
+import { useCheckoutStore } from "@/lib/store/checkout-store"
 import ErrorMessage from "@/module/common/templates/error-message"
 import Button, { ButtonElementProps } from "@/ui/button"
 
@@ -312,10 +312,10 @@ function PayPalPaymentInner({
     <div className="space-y-3">
       <PayPalButtons
         style={{
-          layout: "horizontal",
           shape: "rect",
-          color: "blue",
-          height: 44,
+          layout: "horizontal",
+          color: "silver",
+          label: "paypal",
         }}
         createOrder={createPaypalOrder}
         onApprove={onApprove}
@@ -454,8 +454,8 @@ function PayUPayment({
 
 /* ═══════════════════ Manual Payment (Pay Later) ═══════════════════ */
 function ManualPayment({ notReady }: { notReady: boolean }) {
-  const setIsPending = useCheckStore((s) => s.setIsPending)
-  const isPending = useCheckStore((s) => s.isPending)
+  const setIsPending = useCheckoutStore((s) => s.setIsPending)
+  const isPending = useCheckoutStore((s) => s.isPending)
   const { submitting, setSubmitting, error, setError, handleError } =
     useCommonHandlers()
 

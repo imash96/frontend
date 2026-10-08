@@ -7,7 +7,7 @@ export default function ProductThumbnail({ src, alt, className = "", children, .
     const primaryUrl = (Array.isArray(src) ? src[0]?.url : src) || "/svg/placeholder.svg";
     const secondaryUrl = hasMultipleImages ? (src[1]?.url || "/svg/placeholder.svg") : null;
     return (
-        <div className={`relative aspect-3/4 w-full bg-same-white overflow-hidden no-scrollbar border border-border ${className}`}>
+        <div className={`relative aspect-3/4 bg-same-white overflow-hidden no-scrollbar border border-border group ${className}`}>
             {!src ? <Placeholder className="text-foreground-muted w-full h-full" /> :
                 <>
                     <img
