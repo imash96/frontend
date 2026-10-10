@@ -3,7 +3,7 @@
 import type { StoreCartShippingOption } from "@medusajs/types"
 import { CheckCircle, Clock, Loader2, Truck, TruckElectric } from "lucide-react"
 import { useState, useTransition } from "react"
-import { setCheckShipping } from "@/lib/action/checkout"
+import { setCheckoutShipping } from "@/lib/action/checkout"
 import { useCheckoutStore } from "@/lib/store/checkout-store"
 import { convertToLocale } from "@/lib/util/money"
 import { button as Button, div as Div } from "motion/react-client";
@@ -16,16 +16,15 @@ export default function CheckShippingList({
 }: CheckShippingListProps) {
   const [isPending, startTransition] = useTransition()
   const [pendingOptionId, setPendingOptionId] = useState<string | null>(null)
-  const setStep = useCheckoutStore((s) => s.setStep)
-  const markCompleted = useCheckoutStore((s) => s.markCompleted)
+  const { setStep, completeStep } = useCheckoutStore()
 
   function handleShippingMethod(optionId: string) {
     if (isPending || optionId === selectedMethodId) return
     setPendingOptionId(optionId)
     startTransition(async () => {
-      const res = await setCheckShipping(cartId, optionId)
+      const res = await setCheckoutShipping(optionId)
       if (res?.success) {
-        markCompleted("shipping")
+        completeStep("shipping")
         setStep("payment")
       }
       setPendingOptionId(null)

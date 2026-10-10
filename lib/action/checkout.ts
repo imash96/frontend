@@ -4,20 +4,16 @@ import { HttpTypes, StoreInitializePaymentSession } from "@medusajs/types"
 import { redirect } from "next/navigation"
 import { sdk } from "@/lib/sdk"
 import medusaError from "@/lib/util/medusa-error"
-import {
-  getAuthHeaders,
-  getCacheOptions,
-  getCartId,
-  removeCartId,
-  updateCacheTags,
-} from "./cookies"
+import { getAuthHeaders, getCacheOptions, getCartId, removeCartId, updateCacheTags, } from "./cookies"
+import { initiatePaymentSession } from "./cart"
+import { CART_FIELDS, isPayU } from "../constant"
 
-// ────────────────────────────────────────────────────────────────────────────
-// Cart
-// ────────────────────────────────────────────────────────────────────────────
-
-const CART_FIELDS =
-  "*items, *region, *items.product, *items.variant, *items.thumbnail, *items.metadata, +items.total, *promotions, +shipping_methods.name"
+async function resolveCartId(provided?: string) {
+  const cookieId = await getCartId()
+  if (!cookieId) throw new Error("No existing cart found")
+  if (provided && provided !== cookieId) throw new Error("Cart mismatch")
+  return cookieId
+}
 
 export async function getCheckCart() {
   const cartId = await getCartId()
@@ -42,8 +38,7 @@ export async function getCheckCart() {
 // Customer
 // ────────────────────────────────────────────────────────────────────────────
 
-export async function getCheckCustomer() {
-  const headers = { ...(await getAuthHeaders()) }
+export async function getCheckoutCustomer() {
   const next = { ...(await getCacheOptions("customers")) }
 
   return sdk.client
@@ -52,7 +47,7 @@ export async function getCheckCustomer() {
       query: {
         fields: "*orders",
       },
-      headers,
+      headers: await getAuthHeaders(),
       next,
       cache: "force-cache",
     })
@@ -60,113 +55,105 @@ export async function getCheckCustomer() {
     .catch(() => null)
 }
 
-// ────────────────────────────────────────────────────────────────────────────
-// Shipping Methods
-// ────────────────────────────────────────────────────────────────────────────
+// ─── Reads ──────────────────────────────────────────────────────────────────
 
-export async function getCheckShippingMethods(cartId: string) {
-  const headers = { ...(await getAuthHeaders()) }
-  const next = { ...(await getCacheOptions("fulfillment")) }
+export async function getCheckoutShippingMethods(cartId: string) {
+  const [headers, cacheOptions] = await Promise.all([authHeaders(), getCacheOptions("fulfillment")])
 
   return sdk.client
-    .fetch<HttpTypes.StoreShippingOptionListResponse>(
-      `/store/shipping-options`,
-      {
-        method: "GET",
-        query: { cart_id: cartId },
-        headers,
-        next,
-        cache: "force-cache",
-      },
-    )
+    .fetch<HttpTypes.StoreShippingOptionListResponse>(`/store/shipping-options`, {
+      method: "GET",
+      query: { cart_id: cartId },
+      headers,
+      next: { ...cacheOptions },
+      cache: "force-cache",
+    })
     .then(({ shipping_options }) => shipping_options)
     .catch(() => null)
 }
 
-// ────────────────────────────────────────────────────────────────────────────
-// Payment Methods
-// ────────────────────────────────────────────────────────────────────────────
-
-export async function getCheckPaymentMethods(regionId: string) {
-  const headers = { ...(await getAuthHeaders()) }
-  const next = { ...(await getCacheOptions("payment_providers")) }
+export async function getCheckoutPaymentMethods(regionId: string) {
+  const [headers, cacheOptions] = await Promise.all([
+    authHeaders(),
+    getCacheOptions("payment_providers"),
+  ])
 
   return sdk.client
-    .fetch<HttpTypes.StorePaymentProviderListResponse>(
-      `/store/payment-providers`,
-      {
-        method: "GET",
-        query: { region_id: regionId },
-        headers,
-        next,
-        cache: "force-cache",
-      },
-    )
+    .fetch<HttpTypes.StorePaymentProviderListResponse>(`/store/payment-providers`, {
+      method: "GET",
+      query: { region_id: regionId },
+      headers,
+      next: { ...cacheOptions },
+      cache: "force-cache",
+    })
     .then(({ payment_providers }) =>
-      payment_providers.sort((a, b) => (a.id > b.id ? 1 : -1)),
+      // copy first - sorting the response in place mutates the cached object
+      [...payment_providers].sort((a, b) => a.id.localeCompare(b.id)),
     )
     .catch(() => null)
 }
 
-// ────────────────────────────────────────────────────────────────────────────
-// Set Addresses (returns result, no redirect)
-// ────────────────────────────────────────────────────────────────────────────
+// ─── Address ────────────────────────────────────────────────────────────────
 
-export async function setCheckAddresses(
-  _currentState: unknown,
-  formData: FormData,
-) {
+/** Usable directly with useActionState. On success the caller should run store.completeStep("address"). */
+
+function readField(formData: FormData, key: string) {
+  const value = formData.get(key)
+  return typeof value === "string" ? value.trim() : ""
+}
+
+function readAddress(formData: FormData, prefix: "shipping_address" | "billing_address") {
+  const get = (name: string) => readField(formData, `${prefix}.${name}`)
+  return {
+    first_name: get("first_name"),
+    last_name: get("last_name"),
+    address_1: get("address_1"),
+    address_2: get("address_2"),
+    company: get("company"),
+    postal_code: get("postal_code"),
+    city: get("city"),
+    country_code: get("country_code").toLowerCase(),
+    province: get("province"),
+    phone: get("phone"),
+  }
+}
+
+function missingFields(address: ReturnType<typeof readAddress>) {
+  return REQUIRED_ADDRESS_FIELDS.filter((key) => !address[key]).map((key) => key.replace(/_/g, " "))
+}
+
+export async function setCheckoutAddresses(formData: FormData,) {
+  const cartId = await resolveCartId()
   try {
     if (!formData) {
       throw new Error("No form data found when setting addresses")
     }
-    const cartId = await getCartId()
-    if (!cartId) {
-      throw new Error("No existing cart found when setting addresses")
+    const email = readField(formData, "email")
+    if (!EMAIL_RE.test(email)) return fail("Enter a valid email address.")
+
+    const shipping = readAddress(formData, "shipping_address")
+    const shippingMissing = missingFields(shipping)
+    if (shippingMissing.length) return fail(`Please fill in: ${shippingMissing.join(", ")}.`)
+
+    let billing = shipping
+    if (readField(formData, "same_as_billing") !== "on") {
+      billing = readAddress(formData, "billing_address")
+      const billingMissing = missingFields(billing)
+      if (billingMissing.length) return fail(`Billing address - please fill in: ${billingMissing.join(", ")}.`)
     }
 
-    const headers = { ...(await getAuthHeaders()) }
-
-    const data = {
-      shipping_address: {
-        first_name: formData.get("shipping_address.first_name"),
-        last_name: formData.get("shipping_address.last_name"),
-        address_1: formData.get("shipping_address.address_1"),
-        address_2: formData.get("shipping_address.address_2") || "",
-        company: formData.get("shipping_address.company"),
-        postal_code: formData.get("shipping_address.postal_code"),
-        city: formData.get("shipping_address.city"),
-        country_code: formData.get("shipping_address.country_code"),
-        province: formData.get("shipping_address.province"),
-        phone: formData.get("shipping_address.phone"),
-      },
-      email: formData.get("email"),
-    } as any
-
-    const sameAsBilling = formData.get("same_as_billing")
-    if (sameAsBilling === "on") {
-      data.billing_address = data.shipping_address
-    } else {
-      data.billing_address = {
-        first_name: formData.get("billing_address.first_name"),
-        last_name: formData.get("billing_address.last_name"),
-        address_1: formData.get("billing_address.address_1"),
-        address_2: formData.get("billing_address.address_2") || "",
-        company: formData.get("billing_address.company"),
-        postal_code: formData.get("billing_address.postal_code"),
-        city: formData.get("billing_address.city"),
-        country_code: formData.get("billing_address.country_code"),
-        province: formData.get("billing_address.province"),
-        phone: formData.get("billing_address.phone"),
-      }
+    const data: HttpTypes.StoreUpdateCart = {
+      email,
+      shipping_address: shipping,
+      billing_address: billing,
     }
 
-    await sdk.store.cart.update(cartId, data, {}, headers)
-    await updateCacheTags("carts", "fulfillment")
+    await sdk.store.cart.update(cartId, data, {}, await authHeaders())
+    await updateCacheTags("carts", "fulfillment") // shipping options depend on the address
 
-    return { success: true, error: null }
-  } catch (e: any) {
-    return { success: false, error: e.message }
+    return OK
+  } catch (e) {
+    return fail(toMessage(e))
   }
 }
 
@@ -174,63 +161,64 @@ export async function setCheckAddresses(
 // Set Shipping Method
 // ────────────────────────────────────────────────────────────────────────────
 
-export async function setCheckShipping(cartId: string, optionId: string) {
-  const headers = { ...(await getAuthHeaders()) }
+export async function setCheckoutShipping(optionId: string) {
+  if (!optionId) return fail("Choose a delivery method.")
 
   try {
-    await sdk.store.cart.addShippingMethod(
-      cartId,
-      { option_id: optionId },
-      {},
-      headers,
-    )
+    const cartId = await resolveCartId()
+    await sdk.store.cart.addShippingMethod(cartId, { option_id: optionId }, {}, await authHeaders())
     await updateCacheTags("carts")
-    return { success: true, error: null }
-  } catch (err: any) {
-    return { success: false, error: err.message }
+    return OK
+  } catch (e) {
+    return fail(toMessage(e))
   }
 }
 
-// ────────────────────────────────────────────────────────────────────────────
-// Initiate Payment Session
-// ────────────────────────────────────────────────────────────────────────────
+// ─── Payment session ────────────────────────────────────────────────────────
 
-export async function initCheckPayment(cartId: string, providerId: string, collectionId?: string, extraData?: Record<string, unknown>,) {
-  const headers = { ...(await getAuthHeaders()) }
+/**
+ * Provider-specific session data is built here, not on the client, so the phone number /
+ * customer id sent to PayU can't be tampered with. PayU's plugin reads `shipping_address_phone`
+ * (not `phone`) plus `cart_id` / `customer_id` from the session data.
+ */
+async function buildPaymentData(cartId: string, providerId: string) {
+  const data: Record<string, unknown> = { payment_description: PAYMENT_DESCRIPTION }
 
-  if (!collectionId) {
-    collectionId = (
-      await sdk.client.fetch<HttpTypes.StorePaymentCollectionResponse>(
-        `/store/payment-collections`,
-        {
-          method: "POST",
-          headers,
-          body: { cart_id: cartId },
-        },
-      )
-    ).payment_collection.id
+  if (isPayU(providerId)) {
+    const { cart } = await sdk.store.cart.retrieve(
+      cartId,
+      { fields: "id,customer_id,*shipping_address,*billing_address" },
+      await authHeaders(),
+    )
+    const phone = cart.shipping_address?.phone || cart.billing_address?.phone
+    data.cart_id = cart.id
+    if (phone) data.shipping_address_phone = phone
+    if (cart.customer_id) data.customer_id = cart.customer_id
   }
 
-  return sdk.client
-    .fetch<HttpTypes.StorePaymentCollectionResponse>(
-      `/store/payment-collections/${collectionId}/payment-sessions`,
+  return data
+}
+
+export async function initCheckoutPayment(
+  cartId: string,
+  providerId: string,
+  collectionId?: string,
+): Promise<ActionResult> {
+  try {
+    const id = await resolveCartId(cartId)
+    await initiatePaymentSession(
+      id,
       {
-        method: "POST",
-        headers,
-        body: {
-          provider_id: providerId,
-          data: {
-            payment_description: "Leather Goods",
-            ...extraData,
-          },
-        } satisfies StoreInitializePaymentSession,
-      },
+        provider_id: providerId,
+        data: await buildPaymentData(id, providerId),
+      } satisfies StoreInitializePaymentSession,
+      collectionId,
     )
-    .then(async (resp) => {
-      await updateCacheTags("carts", "fulfillment")
-      return resp
-    })
-    .catch(medusaError)
+    return OK
+  } catch (e) {
+    // Thrown errors from server actions are masked in production, so return the message instead.
+    return fail(toMessage(e, "Failed to initialize payment method."))
+  }
 }
 
 // ────────────────────────────────────────────────────────────────────────────
@@ -238,118 +226,142 @@ export async function initCheckPayment(cartId: string, providerId: string, colle
 // ────────────────────────────────────────────────────────────────────────────
 
 export async function applyDiscount(code: string) {
-  const cartId = await getCartId()
-  if (!cartId) throw new Error("No existing cart found")
-
-  const headers = { ...(await getAuthHeaders()) }
-
-  await sdk.store.cart.update(cartId, { promo_codes: [code] }, {}, headers)
-  await updateCacheTags("carts", "fulfillment")
-
-  return { success: true }
-}
-
-export async function removeDiscount(code: string) {
-  const cartId = await getCartId()
-  if (!cartId) throw new Error("No existing cart found")
-
-  const headers = { ...(await getAuthHeaders()) }
-
-  await sdk.store.cart.update(cartId, { promo_codes: [] }, {}, headers,)
-  await updateCacheTags("carts", "fulfillment")
-
-  return { success: true }
-}
-
-// ────────────────────────────────────────────────────────────────────────────
-// Place Order
-// ────────────────────────────────────────────────────────────────────────────
-/**
- * Places an order for a cart. If no cart ID is provided, it will use the cart ID from the cookies.
- * @param cartId - optional - The ID of the cart to place an order for.
- * @returns The cart object if the order was successful, or null if not.
- */
-
-export async function placeCheckOrder(cartId?: string) {
-  const id = cartId || (await getCartId())
-  if (!id) throw new Error("No existing cart found when placing an order")
-
-  const headers = { ...(await getAuthHeaders()) }
-
-  const cartRes = await sdk.store.cart
-    .complete(id, {}, headers)
-    .then(async (res) => {
-      await updateCacheTags("carts")
-      return res
-    })
-    .catch(medusaError)
-
-  if (cartRes?.type === "order") {
-    await updateCacheTags("orders")
-    await removeCartId()
-    redirect(`/order/${cartRes.order.id}/confirmed`)
-  }
-
-  return cartRes.cart
-}
-
-// ────────────────────────────────────────────────────────────────────────────
-// PayPal api
-// ────────────────────────────────────────────────────────────────────────────
-
-export async function createToken() {
-  return await sdk.client.fetch<{ client_token: string }>(`/store/paypal/client-token`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-}
-
-export async function createOrder(cartId?: string, isCardPayment = false) {
-  return await sdk.client.fetch<{ id: string }>(`/store/paypal/create-order`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: { cart_id: cartId, is_card_payment: isCardPayment },
-  })
-}
-
-export async function captureOrder(cartId: string, orderId: string) {
-  return await sdk.client.fetch<Record<string, unknown>>(`/store/paypal/capture-order`, {
-    method: "POST",
-    headers: {
-      ...(await getAuthHeaders()),
-      "Content-Type": "application/json",
-    },
-    body: {
-      cart_id: cartId,
-      order_id: orderId
-    },
-  })
-
-}
-
-export async function markPaymentComplete(cartId: string): Promise<{ ok: boolean } & Record<string, any>> {
+  const cartId = await resolveCartId()
   try {
-    const resp = await sdk.client.fetch(`/store/paypal-complete`, {
-      method: "POST",
-      headers: {
-        ...(await getAuthHeaders()),
-        "Content-Type": "application/json",
-      },
-      body: { cart_id: cartId },
-    })
+    await sdk.store.cart.update(cartId, { promo_codes: [code] }, {}, await authHeaders())
+    await updateCacheTags("carts", "fulfillment")
 
-    console.log(resp)
-
-    console.warn("[PayPal] paypal-complete returned", resp)
-    return { ok: true, ...(resp || {}) }
+    return OK
   } catch (e) {
-    console.warn("[PayPal] paypal-complete call failed:", e)
-    return { ok: false }
+    return fail(toMessage(e))
   }
 }
 
-// { success: boolean, cart_id: string, order_id?: string, request_id?: string, message?: string }
+export async function removeDiscount() {
+  const cartId = await resolveCartId()
+  try {
+    await sdk.store.cart.update(cartId, { promo_codes: [] }, {}, await authHeaders())
+    await updateCacheTags("carts", "fulfillment")
+
+    return OK
+  } catch (e) {
+    return fail(toMessage(e))
+  }
+}
+
+// ─── Place order ────────────────────────────────────────────────────────────
+
+/**
+ * Completes the cart. On success this redirects (never returns);
+ * on failure it returns { success: false, error }.
+ */
+export async function placeCheckoutOrder(cartId?: string): Promise<ActionResult> {
+  let orderId: string
+
+  // redirect() works by throwing, so it must stay outside the try/catch.
+  try {
+    const id = await resolveCartId(cartId)
+    const res = await sdk.store.cart.complete(id, {}, await authHeaders())
+
+    if (res.type !== "order") {
+      await updateCacheTags("carts")
+      return fail(res.error?.message ?? "We couldn't complete your payment. Please try again.")
+    }
+    orderId = res.order.id
+  } catch (e) {
+    return fail(toMessage(e))
+  }
+
+  await updateCacheTags("carts", "orders")
+  await removeCartId()
+  redirect(`/order/${orderId}/confirmed`)
+}
+
+// ─── PayPal ─────────────────────────────────────────────────────────────────
+
+export async function createToken(): Promise<ActionResult & { client_token: string | null }> {
+  try {
+    // Some plugin versions answer with camelCase `clientToken`; accept both.
+    const res = await sdk.client.fetch<{ client_token?: string; clientToken?: string }>(
+      `/store/paypal/client-token`,
+      { method: "POST", headers: await authHeaders() },
+    )
+    const token = res.client_token ?? res.clientToken
+    if (!token) return { ...fail("PayPal didn't return a client token."), client_token: null }
+    return { ...OK, client_token: token }
+  } catch (e) {
+    console.error("[PayPal] client token failed:", toMessage(e))
+    return { ...fail(toMessage(e, "Couldn't load the secure card form.")), client_token: null }
+  }
+}
+
+export async function createOrder(
+  cartId?: string,
+  isCardPayment = false,
+): Promise<ActionResult & { id: string | null }> {
+  try {
+    const id = await resolveCartId(cartId)
+    const res = await sdk.client.fetch<{ id?: string }>(`/store/paypal/create-order`, {
+      method: "POST",
+      headers: await authHeaders(),
+      body: { cart_id: id, is_card_payment: isCardPayment },
+    })
+    if (!res?.id) return { ...fail("PayPal didn't return an order ID."), id: null }
+    return { ...OK, id: res.id }
+  } catch (e) {
+    console.error("[PayPal] create order failed:", toMessage(e))
+    return { ...fail(toMessage(e, "We couldn't start your PayPal payment.")), id: null }
+  }
+}
+
+export async function captureOrder(cartId: string, orderId: string): Promise<ActionResult> {
+  try {
+    const id = await resolveCartId(cartId)
+    await sdk.client.fetch(`/store/paypal/capture-order`, {
+      method: "POST",
+      headers: await authHeaders(),
+      body: { cart_id: id, order_id: orderId },
+    })
+    return OK
+  } catch (e) {
+    console.error("[PayPal] capture failed:", toMessage(e))
+    return fail(toMessage(e, "We couldn't confirm your PayPal payment."))
+  }
+}
+
+export async function markPaymentComplete(cartId: string): Promise<ActionResult> {
+  try {
+    const id = await resolveCartId(cartId)
+    await sdk.client.fetch(`/store/paypal-complete`, {
+      method: "POST",
+      headers: await authHeaders(),
+      body: { cart_id: id },
+    })
+    return OK
+  } catch (e) {
+    console.warn("[PayPal] paypal-complete failed:", toMessage(e))
+    return fail(toMessage(e))
+  }
+}
+
+export type ActionResult = { success: true; error: null } | { success: false; error: string }
+
+const PAYMENT_DESCRIPTION = process.env.PAYMENT_DESCRIPTION ?? "Online order"
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+const REQUIRED_ADDRESS_FIELDS = [
+  "first_name",
+  "last_name",
+  "address_1",
+  "postal_code",
+  "city",
+  "country_code",
+] as const
+
+const OK: ActionResult = { success: true, error: null }
+const fail = (error: string): ActionResult => ({ success: false, error })
+
+const authHeaders = async () => ({ ...(await getAuthHeaders()) })
+
+function toMessage(e: unknown, fallback = "Something went wrong. Please try again.") {
+  return e instanceof Error && e.message ? e.message : fallback
+}

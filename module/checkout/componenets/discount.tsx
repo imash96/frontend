@@ -158,7 +158,7 @@ export default function DiscountCode({ promotions }: DiscountCodeProps) {
                             }}
                             className="overflow-hidden"
                         >
-                            <form action={applyFormAction} className="flex flex-col gap-2 sm:flex-row">
+                            <form action={applyFormAction} className="flex gap-2">
                                 <input
                                     name="code"
                                     type="text"

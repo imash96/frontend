@@ -26,7 +26,7 @@ export default function CheckStoreInitializer({
 
     // Set completed steps
     for (const s of completed) {
-      store.markCompleted(s)
+      store.completeStep(s)
     }
 
     // Set current step

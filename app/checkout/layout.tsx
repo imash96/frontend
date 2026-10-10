@@ -1,11 +1,12 @@
-import type { Metadata } from "next"
 import Container from "@/ui/container"
 import CheckHeader from "@/layout/checkout/templates/header"
+import CheckoutProgress from "@/module/checkout/templates/progress"
 
 export default function CheckLayout({ children }: React.PropsWithChildren) {
   return (
     <>
       <CheckHeader />
+      <CheckoutProgress />
       <Container
         as="main"
         size="xl"
@@ -16,9 +17,4 @@ export default function CheckLayout({ children }: React.PropsWithChildren) {
       </Container>
     </>
   )
-}
-
-export const metadata: Metadata = {
-  title: "Secure Checkout | Velle Hide Store",
-  description: "Complete your purchase securely at Velle Hide Store. Pay with credit card, PayPal, or choose Pay Later.",
 }

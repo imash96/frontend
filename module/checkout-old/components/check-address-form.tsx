@@ -4,7 +4,7 @@ import type { StoreCart } from "@medusajs/types"
 import { AnimatePresence } from "motion/react"
 import { div as Div } from "motion/react-client";
 import { useActionState, useEffect, useMemo } from "react"
-import { setCheckAddresses } from "@/lib/action/checkout"
+import { setCheckoutAddresses } from "@/lib/action/checkout"
 import { useToggleState } from "@/lib/hook/use-toggle-state"
 import { useCheckoutStore } from "@/lib/store/checkout-store"
 import compareAddresses from "@/lib/util/compare-addresses"
@@ -13,11 +13,10 @@ import CustomInput from "@/ui/input"
 import CustomSelect from "@/ui/native-select"
 
 export default function CheckAddressForm({ cart }: { cart: StoreCart }) {
-  const setStep = useCheckoutStore((s) => s.setStep)
-  const markCompleted = useCheckoutStore((s) => s.markCompleted)
+  const { setStep, completeStep } = useCheckoutStore()
 
   const [addressState, addressAction, isPending] = useActionState(
-    setCheckAddresses,
+    setCheckoutAddresses,
     { success: false, error: null } as { success: boolean; error: string | null },
   )
 
@@ -29,10 +28,10 @@ export default function CheckAddressForm({ cart }: { cart: StoreCart }) {
 
   useEffect(() => {
     if (addressState.success) {
-      markCompleted("address")
+      completeStep("address")
       setStep("shipping")
     }
-  }, [addressState, setStep, markCompleted])
+  }, [addressState, setStep, completeStep])
 
   const countryOptions = useMemo(() => {
     return (

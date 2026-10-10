@@ -1,5 +1,5 @@
 import { notFound, redirect } from "next/navigation"
-import { getCheckCart, getCheckCustomer, getCheckPaymentMethods, getCheckShippingMethods, } from "@/lib/action/checkout"
+import { getCheckCart, getCheckoutCustomer, getCheckoutPaymentMethods, getCheckoutShippingMethods, } from "@/lib/action/checkout"
 import CheckProgress from "@/module/checkout-old/templates/check-progress"
 import CheckStoreInitializer from "@/module/checkout-old/templates/check-store-initializer"
 import CheckSummary from "@/module/checkout-old/templates/check-summary"
@@ -38,9 +38,9 @@ export default async function CheckPage() {
 
   // Parallel data fetching
   const [customer, shippingMethods, paymentMethods] = await Promise.all([
-    getCheckCustomer(),
-    getCheckShippingMethods(cart.id),
-    getCheckPaymentMethods(cart.region.id),
+    getCheckoutCustomer(),
+    getCheckoutShippingMethods(cart.id),
+    getCheckoutPaymentMethods(cart.region.id),
   ])
 
   if (!shippingMethods || !paymentMethods) {

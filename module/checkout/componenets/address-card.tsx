@@ -1,6 +1,6 @@
 import type { StoreCartAddress } from "@medusajs/types"
 
-export default function AddressCard({ title, address, email, type, }: CheckAddressCardProps) {
+export default function AddressCard({ title, address, type, }: CheckAddressCardProps) {
   if (!address) return null
   if (!address.address_1)
     return (
@@ -10,31 +10,21 @@ export default function AddressCard({ title, address, email, type, }: CheckAddre
       </div>
     )
   return (
-    <div className="space-y-1 font-light text-sm p-3 sm:p-4 rounded-lg border border-border bg-background-elevated/50">
-      <h4 className="font-medium mb-2 text-sm sm:text-base text-foreground">
+    <div>
+      <p className="font-semibold uppercase tracking-wider text-text-tertiary">
         {title}
-      </h4>
-      <div className="text-foreground-muted space-y-0.5">
-        <p className="font-medium text-foreground">{`${address.first_name ?? ""} ${address.last_name ?? ""}`}</p>
-        <p>{address.address_1 ?? ""}</p>
-        {address.address_2 && <p>{address.address_2}</p>}
-        <p>{`${address.city ?? ""}, ${address.province ?? ""} ${address.postal_code ?? ""}`}</p>
-        <p>{address.country_code?.toUpperCase() ?? ""}</p>
-      </div>
-      <div className="pt-2 text-foreground-muted">
-        <p className="font-medium text-xs uppercase tracking-wider text-foreground mb-0.5">
-          Contact
-        </p>
-        <p>{address.phone ?? ""}</p>
-        {email && <p>{email}</p>}
-      </div>
+      </p>
+      <p className="font-medium text-foreground">{`${address.first_name ?? ""} ${address.last_name ?? ""}`}</p>
+      <p>{address.address_1 ?? ""}</p>
+      {address.address_2 && <p>{address.address_2}</p>}
+      <p>{`${address.city ?? ""}, ${address.province ?? ""} ${address.postal_code ?? ""}`}</p>
+      <p>{address.country_code?.toUpperCase() ?? ""}</p>
     </div>
   )
 }
 
 interface CheckAddressCardProps {
   title: string
-  email?: string
   address?: StoreCartAddress
   type: "Shipping" | "Billing"
 }

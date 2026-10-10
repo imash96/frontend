@@ -1,6 +1,6 @@
 "use client"
 
-import { captureOrder, createOrder, markPaymentComplete, placeCheckOrder } from "@/lib/action/checkout"
+import { captureOrder, createOrder, markPaymentComplete, placeCheckoutOrder } from "@/lib/action/checkout"
 import type { StoreCart } from "@medusajs/types"
 import {
   PayPalCardFieldsProvider,
@@ -76,7 +76,7 @@ export default function CheckPayPalCard({ cart }: { cart: StoreCart }) {
             // Mark the Medusa payment session as authorized / complete,
             // then finalize the cart and redirect to the confirmation page.
             await markPaymentComplete(cart.id)
-            await placeCheckOrder()
+            await placeCheckoutOrder()
           } catch (e: unknown) {
             const msg = e instanceof Error ? e.message : "Card payment failed"
             setError(msg)

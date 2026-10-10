@@ -1,55 +1,52 @@
-"use client"
-
-import { useCheckoutSetStep, useCheckoutStep } from "@/lib/store/checkout-store"
 import { StoreCart, StoreCustomer } from "@medusajs/types"
-import { BookUser } from "lucide-react"
 import CheckoutStepHeader from "../componenets/step-header"
-import { div as Div } from "motion/react-client";
 import AddressCard from "../componenets/address-card"
-import { AnimatePresence } from "motion/react"
 import AddressForm from "../componenets/address-form"
 
 export default function StepAddress({ cart, customer }: StepAddressProps) {
-    const currentStep = useCheckoutStep()
-    const setStep = useCheckoutSetStep()
-    const isOpen = currentStep === "address"
+
+    const completedView = (
+        <>
+            <div className="grid grid-cols-1 gap-4 p-5 text-xs sm:grid-cols-3 sm:px-6">
+                <div>
+                    <p className="font-semibold uppercase tracking-wider text-text-tertiary">
+                        Recipient
+                    </p>
+                    <p className="mt-1 font-medium text-text-primary">
+                        {cart.shipping_address?.first_name}{" "}
+                        {cart.shipping_address?.last_name}
+                    </p>
+                    <p className="mt-4 font-semibold uppercase tracking-wider text-text-tertiary">
+                        Contact
+                    </p>
+                    <p className="mt-1 font-medium text-text-primary">
+                        {cart.shipping_address?.phone ?? ""}<br />
+                        {cart.email && cart.email}
+                    </p>
+                </div>
+                <AddressCard
+                    title="Shipping Destination"
+                    address={cart.shipping_address}
+                    type="Shipping"
+                />
+                <AddressCard
+                    title="Billing Address"
+                    address={cart.billing_address}
+                    type="Billing"
+                />
+            </div>
+        </>
+    )
+
     return (
-        <CheckoutStepHeader title="Shipping Address" subtitle="Where should we deliver?" Icon={BookUser} currentStep={currentStep}>
-            <AnimatePresence mode="wait">
-                {isOpen ? (
-                    <Div
-                        key="address-form"
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: "auto" }}
-                        exit={{ opacity: 0, height: 0 }}
-                        transition={{ duration: 0.3, ease: "easeInOut" }}
-                    >
-                        <AddressForm cart={cart} />
-                    </Div>
-                ) : (
-                    <Div
-                        key="address-cards"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.25 }}
-                    >
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                            <AddressCard
-                                title="Shipping Address"
-                                address={cart.shipping_address}
-                                email={cart.email}
-                                type="Shipping"
-                            />
-                            <AddressCard
-                                title="Billing Address"
-                                address={cart.billing_address}
-                                type="Billing"
-                            />
-                        </div>
-                    </Div>
-                )}
-            </AnimatePresence>
+        <CheckoutStepHeader
+            title="Shipping Address"
+            subtitle="Where should we deliver?"
+            number={1}
+            stepId="address"
+            completedContent={completedView}
+        >
+            <AddressForm cart={cart} />
         </CheckoutStepHeader>
     )
 }
@@ -58,3 +55,4 @@ type StepAddressProps = {
     cart: StoreCart
     customer: StoreCustomer | null
 }
+

@@ -1,125 +1,180 @@
 "use client"
 
-import { useCheckoutPending, useCheckoutSetStep, useCheckoutStep } from "@/lib/store/checkout-store"
 import { StoreCart, StorePaymentProvider } from "@medusajs/types"
-import { CheckCircle, Circle, CreditCard, Loader2 } from "lucide-react"
+import { CheckCircle, Circle, Loader2 } from "lucide-react"
 import CheckoutStepHeader from "../componenets/step-header"
 import { div as Div } from "motion/react-client"
-import { useState, useTransition } from "react"
-import { checkPaymentInfoMap } from "../componenets/payment-map"
+import { useShallow } from "zustand/react/shallow"
+import { memo, useCallback, useEffect, useMemo, useOptimistic, useTransition } from "react"
 import { AnimatePresence } from "motion/react"
-import { initiatePaymentSession } from "@/lib/action/cart"
-import { isPayU } from "@/lib/constant"
+import { isPaypal } from "@/lib/constant"
 import PaymentButton from "../componenets/payment-button"
+import { useCheckoutStore, selectIsBusy, findActiveSession, isCartNotReady } from "@/lib/store/checkout-store"
+import { getPaymentInfo, type PaymentInfo } from "../componenets/payment-map"
+import ErrorMessage from "@/module/common/templates/error-message"
 
-export default function StepPayment({ cart, paymentMethods }: StepAddressProps) {
-    const currentStep = useCheckoutStep()
-    const setStep = useCheckoutSetStep()
-    const isPending = useCheckoutPending()
+export default function StepPayment({ cart, paymentMethods }: StepPaymentProps) {
+    const { error, isBusy, selectPaymentMethod, syncPayment } = useCheckoutStore(
+        useShallow((s) => ({
+            error: s.error,
+            isBusy: selectIsBusy(s),
+            selectPaymentMethod: s.selectPaymentMethod,
+            syncPayment: s.syncPayment,
+        })),
+    )
     const [isTransitioning, startTransition] = useTransition()
-    const [error, setError] = useState<string | null>(null)
 
-    const isOpen = currentStep === "payment"
-    const isLoading = isTransitioning || isPending
+    const session = findActiveSession(cart)
+    const selectedId = session?.provider_id
+    const notReady = isCartNotReady(cart)
 
-    const activeSession = cart.payment_collection?.payment_sessions?.find(
-        (s) => s.status === "pending",
+    const sessionId = session?.id
+    const sessionStatus = session?.status
+    const activeSession = useMemo(() =>
+        sessionId && selectedId && sessionStatus ? { id: sessionId, provider_id: selectedId, status: sessionStatus } : undefined,
+        [sessionId, selectedId, sessionStatus],
     )
 
-    const setPaymentMethod = async (method: string) => {
-        const extraData = isPayU(method) ? { phone: cart.shipping_address?.phone || cart.billing_address?.phone, } : {}
-        setError(null)
+    useEffect(() => {
+        syncPayment({ notReady, activeSession })
+    }, [notReady, activeSession, syncPayment])
+
+    const methods = useMemo(() => paymentMethods.flatMap((m) => {
+        const info = getPaymentInfo(m.id);
+        return info ? [{ id: m.id, info }] : []
+    }), [paymentMethods])
+
+    const [optimisticId, setOptimisticId] = useOptimistic(selectedId)
+    const isLocked = isTransitioning || isBusy
+
+    const cartId = cart.id
+    const collectionId = cart.payment_collection?.id
+    const onSelect = useCallback((providerId: string) => {
         startTransition(async () => {
-            try {
-                await initiatePaymentSession(cart.id, {
-                    provider_id: method,
-                    data: {
-                        payment_description: "Leather Goods",
-                        ...extraData,
-                    },
-                })
-            } catch (err: any) {
-                setError(err.message)
-            }
+            setOptimisticId(providerId)
+            await selectPaymentMethod({ cartId, providerId, collectionId })
         })
-    }
+    }, [cartId, collectionId, selectPaymentMethod, setOptimisticId])
 
-    const selectedPaymentMethod = activeSession?.provider_id
     return (
-        <CheckoutStepHeader title="Payment Information" subtitle="Secure payment processing" Icon={CreditCard} currentStep={currentStep}>
-            <Div
-                key="payment-content"
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.3, ease: "easeInOut" }}
-            >
-                <div className="grid gap-2 sm:gap-3 mt-4 sm:mt-6">
-                    {paymentMethods.map((paymentMethod) => {
-                        const isSelected = selectedPaymentMethod === paymentMethod.id
-                        const Info = checkPaymentInfoMap[paymentMethod.id]
-                        const isMethodLoading = isTransitioning && !isSelected
+        <CheckoutStepHeader title="Payment Information" subtitle="Secure payment processing" number={3} stepId="payment">
+            <div className="space-y-4">
+                {methods.length === 0 ? (
+                    <p role="alert" className="text-sm text-foreground-muted">
+                        No payment methods are available for your region right now. Please contact support.
+                    </p>
+                ) : (
+                    <div role="radiogroup" aria-label="Payment method" aria-busy={isLocked} className="space-y-3">
+                        {methods.map(({ id, info }) => (
+                            <PaymentOption
+                                key={id}
+                                id={id}
+                                info={info}
+                                cart={cart}
+                                isSelected={optimisticId === id}
+                                isActive={selectedId === id}
+                                isSwitching={isTransitioning && optimisticId === id && selectedId !== id}
+                                disabled={isLocked}
+                                onSelect={onSelect}
+                            />
+                        ))}
+                    </div>
+                )}
 
-                        return (
-                            <Div
-                                key={paymentMethod.id}
-                                whileTap={!isLoading ? { scale: 0.99 } : undefined}
-                                onClick={() =>
-                                    !isLoading &&
-                                    setPaymentMethod(paymentMethod.id)
-                                }
-                                className={`relative flex flex-col border rounded-lg overflow-hidden transition-all duration-200 ${isSelected ? "border-accent ring-1 ring-accent shadow-sm" : "border-border hover:border-accent/50"} ${isLoading ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
-                            >
-                                {/* Header row */}
-                                <div className="flex items-center gap-2.5 sm:gap-3 p-3 sm:p-4">
-                                    <div className="text-accent shrink-0">
-                                        {isMethodLoading ? (
-                                            <Loader2 className="w-5 h-5 sm:w-6 sm:h-6 animate-spin text-muted-foreground" />
-                                        ) : isSelected ? (
-                                            <Div
-                                                initial={{ scale: 0 }}
-                                                animate={{ scale: 1 }}
-                                                transition={{
-                                                    type: "spring",
-                                                    stiffness: 500,
-                                                    damping: 15,
-                                                }}
-                                            >
-                                                <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6" />
-                                            </Div>
-                                        ) : (
-                                            <Circle className="w-5 h-5 sm:w-6 sm:h-6 text-muted-foreground" />
-                                        )}
-                                    </div>
-
-                                    <div className="flex-1 min-w-0 space-y-0.5">
-                                        <h3 className="font-semibold text-sm sm:text-base truncate">
-                                            {Info?.title ?? paymentMethod.id}
-                                        </h3>
-                                        <p className="text-xs sm:text-sm text-muted-foreground line-clamp-1">
-                                            {Info?.desc}
-                                        </p>
-                                    </div>
-                                    <div className="shrink-0">{Info?.Icon}</div>
-                                </div>
-
-                                {/* Expanded preview */}
-                                <AnimatePresence mode="wait">
-                                    {isSelected && Info?.Preview && (
-                                        <Info.Preview key="preview" cart={cart} />
-                                    )}
-                                </AnimatePresence>
-                            </Div>
-                        )
-                    })}
-                    <PaymentButton cart={cart} />
+                {/* The one place errors are shown: the individual buttons no longer render their own copy. */}
+                <div aria-live="polite">
+                    <ErrorMessage error={error} />
                 </div>
-            </Div>
+
+                <PaymentButton cart={cart} />
+            </div>
         </CheckoutStepHeader>
     )
 }
 
-type StepAddressProps = {
+type OptionProps = {
+    id: string
+    info: PaymentInfo
+    cart: StoreCart
+    /** Checked state (optimistic, flips immediately on click). */
+    isSelected: boolean
+    /** The method the cart really has a session for: only then is its preview mounted. */
+    isActive: boolean
+    isSwitching: boolean
+    disabled: boolean
+    onSelect: (id: string) => void
+}
+
+const PaymentOption = memo(function PaymentOption({
+    id,
+    info,
+    cart,
+    isSelected,
+    isActive,
+    isSwitching,
+    disabled,
+    onSelect,
+}: OptionProps) {
+    const { Icon, Preview } = info
+
+    return (
+        <div
+            className={`overflow-hidden rounded-xl border transition-colors has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-focus-ring ${isSelected ? "border-accent bg-accent/5" : "border-border hover:border-accent/50"
+                } ${disabled && !isSelected ? "opacity-60" : ""}`}
+        >
+            {/* Only this header selects the method. The whole card used to be clickable, so every click
+          inside the PayPal / card-field preview re-created the payment session. */}
+            <label className={`flex items-center gap-3 p-3 sm:p-4 ${disabled ? "cursor-not-allowed" : "cursor-pointer"}`}>
+                {/* aria-disabled instead of disabled: a disabled radio drops keyboard focus mid-request. */}
+                <input
+                    type="radio"
+                    name="payment-method"
+                    value={id}
+                    checked={isSelected}
+                    aria-disabled={disabled}
+                    onChange={() => {
+                        if (!disabled) onSelect(id)
+                    }}
+                    className="sr-only"
+                />
+                <span aria-hidden="true" className="shrink-0 text-accent">
+                    {isSwitching ? (
+                        <Loader2 className="size-5 animate-spin text-foreground-muted sm:size-6" />
+                    ) : isSelected ? (
+                        <CheckCircle className="size-5 sm:size-6" />
+                    ) : (
+                        <Circle className="size-5 text-foreground-muted sm:size-6" />
+                    )}
+                </span>
+
+                <span className="min-w-0 flex-1">
+                    <span className="block truncate text-sm font-semibold text-foreground sm:text-base">{info.title}</span>
+                    <span className="line-clamp-2 block text-xs text-foreground-muted sm:text-sm">{info.desc}</span>
+                </span>
+
+                <span aria-hidden="true" className="shrink-0 text-foreground">
+                    <Icon className="size-6 sm:size-7" />
+                </span>
+            </label>
+
+            <AnimatePresence initial={false}>
+                {isActive && (
+                    <Div
+                        key="preview"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                    >
+                        <Preview cart={cart} />
+                    </Div>
+                )}
+            </AnimatePresence>
+        </div>
+    )
+})
+
+type StepPaymentProps = {
     cart: StoreCart
     paymentMethods: StorePaymentProvider[]
 }

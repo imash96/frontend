@@ -1,145 +1,347 @@
-import { create } from "zustand";
-import { devtools } from "zustand/middleware";
-import type { StepType } from "@/types/common";
+import { create } from "zustand"
+import { devtools } from "zustand/middleware"
+import { initCheckoutPayment, placeCheckoutOrder, setCheckoutAddresses, setCheckoutShipping } from "@/lib/action/checkout"
+import type { StepType } from "@/types/common"
+import { StoreCart, StorePaymentSession } from "@medusajs/types"
+import { ERROR_MESSAGES } from "@/data/payment"
 
-const STEP_ORDER = ["address", "shipping", "payment"] as const satisfies readonly StepType[];
+export type PaymentSessionRef = Pick<StorePaymentSession, "id" | "provider_id" | "status">
 
-const STEP_INDEX: Record<string, number> = Object.fromEntries(
-  STEP_ORDER.map((step, index) => [step, index])
-);
+export const STEP_ORDER = ["address", "shipping", "payment"] as const satisfies readonly StepType[]
 
-export function canReachStep(currentStep: StepType, completedSteps: readonly StepType[], targetStep: StepType,): boolean {
-  const currentIndex = STEP_INDEX[currentStep]
-  const targetIndex = STEP_INDEX[targetStep]
+export type StepStatus = "complete" | "current" | "reachable" | "upcoming"
 
-  if (currentIndex === undefined || targetIndex === undefined) {
-    return false
-  }
-
-  // Already here.
-  if (currentIndex === targetIndex) {
-    return true
-  }
-
-  // Going backwards is always allowed.
-  if (targetIndex < currentIndex) {
-    return true
-  }
-
-  // Moving forward requires every prerequisite step to be complete.
-  return STEP_ORDER.slice(0, targetIndex).every((step) => completedSteps.includes(step))
-
+export const STEP_INDEX: Readonly<Record<StepType, number>> = {
+  address: 0,
+  shipping: 1,
+  payment: 2,
 }
 
-type CheckoutState = {
+type CheckoutData = {
   currentStep: StepType
-  completedSteps: StepType[]
+  completedSteps: readonly StepType[]
+  maxStepIndex: number
+  pendingShippingOptionId: string | null
+
   isPending: boolean
   error: string | null
+  isSubmitting: boolean
+  notReady: boolean
+  activeSession: PaymentSessionRef | undefined
+}
 
-  setStep: (step: StepType) => void
-  markCompleted: (step: StepType) => void
-  canGoTo: (step: StepType) => boolean
+type CheckoutActions = {
+  initialize: (payload: { step: StepType; completed: readonly StepType[] }) => void
+  setStep: (step: StepType) => boolean
+  completeStep: (step: StepType) => void
+
   setIsPending: (value: boolean) => void
-  setError: (msg: string | null) => void
-  handleError: (msg?: string) => void
+  setIsSubmitting: (value: boolean) => void
+  setError: (message: string | null) => void
+  /** Shows an error and releases every loading flag. */
+  handleError: (message?: string) => void
+  /** Releases loading flags without touching the error (bfcache restore, cancelled popups). */
+  releaseLocks: () => void
+
+  saveAddress: (formData: FormData) => Promise<boolean>
+  setPendingShippingOptionId: (id: string | null) => void
+  selectShippingOption: (optionId: string) => Promise<boolean>
+
+  setNotReady: (value: boolean) => void
+  setActiveSession: (session: PaymentSessionRef | undefined) => void
+  /** Mirrors cart-derived payment state; no-op (no re-render) when nothing relevant changed. */
+  syncPayment: (payload: { notReady: boolean; activeSession: PaymentSessionRef | undefined }) => void
+
+  selectPaymentMethod: (args: {
+    cartId: string
+    providerId: string
+    collectionId?: string
+  }) => Promise<boolean>
+  /**
+   * Atomic gate for the final payment. Reads the live store (not a render-time closure), so two
+   * rapid clicks can't both pass: the first flips isSubmitting, the second gets `false`.
+   */
+  beginSubmit: () => boolean
+  /** Completes the cart for providers without a client SDK (Pay Later). Redirects on success. */
+  placeOrder: () => Promise<void>
+
   reset: () => void
 }
 
-const INITIAL_STATE = {
-  currentStep: "address" as StepType,
-  completedSteps: [] as StepType[],
+export type CheckoutState = CheckoutData & CheckoutActions
+
+const INITIAL_DATA: CheckoutData = {
+  currentStep: "address",
+  completedSteps: [],
+  maxStepIndex: 0,
+  pendingShippingOptionId: null,
+
   isPending: false,
-  error: null
+  isSubmitting: false,
+  error: null,
+  notReady: true, // safe default: nothing can be paid until the cart proves it's ready
+  activeSession: undefined,
 }
+
+const LAST_INDEX = STEP_ORDER.length - 1
+
+function advance(
+  step: StepType,
+): Pick<CheckoutData, "currentStep" | "completedSteps" | "maxStepIndex"> {
+  const index = STEP_INDEX[step]
+  const next = Math.min(index + 1, LAST_INDEX)
+  return {
+    completedSteps: STEP_ORDER.slice(0, index + 1),
+    currentStep: STEP_ORDER[next] ?? step,
+    maxStepIndex: next,
+  }
+}
+
+/** Customers never see raw exception text (it's technical, and masked in production anyway). */
+function unexpected(e: unknown) {
+  console.error("[checkout]", e)
+  return ERROR_MESSAGES.DEFAULT_ERROR
+}
+
+let requestSeq = 0
 
 export const useCheckoutStore = create<CheckoutState>()(
   devtools(
     (set, get) => ({
-      ...INITIAL_STATE,
+      ...INITIAL_DATA,
 
-      setStep: (step) =>
+      // Seeds progress only. Payment fields are owned by syncPayment, which runs right after.
+      initialize: ({ step, completed }) => {
+        const done = Array.isArray(completed) ? completed : []
         set(
-          (state) => {
-            if (state.currentStep === step) return state;
-            if (!canReachStep(state.currentStep, state.completedSteps, step)) {
-              return state; // unreachable — no change, no re-render
-            }
-            return { currentStep: step };
+          {
+            currentStep: step && step in STEP_INDEX ? step : INITIAL_DATA.currentStep,
+            completedSteps: done,
+            maxStepIndex: Math.min(done.length, LAST_INDEX),
+            isPending: false,
+            isSubmitting: false,
+            error: null,
           },
           false,
-          "checkout/setStep",
-        ),
-
-      markCompleted: (step) =>
-        set(
-          (state) => {
-            if (state.completedSteps.includes(step)) return state
-            const stepIndex = STEP_INDEX[step]
-
-            if (stepIndex === undefined) {
-              return state
-            }
-
-            const completedSteps = [
-              ...state.completedSteps,
-            ]
-
-            /*
-             * Insert in checkout order without sorting
-             * the entire array on every update.
-             */
-            const insertAt = completedSteps.findIndex((completedStep) => (STEP_INDEX[completedStep] ?? Infinity) > stepIndex)
-
-            if (insertAt === -1) {
-              completedSteps.push(step)
-            } else {
-              completedSteps.splice(insertAt, 0, step)
-            }
-
-            return {
-              completedSteps,
-            }
-          },
-          false,
-          "checkout/markCompleted",
-        ),
-
-      canGoTo: (step) => {
-        const { currentStep, completedSteps } = get();
-        return canReachStep(currentStep, completedSteps, step);
+          "checkout/initialize",
+        )
       },
 
-      setIsPending: (value) => set((state) => state.isPending === value ? state : { isPending: value },
-        false,
-        "checkout/setIsPending"
-      ),
+      setStep: (step) => {
+        const { currentStep, maxStepIndex, isPending, isSubmitting } = get()
+        if (step === currentStep) return true
+        if (isPending || isSubmitting || STEP_INDEX[step] > maxStepIndex) return false
+        set({ currentStep: step, error: null }, false, "checkout/setStep")
+        return true
+      },
 
-      handleError: (msg) => set((state) => msg ? { error: msg, isPending: false } : state,
-        false,
-        "checkout/handleError"
-      ),
+      completeStep: (step) =>
+        set({ ...advance(step), error: null }, false, "checkout/completeStep"),
 
-      setError: (msg) => set({ error: msg },
-        false,
-        "checkout/setError"
-      ),
+      setIsPending: (isPending) => set({ isPending }, false, "checkout/setIsPending"),
+      setIsSubmitting: (isSubmitting) =>
+        set({ isSubmitting }, false, "checkout/setIsSubmitting"),
+      setError: (error) => set({ error }, false, "checkout/setError"),
+      handleError: (message) =>
+        set(
+          { error: message || ERROR_MESSAGES.DEFAULT_ERROR, isPending: false, isSubmitting: false },
+          false,
+          "checkout/handleError",
+        ),
+      releaseLocks: () =>
+        set({ isPending: false, isSubmitting: false }, false, "checkout/releaseLocks"),
 
-      reset: () => set({
-        currentStep: INITIAL_STATE.currentStep,
-        completedSteps: [],
-        isPending: false,
-      }, false, "checkout/reset"),
+      // ── Address ──────────────────────────────────────────────────────────
+      saveAddress: async (formData) => {
+        if (get().isPending) return false
+        const id = ++requestSeq
+        set({ isPending: true, error: null }, false, "checkout/address:start")
+
+        let error: string | null = null
+        try {
+          const result = await setCheckoutAddresses(formData)
+          if (!result.success) error = result.error || ERROR_MESSAGES.DEFAULT_ERROR
+        } catch (e) {
+          error = unexpected(e)
+        }
+
+        if (id !== requestSeq) return false
+        set(
+          error === null
+            ? { ...advance("address"), isPending: false }
+            : { error, isPending: false },
+          false,
+          "checkout/address:done",
+        )
+        return error === null
+      },
+
+      // ── Shipping ─────────────────────────────────────────────────────────
+      setPendingShippingOptionId: (pendingShippingOptionId) =>
+        set({ pendingShippingOptionId }, false, "checkout/setPendingShippingOptionId"),
+
+      selectShippingOption: async (optionId) => {
+        const id = ++requestSeq
+        set(
+          { pendingShippingOptionId: optionId, isPending: true, error: null },
+          false,
+          "checkout/shipping:start",
+        )
+
+        let error: string | null = null
+        try {
+          const result = await setCheckoutShipping(optionId)
+          if (!result.success) error = result.error || ERROR_MESSAGES.DEFAULT_ERROR
+        } catch (e) {
+          error = unexpected(e)
+        }
+
+        if (id !== requestSeq) return false // superseded by a newer click
+        set(
+          error === null
+            ? { ...advance("shipping"), pendingShippingOptionId: null, isPending: false }
+            : { error, pendingShippingOptionId: null, isPending: false },
+          false,
+          "checkout/shipping:done",
+        )
+        return error === null
+      },
+
+      // ── Payment ──────────────────────────────────────────────────────────
+      setNotReady: (notReady) => set({ notReady }, false, "checkout/setNotReady"),
+      setActiveSession: (activeSession) => set({ activeSession }, false, "checkout/setActiveSession"),
+
+      syncPayment: ({ notReady, activeSession }) => {
+        const prev = get()
+        const same =
+          prev.notReady === notReady &&
+          prev.activeSession?.id === activeSession?.id &&
+          prev.activeSession?.status === activeSession?.status &&
+          prev.activeSession?.provider_id === activeSession?.provider_id
+        if (!same) set({ notReady, activeSession }, false, "checkout/syncPayment")
+      },
+
+      selectPaymentMethod: async ({ cartId, providerId, collectionId }) => {
+        const { isPending, isSubmitting } = get()
+        if (isPending || isSubmitting) return false
+
+        const id = ++requestSeq
+        set({ isPending: true, error: null }, false, "checkout/payment:select:start")
+
+        let error: string | null = null
+        try {
+          const result = await initCheckoutPayment(cartId, providerId, collectionId)
+          if (!result.success) error = result.error || ERROR_MESSAGES.DEFAULT_ERROR
+        } catch (e) {
+          error = unexpected(e)
+        }
+
+        if (id !== requestSeq) return false
+        set(
+          error === null ? { isPending: false } : { error, isPending: false },
+          false,
+          "checkout/payment:select:done",
+        )
+        return error === null
+      },
+
+      beginSubmit: () => {
+        const { isSubmitting, isPending, notReady } = get()
+        if (isSubmitting || isPending) return false
+        if (notReady) {
+          set({ error: ERROR_MESSAGES.USER_NOT_READY }, false, "checkout/submit:blocked")
+          return false
+        }
+        set({ isSubmitting: true, error: null }, false, "checkout/submit:start")
+        return true
+      },
+
+      placeOrder: async () => {
+        if (!get().beginSubmit()) return
+        try {
+          // Redirects to the confirmation page on success and never resolves normally.
+          const result = await placeCheckoutOrder()
+          if (result && !result.success) get().handleError(result.error || undefined)
+        } catch (e) {
+          get().handleError(unexpected(e))
+        }
+        // No `finally { isSubmitting = false }`: re-enabling the button during the redirect
+        // allowed a second click and a duplicate order.
+      },
+
+      reset: () => {
+        requestSeq++
+        set(INITIAL_DATA, false, "checkout/reset")
+      },
     }),
     {
-      name: "CheckStore",
+      name: "CheckoutStore",
       enabled: process.env.NODE_ENV === "development",
     },
   ),
-);
+)
 
-// ── Granular Selectors ────────────────────────────────────────────
-export const useCheckoutStep = () => useCheckoutStore((s) => s.currentStep);
-export const useCheckoutCompleted = () => useCheckoutStore((s) => s.completedSteps);
-export const useCheckoutPending = () => useCheckoutStore((s) => s.isPending);
-export const useCheckoutSetStep = () => useCheckoutStore((s) => s.setStep)
+// ─── Selectors ──────────────────────────────────────────────────────────────
+// Each returns a primitive, so subscribers only re-render when their answer changes.
+
+export const selectIsBusy = (s: CheckoutState) => s.isPending || s.isSubmitting
+
+export const selectCanPay = (s: CheckoutState) =>
+  !s.notReady && !s.isPending && !s.isSubmitting && s.activeSession !== undefined
+
+/** Status of one step (see computeStepStatus). */
+export function useStepStatus(stepId: StepType): StepStatus {
+  return useCheckoutStore((s) =>
+    computeStepStatus(stepId, s.currentStep, s.completedSteps, s.maxStepIndex),
+  )
+}
+
+type CartProgressInput = Pick<StoreCart, "email" | "shipping_address" | "shipping_methods">
+
+/**
+ * Derives where a returning customer should land, based on what the cart already has.
+ * `completed` is always a prefix of STEP_ORDER (you can't finish shipping without an address).
+ */
+export function deriveCheckoutProgress(cart: CartProgressInput): { step: StepType; completed: StepType[] } {
+  const hasAddress = Boolean(cart.email && cart.shipping_address?.address_1)
+  const hasShipping = hasAddress && Boolean(cart.shipping_methods?.length)
+
+  const completed: StepType[] = []
+  if (hasAddress) completed.push("address")
+  if (hasShipping) completed.push("shipping")
+
+  return { step: STEP_ORDER[completed.length] ?? "payment", completed }
+}
+
+type CartLike = Pick<StoreCart, "email" | "shipping_address" | "billing_address" | "shipping_methods" | "payment_collection">
+
+/**
+ * The payment session the customer is currently paying with. Switching provider can leave an
+ * older pending session behind, so prefer the most recently added one instead of the first.
+ */
+export function findActiveSession(cart: CartLike) {
+  const pending = cart.payment_collection?.payment_sessions?.filter((s) => s.status === "pending")
+  return pending?.[pending.length - 1]
+}
+
+/** True until the cart has everything an order needs: email, both addresses and a delivery method. */
+export function isCartNotReady(cart: CartLike): boolean {
+  return (
+    !cart.email ||
+    !cart.shipping_address?.address_1 ||
+    !cart.billing_address?.address_1 ||
+    !cart.shipping_methods?.length
+  )
+}
+
+export function computeStepStatus(
+  id: StepType,
+  current: StepType,
+  completed: readonly StepType[],
+  maxIndex: number,
+): StepStatus {
+  if (id === current) return "current"
+  const index = STEP_INDEX[id]
+  if (index < STEP_INDEX[current] && completed.includes(id)) return "complete"
+  return index <= maxIndex ? "reachable" : "upcoming"
+}

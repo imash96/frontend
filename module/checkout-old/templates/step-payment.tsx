@@ -5,7 +5,7 @@ import { CheckCircle, Circle, CreditCard, Loader2 } from "lucide-react"
 import { AnimatePresence } from "motion/react"
 import { div as Div } from "motion/react-client"
 import { useState, useTransition } from "react"
-import { initCheckPayment } from "@/lib/action/checkout"
+import { initCheckoutPayment } from "@/lib/action/checkout"
 import { isPaypal, isPayU } from "@/lib/constant"
 import { useCheckoutStore } from "@/lib/store/checkout-store"
 import ErrorMessage from "@/module/common/templates/error-message"
@@ -41,7 +41,7 @@ export default function StepPayment({ cart, paymentMethods, }: PaymentStepProps)
           shipping_address_phone: cart.shipping_address?.phone, country_code: cart.shipping_address?.country_code || cart.billing_address?.country_code,
           cart_id: cart.id,
         } : undefined
-        await initCheckPayment(cart_id, provider_id, collection_id, extraData)
+        await initCheckoutPayment(cart_id, provider_id, collection_id, extraData)
       } catch (err: any) {
         setError(err.message)
       }

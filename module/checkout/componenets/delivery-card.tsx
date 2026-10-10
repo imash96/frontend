@@ -1,28 +1,28 @@
-import { setCheckShipping } from "@/lib/action/checkout";
-import { useCheckoutSetStep, useCheckoutStore } from "@/lib/store/checkout-store";
+"use client"
+
+import { setCheckoutShipping } from "@/lib/action/checkout";
+import { useCheckoutStore } from "@/lib/store/checkout-store";
 import { convertToLocale } from "@/lib/util/money";
 import { StoreCartShippingOption } from "@medusajs/types"
 import { CheckCircle, Clock, Loader2, Truck, TruckElectric } from "lucide-react";
 import { button as Button, div as Div } from "motion/react-client";
-import { useState, useTransition } from "react";
+import { useTransition } from "react";
 
 
 export default function DeliveryCard({ availableMethods, cartId, currencyCode, selectedMethodId, }: Props) {
     const [isPending, startTransition] = useTransition()
-    const [pendingOptionId, setPendingOptionId] = useState<string | null>(null)
-    const markCompleted = useCheckoutStore((s) => s.markCompleted)
-    const setStep = useCheckoutSetStep()
+    const { setPendingShippingOptionId, pendingShippingOptionId, setStep, completeStep } = useCheckoutStore()
 
     function handleShippingMethod(optionId: string) {
         if (isPending || optionId === selectedMethodId) return
-        setPendingOptionId(optionId)
+        setPendingShippingOptionId(optionId)
         startTransition(async () => {
-            const res = await setCheckShipping(cartId, optionId)
+            const res = await setCheckoutShipping(optionId)
             if (res?.success) {
-                markCompleted("shipping")
+                completeStep("shipping")
                 setStep("payment")
             }
-            setPendingOptionId(null)
+            setPendingShippingOptionId(null)
         })
     }
     return (
@@ -33,7 +33,7 @@ export default function DeliveryCard({ availableMethods, cartId, currencyCode, s
         >
             {availableMethods.map((method, index) => {
                 const isSelected = selectedMethodId === method.id
-                const isLoading = isPending && pendingOptionId === method.id
+                const isLoading = isPending && pendingShippingOptionId === method.id
                 const isExpress = method.type?.code === "expedite"
                 return (
                     <Button
@@ -51,7 +51,7 @@ export default function DeliveryCard({ availableMethods, cartId, currencyCode, s
                         className={`relative flex w-full items-start rounded-xl border p-3 sm:p-4 text-left shadow-sm transition-all duration-200 ${isSelected
                             ? "bg-accent/5 ring-2 ring-offset-1 ring-accent border-accent"
                             : "border-border hover:border-accent hover:shadow-md"
-                            } ${isPending ? "opacity-50 cursor-wait" : "cursor-pointer"}`}
+                            } ${isPending ? "opacity-60 cursor-wait" : "cursor-pointer"}`}
                     >
                         <span className="flex-1 min-w-0">
                             <h3 className="flex items-center font-semibold text-sm sm:text-base">
@@ -62,7 +62,7 @@ export default function DeliveryCard({ availableMethods, cartId, currencyCode, s
                                 )}
                                 <span className="truncate">{method.name}</span>
                             </h3>
-                            <p className="mt-1 flex items-center text-xs sm:text-sm text-muted-foreground">
+                            <p className="mt-1 flex items-center text-xs sm:text-sm text-foreground-muted">
                                 <Clock className="w-3.5 h-3.5 mr-1 text-warning shrink-0" />
                                 <span className="line-clamp-1">{method.type?.description}</span>
                             </p>

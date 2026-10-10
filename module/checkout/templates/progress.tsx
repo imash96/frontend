@@ -1,176 +1,180 @@
 "use client"
 
-import { Check, CreditCard, MapPin, Truck } from "lucide-react";
-import { useCheckoutCompleted, useCheckoutStep, useCheckoutSetStep } from "@/lib/store/checkout-store";
-import { span as Span } from "motion/react-client";
-import type { StepType } from "@/types/common";
+import { memo } from "react"
+import { AnimatePresence, MotionConfig } from "motion/react"
+import { div as MotionDiv, span as MotionSpan } from "motion/react-client"
+import { Check, CreditCard, MapPin, Truck, type LucideIcon } from "lucide-react"
+import { STEP_INDEX, useCheckoutStore } from "@/lib/store/checkout-store"
+import type { StepType } from "@/types/common"
+import Container from "@/ui/container"
 
-export default function CheckoutProgress() {
-    const currentStep = useCheckoutStep()
-    const completedSteps = useCheckoutCompleted()
-    const setStep = useCheckoutSetStep()
-    const currentIndex = steps.findIndex((step) => step.id === currentStep)
+const StepItem = memo(function StepItem({ step, status, connectorFilled, isLast, disabled, onSelect, }: StepItemProps) {
+    const { id, name, subtitle, Icon } = step
 
     return (
-        <nav aria-label="Checkout progress" className="w-full mb-8">
-            <ol className="flex w-full items-start">
-                {steps.map((step, index) => {
-                    const isCompleted = completedSteps.includes(step.id)
-                    const isCurrent = step.id === currentStep
-                    const isClickable = !isCurrent && (isCompleted || index < currentIndex)
-
-                    const content = (
-                        <>
-                            <span
-                                className={[
-                                    "flex size-9 shrink-0 items-center justify-center rounded-full border-2 transition-all duration-300 sm:size-10",
-                                    isCompleted &&
-                                    "border-primary bg-primary text-primary-foreground shadow-sm",
-                                    isCurrent &&
-                                    !isCompleted &&
-                                    "border-accent text-accent ring-4 ring-accent/10",
-                                    !isCompleted &&
-                                    !isCurrent &&
-                                    "border-foreground-muted/30 text-foreground-muted/50",
-                                ]
-                                    .filter(Boolean)
-                                    .join(" ")}
+        <li className={`flex items-start sm:items-center ${isLast ? "" : "flex-1"}`}>
+            <button
+                type="button"
+                onClick={() => onSelect(id)}
+                disabled={disabled}
+                aria-current={status === "current" ? "step" : undefined}
+                className={`flex flex-col items-center gap-1.5 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 sm:flex-row sm:gap-0 ${BUTTON_CLASS[status]}`}
+            >
+                <span
+                    className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border-2 text-xs font-medium transition-colors duration-300 sm:h-10 sm:w-10 sm:text-sm ${CIRCLE_CLASS[status]}`}
+                >
+                    {/* initial={false}: no check-mark animation for steps already done on page load */}
+                    <AnimatePresence initial={false}>
+                        {status === "complete" ? (
+                            <MotionSpan
+                                key="check"
+                                className="flex"
+                                initial={{ scale: 0, rotate: -90 }}
+                                animate={{ scale: 1, rotate: 0 }}
+                                transition={{ type: "spring", stiffness: 500, damping: 25 }}
                             >
-                                <Span
-                                    key={isCompleted ? "completed" : "pending"}
-                                    initial={isCompleted ? { opacity: 0, scale: 0.5, rotate: -90, } : false}
-                                    animate={{
-                                        opacity: 1,
-                                        scale: 1,
-                                        rotate: 0,
-                                    }}
-                                    transition={{
-                                        type: "spring",
-                                        stiffness: 500,
-                                        damping: 24,
-                                    }}
-                                >
-                                    {isCompleted ? (
-                                        <Check className="size-4 sm:size-5" />
-                                    ) : (
-                                        <step.Icon className="size-4 sm:size-5" />
-                                    )}
-                                </Span>
-                            </span>
+                                <Check aria-hidden="true" className="h-4 w-4 sm:h-5 sm:w-5" />
+                            </MotionSpan>
+                        ) : (
+                            <Icon key="icon" aria-hidden="true" className="h-4 w-4 sm:h-5 sm:w-5" />
+                        )}
+                    </AnimatePresence>
+                </span>
 
-                            <span className="min-w-0 text-center sm:ml-3 sm:text-left">
-                                <span
-                                    className={[
-                                        "block text-[11px] font-semibold leading-tight transition-colors sm:text-sm",
-                                        isCurrent &&
-                                        "text-accent",
-                                        isCompleted &&
-                                        !isCurrent &&
-                                        "text-primary",
-                                        !isCompleted &&
-                                        !isCurrent &&
-                                        "text-foreground-muted/50",
-                                    ]
-                                        .filter(Boolean)
-                                        .join(" ")}
-                                >
-                                    {step.name}
-                                </span>
+                {/* <span> not <p>: block elements are invalid inside <button>. */}
+                <span className="text-center sm:ml-3 sm:text-left">
+                    <span
+                        className={`block text-[10px] font-semibold leading-tight transition-colors sm:text-sm ${TITLE_CLASS[status]}`}
+                    >
+                        {name}
+                        <span className="sr-only">{SR_STATUS[status]}</span>
+                    </span>
+                    <span
+                        className={`hidden text-xs leading-tight transition-colors sm:block ${SUBTITLE_CLASS[status]}`}
+                    >
+                        {subtitle}
+                    </span>
+                </span>
+            </button>
 
-                                <span
-                                    className={[
-                                        "mt-0.5 hidden text-xs leading-tight transition-colors sm:block",
-                                        isCurrent &&
-                                        "text-foreground",
-                                        isCompleted &&
-                                        !isCurrent &&
-                                        "text-foreground-muted",
-                                        !isCompleted &&
-                                        !isCurrent &&
-                                        "text-foreground-disabled",
-                                    ]
-                                        .filter(Boolean)
-                                        .join(" ")}
-                                >
-                                    {step.subtitle}
-                                </span>
-                            </span>
-                        </>
-                    )
+            {!isLast && (
+                <div
+                    aria-hidden="true"
+                    className="relative mx-2 mt-3.75 h-0.5 flex-1 overflow-hidden rounded-full bg-border sm:mx-4 sm:mt-0"
+                >
+                    <MotionDiv
+                        className="absolute inset-0 origin-left rounded-full bg-primary"
+                        initial={false}
+                        animate={{ scaleX: connectorFilled ? 1 : 0 }}
+                        transition={{ duration: 0.4, ease: "easeOut" }}
+                    />
+                </div>
+            )}
+        </li>
+    )
+})
 
-                    return (
-                        <li
-                            key={step.id}
-                            className="flex min-w-0 flex-1 items-center last:flex-none"
-                        >
-                            {isClickable ? (
-                                <button
-                                    type="button"
-                                    onClick={() => setStep(step.id)}
-                                    aria-label={`${step.name} step, completed`}
-                                    className="group flex min-w-0 items-center gap-1.5 rounded-lg text-left outline-none sm:gap-0"
-                                >
-                                    {content}
-                                </button>
-                            ) : (
-                                <div
-                                    aria-current={isCurrent ? "step" : undefined}
-                                    aria-disabled={!isCurrent ? true : undefined}
-                                    aria-label={`${step.name} step${isCurrent ? ", current" : isCompleted ? ", completed" : ""}`}
-                                    className={[
-                                        "flex min-w-0 items-center gap-1.5 sm:gap-0",
-                                        !isCurrent && !isCompleted && "cursor-not-allowed",
-                                    ].filter(Boolean).join(" ")}
-                                >
-                                    {content}
-                                </div>
-                            )}
+export default function CheckoutProgress() {
+    // Individual selectors: this component only re-renders when one of these changes.
+    const { currentStep, completedSteps, maxStepIndex, isPending, setStep } = useCheckoutStore();
+    const currentIndex = STEP_INDEX[currentStep]
 
-                            {index < steps.length - 1 && (
-                                <div
-                                    aria-hidden="true"
-                                    className="mx-2 h-0.5 min-w-3 flex-1 overflow-hidden rounded-full bg-border sm:mx-4"
-                                >
-                                    <Span
-                                        className="block h-full origin-left rounded-full bg-primary"
-                                        initial={false}
-                                        animate={{ scaleX: isCompleted ? 1 : 0 }}
-                                        transition={{ duration: 0.4, ease: "easeOut" }}
-                                    />
-                                </div>
-                            )}
-                        </li>
-                    )
-                })}
-            </ol>
-        </nav>
-    );
+    return (
+        <div className="border-b border-divider bg-surface/90 backdrop-blur-md">
+            <Container as="nav" size="xl" className="flex items-center justify-center py-3">
+                <MotionConfig reducedMotion="user">
+                    <ol aria-label="Checkout steps" className="flex w-full max-w-md items-start sm:items-center">
+                        {STEPS.map((step, index) => {
+                            const stepIndex = STEP_INDEX[step.id]
+                            // A tick only shows for confirmed steps behind the current one, so going back
+                            // to a step clears its tick (and every later one) while keeping them clickable.
+                            const status: StepStatus =
+                                step.id === currentStep
+                                    ? "current"
+                                    : stepIndex < currentIndex && completedSteps.includes(step.id)
+                                        ? "complete"
+                                        : stepIndex <= maxStepIndex
+                                            ? "reachable"
+                                            : "upcoming"
+
+                            return (
+                                <StepItem
+                                    key={step.id}
+                                    step={step}
+                                    status={status}
+                                    connectorFilled={status === "complete"}
+                                    isLast={index === STEPS.length - 1}
+                                    // Locked steps are inert; while a request is in flight nothing is clickable.
+                                    disabled={status === "upcoming" || isPending}
+                                    onSelect={setStep}
+                                />
+                            )
+                        })}
+                    </ol>
+                </MotionConfig>
+            </Container>
+        </div>
+    )
 }
 
-const steps = [
-    {
-        id: "address",
-        name: "Address",
-        subtitle: "Shipping & billing",
-        Icon: MapPin,
-    },
-    {
-        id: "shipping",
-        name: "Shipping",
-        subtitle: "Delivery method",
-        Icon: Truck,
-    },
-    {
-        id: "payment",
-        name: "Payment",
-        subtitle: "Payment details",
-        Icon: CreditCard,
-    },
-] as const satisfies readonly StepsType[]
+type StepStatus = "complete" | "current" | "reachable" | "upcoming"
 
-type StepsType = {
+type StepConfig = {
     id: StepType
     name: string
     subtitle: string
-    Icon: typeof MapPin
+    Icon: LucideIcon
+}
+
+const STEPS = [
+    { id: "address", name: "Address", subtitle: "Shipping & billing", Icon: MapPin },
+    { id: "shipping", name: "Shipping", subtitle: "Delivery method", Icon: Truck },
+    { id: "payment", name: "Payment", subtitle: "Payment details", Icon: CreditCard },
+] as const satisfies readonly StepConfig[]
+
+// Static class maps (instead of nested template ternaries) keep Tailwind's scanner happy
+// and make each state easy to read.
+const BUTTON_CLASS = {
+    complete: "cursor-pointer",
+    current: "cursor-default",
+    reachable: "cursor-pointer",
+    upcoming: "cursor-not-allowed",
+} as const satisfies Record<StepStatus, string>
+
+const CIRCLE_CLASS = {
+    complete: "border-success bg-success text-success-foreground shadow-sm",
+    current: "border-accent text-accent ring-4 ring-accent/10",
+    reachable: "border-foreground-muted/60 text-foreground-muted",
+    upcoming: "border-foreground-muted/30 text-foreground-muted/50",
+} as const satisfies Record<StepStatus, string>
+
+const TITLE_CLASS = {
+    complete: "text-primary",
+    current: "text-accent",
+    reachable: "text-foreground-muted",
+    upcoming: "text-foreground-muted/50",
+} as const satisfies Record<StepStatus, string>
+
+const SUBTITLE_CLASS = {
+    complete: "text-foreground-muted",
+    current: "text-foreground",
+    reachable: "text-foreground-muted",
+    upcoming: "text-foreground-disabled",
+} as const satisfies Record<StepStatus, string>
+
+const SR_STATUS = {
+    complete: ", completed. Activate to edit",
+    current: "",
+    reachable: ", available. Activate to go to this step",
+    upcoming: ", not available yet",
+} as const satisfies Record<StepStatus, string>
+
+type StepItemProps = {
+    step: (typeof STEPS)[number]
+    status: StepStatus
+    /** The connector after this step fills once the step itself is completed. */
+    connectorFilled: boolean
+    isLast: boolean
+    disabled: boolean
+    onSelect: (step: StepType) => boolean
 }

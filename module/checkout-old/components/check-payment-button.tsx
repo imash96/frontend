@@ -6,7 +6,7 @@ import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js"
 import { AlertCircle, Clock, CreditCard, Loader, Lock, Shield } from "lucide-react"
 import { useCallback, useState } from "react"
 import { ERROR_MESSAGES } from "@/data/payment"
-import { captureOrder, createOrder, placeCheckOrder } from "@/lib/action/checkout"
+import { captureOrder, createOrder, placeCheckoutOrder } from "@/lib/action/checkout"
 import { isManual, isPaypal, isPayU, isStripe } from "@/lib/constant"
 import { useCheckoutStore } from "@/lib/store/checkout-store"
 import ErrorMessage from "@/module/common/templates/error-message"
@@ -281,7 +281,7 @@ function PayPalPaymentInner({
         if (!res) {
           throw new Error(res || "PayPal capture failed")
         }
-        await placeCheckOrder()
+        await placeCheckoutOrder()
       } catch (err: any) {
         handleError(err?.message || "PayPal failed")
       }
@@ -469,7 +469,7 @@ function ManualPayment({ notReady }: { notReady: boolean }) {
     setError(null)
     setIsPending(true)
     try {
-      await placeCheckOrder()
+      await placeCheckoutOrder()
     } catch (err: any) {
       handleError(err?.message || ERROR_MESSAGES.DEFAULT_ERROR)
     } finally {

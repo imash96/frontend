@@ -1,67 +1,50 @@
-import BrowserWireframe from "@/icon/browser-wireframe";
-import ProviderContainer from "../componenets/provider-container";
-import { useCheckoutStore } from "@/lib/store/checkout-store";
-import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
-import { StoreCart } from "@medusajs/types";
-import { Loader } from "lucide-react";
-import { createOrder, onApprove } from "./common";
-import ErrorMessage from "@/module/common/templates/error-message";
+"use client"
 
+import type { StoreCart } from "@medusajs/types"
+import { PayPalButtons } from "@paypal/react-paypal-js"
+import BrowserWireframe from "@/icon/browser-wireframe"
+import { useCheckoutStore } from "@/lib/store/checkout-store"
+import ProviderPanel, { ProviderInfo, ProviderLoading } from "../componenets/provider-panel"
+import { usePayPalFlow } from "./paypal-flow"
+import { usePayPalSdk } from "./paypal-sdk"
 
-export default function PayPalDefault({ cart }: { cart: StoreCart }) {
+export default function PayPalDefault(_props: { cart: StoreCart }) {
     return (
-        <ProviderContainer>
-            <BrowserWireframe className="w-40 sm:w-48 lg:w-64" />
-            <p className="text-xs sm:text-sm text-muted-foreground max-w-sm">
-                After clicking &quot;Pay with PayPal&quot;, you will be redirected to
-                PayPal to complete your purchase securely.
-            </p>
-        </ProviderContainer>
+        <ProviderPanel>
+            <ProviderInfo icon={<BrowserWireframe className="w-40 sm:w-48" />}>
+                Use the PayPal button below. You&apos;ll confirm your payment in a secure PayPal window.
+            </ProviderInfo>
+        </ProviderPanel>
     )
 }
 
-export const PayPalPaymentButton = ({ cart, notReady, }: { cart: StoreCart; notReady: boolean }) => {
-    const { isPending, error, handleError } = useCheckoutStore();
-    const [{ isPending: payPalPending, isResolved }] = usePayPalScriptReducer()
-    const disabled = notReady || isPending
+export function PayPalPaymentButton({ cart }: { cart: StoreCart }) {
+    // Not isSubmitting: the buttons must stay enabled while PayPal's own window is open.
+    const blocked = useCheckoutStore((s) => s.notReady || s.isPending)
+    const beginSubmit = useCheckoutStore((s) => s.beginSubmit)
+    const sdk = usePayPalSdk({ currency: cart.currency_code, components: "buttons" })
+    const { createPaypalOrder, onApprove, onError, onCancel } = usePayPalFlow(cart.id)
 
-    if (payPalPending) {
-        return (
-            <div className="flex items-center justify-center py-6">
-                <Loader className="animate-spin w-6 h-6" />
-                <span className="ml-2 text-xs sm:text-sm text-muted-foreground">
-                    Loading PayPal…
-                </span>
-            </div>
-        )
-    }
+    if (sdk.isLoading) return <ProviderLoading>Loading PayPal…</ProviderLoading>
 
-    if (!isResolved) {
+    if (sdk.isRejected) {
         return (
-            <div className="text-xs sm:text-sm text-muted-foreground py-4 text-center">
-                PayPal not available
-            </div>
+            <p role="alert" className="text-center text-xs text-foreground-muted sm:text-sm">
+                PayPal couldn&apos;t be loaded. Please refresh the page or choose another payment method.
+            </p>
         )
     }
 
     return (
-        <div className="space-y-3">
-            <PayPalButtons
-                style={{
-                    shape: "rect",
-                    layout: "horizontal",
-                    color: "silver",
-                    label: "paypal",
-                }}
-                createOrder={() => createOrder(cart.id)}
-                onApprove={(data) => onApprove(cart.id, data)}
-                onError={(err) => {
-                    handleError(`PayPal payment failed. Please try again. ${err}`)
-                }}
-                disabled={disabled}
-                className="mt-4 sm:mt-6"
-            />
-            <ErrorMessage error={error} />
-        </div>
+        <PayPalButtons
+            style={{ shape: "rect", layout: "horizontal", color: "silver", label: "paypal" }}
+            disabled={blocked}
+            // Claim the payment before the PayPal window opens; a second click is rejected right here.
+            onClick={(_data, actions) => (beginSubmit() ? actions.resolve() : actions.reject())}
+            createOrder={() => createPaypalOrder(false)}
+            onApprove={onApprove}
+            onCancel={onCancel}
+            onError={onError}
+        />
     )
 }

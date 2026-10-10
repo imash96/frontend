@@ -1,14 +1,10 @@
-"use client"
-
-import { useCheckoutStep } from "@/lib/store/checkout-store"
+import { convertToLocale } from "@/lib/util/money"
 import { StoreCart, StoreCartShippingOption } from "@medusajs/types"
-import { Truck } from "lucide-react"
+import { Plane } from "lucide-react"
 import CheckoutStepHeader from "../componenets/step-header"
-import { div as Div } from "motion/react-client";
 import DeliveryCard from "../componenets/delivery-card"
 
-export default function StepShipping({ cart, shippingMethods }: StepAddressProps) {
-    const currentStep = useCheckoutStep()
+export default function StepShipping({ cart, shippingMethods }: StepShippingProps) {
 
     if (!shippingMethods) {
         return (
@@ -23,27 +19,61 @@ export default function StepShipping({ cart, shippingMethods }: StepAddressProps
         )
     }
 
+    const selectedMethod = cart.shipping_methods?.at(0)
+    const selectedOption = shippingMethods.find(
+        (m) => m.id === selectedMethod?.shipping_option_id
+    )
+
+    const completedView = selectedOption ? (
+        <>
+            <div className="flex flex-wrap items-center justify-between gap-4 p-5 text-xs sm:px-6">
+                <div className="flex items-center gap-3">
+                    <div className="flex size-9 items-center justify-center rounded-xl bg-accent/15 text-accent">
+                        <Plane className="size-4" />
+                    </div>
+                    <div>
+                        <p className="font-semibold text-text-primary">
+                            {selectedOption.name}
+                        </p>
+                        <p className="text-text-secondary">
+                            {(selectedOption.data as any)?.estimated_days ||
+                                "3–5 business days"}{" "}
+                            {/* {giftWrap ? "• Includes Cedar & Satin Gift Presentation" : ""} */}
+                        </p>
+                    </div>
+                </div>
+                <span className="font-mono text-sm font-bold text-text-primary">
+                    {selectedOption.amount === 0
+                        ? "FREE"
+                        : convertToLocale({
+                            amount: selectedOption.amount,
+                            currency_code: cart.currency_code || "usd",
+                        })}
+                </span>
+            </div>
+        </>
+    ) : null
+
     return (
-        <CheckoutStepHeader title="Delivery Method" subtitle="Choose your preferred shipping speed" Icon={Truck} currentStep={currentStep}>
-            <Div
-                key="shipping-list"
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.3, ease: "easeInOut" }}
-            >
-                <DeliveryCard
-                    availableMethods={shippingMethods}
-                    cartId={cart.id}
-                    currencyCode={cart.currency_code}
-                    selectedMethodId={cart.shipping_methods?.at(0)?.shipping_option_id}
-                />
-            </Div>
+        <CheckoutStepHeader
+            title="Delivery Method"
+            subtitle="Choose your preferred shipping speed"
+            number={2}
+            stepId="shipping"
+            completedContent={completedView}
+        >
+            <DeliveryCard
+                availableMethods={shippingMethods}
+                cartId={cart.id}
+                currencyCode={cart.currency_code}
+                selectedMethodId={cart.shipping_methods?.at(0)?.shipping_option_id}
+            />
         </CheckoutStepHeader>
     )
 }
 
-type StepAddressProps = {
+type StepShippingProps = {
     cart: StoreCart
     shippingMethods: StoreCartShippingOption[]
 }
+

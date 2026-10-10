@@ -3,11 +3,11 @@
 import type { StoreCart } from "@medusajs/types"
 import { PayPalButtons, PayPalCardFieldsProvider, PayPalCVVField, PayPalExpiryField, PayPalNameField, PayPalNumberField, usePayPalCardFields, } from "@paypal/react-paypal-js"
 import { useCallback, useEffect, useState } from "react"
-import { captureOrder, createOrder, markPaymentComplete, placeCheckOrder } from "@/lib/action/checkout"
+import { captureOrder, createOrder, markPaymentComplete, placeCheckoutOrder } from "@/lib/action/checkout"
 import ErrorMessage from "@/module/common/templates/error-message"
 import CheckPaymentContainer from "./check-payment-container"
 
-export default function CheckPayPalCard({ cart, }: { cart: StoreCart }) {
+export default function PayPalCard({ cart, }: { cart: StoreCart }) {
   const [error, setError] = useState<string | null>(null)
   const [isProcessing, setIsProcessing] = useState(false)
   const [isPaying, setIsPaying] = useState(false);
@@ -63,7 +63,7 @@ export default function CheckPayPalCard({ cart, }: { cart: StoreCart }) {
          * Your existing checkout action should now complete the
          * Medusa cart using the already-selected PayPal payment session.
          */
-        await placeCheckOrder()
+        await placeCheckoutOrder()
       } catch (err) {
         console.error("[PayPal Card] payment failed:", err)
 

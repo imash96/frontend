@@ -32,7 +32,7 @@ export default function CheckoutLineItem({ item, currency_code, }: CheckLineItem
                     </div>
                 </div>
 
-                <div className="shrink-0 text-right text-sm font-medium tabular-nums">
+                <div className="shrink-0 text-right text-sm font-medium tabular-nums font-mono">
                     {hasDiscount && (
                         <div className="text-xs text-foreground-muted line-through">
                             {convertToLocale({

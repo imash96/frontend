@@ -1,49 +1,53 @@
 import type { StoreCart } from "@medusajs/types"
-import { Clock, CreditCard, Shield } from "lucide-react"
+import { Clock, CreditCard, Wallet } from "lucide-react"
 import type { ComponentType } from "react"
-import PayPal from "@/icon/checkout-paypal"
-import SystemDefault from "../providers/system-default"
+import PayPalIcon from "@/icon/checkout-paypal"
+import { PAYMENT_PROVIDER } from "@/lib/constant"
 import PayPalCard from "../providers/paypal-card"
 import PayPalDefault from "../providers/paypal-default"
 import PayuDefault from "../providers/payu-default"
+import SystemDefault from "../providers/system-default"
 // import StripeDefault from "../providers/stripe-default"
 
 export const checkPaymentInfoMap = {
-  // pp_stripe_stripe: {
+  // [PAYMENT_PROVIDER.STRIPE]: {
   //   title: "Credit Card",
   //   desc: "Pay securely with your credit or debit card.",
-  //   Icon: <CreditCard className="w-6 h-6 sm:w-7 sm:h-7 text-foreground" />,
+  //   Icon: CreditCard,
   //   Preview: StripeDefault,
   // },
-  pp_paypal_paypal: {
+  [PAYMENT_PROVIDER.PAYPAL]: {
     title: "PayPal",
     desc: "Complete your purchase quickly and securely with PayPal.",
-    Icon: <PayPal className="w-6 h-6 sm:w-7 sm:h-7 text-foreground" />,
+    Icon: PayPalIcon,
     Preview: PayPalDefault,
   },
-  pp_paypal_card: {
+  [PAYMENT_PROVIDER.PAYPAL_CARD]: {
     title: "Debit or Credit Card",
     desc: "Pay with your card via PayPal's secure card processing.",
-    Icon: <CreditCard className="w-6 h-6 sm:w-7 sm:h-7 text-foreground" />,
+    Icon: CreditCard,
     Preview: PayPalCard,
   },
-  pp_payu_payu: {
+  [PAYMENT_PROVIDER.PAYU]: {
     title: "PayU",
-    desc: "UPI, Net Banking, Cards, Wallets — all Indian payment methods.",
-    Icon: <Shield className="w-6 h-6 sm:w-7 sm:h-7 text-foreground" />,
+    desc: "UPI, Net Banking, Cards and Wallets - all Indian payment methods.",
+    Icon: Wallet,
     Preview: PayuDefault,
   },
-  pp_system_default: {
+  [PAYMENT_PROVIDER.PAY_LATER]: {
     title: "Pay Later",
     desc: "Place your order now and pay later using your preferred method.",
-    Icon: <Clock className="w-6 h-6 sm:w-7 sm:h-7 text-foreground" />,
+    Icon: Clock,
     Preview: SystemDefault,
   },
 } as Record<string, PaymentInfo>
 
-type PaymentInfo = {
+
+export type PaymentInfo = {
   title: string
   desc: string
-  Icon: React.JSX.Element
+  Icon: ComponentType<{ className?: string }>
   Preview: ComponentType<{ cart: StoreCart }>
 }
+
+export const getPaymentInfo = (providerId: string): PaymentInfo | undefined => checkPaymentInfoMap[providerId]

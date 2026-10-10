@@ -1,52 +1,34 @@
+export const PAYMENT_PROVIDER = {
+  STRIPE: "pp_stripe_stripe",
+  PAYPAL: "pp_paypal_paypal",
+  PAYPAL_CARD: "pp_paypal_card",
+  PAYU: "pp_payu_payu",
+  PAY_LATER: "pp_system_default", // Medusa's built-in manual provider
+} as const
+
 // This only checks if it is native stripe for card payments, it ignores the other stripe-based providers
-export const isStripe = (providerId?: string) => providerId?.startsWith("pp_stripe_");
+export const isStripe = (providerId?: string) => providerId?.startsWith("pp_stripe_") ?? false
+export const isPaypal = (providerId?: string) => providerId?.startsWith("pp_paypal_") ?? false
+export const isManual = (providerId?: string) => providerId?.startsWith("pp_system_") ?? false
+export const isPayU = (providerId?: string) => providerId?.startsWith("pp_payu_") ?? false
 
-export const isPaypal = (providerId?: string) => providerId?.startsWith("pp_paypal_");
-
-export const isManual = (providerId?: string) => providerId?.startsWith("pp_system_");
-
-export const isPayU = (providerId?: string) => providerId?.startsWith("pp_payu_");
-
-export const provider = (providerId?: string) => {
-  switch (providerId) {
-    case "pp_paypal_paypal":
-      return "PayPal";
-    case "pp_paypal_card":
-      return "Debit or Credit Card (via PayPal)";
-    case "pp_payu_payu":
-      return "PayU Secure Checkout";
-    case "pp_system_manual":
-      return "Pay Later";
-    case "pp_stripe_stripe":
-      return "Debit or Credit Card (via Stripe)";
-    default:
-      return "Card / Online Payment";
-  }
+const PROVIDER_LABEL: Record<string, string> = {
+  [PAYMENT_PROVIDER.STRIPE]: "Debit or Credit Card (via Stripe)",
+  [PAYMENT_PROVIDER.PAYPAL]: "PayPal",
+  [PAYMENT_PROVIDER.PAYPAL_CARD]: "Debit or Credit Card (via PayPal)",
+  [PAYMENT_PROVIDER.PAYU]: "PayU Secure Checkout",
+  [PAYMENT_PROVIDER.PAY_LATER]: "Pay Later", // was keyed "pp_system_manual", which never matched
 }
 
-// Add currencies that don't need to be divided by 100
+export const provider = (providerId: string) => (PROVIDER_LABEL[providerId]) || "Card / Online Payment"
+
+// Currencies whose amounts are not stored in minor units (no division by 100).
 export const noDivisionCurrencies = [
-  "krw",
-  "jpy",
-  "vnd",
-  "clp",
-  "pyg",
-  "xaf",
-  "xof",
-  "bif",
-  "djf",
-  "gnf",
-  "kmf",
-  "mga",
-  "rwf",
-  "xpf",
-  "htg",
-  "vuv",
-  "xag",
-  "xdr",
-  "xau",
-];
+  "krw", "jpy", "vnd", "clp", "pyg", "xaf", "xof", "bif", "djf", "gnf", "kmf", "mga", "rwf", "xpf", "htg", "vuv", "xag", "xdr", "xau",
+]
 
 export const baseURL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
 export const PRODUCTS_PER_PAGE = 28
+
+export const CART_FIELDS = "*items, *region, *items.product, *items.variant, *items.thumbnail, *items.metadata, +items.total, *promotions, +shipping_methods.name"
