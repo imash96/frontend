@@ -2,10 +2,9 @@
 
 import type { StoreCart } from "@medusajs/types"
 import { PayPalButtons, PayPalCardFieldsProvider, PayPalCVVField, PayPalExpiryField, PayPalNameField, PayPalNumberField, usePayPalCardFields, } from "@paypal/react-paypal-js"
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useState } from "react"
 import { captureOrder, createOrder, markPaymentComplete, placeCheckoutOrder } from "@/lib/action/checkout"
-import ErrorMessage from "@/module/common/templates/error-message"
-import CheckPaymentContainer from "./check-payment-container"
+import CheckPaymentContainer from "./components/provider-panel"
 
 export default function PayPalCard({ cart, }: { cart: StoreCart }) {
   const [error, setError] = useState<string | null>(null)

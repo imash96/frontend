@@ -57,7 +57,7 @@ export async function removeDiscountAction(_prevState: DiscountActionState, form
     }
 
     try {
-        await removeDiscount(code);
+        await removeDiscount();
         return { status: "idle" };
     } catch (error) {
         return {

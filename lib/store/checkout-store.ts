@@ -11,6 +11,8 @@ export const STEP_ORDER = ["address", "shipping", "payment"] as const satisfies 
 
 export type StepStatus = "complete" | "current" | "reachable" | "upcoming"
 
+const LAST_INDEX = STEP_ORDER.length - 1
+
 export const STEP_INDEX: Readonly<Record<StepType, number>> = {
   address: 0,
   shipping: 1,
@@ -21,19 +23,26 @@ type CheckoutData = {
   currentStep: StepType
   completedSteps: readonly StepType[]
   maxStepIndex: number
-  pendingShippingOptionId: string | null
+  sameAsBilling: boolean
 
   isPending: boolean
-  error: string | null
   isSubmitting: boolean
+  error: string | null
   notReady: boolean
   activeSession: PaymentSessionRef | undefined
 }
 
 type CheckoutActions = {
-  initialize: (payload: { step: StepType; completed: readonly StepType[] }) => void
+  initialize: (payload: {
+    step: StepType
+    completed: readonly StepType[]
+    sameAsBilling?: boolean
+  }) => void
   setStep: (step: StepType) => boolean
   completeStep: (step: StepType) => void
+
+  setSameAsBilling: (value: boolean) => void
+  toggleSameAsBilling: () => void
 
   setIsPending: (value: boolean) => void
   setIsSubmitting: (value: boolean) => void
@@ -44,7 +53,6 @@ type CheckoutActions = {
   releaseLocks: () => void
 
   saveAddress: (formData: FormData) => Promise<boolean>
-  setPendingShippingOptionId: (id: string | null) => void
   selectShippingOption: (optionId: string) => Promise<boolean>
 
   setNotReady: (value: boolean) => void
@@ -74,7 +82,7 @@ const INITIAL_DATA: CheckoutData = {
   currentStep: "address",
   completedSteps: [],
   maxStepIndex: 0,
-  pendingShippingOptionId: null,
+  sameAsBilling: true,
 
   isPending: false,
   isSubmitting: false,
@@ -82,8 +90,6 @@ const INITIAL_DATA: CheckoutData = {
   notReady: true, // safe default: nothing can be paid until the cart proves it's ready
   activeSession: undefined,
 }
-
-const LAST_INDEX = STEP_ORDER.length - 1
 
 function advance(
   step: StepType,
@@ -93,6 +99,7 @@ function advance(
   return {
     completedSteps: STEP_ORDER.slice(0, index + 1),
     currentStep: STEP_ORDER[next] ?? step,
+    // Saving a step re-locks everything after the next one: later steps must be re-confirmed.
     maxStepIndex: next,
   }
 }
@@ -103,6 +110,7 @@ function unexpected(e: unknown) {
   return ERROR_MESSAGES.DEFAULT_ERROR
 }
 
+// Monotonic ids drop responses that arrive after a newer request (or a reset).
 let requestSeq = 0
 
 export const useCheckoutStore = create<CheckoutState>()(
@@ -111,13 +119,14 @@ export const useCheckoutStore = create<CheckoutState>()(
       ...INITIAL_DATA,
 
       // Seeds progress only. Payment fields are owned by syncPayment, which runs right after.
-      initialize: ({ step, completed }) => {
+      initialize: ({ step, completed, sameAsBilling }) => {
         const done = Array.isArray(completed) ? completed : []
         set(
           {
             currentStep: step && step in STEP_INDEX ? step : INITIAL_DATA.currentStep,
             completedSteps: done,
             maxStepIndex: Math.min(done.length, LAST_INDEX),
+            sameAsBilling: sameAsBilling ?? INITIAL_DATA.sameAsBilling,
             isPending: false,
             isSubmitting: false,
             error: null,
@@ -137,6 +146,11 @@ export const useCheckoutStore = create<CheckoutState>()(
 
       completeStep: (step) =>
         set({ ...advance(step), error: null }, false, "checkout/completeStep"),
+
+      setSameAsBilling: (sameAsBilling) =>
+        set({ sameAsBilling }, false, "checkout/setSameAsBilling"),
+      toggleSameAsBilling: () =>
+        set((s) => ({ sameAsBilling: !s.sameAsBilling }), false, "checkout/toggleSameAsBilling"),
 
       setIsPending: (isPending) => set({ isPending }, false, "checkout/setIsPending"),
       setIsSubmitting: (isSubmitting) =>
@@ -177,16 +191,12 @@ export const useCheckoutStore = create<CheckoutState>()(
       },
 
       // ── Shipping ─────────────────────────────────────────────────────────
-      setPendingShippingOptionId: (pendingShippingOptionId) =>
-        set({ pendingShippingOptionId }, false, "checkout/setPendingShippingOptionId"),
-
       selectShippingOption: async (optionId) => {
+        const { isPending, isSubmitting } = get()
+        if (isPending || isSubmitting) return false
+
         const id = ++requestSeq
-        set(
-          { pendingShippingOptionId: optionId, isPending: true, error: null },
-          false,
-          "checkout/shipping:start",
-        )
+        set({ isPending: true, error: null }, false, "checkout/shipping:start")
 
         let error: string | null = null
         try {
@@ -196,11 +206,9 @@ export const useCheckoutStore = create<CheckoutState>()(
           error = unexpected(e)
         }
 
-        if (id !== requestSeq) return false // superseded by a newer click
+        if (id !== requestSeq) return false // a reset happened while the request was in flight
         set(
-          error === null
-            ? { ...advance("shipping"), pendingShippingOptionId: null, isPending: false }
-            : { error, pendingShippingOptionId: null, isPending: false },
+          error === null ? { ...advance("shipping"), isPending: false } : { error, isPending: false },
           false,
           "checkout/shipping:done",
         )
@@ -209,7 +217,8 @@ export const useCheckoutStore = create<CheckoutState>()(
 
       // ── Payment ──────────────────────────────────────────────────────────
       setNotReady: (notReady) => set({ notReady }, false, "checkout/setNotReady"),
-      setActiveSession: (activeSession) => set({ activeSession }, false, "checkout/setActiveSession"),
+      setActiveSession: (activeSession) =>
+        set({ activeSession }, false, "checkout/setActiveSession"),
 
       syncPayment: ({ notReady, activeSession }) => {
         const prev = get()

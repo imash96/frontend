@@ -1,5 +1,5 @@
 import type { StoreCart } from "@medusajs/types"
-import { Clock, CreditCard, Wallet } from "lucide-react"
+import { CalendarClock, CreditCard, Wallet } from "lucide-react"
 import type { ComponentType } from "react"
 import PayPalIcon from "@/icon/checkout-paypal"
 import { PAYMENT_PROVIDER } from "@/lib/constant"
@@ -37,7 +37,7 @@ export const checkPaymentInfoMap = {
   [PAYMENT_PROVIDER.PAY_LATER]: {
     title: "Pay Later",
     desc: "Place your order now and pay later using your preferred method.",
-    Icon: Clock,
+    Icon: CalendarClock,
     Preview: SystemDefault,
   },
 } as Record<string, PaymentInfo>

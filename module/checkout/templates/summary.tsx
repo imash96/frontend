@@ -1,7 +1,7 @@
 import { StoreCart } from "@medusajs/types";
 import { convertToLocale } from "@/lib/util/money";
-import Discount from "@/module/checkout/componenets/discount";
-import CheckLineItem from "../componenets/line-item";
+import Discount from "@/module/checkout/components/discount";
+import CheckLineItem from "../components/line-item";
 import { LockIcon, ShieldCheckIcon, TruckIcon, type LucideIcon } from "lucide-react"
 
 export default function Summary({ cart }: { cart: StoreCart }) {

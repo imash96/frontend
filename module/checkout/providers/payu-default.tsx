@@ -5,8 +5,8 @@ import { ExternalLink, Shield } from "lucide-react"
 import { useMemo, useRef } from "react"
 import { useShallow } from "zustand/react/shallow"
 import { findActiveSession, selectCanPay, useCheckoutStore } from "@/lib/store/checkout-store"
-import { CheckoutButton } from "../componenets/checkout-button"
-import ProviderPanel, { ProviderInfo } from "../componenets/provider-panel"
+import { CheckoutButton } from "../components/checkout-button"
+import ProviderPanel, { ProviderInfo } from "../components/provider-panel"
 
 export default function PayuDefault() {
     return (

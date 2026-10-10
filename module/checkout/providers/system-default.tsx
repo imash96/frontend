@@ -1,5 +1,5 @@
 import { Clock } from "lucide-react"
-import ProviderPanel, { ProviderInfo } from "../componenets/provider-panel"
+import ProviderPanel, { ProviderInfo } from "../components/provider-panel"
 
 // The Place Order button lives in componenets/place-order-button.tsx.
 export default function SystemDefault() {

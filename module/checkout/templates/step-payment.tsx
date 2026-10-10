@@ -2,15 +2,14 @@
 
 import { StoreCart, StorePaymentProvider } from "@medusajs/types"
 import { CheckCircle, Circle, Loader2 } from "lucide-react"
-import CheckoutStepHeader from "../componenets/step-header"
+import CheckoutStepHeader from "../components/step-header"
 import { div as Div } from "motion/react-client"
 import { useShallow } from "zustand/react/shallow"
 import { memo, useCallback, useEffect, useMemo, useOptimistic, useTransition } from "react"
 import { AnimatePresence } from "motion/react"
-import { isPaypal } from "@/lib/constant"
-import PaymentButton from "../componenets/payment-button"
+import PaymentButton from "../components/payment-button"
 import { useCheckoutStore, selectIsBusy, findActiveSession, isCartNotReady } from "@/lib/store/checkout-store"
-import { getPaymentInfo, type PaymentInfo } from "../componenets/payment-map"
+import { getPaymentInfo, type PaymentInfo } from "../components/payment-map"
 import ErrorMessage from "@/module/common/templates/error-message"
 
 export default function StepPayment({ cart, paymentMethods }: StepPaymentProps) {

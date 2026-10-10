@@ -1,58 +1,43 @@
+import { deriveCheckoutProgress } from "@/lib/store/checkout-store"
+import type { StoreCart, StoreCartShippingOption } from "@medusajs/types"
+import { Truck, TruckElectric } from "lucide-react"
+import DeliveryCard from "../components/delivery-card"
 import { convertToLocale } from "@/lib/util/money"
-import { StoreCart, StoreCartShippingOption } from "@medusajs/types"
-import { Plane } from "lucide-react"
-import CheckoutStepHeader from "../componenets/step-header"
-import DeliveryCard from "../componenets/delivery-card"
+import CheckoutStepHeader from "../components/step-header"
 
 export default function StepShipping({ cart, shippingMethods }: StepShippingProps) {
+    // The newest method wins, as in the Medusa starter. Its name/amount come from the cart itself,
+    // so the summary shows what the customer is actually charged even if the options list changed.
+    const selectedMethod = cart.shipping_methods?.at(-1)
+    const selectedOption = shippingMethods.find((o) => o.id === selectedMethod?.shipping_option_id)
 
-    if (!shippingMethods) {
-        return (
-            <div className="lg:col-span-10 py-8 sm:py-12 text-center space-y-2 px-4">
-                <h1 className="text-base sm:text-lg font-semibold text-foreground">
-                    We couldn&apos;t load checkout
-                </h1>
-                <p className="text-xs sm:text-sm text-foreground-muted max-w-md mx-auto">
-                    Something went wrong loading shipping options. Please refresh the page or try again shortly.
-                </p>
+    const awaitingOptions = !deriveCheckoutProgress(cart).completed.includes("address")
+
+    let completedView: React.ReactNode = null
+    if (selectedMethod) {
+        const Icon = selectedOption && isExpressOption(selectedOption) ? TruckElectric : Truck
+        const estimate = selectedOption ? getDeliveryEstimate(selectedOption) : null
+
+        // No padding here: the step header's panel already provides it (it used to be doubled).
+        completedView = (
+            <div className="flex flex-wrap items-center justify-between gap-3">
+                <div className="flex min-w-0 items-center gap-3">
+                    <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-accent/10 text-accent">
+                        <Icon className="size-4" aria-hidden="true" />
+                    </span>
+                    <div className="min-w-0">
+                        <p className="truncate text-sm font-semibold text-foreground">
+                            {selectedMethod.name ?? selectedOption?.name}
+                        </p>
+                        {estimate && <p className="text-xs text-foreground-muted sm:text-sm">{estimate}</p>}
+                    </div>
+                </div>
+                <span className="text-sm font-semibold tabular-nums text-foreground">
+                    {formatShippingPrice(selectedMethod.amount, cart.currency_code)}
+                </span>
             </div>
         )
     }
-
-    const selectedMethod = cart.shipping_methods?.at(0)
-    const selectedOption = shippingMethods.find(
-        (m) => m.id === selectedMethod?.shipping_option_id
-    )
-
-    const completedView = selectedOption ? (
-        <>
-            <div className="flex flex-wrap items-center justify-between gap-4 p-5 text-xs sm:px-6">
-                <div className="flex items-center gap-3">
-                    <div className="flex size-9 items-center justify-center rounded-xl bg-accent/15 text-accent">
-                        <Plane className="size-4" />
-                    </div>
-                    <div>
-                        <p className="font-semibold text-text-primary">
-                            {selectedOption.name}
-                        </p>
-                        <p className="text-text-secondary">
-                            {(selectedOption.data as any)?.estimated_days ||
-                                "3–5 business days"}{" "}
-                            {/* {giftWrap ? "• Includes Cedar & Satin Gift Presentation" : ""} */}
-                        </p>
-                    </div>
-                </div>
-                <span className="font-mono text-sm font-bold text-text-primary">
-                    {selectedOption.amount === 0
-                        ? "FREE"
-                        : convertToLocale({
-                            amount: selectedOption.amount,
-                            currency_code: cart.currency_code || "usd",
-                        })}
-                </span>
-            </div>
-        </>
-    ) : null
 
     return (
         <CheckoutStepHeader
@@ -64,9 +49,9 @@ export default function StepShipping({ cart, shippingMethods }: StepShippingProp
         >
             <DeliveryCard
                 availableMethods={shippingMethods}
-                cartId={cart.id}
                 currencyCode={cart.currency_code}
-                selectedMethodId={cart.shipping_methods?.at(0)?.shipping_option_id}
+                selectedMethodId={selectedMethod?.shipping_option_id}
+                awaitingOptions={awaitingOptions}
             />
         </CheckoutStepHeader>
     )
@@ -77,3 +62,32 @@ type StepShippingProps = {
     shippingMethods: StoreCartShippingOption[]
 }
 
+const EXPRESS_TYPE_CODES: ReadonlySet<string> = new Set(["expedite", "express"])
+
+export function isExpressOption(option: Pick<StoreCartShippingOption, "type">) {
+    return EXPRESS_TYPE_CODES.has(option.type?.code ?? "")
+}
+
+/**
+ * "Free" for 0, a formatted price otherwise. Calculated-price options have no amount until the
+ * method is added to the cart, so they point at the order summary instead of showing NaN.
+ */
+export function formatShippingPrice(amount: number | null | undefined, currencyCode: string) {
+    if (typeof amount !== "number") return "Shown in order summary"
+    if (amount === 0) return "Free"
+    return convertToLocale({ amount, currency_code: currencyCode })
+}
+
+/**
+ * What we can honestly tell the customer about timing: a configured estimate, or the option's
+ * description. There is deliberately no default: the old "3-5 business days" fallback promised a
+ * delivery time nobody had configured.
+ */
+export function getDeliveryEstimate(
+    option: Pick<StoreCartShippingOption, "type" | "data">,
+): string | null {
+    const days = option.data?.estimated_days
+    if (typeof days === "number") return `${days} business ${days === 1 ? "day" : "days"}`
+    if (typeof days === "string" && days.trim()) return days.trim()
+    return option.type?.description?.trim() || null
+}

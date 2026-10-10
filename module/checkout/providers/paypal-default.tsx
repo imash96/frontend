@@ -4,7 +4,7 @@ import type { StoreCart } from "@medusajs/types"
 import { PayPalButtons } from "@paypal/react-paypal-js"
 import BrowserWireframe from "@/icon/browser-wireframe"
 import { useCheckoutStore } from "@/lib/store/checkout-store"
-import ProviderPanel, { ProviderInfo, ProviderLoading } from "../componenets/provider-panel"
+import ProviderPanel, { ProviderInfo, ProviderLoading } from "../components/provider-panel"
 import { usePayPalFlow } from "./paypal-flow"
 import { usePayPalSdk } from "./paypal-sdk"
 
