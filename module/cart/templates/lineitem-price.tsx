@@ -5,22 +5,20 @@ export default function LineItemPrice({
   item,
   currencyCode,
 }: LineItemPriceProps) {
-  const currentPrice = item.total ?? 0;
-  const originalPrice = item.original_total ?? currentPrice;
-  const hasReducedPrice = currentPrice < originalPrice;
+  const current = item.total ?? 0;
+  const original = item.original_total ?? current;
+  const reduced = current < original;
   return (
-    <div className="flex flex-col gap-x-1.5 md:gap-y-0.5 items-center md:items-end shrink-0">
+    <div className="flex shrink-0 flex-col items-end gap-0.5">
       <span
-        className={`font-medium ${hasReducedPrice ? "text-destructive" : ""}`}
+        className={`font-medium tabular-nums ${reduced ? "text-price-save" : "text-text-primary"
+          }`}
       >
-        {convertToLocale({ amount: currentPrice, currency_code: currencyCode })}
+        {convertToLocale({ amount: current, currency_code: currencyCode })}
       </span>
-      {hasReducedPrice && (
-        <del className="text-xs text-text-disabled line-through">
-          {convertToLocale({
-            amount: originalPrice,
-            currency_code: currencyCode,
-          })}
+      {reduced && (
+        <del className="text-xs text-text-disabled">
+          {convertToLocale({ amount: original, currency_code: currencyCode })}
         </del>
       )}
     </div>

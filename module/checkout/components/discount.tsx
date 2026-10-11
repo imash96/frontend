@@ -1,10 +1,9 @@
 "use client";
 
 import { AnimatePresence, motion } from "motion/react";
-import { Check, Loader2, Tag, X } from "lucide-react";
+import { ChevronDown, Loader2, Tag, X } from "lucide-react";
 import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
-import { useState } from "react";
 import { StoreCartPromotion } from "@medusajs/types";
 import { applyDiscount, removeDiscount } from "@/lib/action/checkout";
 
@@ -124,8 +123,8 @@ export default function DiscountCode({ promotions }: DiscountCodeProps) {
                         className="flex items-center justify-between gap-3 rounded-xl border border-accent/25 bg-accent/10 px-3.5 py-2.5 sm:px-4 sm:py-3"
                     >
                         <div className="flex min-w-0 items-center gap-2.5">
-                            <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-accent text-accent-foreground">
-                                <Check className="size-3.5" strokeWidth={2.5} />
+                            <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-accent text-success-foreground">
+                                <Tag className="size-3.5" strokeWidth={2.5} />
                             </span>
                             <div className="min-w-0">
                                 <p className="text-2xs font-medium uppercase tracking-wider text-foreground-tertiary">
@@ -141,38 +140,48 @@ export default function DiscountCode({ promotions }: DiscountCodeProps) {
                         </form>
                     </motion.div>
                 ) : (
-                    <motion.div
-                        key="promo-entry"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.18 }}
-                    >
+                    <details className="group/promo">
+                        <summary className="flex w-fit cursor-pointer list-none items-center gap-1.5 text-sm font-medium text-text-accent transition-colors hover:text-accent [&::-webkit-details-marker]:hidden">
+                            <Tag className="size-3.5" aria-hidden />
+                            {"Have a promo code?"}
+                            <ChevronDown
+                                className="size-3.5 transition-transform duration-300 group-open/promo:rotate-180"
+                                aria-hidden
+                            />
+                        </summary>
                         <motion.div
-                            initial={{ height: 0, opacity: 0 }}
-                            animate={{ height: "auto", opacity: 1 }}
-                            exit={{ height: 0, opacity: 0 }}
-                            transition={{
-                                height: { type: "spring", stiffness: 320, damping: 32 },
-                                opacity: { duration: 0.18 },
-                            }}
-                            className="overflow-hidden"
+                            key="promo-entry"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.18 }}
                         >
-                            <form action={applyFormAction} className="flex gap-2">
-                                <input
-                                    name="code"
-                                    type="text"
-                                    placeholder="Enter promo code"
-                                    autoComplete="off"
-                                    autoCapitalize="characters"
-                                    spellCheck={false}
-                                    className="h-10 min-w-0 flex-1 rounded-lg border border-input-border bg-input-background px-3.5 text-sm text-input-text outline-none transition-colors placeholder:text-input-placeholder focus:border-input-border-focus focus:ring-2 focus:ring-accent/20"
-                                />
+                            <motion.div
+                                initial={{ height: 0, opacity: 0 }}
+                                animate={{ height: "auto", opacity: 1 }}
+                                exit={{ height: 0, opacity: 0 }}
+                                transition={{
+                                    height: { type: "spring", stiffness: 320, damping: 32 },
+                                    opacity: { duration: 0.18 },
+                                }}
+                                className="overflow-hidden"
+                            >
+                                <form action={applyFormAction} className="flex gap-2">
+                                    <input
+                                        name="code"
+                                        type="text"
+                                        placeholder="Enter promo code"
+                                        autoComplete="off"
+                                        autoCapitalize="characters"
+                                        spellCheck={false}
+                                        className="h-10 min-w-0 flex-1 rounded-lg border border-input-border bg-input-background px-3.5 text-sm text-input-text outline-none transition-colors placeholder:text-input-placeholder focus:border-input-border-focus focus:ring-2 focus:ring-accent/20"
+                                    />
 
-                                <ApplySubmitButton />
-                            </form>
+                                    <ApplySubmitButton />
+                                </form>
+                            </motion.div>
                         </motion.div>
-                    </motion.div>
+                    </details>
                 )}
             </AnimatePresence>
 
