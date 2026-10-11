@@ -5,7 +5,7 @@ export default function WarrantyRepairs() {
         <>
             <header className="mb-8">
                 <h1 className="text-3xl uppercase tracking-tight">Warranty & Repairs</h1>
-                <p className="mt-2 text-sm text-foreground-muted">Our Commitment to Quality — Built to Last, Backed by Us</p>
+                <p className="mt-2 text-sm text-foreground-tertiary">Our Commitment to Quality — Built to Last, Backed by Us</p>
             </header>
             <section className="max-w-none space-y-6">
                 <p className="text-sm tracking-wide font-light">
@@ -27,11 +27,11 @@ export default function WarrantyRepairs() {
                                 </tr>
                             </thead>
                             <tbody className="font-light tracking-wide">
-                                <tr className="border-b border-border/50"><td className="py-3 px-4">Leather Jackets, Coats & Blazers</td><td className="py-3 px-4">1 Year</td></tr>
-                                <tr className="border-b border-border/50"><td className="py-3 px-4">Leather Pants, Skirts & Shorts</td><td className="py-3 px-4">1 Year</td></tr>
-                                <tr className="border-b border-border/50"><td className="py-3 px-4">Bags, Wallets & Accessories</td><td className="py-3 px-4">6 Months</td></tr>
-                                <tr className="border-b border-border/50"><td className="py-3 px-4">Pillow Covers & Home Goods</td><td className="py-3 px-4">6 Months</td></tr>
-                                <tr><td className="py-3 px-4">Bespoke / Custom Orders</td><td className="py-3 px-4">1 Year</td></tr>
+                                <tr className="border-b border-border/50"><td className="py-3 px-4">Leather Jackets, Coats & Blazers</td><td className="py-3 px-4">2 Years</td></tr>
+                                <tr className="border-b border-border/50"><td className="py-3 px-4">Leather Pants, Skirts & Shorts</td><td className="py-3 px-4">2 Years</td></tr>
+                                <tr className="border-b border-border/50"><td className="py-3 px-4">Bags, Wallets & Accessories</td><td className="py-3 px-4">2 Years</td></tr>
+                                <tr className="border-b border-border/50"><td className="py-3 px-4">Pillow Covers & Home Goods</td><td className="py-3 px-4">2 Years</td></tr>
+                                <tr><td className="py-3 px-4">Bespoke / Custom Orders</td><td className="py-3 px-4">2 Years</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -77,7 +77,7 @@ export default function WarrantyRepairs() {
                         <li><strong>Re-dyeing & Color Restoration:</strong> Professional re-dyeing to refresh faded or worn leather.</li>
                         <li><strong>Resizing & Alterations:</strong> Adjustments to fit — taking in, letting out, shortening sleeves, or adjusting hems.</li>
                     </ul>
-                    <p className="text-sm tracking-wide font-light text-foreground-muted italic">
+                    <p className="text-sm tracking-wide font-light text-foreground-tertiary italic">
                         Repair pricing varies based on the type of service. Contact us for a quote.
                     </p>
                 </div>

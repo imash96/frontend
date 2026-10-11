@@ -4,9 +4,10 @@ import type { StoreCart } from "@medusajs/types"
 import { ExternalLink, Shield } from "lucide-react"
 import { useMemo, useRef } from "react"
 import { useShallow } from "zustand/react/shallow"
-import { findActiveSession, selectCanPay, useCheckoutStore } from "@/lib/store/checkout-store"
+import { selectCanPay, useCheckoutStore } from "@/lib/store/checkout-store"
 import { CheckoutButton } from "../components/checkout-button"
 import ProviderPanel, { ProviderInfo } from "../components/provider-panel"
+import { findActiveSession } from "@/lib/store/checkout-steps"
 
 export default function PayuDefault() {
     return (
@@ -85,7 +86,7 @@ export function PayUPaymentButton({ cart }: { cart: StoreCart }) {
                 </form>
             )}
             {!form && (
-                <p role="status" className="text-center text-xs text-foreground-muted sm:text-sm">
+                <p role="status" className="text-center text-xs text-foreground-tertiary sm:text-sm">
                     Select PayU again to refresh your payment session.
                 </p>
             )}

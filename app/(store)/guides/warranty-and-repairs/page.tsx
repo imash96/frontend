@@ -1,20 +1,25 @@
 import type { Metadata } from "next"
 import buildJsonLd from "@/lib/util/jsonld"
 import WarrantyRepairs from "@/module/guides/templates/warranty-repairs"
+import { baseURL } from "@/lib/constant";
 
 export default function Page() {
     return <WarrantyRepairs />;
 }
 
 export async function generateMetadata(): Promise<Metadata> {
-    const canonical = "https://vellehide.com/guides/warranty-and-repairs"
+    const canonical = `${baseURL}/guides/warranty-and-repairs`
     const jsonLd = {
         "@context": "https://schema.org",
         "@type": "WebPage",
         "name": "Warranty & Repairs | VelleHide",
         "url": canonical,
         "description": "Learn about VelleHide's warranty coverage, repair services, and quality guarantee for all leather goods. Craftsmanship you can trust.",
-        "isPartOf": { "@type": "WebSite", "name": "VelleHide", "url": "https://vellehide.com" },
+        "isPartOf": {
+            "@type": "WebSite",
+            "name": "VelleHide",
+            "url": baseURL
+        },
         "datePublished": "2025-09-25",
         "dateModified": "2025-09-25"
     }

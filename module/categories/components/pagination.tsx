@@ -131,7 +131,7 @@ function PaginationLink({
         <Link
             href={href as Route}
             className={`${base} text-text-secondary hover:bg-muted hover:text-text-primary active:scale-95 ${className}`}
-            scroll={false}
+            scroll={true}
             {...rest}
         >
             {children}

@@ -17,6 +17,7 @@ export default function ReviewCard({ review }: { review: CustomerReview }) {
     year: "numeric",
     month: "short",
     day: "numeric",
+    timeZone: "UTC",
   });
 
   const rating = review.rating;
@@ -25,7 +26,7 @@ export default function ReviewCard({ review }: { review: CustomerReview }) {
 
   return (
     <>
-      <div className="border border-border rounded-lg bg-background-elevated p-4 sm:p-5 transition-shadow hover:shadow-md group">
+      <div className="border border-border rounded-lg bg-surface-elevated p-4 sm:p-5 transition-shadow hover:shadow-md group">
         {/* Product Info */}
         <div className="flex items-start gap-3 mb-3">
           {review.product?.thumbnail && (
@@ -61,11 +62,10 @@ export default function ReviewCard({ review }: { review: CustomerReview }) {
                 <Star
                   key={i}
                   size={14}
-                  className={`shrink-0 ${
-                    i <= rating
-                      ? "fill-rating-filled text-rating-filled"
-                      : "fill-rating-empty text-rating-empty"
-                  }`}
+                  className={`shrink-0 ${i <= rating
+                    ? "fill-rating-filled text-rating-filled"
+                    : "fill-rating-empty text-rating-empty"
+                    }`}
                 />
               ))}
             </div>
@@ -88,7 +88,7 @@ export default function ReviewCard({ review }: { review: CustomerReview }) {
           <div className="flex gap-1 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
             <button
               aria-label="Delete review"
-              className="p-2 text-foreground-muted hover:text-destructive hover:bg-destructive/20 rounded-md transition"
+              className="p-2 text-foreground-tertiary hover:text-destructive hover:bg-destructive/20 rounded-md transition"
               onClick={() => setShowDeleteConfirm(true)}
             >
               {isDeleting ? (

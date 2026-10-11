@@ -3,7 +3,7 @@
 import type { StoreCartPromotion } from "@medusajs/types";
 import { Loader2, Tag, X } from "lucide-react";
 import { useActionState, useEffect, useState, useTransition } from "react";
-import { applyPromotions } from "@/lib/action/cart";
+import { applyPromoCode, removePromoCode } from "@/lib/action/cart";
 import type { FormState } from "@/types/common";
 import Button from "@/ui/button";
 import CustomInput from "@/ui/input";
@@ -19,7 +19,7 @@ const handlePromoCode = async (
   }
 
   try {
-    await applyPromotions([code]);
+    await applyPromoCode(code);
     return { success: true, error: null, message: code };
   } catch (error) {
     return {
@@ -41,10 +41,9 @@ export default function OptimizeDiscountCode({ promotions, }: { promotions: Stor
     if (state.success && state.message) setAppliedCode(state.message);
   }, [state]);
 
-  const removePromotionCode = (code: string) => {
-    const remainingPromotions = promotions.filter((p) => p.code !== code);
+  const removePromotionCode = () => {
     startTransition(() =>
-      applyPromotions(remainingPromotions.map((p) => p.code!).filter(Boolean)).then(() =>
+      removePromoCode().then(() =>
         setAppliedCode(undefined),
       ),
     );
@@ -62,7 +61,7 @@ export default function OptimizeDiscountCode({ promotions, }: { promotions: Stor
         </div>
         <button
           type="button"
-          onClick={() => removePromotionCode(appliedCode)}
+          onClick={() => removePromotionCode()}
           disabled={isRemoving}
           className="flex shrink-0 items-center gap-1.5 text-xs font-medium text-text-secondary transition-colors hover:text-destructive disabled:pointer-events-none disabled:opacity-50"
         >

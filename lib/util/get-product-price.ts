@@ -14,7 +14,7 @@ export const getPricesForVariant = (variant: any) => {
         original_price_number: original_amount,
         original_price: convertToLocale({ amount: original_amount, currency_code }),
         currency_code,
-        price_type: calculated_price.price_list_type,
+        price_type: calculated_price?.price_list_type,
         percentage_diff: getPercentageDiff(original_amount, calculated_amount),
     }
 }

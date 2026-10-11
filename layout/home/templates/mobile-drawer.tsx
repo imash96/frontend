@@ -11,7 +11,8 @@ import { ProductCategory } from "@/types/common";
 import { Drawer } from "@/ui/drawer";
 
 export default function MobileDrawer() {
-    const { active, close: closeMenu } = useDrawerStore()
+    const active = useDrawerStore((s) => s.active)
+    const closeMenu = useDrawerStore((s) => s.close)
     const [navStack, setNavStack] = useState<NavState[]>([
         { level: 0, category: null, breadcrumb: [] },
     ]);

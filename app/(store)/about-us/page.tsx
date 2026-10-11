@@ -3,8 +3,8 @@ import { baseURL } from "@/lib/constant";
 import AboutUs from "@/module/about-us/templates/about-us";
 import JsonLd from "@/module/products/templates/json-ld";
 
-const title = "Our Story — Handcrafted Leather Jackets Since 2009";
-const description = "Velle Hide is a small leather atelier making full-grain jackets, coats and bags by hand since 2009. Meet the makers, see how a hide becomes a jacket, and read why we build every piece to be repaired rather than replaced.";
+const title = "Our Story - Handcrafted Leather Jackets Since 1995";
+const description = "Velle Hide is a small leather atelier making full-grain jackets, coats and bags by hand since 1995. Meet the makers, see how a hide becomes a jacket, and read why we build every piece to be repaired rather than replaced.";
 
 export default function Page() {
     return (
@@ -65,7 +65,7 @@ const aboutJsonLd = {
         name: "Velle Hide",
         url: baseURL,
         logo: `${baseURL}/logo.png`,
-        foundingDate: "2009",
+        foundingDate: "1995-01-01",
         description:
             "Handcrafted full-grain leather jackets, coats, bags and accessories, made to be repaired rather than replaced.",
         sameAs: [

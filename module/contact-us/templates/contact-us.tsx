@@ -1,7 +1,7 @@
 import { ArrowUpRight, BookOpen, CircleHelp, Clock, Mail, MapPin, MessageCircleQuestion, Package, Ruler, ShieldCheck, Wrench, } from "lucide-react";
 import Link from "next/link";
 import { contactInfo } from "@/data/footer";
-import Facebook from "@/icon/icon-facebok";
+import Facebook from "@/icon/icon-facebook";
 import Instagram from "@/icon/icon-instagram";
 import ContactForm from "@/module/contact-us/components/contact-form";
 import Container from "@/ui/container";

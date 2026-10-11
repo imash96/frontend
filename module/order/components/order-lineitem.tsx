@@ -1,7 +1,7 @@
 import { StoreOrderLineItem } from "@medusajs/types";
 import Link from "next/link";
 import { convertToLocale } from "@/lib/util/money";
-import ProductThumbnail from "@/module/products/components/product-thumbnail";
+import { ProductThumbnailN as ProductThumbnail } from "@/module/products/components/product-thumbnail";
 
 export default function OrderLineitem({ item, currencyCode, className = "" }: OrderLineitemProp) {
     return (
@@ -28,7 +28,7 @@ export default function OrderLineitem({ item, currencyCode, className = "" }: Or
                         {convertToLocale({ amount: item.total, currency_code: currencyCode })}
                     </span>
                 </div>
-                <div className="text-sm text-foreground-muted truncate">
+                <div className="text-sm text-foreground-tertiary truncate">
                     <p><strong>Variant: </strong>{item.variant?.title ?? "Standard"}</p>
                     <p><strong>Type: </strong>{item.product_type ?? "Standard"}</p>
                     <p><strong>Qty: </strong>{item.quantity}</p>

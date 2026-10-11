@@ -112,7 +112,7 @@ export default function LeatherTypes() {
         <>
             <header className="mb-8">
                 <h1 className="text-3xl uppercase tracking-tight">Leather Types Guide</h1>
-                <p className="mt-2 text-sm text-foreground-muted">Understanding the Leather Behind Every VelleHide Creation</p>
+                <p className="mt-2 text-sm text-foreground-tertiary">Understanding the Leather Behind Every VelleHide Creation</p>
             </header>
             <section className="max-w-none space-y-6">
                 <p className="text-sm tracking-wide font-light">
@@ -126,7 +126,7 @@ export default function LeatherTypes() {
                             <h2 className="text-xl uppercase">{idx + 1}. {leather.name}</h2>
                             <span className="text-xs font-medium px-2 py-0.5 rounded-full border border-accent/40 text-accent">{leather.grade}</span>
                         </div>
-                        <p className="text-sm tracking-wide font-light text-foreground-muted">
+                        <p className="text-sm tracking-wide font-light text-foreground-tertiary">
                             <strong>Source:</strong> {leather.source}
                         </p>
                         <ul className="list-inside list-disc space-y-2 text-sm tracking-wide font-light">
@@ -137,7 +137,7 @@ export default function LeatherTypes() {
                         <p className="text-sm tracking-wide font-light">
                             <strong>Best For:</strong> {leather.bestFor}
                         </p>
-                        <p className="text-sm tracking-wide font-light text-foreground-muted italic">
+                        <p className="text-sm tracking-wide font-light text-foreground-tertiary italic">
                             <strong>Care:</strong> {leather.care}
                         </p>
                     </div>

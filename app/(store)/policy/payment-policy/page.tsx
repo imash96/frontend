@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import buildJsonLd from "@/lib/util/jsonld"
 import PaymentPolicy from "@/module/policy/templates/payment-policy"
+import { baseURL } from "@/lib/constant"
 
 export default function Page() {
     return (
@@ -9,7 +10,7 @@ export default function Page() {
 }
 
 export async function generateMetadata(): Promise<Metadata> {
-    const canonical = "https://vellehide.com/policy/payment-policy"
+    const canonical = `${baseURL}/policy/payment-policy`
     const policyLd = {
         "@context": "https://schema.org",
         "@type": "WebPage",
@@ -19,7 +20,7 @@ export async function generateMetadata(): Promise<Metadata> {
         "isPartOf": {
             "@type": "WebSite",
             "name": "VelleHide",
-            "url": "https://vellehide.com"
+            "url": baseURL
         },
         "datePublished": "2025-08-28",
         "dateModified": "2025-08-28",
@@ -30,7 +31,7 @@ export async function generateMetadata(): Promise<Metadata> {
                     "@type": "ListItem",
                     "position": 1,
                     "name": "Home",
-                    "item": "https://vellehide.com"
+                    "item": baseURL
                 },
                 {
                     "@type": "ListItem",

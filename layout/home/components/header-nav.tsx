@@ -467,7 +467,7 @@ function MegaColumn({
                 <div
                     className={`mt-1.5 mb-3 h-0.5 rounded-full transition-all duration-300 ${isActive ? "w-full" : "w-8 group-hover/head:w-full"}`}
                     style={{
-                        background: isActive ? "linear-linear(to right, var(--accent), transparent)" : "linear-linear(to right, var(--border-strong), transparent)",
+                        background: isActive ? "linear-gradient(to right, var(--accent), transparent)" : "linear-gradient(to right, var(--border-strong), transparent)",
                     }}
                 />
             </Link>

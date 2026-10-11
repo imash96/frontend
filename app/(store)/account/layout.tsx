@@ -47,12 +47,12 @@ export default function Layout({ children }: LayoutProps<"/account">) {
         </aside>
 
         {/* Main Content */}
-        <main
+        <section
           className="flex-1 py-4 lg:py-0 min-w-0 animate-fade-in-up"
           style={{ animationDelay: "100ms" }}
         >
           {children}
-        </main>
+        </section>
       </div>
 
       <hr className="my-8 lg:my-12 border-border" />

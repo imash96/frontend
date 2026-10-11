@@ -16,6 +16,7 @@ import { Carousel, ImageGallery } from '@/ui/custom/product-gallery';
 import { InstallmentPrice, Price, PriceRange, PriceWithDiscount, SavingsDisplay } from '@/ui/custom/product-price';
 import QuantitySelector, { CompactQuantitySelector } from '@/ui/custom/product-quantity';
 import { ImageZoom, LensMagnifier, SideBySideZoom } from '@/ui/custom/product-zoom';
+import { baseURL } from '@/lib/constant';
 
 export default function CustomTab() {
     // State for interactive components
@@ -814,7 +815,7 @@ export default function CustomTab() {
                             </CardHeader>
                             <CardContent>
                                 <ShareButtons
-                                    url="https://vellehide.com/products/leather-jacket"
+                                    url={`${baseURL}/products/leather-jacket`}
                                     title="Classic Leather Jacket"
                                     variant="icons"
                                     platforms={['facebook', 'twitter', 'pinterest', 'whatsapp', 'copy']}
@@ -828,7 +829,7 @@ export default function CustomTab() {
                             </CardHeader>
                             <CardContent>
                                 <ShareButtons
-                                    url="https://vellehide.com/products/leather-jacket"
+                                    url={`${baseURL}/products/leather-jacket`}
                                     title="Classic Leather Jacket"
                                     variant="buttons"
                                     platforms={['facebook', 'twitter', 'email', 'copy']}

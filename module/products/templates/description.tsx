@@ -150,7 +150,7 @@ const storyBlocksB = [
 const features = [
     {
         title: "Master Craftsmanship",
-        desc: "Each jacket is hand-cut and sewn by artisans with 20+ years of experience in our Florentine workshop.",
+        desc: "Each jacket is hand-cut and sewn by artisans with 20+ years of experience in our workshop.",
         icon: Scissors,
     },
     {
@@ -179,8 +179,8 @@ const APLUS = [
 
 const PROMISES = [
     { icon: Shield, title: "2-Year Warranty", desc: "Full coverage on craftsmanship and hardware defects." },
-    { icon: Package, title: "Free Shipping", desc: "Complimentary express shipping on all orders over $250." },
-    { icon: Star, title: "30-Day Returns", desc: "Hassle-free returns with a pre-paid shipping label included." },
+    { icon: Package, title: "Free Shipping", desc: "Complimentary express shipping on all orders over $149." },
+    { icon: Star, title: "14-Day Returns", desc: "Easy returns with a pre-paid shipping label included. 15% restocking fee for non-defective items." },
     { icon: Award, title: "Authenticity Card", desc: "Every jacket ships with a numbered certificate of authenticity." },
 ]
 

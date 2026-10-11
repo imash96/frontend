@@ -23,7 +23,7 @@ export default function CheckError({ error, reset, }: { error: Error & { digest?
       <h1 className="text-lg sm:text-xl font-semibold text-foreground">
         Something went wrong
       </h1>
-      <p className="text-sm text-foreground-muted max-w-md">
+      <p className="text-sm text-foreground-tertiary max-w-md">
         {error.message || "An unexpected error occurred during checkout. Please try again."}
       </p>
       <Button onClick={reset} variant="primary" size="md">

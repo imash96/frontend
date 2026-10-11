@@ -90,7 +90,7 @@ export async function getOrCreateWishlist(): Promise<Wishlist | null> {
 async function resolveSalesChannelId(
     headers: Record<string, string>,
 ): Promise<string | null> {
-    // 1. Env var override
+    // 1. Env var override (recommended: set NEXT_PUBLIC_MEDUSA_SALES_CHANNEL_ID)
     const envId = process.env.NEXT_PUBLIC_MEDUSA_SALES_CHANNEL_ID
     if (envId) return envId
 
@@ -102,24 +102,6 @@ async function resolveSalesChannelId(
             const { cart } = await sdk.store.cart.retrieve(cartId, {}, headers)
             const salesChannelId = (cart as any)?.sales_channel_id
             if (salesChannelId) return salesChannelId
-        }
-    } catch {
-        // ignore
-    }
-
-    // 3. Last resort: query regions and create a minimal cart
-    try {
-        const { regions } = await sdk.client.fetch<{
-            regions: { id: string }[]
-        }>(`/store/regions`, { method: "GET", headers })
-
-        if (regions?.[0]?.id) {
-            const { cart } = await sdk.store.cart.create(
-                { region_id: regions[0].id },
-                {},
-                headers,
-            )
-            return (cart as any)?.sales_channel_id ?? null
         }
     } catch {
         // ignore

@@ -56,7 +56,7 @@ export default function CheckoutStepHeader({ title, subtitle, number, stepId, ch
                         >
                             {title}
                         </h2>
-                        <p className="text-xs text-foreground-muted sm:text-sm">{subtitle}</p>
+                        <p className="text-xs text-foreground-tertiary sm:text-sm">{subtitle}</p>
                     </div>
                 </div>
 

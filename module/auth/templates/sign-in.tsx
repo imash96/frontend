@@ -22,7 +22,7 @@ export default function SIGNIN() {
       <div className="flex items-center justify-end -mt-2">
         <div className="text-sm leading-6">
           <Link
-            href="/auth/forgot-password"
+            href="/auth/forget-password"
             className="font-semibold text-secondary hover:text-link transition-colors"
           >
             Forgot password?

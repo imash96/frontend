@@ -2,7 +2,7 @@
 
 import type { StoreCart } from "@medusajs/types"
 import { AlertCircle, Clock } from "lucide-react"
-import { PAYMENT_PROVIDER } from "@/lib/constant"
+import { isPaypalCard, PAYMENT_PROVIDER } from "@/lib/constant"
 import { useCheckoutStore } from "@/lib/store/checkout-store"
 import { PayPalPaymentButton } from "../providers/paypal-default"
 import { PayUPaymentButton } from "../providers/payu-default"
@@ -20,6 +20,8 @@ export default function PaymentButton({ cart }: { cart: StoreCart }) {
             </CheckoutButton>
         )
     }
+
+    if (isPaypalCard(providerId)) return null
 
     let button: React.ReactNode
     switch (providerId) {

@@ -28,7 +28,7 @@ export function CheckoutButton({
             >
                 {children ?? (isLoading ? "Processing..." : "Pay")}
             </Button>
-            <p className="flex items-center justify-center gap-1.5 text-xs text-foreground-muted">
+            <p className="flex items-center justify-center gap-1.5 text-xs text-foreground-tertiary">
                 <Lock className="size-3.5 shrink-0" aria-hidden="true" />
                 Transactions are secured and encrypted
             </p>
@@ -38,7 +38,7 @@ export function CheckoutButton({
 
 export function NotReadyHint() {
     return (
-        <p role="status" className="text-center text-xs text-foreground-muted sm:text-sm">
+        <p role="status" className="text-center text-xs text-foreground-tertiary sm:text-sm">
             Add your address and choose a delivery method to continue.
         </p>
     )

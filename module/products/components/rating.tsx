@@ -3,7 +3,7 @@ import { Star } from "lucide-react";
 export function StarRating({
     rating,
     count,
-    className,
+    className = "",
 }: {
     rating: number;
     count: number;

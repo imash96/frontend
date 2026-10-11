@@ -9,7 +9,7 @@ import CartSummary from "@/module/cart/templates/cart-summary";
 import LineItemPrice from "@/module/cart/templates/lineitem-price";
 import SignInPrompt from "@/module/cart/templates/sign-in-prompt";
 import EmptyCart from "@/module/common/templates/empty-cart";
-import ProductThumbnail from "@/module/products/components/product-thumbnail";
+import { ProductThumbnailN as ProductThumbnail } from "@/module/products/components/product-thumbnail";
 import Container from "@/ui/container";
 
 export const metadata: Metadata = {

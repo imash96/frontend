@@ -1,21 +1,9 @@
 import { Metadata, Viewport } from "next";
-import { Bricolage_Grotesque, Inter } from "next/font/google";
 import Link from "next/link";
 
 import "@/css/globals.css";
 import { baseURL } from "@/lib/constant";
-
-export const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-body",
-  display: "swap",
-})
-
-export const bricolage = Bricolage_Grotesque({
-  subsets: ["latin"],
-  variable: "--font-heading",
-  display: "swap",
-})
+import { bricolage, inter } from "@/lib/fonts";
 
 
 export const viewport: Viewport = {

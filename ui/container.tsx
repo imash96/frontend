@@ -101,7 +101,7 @@ export default function Container<T extends React.ElementType = "div">({
     size = "lg",
     padding = "default",
     section,
-    className,
+    className = "",
     children,
     ...props
 }: ContainerProps<T>) {

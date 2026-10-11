@@ -34,7 +34,7 @@ export default function AccountFooter() {
           <Link
             key={link.href}
             href={link.href as Route}
-            className="group flex items-start gap-3 p-4 rounded-xl border border-border bg-background-elevated hover:bg-background-muted hover:border-border-strong transition-all duration-200"
+            className="group flex items-start gap-3 p-4 rounded-xl border border-border bg-surface-elevated hover:bg-muted hover:border-border-strong transition-all duration-200"
           >
             <div className="p-2 rounded-lg bg-accent/10 text-accent group-hover:bg-accent/20 transition-colors shrink-0">
               <link.icon className="w-4 h-4" strokeWidth={1.5} />

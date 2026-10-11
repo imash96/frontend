@@ -5,7 +5,7 @@ export default function CareGuide() {
         <>
             <header className="mb-8">
                 <h1 className="text-3xl uppercase tracking-tight">Leather Care Guide</h1>
-                <p className="mt-2 text-sm text-foreground-muted">Keep Your Leather Looking Timeless — Expert Care for Every Product</p>
+                <p className="mt-2 text-sm text-foreground-tertiary">Keep Your Leather Looking Timeless — Expert Care for Every Product</p>
             </header>
             <section className="max-w-none space-y-6">
                 <p className="text-sm tracking-wide font-light">

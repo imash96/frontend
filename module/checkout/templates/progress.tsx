@@ -4,9 +4,10 @@ import { memo } from "react"
 import { AnimatePresence, MotionConfig } from "motion/react"
 import { div as MotionDiv, span as MotionSpan } from "motion/react-client"
 import { Check, CreditCard, MapPin, Truck, type LucideIcon } from "lucide-react"
-import { STEP_INDEX, useCheckoutStore } from "@/lib/store/checkout-store"
+import { useCheckoutStore } from "@/lib/store/checkout-store"
 import type { StepType } from "@/types/common"
 import Container from "@/ui/container"
+import { STEP_INDEX } from "@/lib/store/checkout-steps"
 
 const StepItem = memo(function StepItem({ step, status, connectorFilled, isLast, disabled, onSelect, }: StepItemProps) {
     const { id, name, subtitle, Icon } = step
@@ -144,22 +145,22 @@ const BUTTON_CLASS = {
 const CIRCLE_CLASS = {
     complete: "border-success bg-success text-success-foreground shadow-sm",
     current: "border-accent text-accent ring-4 ring-accent/10",
-    reachable: "border-foreground-muted/60 text-foreground-muted",
-    upcoming: "border-foreground-muted/30 text-foreground-muted/50",
+    reachable: "border-foreground-tertiary/60 text-foreground-tertiary",
+    upcoming: "border-foreground-tertiary/30 text-foreground-tertiary/50",
 } as const satisfies Record<StepStatus, string>
 
 const TITLE_CLASS = {
     complete: "text-primary",
     current: "text-accent",
-    reachable: "text-foreground-muted",
-    upcoming: "text-foreground-muted/50",
+    reachable: "text-foreground-tertiary",
+    upcoming: "text-foreground-tertiary/50",
 } as const satisfies Record<StepStatus, string>
 
 const SUBTITLE_CLASS = {
-    complete: "text-foreground-muted",
+    complete: "text-foreground-tertiary",
     current: "text-foreground",
-    reachable: "text-foreground-muted",
-    upcoming: "text-foreground-disabled",
+    reachable: "text-foreground-tertiary",
+    upcoming: "text-foreground-tertiary",
 } as const satisfies Record<StepStatus, string>
 
 const SR_STATUS = {

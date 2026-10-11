@@ -13,7 +13,7 @@ export const FAQS = [
   {
     question: "Can I return or exchange a product?",
     answer:
-      "Absolutely. We offer a 7-day return and exchange policy for unused items in their original condition. Please visit our Returns page for full details.",
+      "Absolutely. We offer a 14-day return and exchange policy for unused items in their original condition. A 15% restocking fee applies to non-defective returns. Please visit our Returns page for full details.",
     popular: true,
   },
   {
@@ -29,7 +29,7 @@ export const FAQS = [
   {
     question: "Do you offer custom or personalized leather goods?",
     answer:
-      "Currently, we do not offer customization. However, we are working to introduce this feature soon. Stay tuned for updates!",
+      "Yes! We offer a full bespoke service where every piece is crafted from scratch — designed by you, built by our master artisans. Visit our Bespoke Order Guide at /guides/bespoke-order for details on leather selection, customization options, and how to place a custom order.",
   },
   {
     question: "Is my payment information secure?",
@@ -40,7 +40,7 @@ export const FAQS = [
   {
     question: "What is your return policy?",
     answer:
-      "We offer a 30-day return policy for unused items in their original packaging. Please visit our returns page for more details and to initiate a return.",
+      "We offer a 14-day return policy for unused items in their original packaging. A 15% restocking fee applies to non-defective returns. Please visit our returns page for more details and to initiate a return.",
   },
   {
     question: "How do I care for my leather jacket?",
@@ -61,7 +61,7 @@ export const FAQS = [
   {
     question: "Can I exchange an item for a different size or color?",
     answer:
-      "Yes, exchanges are free within 30 days. Please use our returns portal to select the new size or color you'd like, and we'll ship it out to you once we receive your original item.",
+      "Yes, exchanges are free within 14 days. Please use our returns portal to select the new size or color you'd like, and we'll ship it out to you once we receive your original item.",
   },
   {
     question: "Do you ship internationally?",

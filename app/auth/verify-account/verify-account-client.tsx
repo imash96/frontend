@@ -227,7 +227,7 @@ function ErrorState() {
             <div className="mx-auto mb-7 flex h-20 w-20 items-center justify-center rounded-full bg-red-50">
                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-red-100">
                     <svg
-                        className="h-7 w-7 animate-[verify-shake_500ms_ease-out] text-red-600"
+                        className="h-7 w-7 animate-[verify-shake_500ms_ease-out] text-destructive"
                         viewBox="0 0 24 24"
                         fill="none"
                         aria-hidden="true"

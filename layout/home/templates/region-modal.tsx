@@ -65,9 +65,9 @@ export default function RegionModal({ countryCode }: RegionModalProps) {
                         aria-hidden="true"
                         className="w-6 h-4"
                     />
-                    <span className="text-sm text-secondary-secondary group-hover:text-secondary transition-colors">{current.label}</span>
-                    <span className="text-xs text-secondary-tertiary">· {current.currency}</span>
-                    <ChevronRight size={14} className="text-secondary-tertiary/40 group-hover:text-accent transition-colors" />
+                    <span className="text-sm text-secondary-foreground group-hover:text-secondary transition-colors">{current.label}</span>
+                    <span className="text-xs text-secondary-foreground">· {current.currency}</span>
+                    <ChevronRight size={14} className="text-secondary-foreground/40 group-hover:text-accent transition-colors" />
                 </button>
             </DialogTrigger>
             <DialogContent

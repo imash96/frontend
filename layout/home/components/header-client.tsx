@@ -1,23 +1,15 @@
 "use client"
 
 import { Menu, User } from "lucide-react"
-import dynamic from "next/dynamic"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import Logo from "@/icon/logo"
 import { useDrawerStore } from "@/lib/store/drawer-store"
 import Container from "@/ui/container"
+import { SearchModal } from "../templates/search-modal"
 import MobileDrawer from "../templates/mobile-drawer"
 import CartDrawerButton from "./button-cart-drawer"
 import ThemeButton from "./button-theme"
-
-const SearchModal = dynamic(
-    () => import("../templates/search-modal").then(m => m.SearchModal),
-    {
-        ssr: false,
-        loading: () => null,
-    }
-)
 
 type HeaderClientProps = {
     initialTheme: 'light' | 'dark'
@@ -44,7 +36,8 @@ export default function HeaderClient({ initialTheme, totalItems, children }: Hea
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-    const { active, open: openMenu } = useDrawerStore()
+    const active = useDrawerStore((s) => s.active)
+    const openMenu = useDrawerStore((s) => s.open)
 
     return (
         <>

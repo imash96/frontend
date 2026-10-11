@@ -39,8 +39,8 @@ export default async function Page(props: PageProps<"/order/[id]">) {
                                 <p className="text-3xl font-bold tracking-tight sm:text-4xl text-primary">It's on the way.</p>
                             </div>
                         </div>
-                        <p className="text-base text-foreground-muted">Order #{order.custom_display_id} has been confirmed and will be with you soon.</p>
-                        <p className="mt-1 text-sm text-foreground-muted">Placed on {formattedDate(order.created_at)}</p>
+                        <p className="text-base text-foreground-tertiary">Order #{order.custom_display_id} has been confirmed and will be with you soon.</p>
+                        <p className="mt-1 text-sm text-foreground-tertiary">Placed on {formattedDate(order.created_at)}</p>
                         <p className="mt-1 text-sm text-foreground">Email: {order.email}</p>
                         {/* {trackingNumber && ( */}
                         <p className="mt-2 text-sm font-medium text-foreground">
@@ -49,24 +49,24 @@ export default async function Page(props: PageProps<"/order/[id]">) {
                         {/* )} */}
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                        <div className="flex items-center gap-3 p-4 border border-border rounded-lg bg-background-elevated shadow-sm">
+                        <div className="flex items-center gap-3 p-4 border border-border rounded-lg bg-surface-elevated shadow-sm">
                             <Package className="w-6 h-6 text-primary" />
                             <div>
-                                <p className="text-xs text-foreground-muted">Order Status</p>
+                                <p className="text-xs text-foreground-tertiary">Order Status</p>
                                 <p className="font-medium capitalize text-foreground">{order.status}</p>
                             </div>
                         </div>
-                        <div className="flex items-center gap-3 p-4 border border-border rounded-lg bg-background-elevated shadow-sm">
+                        <div className="flex items-center gap-3 p-4 border border-border rounded-lg bg-surface-elevated shadow-sm">
                             <Truck className="w-6 h-6 text-success" />
                             <div>
-                                <p className="text-xs text-foreground-muted">Fulfillment</p>
+                                <p className="text-xs text-foreground-tertiary">Fulfillment</p>
                                 <p className="font-medium capitalize text-foreground">{order.fulfillment_status}</p>
                             </div>
                         </div>
-                        <div className="flex items-center gap-3 p-4 border border-border rounded-lg bg-background-elevated shadow-sm">
+                        <div className="flex items-center gap-3 p-4 border border-border rounded-lg bg-surface-elevated shadow-sm">
                             <CreditCard className="w-6 h-6 text-accent" />
                             <div>
-                                <p className="text-xs text-foreground-muted">Payment</p>
+                                <p className="text-xs text-foreground-tertiary">Payment</p>
                                 <p className="font-medium capitalize text-foreground">{order.payment_status}</p>
                             </div>
                         </div>
@@ -75,15 +75,15 @@ export default async function Page(props: PageProps<"/order/[id]">) {
                         <h2 className="text-lg font-semibold text-foreground mb-4">Order Items</h2>
                         <ul role="list" className="space-y-4 divide-y divide-border">
                             {order.items?.map(item => (
-                                <OrderLineitem key={item.id} item={item} currencyCode={order.currency_code} className="bg-background-elevated shadow-sm rounded-lg p-6 border border-border" />
+                                <OrderLineitem key={item.id} item={item} currencyCode={order.currency_code} className="bg-surface-elevated shadow-sm rounded-lg p-6 border border-border" />
                             ))}
                         </ul>
                     </div>
                 </div>
                 <div className="lg:col-span-4 space-y-6">
-                    <div className="bg-background-elevated shadow-sm rounded-lg p-6 border border-border">
+                    <div className="bg-surface-elevated shadow-sm rounded-lg p-6 border border-border">
                         <h2 className="text-lg font-semibold text-foreground mb-4">Order Summary</h2>
-                        <div className="space-y-3 text-sm text-foreground-muted">
+                        <div className="space-y-3 text-sm text-foreground-tertiary">
                             <div className="flex justify-between">
                                 <span>Subtotal</span>
                                 <span className="text-foreground">{convertToLocale({ amount: order.subtotal, currency_code: order.currency_code })}</span>
@@ -107,47 +107,47 @@ export default async function Page(props: PageProps<"/order/[id]">) {
                         </div>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-3 gap-y-6 lg:gap-x-6 lg:grid-cols-1">
-                        <div className="bg-background-elevated shadow-sm rounded-lg p-4 border border-border">
+                        <div className="bg-surface-elevated shadow-sm rounded-lg p-4 border border-border">
                             <h2 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
                                 <MapPin className="w-5 h-5 text-primary" /> Shipping Address
                             </h2>
-                            <div className="text-sm text-foreground-muted space-y-1">
+                            <div className="text-sm text-foreground-tertiary space-y-1">
                                 <p>{order.shipping_address?.first_name} {order.shipping_address?.last_name}</p>
                                 <p>{order.shipping_address?.company}</p>
                                 <p>{order.shipping_address?.address_1}<br />{order.shipping_address?.address_2 ? `${order.shipping_address.address_2}` : ''}</p>
                                 <p>{order.shipping_address?.city}, {order.shipping_address?.province} {order.shipping_address?.postal_code}</p>
                                 <p className="uppercase">{order.shipping_address?.country_code}</p>
-                                {order.shipping_address?.phone && <p className="text-foreground-disabled">{order.shipping_address.phone}</p>}
+                                {order.shipping_address?.phone && <p className="text-foreground-tertiary">{order.shipping_address.phone}</p>}
                             </div>
                         </div>
-                        <div className="bg-background-elevated shadow-sm rounded-lg p-4 border border-border">
+                        <div className="bg-surface-elevated shadow-sm rounded-lg p-4 border border-border">
                             <h2 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
                                 <CreditCard className="w-5 h-5 text-accent" /> Billing Address
                             </h2>
-                            <div className="text-sm text-foreground-muted space-y-1">
+                            <div className="text-sm text-foreground-tertiary space-y-1">
                                 <p>{order.billing_address?.first_name} {order.billing_address?.last_name}</p>
                                 <p>{order.shipping_address?.company}</p>
                                 <p>{order.billing_address?.address_1}<br />{order.billing_address?.address_2 ? `${order.billing_address.address_2}` : ''}</p>
                                 <p>{order.billing_address?.city}, {order.billing_address?.province} {order.billing_address?.postal_code}</p>
                                 <p className="uppercase">{order.billing_address?.country_code}</p>
-                                {order.billing_address?.phone && <p className="text-foreground-disabled">{order.billing_address.phone}</p>}
+                                {order.billing_address?.phone && <p className="text-foreground-tertiary">{order.billing_address.phone}</p>}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-3 gap-y-6 lg:gap-x-6">
-                <div className="bg-background-elevated shadow-sm rounded-lg p-6 border border-border">
+                <div className="bg-surface-elevated shadow-sm rounded-lg p-6 border border-border">
                     <h2 className="text-lg font-semibold text-foreground mb-4">Payment Details</h2>
-                    <div className="text-sm text-foreground-muted space-y-1">
+                    <div className="text-sm text-foreground-tertiary space-y-1">
                         <p>Status: <span className="capitalize text-foreground">{order.payment_status}</span></p>
                         <p>Amount Paid: <span className="text-foreground">{convertToLocale({ amount: order.total || order.total, currency_code: order.currency_code })}</span></p>
                     </div>
                 </div>
 
-                <div className="bg-background-elevated shadow-sm rounded-lg p-6 border border-border">
+                <div className="bg-surface-elevated shadow-sm rounded-lg p-6 border border-border">
                     <h2 className="text-lg font-semibold text-foreground mb-4">Fulfillment Details</h2>
-                    <div className="text-sm text-foreground-muted space-y-1">
+                    <div className="text-sm text-foreground-tertiary space-y-1">
                         {
                             (order.fulfillments && order.fulfillments.length) ? <>
                                 <p>Status: <span className="capitalize text-foreground">{order.fulfillment_status}</span></p>
@@ -163,7 +163,7 @@ export default async function Page(props: PageProps<"/order/[id]">) {
             <div className="text-center py-8 border-t border-border mt-8">
                 <CheckCircle className="w-12 h-12 text-success mx-auto mb-2" />
                 <p className="text-lg font-medium text-foreground mb-1">Thank you for shopping with us!</p>
-                <p className="text-sm text-foreground-muted">
+                <p className="text-sm text-foreground-tertiary">
                     Need help? Contact us at{' '}
                     <Link href="mailto:support@vellehide.com" className="text-link hover:underline font-medium">
                         support@vellehide.com

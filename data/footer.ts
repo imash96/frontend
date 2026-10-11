@@ -1,5 +1,5 @@
 import { Clock, Mail, MessageCircleQuestionMark } from "lucide-react";
-import Facebook from "@/icon/icon-facebok";
+import Facebook from "@/icon/icon-facebook";
 import Instagram from "@/icon/icon-instagram";
 import Pinterest from "@/icon/icon-pinterest";
 import TikTok from "@/icon/icon-tiktok";

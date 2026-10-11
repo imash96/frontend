@@ -23,7 +23,7 @@ export default async function Layout({ children }: LayoutProps<"/auth">) {
             src="https://images.artisanhide.com/storefront/images/banner/auth.webp"
             alt="Leather product promotional banner"
             fill
-            quality={80}
+            quality={75}
             sizes="(min-width: 1024px) 50vw, 0vw"
             className="object-cover object-top"
             placeholder="empty"

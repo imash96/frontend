@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { retrieveCart } from "@/lib/action/cart"
 import { convertToLocale } from "@/lib/util/money";
-import { QuntityButton, CompleteOrder, EmptyCart } from "../components/cart-buttons";
+import { QuantityButton, CompleteOrder, EmptyCart } from "../components/cart-buttons";
 import CartDrawerClient from "../components/cart-drawer-client";
 
 export default async function CartDrawer() {
@@ -85,15 +85,15 @@ export default async function CartDrawer() {
 const LineItemQuantity = ({ itemId, quantity }: { itemId: string, quantity: number }) => (
     <div className="flex items-center gap-0 rounded-full overflow-hidden"
         style={{ border: '1px solid #e3d9cc', background: 'white' }}>
-        <QuntityButton itemId={itemId} quantity={quantity - 1} ariaLabel={quantity === 1 ? 'Remove' : 'Decrease'}>
+        <QuantityButton itemId={itemId} quantity={quantity - 1} ariaLabel={quantity === 1 ? 'Remove' : 'Decrease'}>
             {quantity === 1 ? <Trash2 size={11} style={{ color: '#7c4a21' }} /> : <Minus size={11} style={{ color: '#7c4a21' }} />}
-        </QuntityButton>
+        </QuantityButton>
         <span className="w-6 text-center text-xs font-semibold tabular-nums" style={{ color: '#3d2410' }}>
             {quantity}
         </span>
-        <QuntityButton itemId={itemId} quantity={quantity + 1} ariaLabel="Increase">
+        <QuantityButton itemId={itemId} quantity={quantity + 1} ariaLabel="Increase">
             <Plus size={11} style={{ color: '#7c4a21' }} />
-        </QuntityButton>
+        </QuantityButton>
     </div>
 )
 

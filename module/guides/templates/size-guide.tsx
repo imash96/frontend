@@ -18,7 +18,7 @@ export default function SizeGuide() {
         <>
             <header className="mb-8">
                 <h1 className="text-3xl uppercase tracking-tight">Size & Measurement Guide</h1>
-                <p className="mt-2 text-sm text-foreground-muted">Find Your Perfect Fit — Detailed Sizing for Every Garment</p>
+                <p className="mt-2 text-sm text-foreground-tertiary">Find Your Perfect Fit — Detailed Sizing for Every Garment</p>
             </header>
             <section className="max-w-none space-y-6">
                 <p className="text-sm tracking-wide font-light">
@@ -41,7 +41,7 @@ export default function SizeGuide() {
                         <li><strong>Inseam:</strong> From the crotch seam to the bottom of the ankle bone (for pants).</li>
                         <li><strong>Thigh:</strong> Measure around the widest part of your upper thigh.</li>
                     </ul>
-                    <p className="text-sm tracking-wide font-light text-foreground-muted italic">
+                    <p className="text-sm tracking-wide font-light text-foreground-tertiary italic">
                         Pro tip: For the most accurate results, have someone else take your measurements. Wear lightweight clothing only.
                     </p>
                 </div>
@@ -55,11 +55,11 @@ export default function SizeGuide() {
                                 onClick={() => setActiveTab(tab.key)}
                                 className={`flex-1 sm:flex-none px-4 sm:px-6 py-3 text-sm font-medium border-b-2 transition-all duration-200 ${activeTab === tab.key
                                     ? "border-accent text-accent"
-                                    : "border-transparent text-foreground-muted hover:text-foreground hover:border-border"
+                                    : "border-transparent text-foreground-tertiary hover:text-foreground hover:border-border"
                                     }`}
                             >
                                 <span className="block">{tab.label}</span>
-                                <span className="hidden sm:block text-xs font-normal text-foreground-muted mt-0.5">{tab.desc}</span>
+                                <span className="hidden sm:block text-xs font-normal text-foreground-tertiary mt-0.5">{tab.desc}</span>
                             </button>
                         ))}
                     </div>
@@ -116,7 +116,7 @@ function OuterwearGuide() {
             {/* Jacket / Blazer */}
             <div className="space-y-3">
                 <h3 className="text-lg font-semibold">Jacket & Blazer Size Chart</h3>
-                <p className="text-xs text-foreground-muted">All measurements in inches. For centimeters, multiply by 2.54.</p>
+                <p className="text-xs text-foreground-tertiary">All measurements in inches. For centimeters, multiply by 2.54.</p>
                 <div className="overflow-x-auto">
                     <table className="w-full text-sm border-collapse min-w-150">
                         <thead>
@@ -146,7 +146,7 @@ function OuterwearGuide() {
             {/* Coat / Overcoat */}
             <div className="space-y-3">
                 <h3 className="text-lg font-semibold">Coat & Overcoat Size Chart</h3>
-                <p className="text-xs text-foreground-muted">Coats are typically 1-2 inches larger than jacket sizes for layering.</p>
+                <p className="text-xs text-foreground-tertiary">Coats are typically 1-2 inches larger than jacket sizes for layering.</p>
                 <div className="overflow-x-auto">
                     <table className="w-full text-sm border-collapse min-w-150">
                         <thead>
@@ -192,7 +192,7 @@ function BottomsGuide() {
             {/* Pants & Trousers */}
             <div className="space-y-3">
                 <h3 className="text-lg font-semibold">Pants & Trousers Size Chart</h3>
-                <p className="text-xs text-foreground-muted">All measurements in inches.</p>
+                <p className="text-xs text-foreground-tertiary">All measurements in inches.</p>
                 <div className="overflow-x-auto">
                     <table className="w-full text-sm border-collapse min-w-150">
                         <thead>
@@ -221,7 +221,7 @@ function BottomsGuide() {
             {/* Skinny Pants */}
             <div className="space-y-3">
                 <h3 className="text-lg font-semibold">Skinny Pants & Leggings Size Chart</h3>
-                <p className="text-xs text-foreground-muted">Skinny fit is tighter through thigh and leg. If between sizes, size up.</p>
+                <p className="text-xs text-foreground-tertiary">Skinny fit is tighter through thigh and leg. If between sizes, size up.</p>
                 <div className="overflow-x-auto">
                     <table className="w-full text-sm border-collapse min-w-125">
                         <thead>
@@ -302,7 +302,7 @@ function TopsGuide() {
             {/* Shirts */}
             <div className="space-y-3">
                 <h3 className="text-lg font-semibold">Shirt Size Chart</h3>
-                <p className="text-xs text-foreground-muted">Includes leather shirts and dress shirts. All measurements in inches.</p>
+                <p className="text-xs text-foreground-tertiary">Includes leather shirts and dress shirts. All measurements in inches.</p>
                 <div className="overflow-x-auto">
                     <table className="w-full text-sm border-collapse min-w-150">
                         <thead>

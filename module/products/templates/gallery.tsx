@@ -95,7 +95,7 @@ export default function ProductGallery({ product, title }: Props) {
                                     <Image
                                         src={img.url}
                                         alt={`${title} thumbnail ${i + 1}`}
-                                        width={80}
+                                        width={60}
                                         height={107}
                                         sizes="80px"
                                         quality={60}
@@ -186,7 +186,7 @@ export default function ProductGallery({ product, title }: Props) {
                             width={1200}
                             height={1600}
                             sizes="100vw"
-                            quality={80}
+                            quality={90}
                             className="size-full object-contain"
                             priority
                         />

@@ -8,7 +8,7 @@ import { convertToLocale } from "@/lib/util/money"
 import Button from "@/ui/button";
 
 export default function CartFooter({ cart }: { cart: StoreCart }) {
-    const { close } = useDrawerStore();
+    const close = useDrawerStore((s) => s.close);
     return (
         <Div
             initial={{ opacity: 0, y: 10 }}

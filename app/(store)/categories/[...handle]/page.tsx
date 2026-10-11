@@ -15,6 +15,7 @@ import JsonLd from "@/module/products/templates/json-ld"
 import ProductGridSkeleton from "@/module/skeleton/product-grid"
 import { SortOptions } from "@/types/common"
 import Container from "@/ui/container"
+import toArray from "@/lib/util/to-array"
 
 /* Opt out of instant navigation — this route reads searchParams + cookies */
 export const instant = false
@@ -223,10 +224,7 @@ function buildCrumbs(
     return crumbs
 }
 
-export function toArray(v: string | string[] | undefined): string[] {
-    if (!v) return []
-    return Array.isArray(v) ? v : [v]
-}
+
 
 /**
  * Extract unique product options (Size, Color, Material, etc.) from fetched products

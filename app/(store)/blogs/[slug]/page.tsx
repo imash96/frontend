@@ -59,7 +59,7 @@ export default async function Page(props: PageProps<"/blogs/[slug]">) {
         <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">
           {blog.title}
         </h1>
-        <div className="flex flex-wrap items-center gap-2 text-sm text-foreground-muted">
+        <div className="flex flex-wrap items-center gap-2 text-sm text-foreground-tertiary">
           <span>
             Published on{" "}
             {new Date(blog.uploadDate).toLocaleDateString("en-US", {
@@ -83,7 +83,7 @@ export default async function Page(props: PageProps<"/blogs/[slug]">) {
             priority
           />
         </div>
-        <p className="text-lg md:text-xl text-foreground-disabled leading-relaxed">
+        <p className="text-lg md:text-xl text-foreground-tertiary leading-relaxed">
           {blog.excerpt}
         </p>
       </header>
@@ -103,7 +103,7 @@ export default async function Page(props: PageProps<"/blogs/[slug]">) {
                   {section.para.map((faq) => (
                     <div key={faq.Q} className="space-y-2">
                       <dt className="font-medium text-lg">{faq.Q}</dt>
-                      <dd className="leading-relaxed text-foreground-muted">
+                      <dd className="leading-relaxed text-foreground-tertiary">
                         {faq.A}
                       </dd>
                     </div>

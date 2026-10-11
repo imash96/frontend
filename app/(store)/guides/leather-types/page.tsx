@@ -1,20 +1,25 @@
 import type { Metadata } from "next"
 import buildJsonLd from "@/lib/util/jsonld"
 import LeatherTypes from "@/module/guides/templates/leather-types"
+import { baseURL } from "@/lib/constant";
 
 export default function Page() {
     return <LeatherTypes />;
 }
 
 export async function generateMetadata(): Promise<Metadata> {
-    const canonical = "https://vellehide.com/guides/leather-types"
+    const canonical = `${baseURL}/guides/leather-types`
     const jsonLd = {
         "@context": "https://schema.org",
         "@type": "WebPage",
         "name": "Leather Types Guide | VelleHide",
         "url": canonical,
         "description": "Explore the different types of leather used at VelleHide. Learn about full-grain, top-grain, lambskin, suede, nubuck, and more to find the perfect leather for your needs.",
-        "isPartOf": { "@type": "WebSite", "name": "VelleHide", "url": "https://vellehide.com" },
+        "isPartOf": {
+            "@type": "WebSite",
+            "name": "VelleHide",
+            "url": baseURL
+        },
         "datePublished": "2025-09-25",
         "dateModified": "2025-09-25"
     }

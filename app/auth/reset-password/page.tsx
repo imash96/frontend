@@ -31,7 +31,7 @@ export default function ResetPasswordPage() {
                 </div>
 
                 <div className="space-y-3 animate-fade-in-up" style={{ animationDelay: "100ms" }}>
-                    <Button href="/auth/forgot-password" variant="secondary" className="w-full">
+                    <Button href="/auth/forget-password" variant="secondary" className="w-full">
                         Request New Link
                     </Button>
                     <Button href="/auth" variant="outline" className="w-full">

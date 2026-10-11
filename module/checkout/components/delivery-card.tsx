@@ -7,7 +7,6 @@ import { useShallow } from "zustand/react/shallow"
 import { selectIsBusy, useCheckoutStore } from "@/lib/store/checkout-store"
 import ErrorMessage from "@/module/common/templates/error-message"
 import Button from "@/ui/button"
-import { convertToLocale } from "@/lib/util/money"
 import { formatShippingPrice, getDeliveryEstimate, isExpressOption } from "../templates/step-shipping"
 
 export default function DeliveryCard({ availableMethods, currencyCode, selectedMethodId, awaitingOptions }: Props) {
@@ -58,7 +57,7 @@ export default function DeliveryCard({ availableMethods, currencyCode, selectedM
 
     if (options.length === 0) {
         return (
-            <p role="alert" className="text-sm text-foreground-muted">
+            <p role="alert" className="text-sm text-foreground-tertiary">
                 No delivery options are available for this address. Please check your address or contact support.
             </p>
         )
@@ -137,7 +136,7 @@ const DeliveryOption = memo(function DeliveryOption({
 
     return (
         <label
-            className={`flex items-start gap-3 rounded-xl border p-3 transition-colors has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-focus-ring sm:p-4 ${isSelected ? "border-accent bg-accent/5" : "border-border hover:border-accent/50"
+            className={`flex items-start gap-3 rounded-xl border p-3 transition-colors has-focus-visible:ring-2 has-focus-visible:ring-focus-ring sm:p-4 ${isSelected ? "border-accent bg-accent/5" : "border-border hover:border-accent/50"
                 } ${disabled ? "cursor-not-allowed" : "cursor-pointer"} ${disabled && !isSelected ? "opacity-60" : ""}`}
         >
             {/* Native radio: arrow-key navigation and screen-reader semantics come for free.
@@ -156,11 +155,11 @@ const DeliveryOption = memo(function DeliveryOption({
 
             <span aria-hidden="true" className="mt-0.5 shrink-0 text-accent">
                 {isSwitching ? (
-                    <Loader2 className="size-5 animate-spin text-foreground-muted" />
+                    <Loader2 className="size-5 animate-spin text-foreground-tertiary" />
                 ) : isSelected ? (
                     <CheckCircle className="size-5" />
                 ) : (
-                    <Circle className="size-5 text-foreground-muted" />
+                    <Circle className="size-5 text-foreground-tertiary" />
                 )}
             </span>
 
@@ -168,14 +167,14 @@ const DeliveryOption = memo(function DeliveryOption({
             <span className="min-w-0 flex-1">
                 <span className="flex items-center gap-2 text-sm font-semibold text-foreground sm:text-base">
                     <Icon
-                        className={`size-4 shrink-0 ${isExpress ? "text-accent" : "text-foreground-muted"}`}
+                        className={`size-4 shrink-0 ${isExpress ? "text-accent" : "text-foreground-tertiary"}`}
                         aria-hidden="true"
                     />
                     <span className="truncate">{name}</span>
                 </span>
 
                 {estimate && (
-                    <span className="mt-1 flex items-center gap-1.5 text-xs text-foreground-muted sm:text-sm">
+                    <span className="mt-1 flex items-center gap-1.5 text-xs text-foreground-tertiary sm:text-sm">
                         <Clock className="size-3.5 shrink-0" aria-hidden="true" />
                         <span className="line-clamp-2">{estimate}</span>
                     </span>

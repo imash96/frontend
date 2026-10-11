@@ -172,14 +172,14 @@ export default function ProductGallery({ product, title }: Props) {
                                     i === selectedIndex ? "true" : "false"
                                 }
                                 className={`keen-slider__slide cursor-pointer overflow-hidden border-2 bg-surface transition-all duration-200 ${selectedIndex === i
-                                        ? "border-primary shadow-sm"
-                                        : "border-border opacity-50 hover:border-border-strong hover:opacity-100"
+                                    ? "border-primary shadow-sm"
+                                    : "border-border opacity-50 hover:border-border-strong hover:opacity-100"
                                     }`}
                             >
                                 <Image
                                     src={img.url}
                                     alt={`${title} thumbnail ${i + 1}`}
-                                    width={80}
+                                    width={60}
                                     height={107}
                                     sizes="80px"
                                     quality={60}
@@ -255,11 +255,10 @@ export default function ProductGallery({ product, title }: Props) {
                             {displayImages.map((_, i) => (
                                 <span
                                     key={i}
-                                    className={`block size-1.5 rounded-full transition-all duration-200 ${
-                                        i === selectedIndex
-                                            ? "scale-125 bg-text-primary"
-                                            : "bg-text-secondary/40"
-                                    }`}
+                                    className={`block size-1.5 rounded-full transition-all duration-200 ${i === selectedIndex
+                                        ? "scale-125 bg-text-primary"
+                                        : "bg-text-secondary/40"
+                                        }`}
                                 />
                             ))}
                         </div>

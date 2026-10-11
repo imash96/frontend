@@ -53,7 +53,7 @@ export default function CollectionLoading() {
     );
 }
 
-function SkeletonTile({ className, }: { className?: string; }) {
+function SkeletonTile({ className = "" }: { className?: string; }) {
     return (
         <div
             className={`skeleton rounded-2xl border border-card-border bg-card ${className}`}

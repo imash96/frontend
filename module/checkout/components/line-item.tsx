@@ -1,6 +1,6 @@
 import type { StoreCartLineItem } from "@medusajs/types"
 import { convertToLocale } from "@/lib/util/money"
-import ProductThumbnail from "@/module/products/components/product-thumbnail"
+import { ProductThumbnailN as ProductThumbnail } from "@/module/products/components/product-thumbnail"
 
 export default function CheckoutLineItem({ item, currency_code, }: CheckLineItemProps) {
     const subtotal = item.subtotal ?? 0
@@ -24,7 +24,7 @@ export default function CheckoutLineItem({ item, currency_code, }: CheckLineItem
                         {item.title}
                     </h3>
 
-                    <div className="mt-1 flex flex-col gap-x-2 text-xs text-foreground-muted">
+                    <div className="mt-1 flex flex-col gap-x-2 text-xs text-foreground-tertiary">
                         {item.variant && (
                             <span>Variant: {item.variant.title}</span>
                         )}
@@ -32,9 +32,9 @@ export default function CheckoutLineItem({ item, currency_code, }: CheckLineItem
                     </div>
                 </div>
 
-                <div className="shrink-0 text-right text-sm font-medium tabular-nums font-mono">
+                <div className="shrink-0 text-right text-sm font-medium tabular-nums">
                     {hasDiscount && (
-                        <div className="text-xs text-foreground-muted line-through">
+                        <div className="text-xs text-foreground-tertiary line-through">
                             {convertToLocale({
                                 amount: subtotal,
                                 currency_code,

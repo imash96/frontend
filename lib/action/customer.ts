@@ -1,7 +1,7 @@
 "use server"
 
 import { AuthRedirectResponse, FetchError } from "@medusajs/js-sdk"
-import { HttpTypes } from "@medusajs/types"
+import { StoreCustomer, StoreUpdateCustomer, StoreUpdateCustomerAddress } from "@medusajs/types"
 import type { Route } from "next";
 import { redirect } from "next/navigation"
 import { sdk } from "@/lib/sdk"
@@ -28,7 +28,7 @@ async function requestVerificationEmail(email: string, token: string) {
 // Plain read, not a Server Action - see the note in locale-actions.ts for
 // why pure reads are kept out of the action surface.
 export const retrieveCustomer =
-    async (): Promise<HttpTypes.StoreCustomer | null> => {
+    async (): Promise<StoreCustomer | null> => {
         const headers = await getAuthHeaders()
 
         const next = {
@@ -36,7 +36,7 @@ export const retrieveCustomer =
         }
 
         return await sdk.client
-            .fetch<{ customer: HttpTypes.StoreCustomer }>(`/store/customers/me`, {
+            .fetch<{ customer: StoreCustomer }>(`/store/customers/me`, {
                 method: "GET",
                 query: {
                     // fields: "*orders",
@@ -49,7 +49,7 @@ export const retrieveCustomer =
             .catch(() => null)
     }
 
-export const updateCustomer = async (body: HttpTypes.StoreUpdateCustomer) => {
+export const updateCustomer = async (body: StoreUpdateCustomer) => {
     const headers = {
         ...(await getAuthHeaders()),
     }
@@ -143,7 +143,7 @@ async function completeLogin(email: string, password: string): Promise<CustomerA
         } catch {
             // Ignore: the customer can resend from the verification page.
         }
-        redirect(`/auth/check-email?email=${encodeURIComponent(email)}`)
+        redirect(`/auth/verify-account?email=${encodeURIComponent(email)}`)
     }
 
     if (typeof result !== "string") {
@@ -313,7 +313,7 @@ export const updateCustomerAddress = async (currentState: Record<string, unknown
         postal_code: formData.get("postal_code") as string,
         province: formData.get("province") as string,
         country_code: formData.get("country_code") as string,
-    } as HttpTypes.StoreUpdateCustomerAddress
+    } as StoreUpdateCustomerAddress
 
     const phone = formData.get("phone") as string
 

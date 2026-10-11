@@ -4,7 +4,7 @@ import type { StoreCartAddress } from "@medusajs/types"
 export function SummaryBlock({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div className="min-w-0 space-y-1.5">
-      <h3 className="text-xs font-medium uppercase tracking-wide text-foreground-muted">{title}</h3>
+      <h3 className="text-xs font-medium uppercase tracking-wide text-foreground-tertiary">{title}</h3>
       <div className="space-y-0.5 wrap-break-word text-sm text-foreground">{children}</div>
     </div>
   )
@@ -15,7 +15,7 @@ export default function AddressCard({ title, address, countryName }: Props) {
   if (!address?.address_1) {
     return (
       <SummaryBlock title={title}>
-        <p className="text-foreground-muted">Not provided</p>
+        <p className="text-foreground-tertiary">Not provided</p>
       </SummaryBlock>
     )
   }

@@ -70,7 +70,7 @@ export default function GiftingGuide() {
         <>
             <header className="mb-8">
                 <h1 className="text-3xl uppercase tracking-tight">Gifting Guide</h1>
-                <p className="mt-2 text-sm text-foreground-muted">Give the Gift of Handcrafted Leather — Timeless, Personal, Unforgettable</p>
+                <p className="mt-2 text-sm text-foreground-tertiary">Give the Gift of Handcrafted Leather — Timeless, Personal, Unforgettable</p>
             </header>
             <section className="max-w-none space-y-6">
                 <p className="text-sm tracking-wide font-light">

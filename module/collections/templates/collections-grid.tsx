@@ -47,7 +47,7 @@ export function CollectionsGrid({ collections }: CollectionsGridProps) {
               key={collection.id}
               collection={collection}
               className={`${size.col} ${size.row}`}
-              priority={index < 6}
+              priority={index < 2}
             />
           );
         })}

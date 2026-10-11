@@ -24,13 +24,13 @@ export default function AddressCard({
 
   return (
     <>
-      <div className="border rounded-lg p-5 min-h-60 flex flex-col bg-background-elevated shadow-sm transition-shadow hover:shadow-md">
+      <div className="border rounded-lg p-5 min-h-60 flex flex-col bg-surface-elevated shadow-sm transition-shadow hover:shadow-md">
         <div className="mt-1 flex-1">
           <h3 className="text-base font-semibold mb-1">
             {address.first_name} {address.last_name}
           </h3>
           {address.company && (
-            <div className="text-sm font-light text-foreground-muted mb-1">
+            <div className="text-sm font-light text-foreground-tertiary mb-1">
               {address.company}
             </div>
           )}
@@ -76,14 +76,14 @@ export default function AddressCard({
             >
               <button
                 aria-label="Edit address"
-                className="p-2 text-foreground-muted hover:text-warning-foreground hover:bg-warning/20 rounded-md transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-warning"
+                className="p-2 text-foreground-tertiary hover:text-warning-foreground hover:bg-warning/20 rounded-md transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-warning"
               >
                 <Edit size={16} />
               </button>
             </AddressModal>
             <button
               aria-label="Delete address"
-              className="p-2 text-foreground-muted hover:text-destructive hover:bg-destructive/20 rounded-md transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-destructive"
+              className="p-2 text-foreground-tertiary hover:text-destructive hover:bg-destructive/20 rounded-md transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-destructive"
               onClick={() => setShowDeleteConfirm(true)}
             >
               {isRemoving ? (

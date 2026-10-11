@@ -18,7 +18,7 @@ export default function ProfileHolder({
           )}
           <h2 className="text-base font-semibold leading-7">{title}</h2>
         </div>
-        <p className="mt-1 text-sm leading-6 text-foreground-muted">{desc}</p>
+        <p className="mt-1 text-sm leading-6 text-foreground-tertiary">{desc}</p>
       </div>
       {children}
     </div>

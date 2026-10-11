@@ -19,20 +19,20 @@ export default function GuidesLayout({ children }: { children: React.ReactNode }
               const isActive = pathname === `/guides/${item.slug}`
               return (
                 <Link key={item.id} href={`/guides/${item.slug}` as Route} aria-current={isActive ? "page" : undefined}
-                  className={`flex items-center m-1 gap-3 border-b-4 lg:border-b-0 lg:border-l-4 px-4 py-2 lg:px-3 lg:py-2.5 rounded-lg transition-all duration-150 ${isActive ? "bg-accent/20 border-accent" : "hover:bg-background-muted lg:border-transparent hover:border-border-hover"} focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1`}
+                  className={`flex items-center m-1 gap-3 border-b-4 lg:border-b-0 lg:border-l-4 px-4 py-2 lg:px-3 lg:py-2.5 rounded-lg transition-all duration-150 ${isActive ? "bg-accent/20 border-accent" : "hover:bg-background-muted lg:border-transparent hover:border-border-strong"} focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1`}
                 >
                   <div className="flex w-full flex-col lg:flex-row items-center justify-center lg:justify-start gap-1 lg:gap-3">
                     <item.icon
                       size={20}
                       strokeWidth={1.4}
-                      className={isActive ? "text-accent" : "text-foreground-muted"}
+                      className={isActive ? "text-accent" : "text-foreground-tertiary"}
                       aria-hidden="true"
                     />
                     <div className="flex flex-col min-w-0 text-center lg:text-left">
                       <span className={`text-sm ${isActive ? "font-semibold text-accent" : "font-medium"} truncate`}>
                         {item.label}
                       </span>
-                      <span className="hidden lg:block text-xs text-foreground-muted truncate">
+                      <span className="hidden lg:block text-xs text-foreground-tertiary truncate">
                         {item.description}
                       </span>
                     </div>
@@ -45,9 +45,9 @@ export default function GuidesLayout({ children }: { children: React.ReactNode }
 
         {/* Main Content */}
         <div className="flex-1 lg:border-l py-2">
-          <main className="mx-auto max-w-3xl">
+          <div className="mx-auto max-w-3xl">
             {children}
-          </main>
+          </div>
         </div>
       </div>
 
@@ -56,7 +56,7 @@ export default function GuidesLayout({ children }: { children: React.ReactNode }
       <div className="py-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
           <h3 className="text-lg font-semibold mb-1">Need help with your order?</h3>
-          <p className="text-sm text-foreground-muted">
+          <p className="text-sm text-foreground-tertiary">
             Our team is ready to assist you with sizing, customization, and care advice.
           </p>
         </div>

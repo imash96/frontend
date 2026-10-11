@@ -2,7 +2,7 @@ import type { StoreOrderLineItem } from "@medusajs/types";
 import { MessageSquare } from "lucide-react";
 import Link from "next/link";
 import { convertToLocale } from "@/lib/util/money";
-import ProductThumbnail from "@/module/products/components/product-thumbnail";
+import { ProductThumbnailN as ProductThumbnail } from "@/module/products/components/product-thumbnail";
 import ReviewModal from "./review-modal";
 
 export default function OrderLineitem({
@@ -50,7 +50,7 @@ export default function OrderLineitem({
             })}
           </span>
         </div>
-        <div className="text-sm text-foreground-muted truncate">
+        <div className="text-sm text-foreground-tertiary truncate">
           <p>
             <strong>Variant: </strong>
             {item.variant?.title ?? "Standard"}

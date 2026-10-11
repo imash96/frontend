@@ -7,7 +7,7 @@ export function useTheme(initialTheme: ColorMode = "light") {
 
     useEffect(() => {
         document.documentElement.dataset.theme = theme;
-        document.cookie = `__theme=${theme}; path=/`;
+        document.cookie = `__theme=${theme}; path=/; max-age=31536000; SameSite=Lax`;
     }, [theme]);
 
     const toggleTheme = () => setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));

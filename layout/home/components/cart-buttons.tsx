@@ -7,7 +7,7 @@ import { useDrawerStore } from "@/lib/store/drawer-store";
 import CartEmpty from "@/icon/empty-cart";
 import Button from "@/ui/button";
 
-export function QuntityButton({ itemId, quantity, ariaLabel, children }: { itemId: string, quantity: number, ariaLabel: string } & React.PropsWithChildren) {
+export function QuantityButton({ itemId, quantity, ariaLabel, children }: { itemId: string, quantity: number, ariaLabel: string } & React.PropsWithChildren) {
     const [isPending, startTransition] = useTransition();
     const handleClick = () => startTransition(() => (quantity <= 0) ? deleteLineItem(itemId) : updateLineItem({ lineId: itemId, quantity }));
     return (
@@ -22,7 +22,7 @@ export function QuntityButton({ itemId, quantity, ariaLabel, children }: { itemI
 
 
 export function EmptyCart() {
-    const { close } = useDrawerStore()
+    const close = useDrawerStore((s) => s.close)
     return (
         <div className="flex flex-col items-center justify-center h-full p-8 text-center">
             <div className="space-y-6" >

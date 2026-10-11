@@ -5,7 +5,7 @@ export default function BespokeOrder() {
         <>
             <header className="mb-8">
                 <h1 className="text-3xl uppercase tracking-tight">Bespoke Order Guide</h1>
-                <p className="mt-2 text-sm text-foreground-muted">Handcrafted to Your Vision — From Our Workshop to Your Wardrobe</p>
+                <p className="mt-2 text-sm text-foreground-tertiary">Handcrafted to Your Vision — From Our Workshop to Your Wardrobe</p>
             </header>
             <section className="max-w-none space-y-6">
                 <p className="text-sm tracking-wide font-light">
@@ -70,7 +70,7 @@ export default function BespokeOrder() {
                             </tbody>
                         </table>
                     </div>
-                    <p className="text-sm tracking-wide font-light text-foreground-muted italic">
+                    <p className="text-sm tracking-wide font-light text-foreground-tertiary italic">
                         Available in various thicknesses (0.6mm - 1.4mm+). See our <Link href="/guides/leather-types" className="underline hover:text-accent">Leather Types Guide</Link> for detailed comparisons.
                     </p>
                 </div>
@@ -142,7 +142,7 @@ export default function BespokeOrder() {
                                 </table>
                             </div>
                         </div>
-                        <p className="text-sm tracking-wide font-light text-foreground-muted italic">
+                        <p className="text-sm tracking-wide font-light text-foreground-tertiary italic">
                             Buttons, snaps, rivets, D-rings, and buckles are all available in the finishes listed above.
                         </p>
                     </div>
@@ -193,7 +193,7 @@ export default function BespokeOrder() {
                         <li>The remaining 50% is due before shipping.</li>
                         <li>Payment via all major methods: UPI, Net Banking, Credit/Debit Cards, and international transfers.</li>
                     </ul>
-                    <p className="text-sm tracking-wide font-light text-foreground-muted italic">
+                    <p className="text-sm tracking-wide font-light text-foreground-tertiary italic">
                         Bespoke orders are made-to-order and cannot be returned or exchanged. Please review all specifications carefully before confirming.
                     </p>
                 </div>

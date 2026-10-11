@@ -122,7 +122,7 @@ export const listProductsWithSort = async ({
 }
 
 export async function fetchProductsByCollection({ regionId, collectionId, limit = 6 }: FetchByCollectionProps): Promise<StoreProduct[]> {
-    'use cache: private'
+    'use cache'
     cacheLife('hours')
     cacheTag(`products-collection-${collectionId}`)
     const { response: { products } } = await listProducts(

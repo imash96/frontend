@@ -5,7 +5,7 @@ export default function ShippingPolicy() {
         <>
             <header className="mb-8">
                 <h1 className="text-3xl uppercase tracking-tight">Shipping Policy</h1>
-                <p className="mt-2 text-sm text-foreground-muted">Effective Date: August 28, 2025</p>
+                <p className="mt-2 text-sm text-foreground-tertiary">Effective Date: August 28, 2025</p>
             </header>
             <section className="max-w-none space-y-4">
                 <p className="text-sm tracking-wide font-light">
@@ -52,7 +52,7 @@ export default function ShippingPolicy() {
                     </p>
                     <div className="overflow-x-auto">
                         <table className="w-full border border-border text-sm">
-                            <thead className="bg-background-muted">
+                            <thead className="bg-muted">
                                 <tr>
                                     <th className="p-3 text-left">Location</th>
                                     <th className="p-3 text-left">Standard Delivery</th>
@@ -78,7 +78,7 @@ export default function ShippingPolicy() {
                             </tbody>
                         </table>
                     </div>
-                    <p className="mt-2 text-xs text-foreground-muted">*Times are estimates and may vary due to external factors like weather or strikes.</p>
+                    <p className="mt-2 text-xs text-foreground-tertiary">*Times are estimates and may vary due to external factors like weather or strikes.</p>
                 </div>
 
                 {/* 5. Shipping Charges */}
@@ -88,11 +88,11 @@ export default function ShippingPolicy() {
                         Shipping costs are calculated based on weight, dimensions, destination, and method. We offer:
                     </p>
                     <ul className="list-inside list-disc space-y-2 text-sm tracking-wide font-light">
-                        <li>Free shipping on all prepaid orders above ₹999.</li>
-                        <li>A flat fee of ₹79 for orders below ₹999 (standard shipping).</li>
-                        <li>Additional ₹50-₹100 for COD orders, depending on location.</li>
-                        <li>Express shipping: ₹100-₹300 extra, based on package details.</li>
-                        <li>International: Variable, starting from ₹500, plus customs.</li>
+                        <li>Free shipping on all prepaid orders over $149.</li>
+                        <li>A flat shipping fee applies for orders below $149 (standard shipping).</li>
+                        <li>Additional fees for COD orders, depending on location.</li>
+                        <li>Express shipping available at an additional cost, based on package details.</li>
+                        <li>International: Variable rates, plus customs duties where applicable.</li>
                     </ul>
                     <p className="text-sm tracking-wide font-light">
                         Costs are displayed at checkout. We recommend prepaid orders to avoid COD fees and qualify for free shipping.

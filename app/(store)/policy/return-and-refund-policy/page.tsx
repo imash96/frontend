@@ -1,13 +1,14 @@
 import type { Metadata } from "next"
 import buildJsonLd from "@/lib/util/jsonld"
 import ReturnRefundPolicy from "@/module/policy/templates/return-refund-policy"
+import { baseURL } from "@/lib/constant"
 
 export default function Page() {
     return <ReturnRefundPolicy />
 }
 
 export async function generateMetadata(): Promise<Metadata> {
-    const canonical = "https://vellehide.com/policy/return-and-refund-policy"
+    const canonical = `${baseURL}/policy/return-and-refund-policy`
     const policyLd = {
         "@context": "https://schema.org",
         "@type": "MerchantReturnPolicy",

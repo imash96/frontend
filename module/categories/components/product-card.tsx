@@ -79,7 +79,7 @@ export default function ProductCard({
                 </button>
 
                 {/* Quick view overlay */}
-                <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                <div className="absolute inset-x-0 bottom-0 h-16 bg-linear-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
             </div>
 
             {/* Product Info */}
@@ -101,7 +101,7 @@ export default function ProductCard({
                     <div className="flex items-baseline gap-2 pt-0.5">
                         <span
                             className={`text-sm sm:text-base font-semibold ${hasDiscount
-                                ? "text-red-600"
+                                ? "text-destructive"
                                 : "text-text-primary"
                                 }`}
                         >

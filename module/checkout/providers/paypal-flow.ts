@@ -2,18 +2,25 @@
 
 import { useCallback, useMemo } from "react"
 import { useShallow } from "zustand/react/shallow"
-import { captureOrder, createOrder, markPaymentComplete, placeCheckoutOrder, } from "@/lib/action/checkout"
+import { captureOrder, createOrder, markPaymentComplete, placeCheckoutOrder } from "@/lib/action/checkout"
 import { useCheckoutStore } from "@/lib/store/checkout-store"
 
 const PAID_BUT_NOT_PLACED =
     "Your payment was received, but we couldn't finish your order. Please don't pay again - contact support with your PayPal receipt."
 
+/** PayPal errors are often plain objects. In development the reason is appended to help debugging. */
+function withReason(message: string, err: unknown) {
+    if (process.env.NODE_ENV === "production") return message
+    const reason = err instanceof Error ? err.message : (err as { message?: unknown } | null)?.message
+    return typeof reason === "string" && reason ? `${message} (${reason})` : message
+}
+
 /**
  * Shared PayPal flow for the wallet button and the card fields:
  * create order -> customer approves -> capture -> mark paid -> complete the Medusa cart.
  *
- * isSubmitting is claimed by the caller before PayPal opens (beginSubmit in the button's
- * onClick / the card form's submit), which is what blocks double clicks.
+ * isSubmitting is claimed by the caller before PayPal opens (beginSubmit in the button's onClick /
+ * the card form's submit), which is what blocks double clicks.
  */
 export function usePayPalFlow(cartId: string) {
     const { handleError, setError, setIsSubmitting, releaseLocks } = useCheckoutStore(
@@ -70,7 +77,7 @@ export function usePayPalFlow(cartId: string) {
         (err: unknown) => {
             console.error("[PayPal] error:", err)
             // Keep a more specific message that createPaypalOrder / onApprove already set.
-            handleError(useCheckoutStore.getState().error ?? "PayPal payment failed. Please try again.")
+            handleError(useCheckoutStore.getState().error ?? withReason("PayPal payment failed. Please try again.", err))
         },
         [handleError],
     )

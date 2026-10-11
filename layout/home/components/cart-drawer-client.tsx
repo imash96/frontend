@@ -7,7 +7,8 @@ import { useTransition } from "react";
 import { deleteLineItem } from "@/lib/action/cart";
 
 export default function CartDrawerClient({ children }: React.PropsWithChildren) {
-    const { active, close: closeCart } = useDrawerStore()
+    const active = useDrawerStore((s) => s.active)
+    const closeCart = useDrawerStore((s) => s.close)
     return (
         <Drawer
             isOpen={active === 'cart'}

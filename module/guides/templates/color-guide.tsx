@@ -107,7 +107,7 @@ export default function ColorGuide() {
         <>
             <header className="mb-8">
                 <h1 className="text-3xl uppercase tracking-tight">Color Guide</h1>
-                <p className="mt-2 text-sm text-foreground-muted">Your Jacket, Your Color — Crafted From Scratch in Our Workshop</p>
+                <p className="mt-2 text-sm text-foreground-tertiary">Your Jacket, Your Color — Crafted From Scratch in Our Workshop</p>
             </header>
             <section className="max-w-none space-y-6">
                 <p className="text-sm tracking-wide font-light">
@@ -151,7 +151,7 @@ export default function ColorGuide() {
                                     </div>
                                     <div className="p-2.5 bg-surface space-y-0.5">
                                         <p className="text-xs font-semibold truncate">{color.name}</p>
-                                        <p className="text-[10px] text-foreground-muted leading-tight">{color.desc}</p>
+                                        <p className="text-[10px] text-foreground-tertiary leading-tight">{color.desc}</p>
                                     </div>
                                 </div>
                             )
@@ -211,7 +211,7 @@ export default function ColorGuide() {
                         <li><strong>Vibrant Colors:</strong> Bold reds, blues, and greens benefit from UV-protective leather sprays to maintain vibrancy over time.</li>
                         <li><strong>Metallics:</strong> Gold and silver metallic leathers should be cleaned with a dry cloth only. Avoid conditioners that may dull the metallic coating.</li>
                     </ul>
-                    <p className="text-sm tracking-wide font-light text-foreground-muted italic">
+                    <p className="text-sm tracking-wide font-light text-foreground-tertiary italic">
                         For detailed maintenance instructions, see our <Link href="/guides/care-guide" className="underline hover:text-accent">Leather Care Guide</Link>.
                     </p>
                 </div>

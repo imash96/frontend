@@ -12,7 +12,7 @@ export const accordions = [
     {
         id: "shipping",
         title: "Shipping & Delivery",
-        content: "All orders ship within 1-2 business days via express courier. Standard delivery: 3-5 business days (free on orders over $250). Express delivery: 1-2 business days ($25). International shipping available to 40+ countries. All jackets are carefully packed in our signature dust bag and gift box. Tracking provided via email upon dispatch.",
+        content: "All orders ship within 1-2 business days via express courier. Standard delivery: 3-5 business days (free on orders over $149). Express delivery: 1-2 business days ($25). International shipping available to 50+ countries. All jackets are carefully packed in our signature dust bag and gift box. Tracking provided via email upon dispatch.",
     },
     {
         id: "care",
@@ -22,7 +22,7 @@ export const accordions = [
     {
         id: "returns",
         title: "Returns & Exchanges",
-        content: "We offer a 30-day hassle-free return policy on all unworn items with original tags attached. Custom-engraved or personalized items are final sale. To initiate a return, contact our concierge team or use the pre-paid return label included with your order. Refunds are processed within 5-7 business days of receiving the returned item. Exchanges are subject to availability.",
+        content: "We offer a 14-day return policy on all unworn items with original tags attached. Custom-engraved or personalized items are final sale. To initiate a return, contact our concierge team or use the pre-paid return label included with your order. Refunds are processed within 5-7 business days of receiving the returned item. A 15% restocking fee applies to non-defective returns. Exchanges are subject to availability.",
     },
 ];
 

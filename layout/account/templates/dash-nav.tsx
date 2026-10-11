@@ -26,7 +26,7 @@ export default function DashNav() {
             key={item.id}
             href={item.href as Route}
             aria-current={isActive ? "page" : undefined}
-            className={`flex items-center m-1 gap-3 border-b-4 lg:border-b-0 lg:border-l-4 px-4 py-2 lg:px-3 lg:py-2.5 rounded-lg transition-all duration-150 ${isActive ? "bg-accent/20 border-accent" : "hover:bg-background-muted lg:border-transparent hover:border-border-hover"} focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1`}
+            className={`flex items-center m-1 gap-3 border-b-4 lg:border-b-0 lg:border-l-4 px-4 py-2 lg:px-3 lg:py-2.5 rounded-lg transition-all duration-150 ${isActive ? "bg-accent/20 border-accent" : "hover:bg-muted lg:border-transparent hover:border-border-strong"} focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1`}
           >
             <div className="flex w-full flex-col lg:flex-row items-center justify-center lg:justify-start gap-1 lg:gap-3">
               <item.icon
@@ -41,7 +41,7 @@ export default function DashNav() {
                 >
                   {item.label}
                 </span>
-                <span className="hidden lg:block text-xs text-foreground-muted truncate">
+                <span className="hidden lg:block text-xs text-foreground-tertiary truncate">
                   {item.description}
                 </span>
               </div>

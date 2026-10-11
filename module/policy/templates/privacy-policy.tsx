@@ -5,7 +5,7 @@ export default function PrivacyPolicy() {
         <>
             <header className="mb-8">
                 <h1 className="text-3xl uppercase tracking-tight">Privacy Policy</h1>
-                <p className="mt-2 text-sm text-foreground-muted">Effective Date: August 28, 2025</p>
+                <p className="mt-2 text-sm text-foreground-tertiary">Effective Date: August 28, 2025</p>
             </header>
             <section className="max-w-none space-y-4">
                 <p className="text-sm tracking-wide font-light">
@@ -142,7 +142,7 @@ export default function PrivacyPolicy() {
                 <div className="space-y-2">
                     <h2 className="text-xl uppercase">10. Grievance Officer</h2>
                     <p className="text-sm tracking-wide font-light">
-                        As required under the Information Technology Rules, we have appointed a Grievance Officer to address any concerns regarding data handling. Contact: [Name], Email: <Link href="mailto:support@vellehide.com" className="hover:underline">support@vellehide.com</Link>. Grievances will be resolved within one month.
+                        As required under the Information Technology Rules, we have appointed a Grievance Officer to address any concerns regarding data handling. Contact: M A Ansari, Email: <Link href="mailto:support@vellehide.com" className="hover:underline">support@vellehide.com</Link>. Grievances will be resolved within one month.
                     </p>
                 </div>
 

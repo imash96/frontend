@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import buildJsonLd from "@/lib/util/jsonld"
 import TermsOfSale from "@/module/policy/templates/term-of-sale"
+import { baseURL } from "@/lib/constant"
 
 export default function Page() {
     return (
@@ -9,7 +10,7 @@ export default function Page() {
 }
 
 export async function generateMetadata(): Promise<Metadata> {
-    const canonical = "https://vellehide.com/policy/terms-and-conditions"
+    const canonical = `${baseURL}/policy/terms-of-sale`
     const policyLd = {
         "@context": "https://schema.org",
         "@type": "WebPage",
@@ -18,8 +19,8 @@ export async function generateMetadata(): Promise<Metadata> {
         "description": "VelleHide's Terms and Conditions for cross-border e-commerce retail exports from India. Covers orders, payments, shipping, returns, intellectual property, liability, and governing laws.",
         "isPartOf": {
             "@type": "WebSite",
-            "name": "VelleHide",
-            "url": "https://vellehide.com"
+            "name": "Velle Hide",
+            "url": baseURL,
         },
         "datePublished": "2025-08-28",
         "dateModified": "2025-08-28",
@@ -30,7 +31,7 @@ export async function generateMetadata(): Promise<Metadata> {
                     "@type": "ListItem",
                     "position": 1,
                     "name": "Home",
-                    "item": "https://vellehide.com"
+                    "item": baseURL,
                 },
                 {
                     "@type": "ListItem",

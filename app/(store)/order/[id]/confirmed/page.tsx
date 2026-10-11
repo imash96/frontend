@@ -35,13 +35,13 @@ export default async function Page(props: PageProps<"/order/[id]">) {
                         <CheckCircle className="w-12 h-12 text-success mx-auto mb-4" />
                         <h1 className="text-lg font-semibold text-foreground">Payment Successful</h1>
                         <p className="mt-2 text-3xl font-bold tracking-tight text-primary sm:text-4xl">Thanks for your order!</p>
-                        <p className="mt-4 text-base text-foreground-muted">Order #{order_id} has been placed successfully on {formattedDate}.</p>
-                        <p className="mt-2 text-base text-foreground-muted">
+                        <p className="mt-4 text-base text-foreground-tertiary">Order #{order_id} has been placed successfully on {formattedDate}.</p>
+                        <p className="mt-2 text-base text-foreground-tertiary">
                             We appreciate your order. We're currently processing it and will send you a confirmation email soon.
                         </p>
                     </div>
 
-                    <div className="bg-background-elevated rounded-lg p-6 border border-border">
+                    <div className="bg-surface-elevated rounded-lg p-6 border border-border">
                         <h2 className="text-lg font-semibold text-foreground">Order Items</h2>
                         <ul role="list" className="divide-y divide-border">
                             {order.items?.map(item => (
@@ -50,9 +50,9 @@ export default async function Page(props: PageProps<"/order/[id]">) {
                         </ul>
                     </div>
 
-                    <div className="bg-background-elevated rounded-lg p-6 border border-border">
+                    <div className="bg-surface-elevated rounded-lg p-6 border border-border">
                         <h2 className="text-lg font-semibold text-foreground mb-4">Order Summary</h2>
-                        <div className="space-y-3 text-sm text-foreground-muted">
+                        <div className="space-y-3 text-sm text-foreground-tertiary">
                             <div className="flex justify-between">
                                 <span>Subtotal</span>
                                 <span className="text-foreground">{convertToLocale({ amount: order.subtotal, currency_code: order.currency_code })}</span>
@@ -77,38 +77,38 @@ export default async function Page(props: PageProps<"/order/[id]">) {
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div className="bg-background-elevated rounded-lg p-6 border border-border">
+                        <div className="bg-surface-elevated rounded-lg p-6 border border-border">
                             <h2 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
                                 <MapPin className="w-5 h-5 text-primary" /> Shipping Address
                             </h2>
-                            <div className="text-sm text-foreground-muted space-y-1">
+                            <div className="text-sm text-foreground-tertiary space-y-1">
                                 <p>{order.shipping_address?.first_name} {order.shipping_address?.last_name}</p>
                                 <p>{order.shipping_address?.company}</p>
                                 <p>{order.shipping_address?.address_1}{order.shipping_address?.address_2 ? `, ${order.shipping_address.address_2}` : ''}</p>
                                 <p>{order.shipping_address?.city}, {order.shipping_address?.province} {order.shipping_address?.postal_code}</p>
                                 <p className="uppercase">{order.shipping_address?.country_code}</p>
-                                {order.shipping_address?.phone && <p className="text-foreground-disabled">{order.shipping_address.phone}</p>}
+                                {order.shipping_address?.phone && <p className="text-foreground-tertiary">{order.shipping_address.phone}</p>}
                             </div>
                         </div>
-                        <div className="bg-background-elevated rounded-lg p-6 border border-border">
+                        <div className="bg-surface-elevated rounded-lg p-6 border border-border">
                             <h2 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
                                 <MapPin className="w-5 h-5 text-primary" /> Billing Address
                             </h2>
-                            <div className="text-sm text-foreground-muted space-y-1">
+                            <div className="text-sm text-foreground-tertiary space-y-1">
                                 <p>{order.billing_address?.first_name} {order.billing_address?.last_name}</p>
                                 <p>{order.billing_address?.company}</p>
                                 <p>{order.billing_address?.address_1}{order.billing_address?.address_2 ? `, ${order.billing_address.address_2}` : ''}</p>
                                 <p>{order.billing_address?.city}, {order.billing_address?.province} {order.billing_address?.postal_code}</p>
                                 <p className="uppercase">{order.billing_address?.country_code}</p>
-                                {order.billing_address?.phone && <p className="text-foreground-disabled">{order.billing_address.phone}</p>}
+                                {order.billing_address?.phone && <p className="text-foreground-tertiary">{order.billing_address.phone}</p>}
                             </div>
                         </div>
                     </div>
-                    <div className="bg-background-elevated rounded-lg p-6 border border-border">
+                    <div className="bg-surface-elevated rounded-lg p-6 border border-border">
                         <h2 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
                             <CreditCard className="w-5 h-5 text-accent" /> Payment Information
                         </h2>
-                        <div className="text-sm text-foreground-muted space-y-1">
+                        <div className="text-sm text-foreground-tertiary space-y-1">
                             <p>Email: {order.email}</p>
                             <p>Method: {`Card (via Stripe)`}</p>
                             <p>Status: {order.payment_status.charAt(0).toUpperCase() + order.payment_status.slice(1)}</p>

@@ -10,7 +10,7 @@ type Tab = { type: "link"; href: Route; label: string; Icon: typeof House } | { 
 
 export default function BottomTabs() {
     const pathname = usePathname()
-    const { toggle } = useDrawerStore()
+    const toggle = useDrawerStore((s) => s.toggle)
 
     // Hide on product pages for better UX
     if (pathname.includes("/product")) return null

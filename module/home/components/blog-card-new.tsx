@@ -20,6 +20,7 @@ export default function BlogCardOverlay({
         month: "short",
         day: "numeric",
         year: "numeric",
+        timeZone: "UTC",
     })
 
     return (

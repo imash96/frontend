@@ -44,7 +44,7 @@ export default async function Page(props: PageProps<"/blogs">) {
           ))}
         </div>
       ) : (
-        <p className="text-center text-foreground-muted text-lg">
+        <p className="text-center text-foreground-tertiary text-lg">
           No blogs available at the moment.
         </p>
       )}

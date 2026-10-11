@@ -7,8 +7,8 @@ export default function ProductThumbnail({ src, alt, className = "", children, .
     const primaryUrl = (Array.isArray(src) ? src[0]?.url : src) || "/svg/placeholder.svg";
     const secondaryUrl = hasMultipleImages ? (src[1]?.url || "/svg/placeholder.svg") : null;
     return (
-        <div className={`relative aspect-3/4 bg-same-white overflow-hidden no-scrollbar border border-border group ${className}`}>
-            {!src ? <Placeholder className="text-foreground-muted w-full h-full" /> :
+        <div className={`relative aspect-3/4 bg-white overflow-hidden no-scrollbar border border-border group ${className}`}>
+            {!src ? <Placeholder className="text-foreground-tertiary w-full h-full" /> :
                 <>
                     <img
                         src={primaryUrl}
@@ -111,7 +111,7 @@ export function ProductThumbnailN({
                     )}
                 </>
             ) : (
-                <Placeholder role="img" aria-label="No image available" className="size-full text-foreground-muted" />
+                <Placeholder role="img" aria-label="No image available" className="size-full text-foreground-tertiary" />
             )}
             {children}
         </div>

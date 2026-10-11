@@ -19,14 +19,14 @@ export function ProviderInfo({
         <div className="flex flex-col items-center gap-3 text-center">
             {icon}
             {title && <h3 className="font-heading text-sm font-semibold text-foreground sm:text-base">{title}</h3>}
-            <div className="max-w-sm text-xs text-foreground-muted sm:text-sm">{children}</div>
+            <div className="max-w-sm text-xs text-foreground-tertiary sm:text-sm">{children}</div>
         </div>
     )
 }
 
 export function ProviderLoading({ children }: { children: React.ReactNode }) {
     return (
-        <div role="status" className="flex items-center justify-center gap-2 py-4 text-xs text-foreground-muted sm:text-sm">
+        <div role="status" className="flex items-center justify-center gap-2 py-4 text-xs text-foreground-tertiary sm:text-sm">
             <Loader2 className="size-5 animate-spin" aria-hidden="true" />
             {children}
         </div>

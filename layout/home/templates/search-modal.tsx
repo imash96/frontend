@@ -54,7 +54,9 @@ export function SearchModal() {
     const [activeIndex, setActiveIndex] = useState(-1)
     const inputRef = useRef<HTMLInputElement>(null)
     const resultsRef = useRef<HTMLDivElement>(null)
-    const { active, toggle: toggleSearch, close: closeSearch } = useDrawerStore()
+    const active = useDrawerStore((s) => s.active)
+    const toggleSearch = useDrawerStore((s) => s.toggle)
+    const closeSearch = useDrawerStore((s) => s.close)
 
     const { hits, isLoading, totalHits } = useAlgoliaSearch(query)
 
@@ -274,8 +276,8 @@ export function SearchModal() {
                                             href={`/products/${hit.handle}` as Route}
                                             onClick={() => handleResultClick(hit)}
                                             className={`group flex w-full items-center gap-4 rounded-xl border p-4 text-left transition duration-150 ${activeIndex === index
-                                                    ? "border-primary/40 bg-primary/5 shadow-sm"
-                                                    : "border-border-subtle hover:border-border-strong hover:bg-card-hover bg-card hover:shadow-primary"
+                                                ? "border-primary/40 bg-primary/5 shadow-sm"
+                                                : "border-border-subtle hover:border-border-strong hover:bg-card-hover bg-card hover:shadow-primary"
                                                 }`}
                                         >
                                             {/* Thumbnail */}
@@ -321,8 +323,8 @@ export function SearchModal() {
 
                                             <ArrowRight
                                                 className={`shrink-0 size-4 transition-all duration-150 ${activeIndex === index
-                                                        ? "text-primary opacity-100 translate-x-0.5"
-                                                        : "text-text-tertiary opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5"
+                                                    ? "text-primary opacity-100 translate-x-0.5"
+                                                    : "text-text-tertiary opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5"
                                                     }`}
                                                 aria-hidden
                                             />

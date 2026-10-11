@@ -51,7 +51,7 @@ export default function Addresses({ addresses, regions }: AddressBookProps) {
         isDefaultShipping={isNoAddress}
       >
         <button
-          className="border border-border rounded-lg bg-background-elevated p-5 min-h-60 w-full flex flex-col justify-center items-center gap-2 hover:bg-background-muted transition"
+          className="border border-border rounded-lg bg-surface-elevated p-5 min-h-60 w-full flex flex-col justify-center items-center gap-2 hover:bg-muted transition"
           aria-label="Add new address"
         >
           <PlusIcon className="w-8 h-8" />
@@ -62,7 +62,7 @@ export default function Addresses({ addresses, regions }: AddressBookProps) {
       {isNoAddress && (
         <div className="border rounded-lg p-6 flex flex-col gap-y-2 items-center justify-center text-center">
           <p className="text-base font-medium">No saved addresses</p>
-          <p className="text-sm text-foreground-muted">
+          <p className="text-sm text-foreground-tertiary">
             Add a shipping address to speed up future checkouts.
           </p>
         </div>

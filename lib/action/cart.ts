@@ -1,13 +1,22 @@
 "use server"
 
-import { HttpTypes, SelectParams, StoreInitializePaymentSession } from "@medusajs/types"
-import { redirect } from "next/navigation"
+import type { HttpTypes, SelectParams, StoreInitializePaymentSession } from "@medusajs/types"
+import { CART_FIELDS } from "@/lib/constant"
 import { sdk } from "@/lib/sdk"
 import medusaError from "@/lib/util/medusa-error"
-import { getAuthHeaders, getCacheOptions, getCartId, setCartId, setCountryCode, updateCacheTags, } from "./cookies"
+import { getAuthHeaders, getCacheOptions, getCartId, setCartId, setCountryCode, updateCacheTags } from "./cookies"
 import { getLocale } from "./locale"
 import { getRegion } from "./regions"
-import { CART_FIELDS } from "../constant"
+
+type Result = { success: boolean; error: string | null }
+
+const authHeaders = async () => ({ ...(await getAuthHeaders()) })
+
+async function requireCartId(message: string) {
+    const cartId = await getCartId()
+    if (!cartId) throw new Error(message)
+    return cartId
+}
 
 /**
  * Retrieves a cart by ID, falling back to the cart ID cookie.
@@ -42,11 +51,7 @@ export async function getOrSetCart(countryCode: string) {
 
     if (!existing) {
         const locale = await getLocale()
-        const { cart } = await sdk.store.cart.create(
-            { region_id: region.id, locale: locale || undefined },
-            {},
-            headers,
-        )
+        const { cart } = await sdk.store.cart.create({ region_id: region.id, locale: locale || undefined }, {}, headers)
         await setCartId(cart.id)
         await updateCacheTags("carts")
         return cart
@@ -117,33 +122,6 @@ export async function deleteLineItem(lineId: string) {
         .catch(medusaError)
 }
 
-export async function setShippingMethod({
-    cartId,
-    shippingMethodId,
-}: {
-    cartId: string
-    shippingMethodId: string
-}) {
-    const headers = {
-        ...(await getAuthHeaders()),
-    }
-
-    try {
-        await sdk.store.cart.addShippingMethod(
-            cartId,
-            { option_id: shippingMethodId },
-            {},
-            headers,
-        );
-
-        await updateCacheTags("carts")
-
-        return { success: true };
-    } catch (err) {
-        medusaError(err);
-    }
-}
-
 export async function initiatePaymentSession(
     cartId: string,
     body: StoreInitializePaymentSession,
@@ -161,10 +139,12 @@ export async function initiatePaymentSession(
     }
 
     return sdk.client
-        .fetch<HttpTypes.StorePaymentCollectionResponse>(
-            `/store/payment-collections/${collectionId}/payment-sessions`,
-            { method: "POST", headers, body, query },
-        )
+        .fetch<HttpTypes.StorePaymentCollectionResponse>(`/store/payment-collections/${collectionId}/payment-sessions`, {
+            method: "POST",
+            headers,
+            body,
+            query,
+        })
         .then(async (resp) => {
             await updateCacheTags("carts")
             return resp
@@ -172,125 +152,52 @@ export async function initiatePaymentSession(
         .catch(medusaError)
 }
 
-/** Replaces the cart's promo codes with `codes` (Medusa treats the list as the full set). */
-export async function applyPromotions(codes: string[]) {
-    const cartId = await requireCartId("No existing cart found")
-    const headers = await authHeaders()
+// ─── Promo codes ────────────────────────────────────────────────────────────
+// Medusa replaces the cart's whole promo list on update, so adding sends the existing codes plus
+// the new one, and removing sends the rest. (Sending only [code] silently dropped every promotion
+// already applied, and removing cleared them all.)
 
-    return sdk.store.cart
-        .update(cartId, { promo_codes: codes }, {}, headers)
-        .then(() => updateCacheTags("carts", "fulfillment"))
-        .catch(medusaError)
+function failure(e: unknown, fallback: string): Result {
+    return { success: false, error: e instanceof Error && e.message ? e.message : fallback }
 }
 
-export async function applyGiftCard(code: string) {
-    //   const cartId = getCartId()
-    //   if (!cartId) return "No cartId cookie found"
-    //   try {
-    //     await updateCart(cartId, { gift_cards: [{ code }] }).then(() => {
-    //       revalidateTag("cart")
-    //     })
-    //   } catch (error: any) {
-    //     throw error
-    //   }
+export async function applyPromoCode(code: string): Promise<Result> {
+    const normalized = code.trim()
+    if (!normalized) return { success: false, error: "Enter a promo code." }
+
+    try {
+        const cartId = await requireCartId("No existing cart found")
+        // More than one promo code not allowed.
+        await sdk.store.cart.update(cartId, { promo_codes: [normalized] }, {}, await authHeaders())
+        await updateCacheTags("carts", "fulfillment")
+        return { success: true, error: null }
+    } catch (e) {
+        return failure(e, "That code couldn't be applied.")
+    }
 }
 
-export async function removeDiscount(code: string) {
-    // const cartId = getCartId()
-    // if (!cartId) return "No cartId cookie found"
-    // try {
-    //   await deleteDiscount(cartId, code)
-    //   revalidateTag("cart")
-    // } catch (error: any) {
-    //   throw error
-    // }
+/** Removes one code, or every code when none is given. */
+export async function removePromoCode(): Promise<Result> {
+    try {
+        const cartId = await requireCartId("No existing cart found")
+
+        await sdk.store.cart.update(cartId, { promo_codes: [] }, {}, await authHeaders())
+        await updateCacheTags("carts", "fulfillment")
+        return { success: true, error: null }
+    } catch (e) {
+        return failure(e, "We couldn't remove that code.")
+    }
 }
 
-export async function removeGiftCard(
-    codeToRemove: string,
-    giftCards: any[]
-    // giftCards: GiftCard[]
-) {
-    //   const cartId = getCartId()
-    //   if (!cartId) return "No cartId cookie found"
-    //   try {
-    //     await updateCart(cartId, {
-    //       gift_cards: [...giftCards]
-    //         .filter((gc) => gc.code !== codeToRemove)
-    //         .map((gc) => ({ code: gc.code })),
-    //     }).then(() => {
-    //       revalidateTag("cart")
-    //     })
-    //   } catch (error: any) {
-    //     throw error
-    //   }
-}
-
-/** Form-action wrapper. Returns an error message, or null on success. */
+/** Form-action wrapper for the promo input. Returns an error message, or null on success. */
 export async function submitPromotionForm(_currentState: unknown, formData: FormData) {
     const code = formData.get("code")
-    if (typeof code !== "string" || !code.trim()) return "Enter a promo code."
-
-    try {
-        await applyPromotions([code.trim()])
-        return null
-    } catch (e) {
-        return e instanceof Error ? e.message : "That code couldn't be applied."
-    }
+    if (typeof code !== "string") return "Enter a promo code."
+    const result = await applyPromoCode(code)
+    return result.success ? null : result.error
 }
 
-// TODO: Pass a POJO instead of a form entity here
-export async function setAddresses(currentState: unknown, formData: FormData) {
-    try {
-        if (!formData) {
-            throw new Error("No form data found when setting addresses")
-        }
-        const cartId = await getCartId()
-        if (!cartId) {
-            throw new Error("No existing cart found when setting addresses")
-        }
-
-        const data = {
-            shipping_address: {
-                first_name: formData.get("shipping_address.first_name"),
-                last_name: formData.get("shipping_address.last_name"),
-                address_1: formData.get("shipping_address.address_1"),
-                address_2: "",
-                company: formData.get("shipping_address.company"),
-                postal_code: formData.get("shipping_address.postal_code"),
-                city: formData.get("shipping_address.city"),
-                country_code: formData.get("shipping_address.country_code"),
-                province: formData.get("shipping_address.province"),
-                phone: formData.get("shipping_address.phone"),
-            },
-            email: formData.get("email"),
-        } as any
-
-        const sameAsBilling = formData.get("same_as_billing")
-        if (sameAsBilling === "on") data.billing_address = data.shipping_address
-
-        if (sameAsBilling !== "on")
-            data.billing_address = {
-                first_name: formData.get("billing_address.first_name"),
-                last_name: formData.get("billing_address.last_name"),
-                address_1: formData.get("billing_address.address_1"),
-                address_2: "",
-                company: formData.get("billing_address.company"),
-                postal_code: formData.get("billing_address.postal_code"),
-                city: formData.get("billing_address.city"),
-                country_code: formData.get("billing_address.country_code"),
-                province: formData.get("billing_address.province"),
-                phone: formData.get("billing_address.phone"),
-            }
-        await updateCart(data)
-    } catch (e: any) {
-        return e.message
-    }
-
-    redirect(
-        `/checkout?step=delivery`
-    )
-}
+// ─── Region & misc ──────────────────────────────────────────────────────────
 
 /** Updates the country and revalidates region-dependent caches. */
 export async function updateRegion(countryCode: string) {
@@ -325,12 +232,4 @@ export async function fetchCartItemCount() {
     // Only items are needed; skip the heavy default field set.
     const cart = await retrieveCart(undefined, "id,*items")
     return cart?.items?.reduce((total, item) => total + item.quantity, 0) ?? 0
-}
-
-const authHeaders = async () => ({ ...(await getAuthHeaders()) })
-
-async function requireCartId(message: string) {
-    const cartId = await getCartId()
-    if (!cartId) throw new Error(message)
-    return cartId
 }

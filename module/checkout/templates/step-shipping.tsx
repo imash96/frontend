@@ -1,9 +1,9 @@
-import { deriveCheckoutProgress } from "@/lib/store/checkout-store"
 import type { StoreCart, StoreCartShippingOption } from "@medusajs/types"
 import { Truck, TruckElectric } from "lucide-react"
 import DeliveryCard from "../components/delivery-card"
 import { convertToLocale } from "@/lib/util/money"
 import CheckoutStepHeader from "../components/step-header"
+import { deriveCheckoutProgress } from "@/lib/store/checkout-steps"
 
 export default function StepShipping({ cart, shippingMethods }: StepShippingProps) {
     // The newest method wins, as in the Medusa starter. Its name/amount come from the cart itself,
@@ -29,7 +29,7 @@ export default function StepShipping({ cart, shippingMethods }: StepShippingProp
                         <p className="truncate text-sm font-semibold text-foreground">
                             {selectedMethod.name ?? selectedOption?.name}
                         </p>
-                        {estimate && <p className="text-xs text-foreground-muted sm:text-sm">{estimate}</p>}
+                        {estimate && <p className="text-xs text-foreground-tertiary sm:text-sm">{estimate}</p>}
                     </div>
                 </div>
                 <span className="text-sm font-semibold tabular-nums text-foreground">

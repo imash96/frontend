@@ -8,7 +8,7 @@ import Container from "@/ui/container"
 export default async function CheckHeader() {
   const initialTheme = await getInitialTheme()
   return (
-    <header className="sticky top-0 z-40 bg-background-muted/80 backdrop-blur-lg border-b border-border shadow-sm">
+    <header className="sticky top-0 z-40 bg-muted/80 backdrop-blur-lg border-b border-border shadow-sm">
       <Container
         as="nav"
         size="xl"
@@ -17,7 +17,7 @@ export default async function CheckHeader() {
       >
         <Link
           href="/cart"
-          className="flex items-center gap-1.5 text-foreground-muted hover:text-foreground transition-colors"
+          className="flex items-center gap-1.5 text-foreground-tertiary hover:text-foreground transition-colors"
         >
           <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
           <span className="hidden sm:inline text-sm font-medium">Back to Cart</span>

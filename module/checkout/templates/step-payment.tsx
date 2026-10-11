@@ -1,16 +1,21 @@
+
 "use client"
 
-import { StoreCart, StorePaymentProvider } from "@medusajs/types"
+import type { StoreCart, StorePaymentProvider } from "@medusajs/types"
 import { CheckCircle, Circle, Loader2 } from "lucide-react"
-import CheckoutStepHeader from "../components/step-header"
-import { div as Div } from "motion/react-client"
-import { useShallow } from "zustand/react/shallow"
-import { memo, useCallback, useEffect, useMemo, useOptimistic, useTransition } from "react"
 import { AnimatePresence } from "motion/react"
-import PaymentButton from "../components/payment-button"
-import { useCheckoutStore, selectIsBusy, findActiveSession, isCartNotReady } from "@/lib/store/checkout-store"
-import { getPaymentInfo, type PaymentInfo } from "../components/payment-map"
+import { div as Div } from "motion/react-client"
+import { memo, useCallback, useEffect, useMemo, useOptimistic, useTransition } from "react"
+import { useShallow } from "zustand/react/shallow"
+import { selectIsBusy, useCheckoutStore, } from "@/lib/store/checkout-store"
 import ErrorMessage from "@/module/common/templates/error-message"
+import PaymentButton from "../components/payment-button"
+import { getPaymentInfo, type PaymentInfo } from "../components/payment-map"
+import CheckoutStepHeader from "../components/step-header"
+import { findActiveSession, isCartNotReady } from "@/lib/store/checkout-steps"
+
+// NEXT_PUBLIC_* is inlined at build time, so this is safe in a client component.
+const PAYPAL_ENABLED = Boolean(process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID)
 
 export default function StepPayment({ cart, paymentMethods }: StepPaymentProps) {
     const { error, isBusy, selectPaymentMethod, syncPayment } = useCheckoutStore(
@@ -27,13 +32,12 @@ export default function StepPayment({ cart, paymentMethods }: StepPaymentProps) 
     const selectedId = session?.provider_id
     const notReady = isCartNotReady(cart)
 
+    // Mirror cart-derived payment state into the store before paint, so the pay button (a sibling
+    // subtree) never flashes "Select a payment method". Only primitives are depended on, and the
+    // store skips the update when nothing relevant changed.
     const sessionId = session?.id
     const sessionStatus = session?.status
-    const activeSession = useMemo(() =>
-        sessionId && selectedId && sessionStatus ? { id: sessionId, provider_id: selectedId, status: sessionStatus } : undefined,
-        [sessionId, selectedId, sessionStatus],
-    )
-
+    const activeSession = useMemo(() => sessionId && selectedId && sessionStatus ? { id: sessionId, provider_id: selectedId, status: sessionStatus } : undefined, [sessionId, selectedId, sessionStatus])
     useEffect(() => {
         syncPayment({ notReady, activeSession })
     }, [notReady, activeSession, syncPayment])
@@ -43,23 +47,28 @@ export default function StepPayment({ cart, paymentMethods }: StepPaymentProps) 
         return info ? [{ id: m.id, info }] : []
     }), [paymentMethods])
 
+    // The radio flips instantly; React reverts it if the request fails and keeps it until the
+    // refreshed cart arrives if it succeeds (no flash back to the old method).
     const [optimisticId, setOptimisticId] = useOptimistic(selectedId)
     const isLocked = isTransitioning || isBusy
 
     const cartId = cart.id
     const collectionId = cart.payment_collection?.id
-    const onSelect = useCallback((providerId: string) => {
-        startTransition(async () => {
-            setOptimisticId(providerId)
-            await selectPaymentMethod({ cartId, providerId, collectionId })
-        })
-    }, [cartId, collectionId, selectPaymentMethod, setOptimisticId])
+    const onSelect = useCallback(
+        (providerId: string) => {
+            startTransition(async () => {
+                setOptimisticId(providerId)
+                await selectPaymentMethod({ cartId, providerId, collectionId })
+            })
+        },
+        [cartId, collectionId, selectPaymentMethod, setOptimisticId],
+    )
 
     return (
         <CheckoutStepHeader title="Payment Information" subtitle="Secure payment processing" number={3} stepId="payment">
             <div className="space-y-4">
                 {methods.length === 0 ? (
-                    <p role="alert" className="text-sm text-foreground-muted">
+                    <p role="alert" className="text-sm text-foreground-tertiary">
                         No payment methods are available for your region right now. Please contact support.
                     </p>
                 ) : (
@@ -80,7 +89,7 @@ export default function StepPayment({ cart, paymentMethods }: StepPaymentProps) 
                     </div>
                 )}
 
-                {/* The one place errors are shown: the individual buttons no longer render their own copy. */}
+                {/* The one place errors are shown: the individual buttons don't render their own copy. */}
                 <div aria-live="polite">
                     <ErrorMessage error={error} />
                 </div>
@@ -95,7 +104,7 @@ type OptionProps = {
     id: string
     info: PaymentInfo
     cart: StoreCart
-    /** Checked state (optimistic, flips immediately on click). */
+    /** Checked state (optimistic: flips immediately on click). */
     isSelected: boolean
     /** The method the cart really has a session for: only then is its preview mounted. */
     isActive: boolean
@@ -118,11 +127,11 @@ const PaymentOption = memo(function PaymentOption({
 
     return (
         <div
-            className={`overflow-hidden rounded-xl border transition-colors has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-focus-ring ${isSelected ? "border-accent bg-accent/5" : "border-border hover:border-accent/50"
+            className={`overflow-hidden rounded-xl border transition-colors has-focus-visible:ring-2 has-focus-visible:ring-focus-ring ${isSelected ? "border-accent bg-accent/5" : "border-border hover:border-accent/50"
                 } ${disabled && !isSelected ? "opacity-60" : ""}`}
         >
             {/* Only this header selects the method. The whole card used to be clickable, so every click
-          inside the PayPal / card-field preview re-created the payment session. */}
+                inside the PayPal / card-field preview re-created the payment session. */}
             <label className={`flex items-center gap-3 p-3 sm:p-4 ${disabled ? "cursor-not-allowed" : "cursor-pointer"}`}>
                 {/* aria-disabled instead of disabled: a disabled radio drops keyboard focus mid-request. */}
                 <input
@@ -138,17 +147,17 @@ const PaymentOption = memo(function PaymentOption({
                 />
                 <span aria-hidden="true" className="shrink-0 text-accent">
                     {isSwitching ? (
-                        <Loader2 className="size-5 animate-spin text-foreground-muted sm:size-6" />
+                        <Loader2 className="size-5 animate-spin text-foreground-tertiary sm:size-6" />
                     ) : isSelected ? (
                         <CheckCircle className="size-5 sm:size-6" />
                     ) : (
-                        <Circle className="size-5 text-foreground-muted sm:size-6" />
+                        <Circle className="size-5 text-foreground-tertiary sm:size-6" />
                     )}
                 </span>
 
                 <span className="min-w-0 flex-1">
                     <span className="block truncate text-sm font-semibold text-foreground sm:text-base">{info.title}</span>
-                    <span className="line-clamp-2 block text-xs text-foreground-muted sm:text-sm">{info.desc}</span>
+                    <span className="line-clamp-2 block text-xs text-foreground-tertiary sm:text-sm">{info.desc}</span>
                 </span>
 
                 <span aria-hidden="true" className="shrink-0 text-foreground">
@@ -158,13 +167,7 @@ const PaymentOption = memo(function PaymentOption({
 
             <AnimatePresence initial={false}>
                 {isActive && (
-                    <Div
-                        key="preview"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.2 }}
-                    >
+                    <Div key="preview" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
                         <Preview cart={cart} />
                     </Div>
                 )}

@@ -11,12 +11,12 @@ export default function RootError({ error, reset, }: { error: Error & { digest?:
             </div>
             <div className="max-w-sm space-y-2">
                 <h1 className="text-xl font-semibold">Something went wrong</h1>
-                <p className="text-sm leading-relaxed text-foreground-muted">
+                <p className="text-sm leading-relaxed text-foreground-tertiary">
                     We hit an unexpected error loading Velle Hide. Try again, or head
                     back to the homepage.
                 </p>
                 {error.digest && (
-                    <p className="font-mono text-xs text-foreground-muted">Error ID: {error.digest}</p>
+                    <p className="font-mono text-xs text-foreground-tertiary">Error ID: {error.digest}</p>
                 )}
             </div>
             <div className="flex flex-col gap-3 sm:flex-row">

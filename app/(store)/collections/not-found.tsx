@@ -14,7 +14,7 @@ export default function CollectionsNotFound() {
             <p className="font-heading text-7xl font-bold text-primary/20">404</p>
             <div className="max-w-sm space-y-2">
                 <h1 className="text-xl font-semibold">We couldn&apos;t find that page</h1>
-                <p className="text-sm leading-relaxed text-foreground-muted">
+                <p className="text-sm leading-relaxed text-foreground-tertiary">
                     The page you&apos;re looking for may have been moved or no longer
                     exists. Let&apos;s get you back on track.
                 </p>
@@ -27,7 +27,7 @@ export default function CollectionsNotFound() {
                     Browse collections
                 </Button>
             </div>
-            <p className="text-xs text-foreground-muted">
+            <p className="text-xs text-foreground-tertiary">
                 Or{" "}
                 <Link href="/contact-us" className="underline underline-offset-2 hover:text-foreground">
                     contact our support team

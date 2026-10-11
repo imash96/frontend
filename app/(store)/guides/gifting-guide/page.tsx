@@ -1,20 +1,25 @@
 import type { Metadata } from "next"
 import buildJsonLd from "@/lib/util/jsonld"
 import GiftingGuide from "@/module/guides/templates/gifting-guide"
+import { baseURL } from "@/lib/constant";
 
 export default function Page() {
     return <GiftingGuide />;
 }
 
 export async function generateMetadata(): Promise<Metadata> {
-    const canonical = "https://vellehide.com/guides/gifting-guide"
+    const canonical = `${baseURL}/guides/gifting-guide`
     const jsonLd = {
         "@context": "https://schema.org",
         "@type": "WebPage",
         "name": "Leather Gifting Guide | VelleHide",
         "url": canonical,
         "description": "Find the perfect leather gift for any occasion. From personalized leather jackets to monogrammed wallets, VelleHide makes gifting unforgettable.",
-        "isPartOf": { "@type": "WebSite", "name": "VelleHide", "url": "https://vellehide.com" },
+        "isPartOf": {
+            "@type": "WebSite",
+            "name": "VelleHide",
+            "url": baseURL,
+        },
         "datePublished": "2025-09-25",
         "dateModified": "2025-09-25"
     }
@@ -29,3 +34,4 @@ export async function generateMetadata(): Promise<Metadata> {
         other: buildJsonLd(jsonLd),
     }
 }
+

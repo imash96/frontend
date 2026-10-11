@@ -2,7 +2,7 @@ import { StoreCollection } from "@medusajs/types";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function CollectionCard({ collection, className, priority, }: Props) {
+export default function CollectionCard({ collection, className = "", priority, }: Props) {
 
     const isActive = collection.metadata?.is_active !== false;
     return (

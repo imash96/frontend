@@ -63,28 +63,28 @@ export function CollectionsHero({ collections }: CollectionsHeroProps) {
         )}
         {featured[2] && (
           <div className="hidden md:col-span-3 md:col-start-3 md:row-span-2 md:row-start-5 md:block">
-            <CollectionCard collection={featured[2]} className="h-full" priority />
+            <CollectionCard collection={featured[2]} className="h-full" />
           </div>
         )}
         {featured[3] && (
           <div className="hidden md:col-span-2 md:col-start-6 md:row-span-2 md:row-start-5 md:block">
-            <CollectionCard collection={featured[3]} className="h-full" priority />
+            <CollectionCard collection={featured[3]} className="h-full" />
           </div>
         )}
         {featured[4] && (
           <div className="hidden md:col-span-3 md:col-start-9 md:row-span-2 md:row-start-3 md:block">
-            <CollectionCard collection={featured[4]} className="h-full" priority />
+            <CollectionCard collection={featured[4]} className="h-full" />
           </div>
         )}
 
         {/* Mobile fallback strip */}
         <div className="order-2 grid grid-cols-2 gap-4 md:hidden">
-          {featured.slice(0, 4).map((collection) => (
+          {featured.slice(0, 4).map((collection, i) => (
             <CollectionCard
               key={collection.id}
               collection={collection}
               className="aspect-4/5"
-              priority
+              priority={i < 2}
             />
           ))}
         </div>

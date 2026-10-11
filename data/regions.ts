@@ -180,7 +180,7 @@ export const regions = [
             {
                 "id": "",
                 "iso_2": "is",
-                "iso_3": "isl",
+                "iso_3": "ils",
                 "num_code": "352",
                 "name": "ICELAND",
                 "display_name": "Iceland",
@@ -601,7 +601,7 @@ export const regions = [
     {
         "id": "reg_01K3XH35SVCY1B1Y7HNYEBTZD2",
         "name": "Israel",
-        "currency_code": "isl",
+        "currency_code": "ils",
         "created_at": "2025-09-05T16:19:29.945Z",
         "updated_at": "2025-09-05T16:19:29.945Z",
         "deleted_at": null,

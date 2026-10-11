@@ -134,6 +134,8 @@ export default function FilterDrawer({
             {/* Overlay */}
             <div
                 aria-hidden="true"
+                // @ts-expect-error -- inert is a valid HTML attribute
+                inert={!isOpen ? "" : undefined}
                 className={`fixed inset-0 z-40 bg-black/40 backdrop-blur-[2px] transition-opacity duration-300 ${isOpen
                     ? "opacity-100 pointer-events-auto"
                     : "opacity-0 pointer-events-none"
@@ -146,6 +148,8 @@ export default function FilterDrawer({
                 role="dialog"
                 aria-modal="true"
                 aria-labelledby="filter-drawer-title"
+                // @ts-expect-error -- inert is a valid HTML attribute
+                inert={!isOpen ? "" : undefined}
                 className={`fixed left-0 top-0 z-50 h-full w-[88vw] max-w-sm flex flex-col bg-surface shadow-2xl transition-transform duration-300 ease-out ${isOpen ? "translate-x-0" : "-translate-x-full"
                     }`}
             >

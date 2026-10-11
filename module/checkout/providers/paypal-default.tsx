@@ -7,6 +7,7 @@ import { useCheckoutStore } from "@/lib/store/checkout-store"
 import ProviderPanel, { ProviderInfo, ProviderLoading } from "../components/provider-panel"
 import { usePayPalFlow } from "./paypal-flow"
 import { usePayPalSdk } from "./paypal-sdk"
+import ProviderErrorBoundary from "./error-boundary"
 
 export default function PayPalDefault(_props: { cart: StoreCart }) {
     return (
@@ -18,6 +19,12 @@ export default function PayPalDefault(_props: { cart: StoreCart }) {
     )
 }
 
+const UNAVAILABLE = (
+    <p role="alert" className="text-center text-xs text-foreground-tertiary sm:text-sm">
+        PayPal couldn&apos;t be loaded. Please refresh the page or choose another payment method.
+    </p>
+)
+
 export function PayPalPaymentButton({ cart }: { cart: StoreCart }) {
     // Not isSubmitting: the buttons must stay enabled while PayPal's own window is open.
     const blocked = useCheckoutStore((s) => s.notReady || s.isPending)
@@ -26,25 +33,20 @@ export function PayPalPaymentButton({ cart }: { cart: StoreCart }) {
     const { createPaypalOrder, onApprove, onError, onCancel } = usePayPalFlow(cart.id)
 
     if (sdk.isLoading) return <ProviderLoading>Loading PayPal…</ProviderLoading>
-
-    if (sdk.isRejected) {
-        return (
-            <p role="alert" className="text-center text-xs text-foreground-muted sm:text-sm">
-                PayPal couldn&apos;t be loaded. Please refresh the page or choose another payment method.
-            </p>
-        )
-    }
+    if (sdk.isRejected) return UNAVAILABLE
 
     return (
-        <PayPalButtons
-            style={{ shape: "rect", layout: "horizontal", color: "silver", label: "paypal" }}
-            disabled={blocked}
-            // Claim the payment before the PayPal window opens; a second click is rejected right here.
-            onClick={(_data, actions) => (beginSubmit() ? actions.resolve() : actions.reject())}
-            createOrder={() => createPaypalOrder(false)}
-            onApprove={onApprove}
-            onCancel={onCancel}
-            onError={onError}
-        />
+        <ProviderErrorBoundary fallback={UNAVAILABLE}>
+            <PayPalButtons
+                style={{ shape: "rect", layout: "horizontal", color: "silver", label: "paypal" }}
+                disabled={blocked}
+                // Claim the payment before the PayPal window opens; a second click is rejected right here.
+                onClick={(_data, actions) => (beginSubmit() ? actions.resolve() : actions.reject())}
+                createOrder={() => createPaypalOrder(false)}
+                onApprove={onApprove}
+                onCancel={onCancel}
+                onError={onError}
+            />
+        </ProviderErrorBoundary>
     )
 }

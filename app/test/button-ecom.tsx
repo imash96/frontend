@@ -65,9 +65,7 @@ export const AddToCartButton = memo(function AddToCartButton({
             disabled={disabled || state !== 'idle'}
             onClick={handleClick}
             aria-live="polite"
-            className={[className, state === 'success' ? 'disabled:opacity-100!' : '']
-                .filter(Boolean)
-                .join(' ')}
+            className={[className, state === 'success' ? 'disabled:opacity-100!' : ''].filter(Boolean).join(' ')}
         >
             {state === 'idle' && (
                 <span key="idle" className="btn-fade-slide-in inline-flex items-center gap-2">

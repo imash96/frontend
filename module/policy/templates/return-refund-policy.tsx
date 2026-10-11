@@ -5,7 +5,7 @@ export default function ReturnRefundPolicy() {
         <>
             <header className="mb-8">
                 <h1 className="text-3xl uppercase tracking-tight">Return & Refund Policy</h1>
-                <p className="mt-2 text-sm text-foreground-muted">Effective Date: August 28, 2025</p>
+                <p className="mt-2 text-sm text-foreground-tertiary">Effective Date: August 28, 2025</p>
             </header>
             <section className="max-w-none space-y-4">
                 <p className="text-sm tracking-wide font-light">
@@ -95,7 +95,7 @@ export default function ReturnRefundPolicy() {
                     <h2 className="text-xl uppercase">Quick Summary</h2>
                     <div className="overflow-x-auto">
                         <table className="w-full border border-border text-sm">
-                            <thead className="bg-background-muted">
+                            <thead className="bg-muted">
                                 <tr>
                                     <th className="p-3 text-left">Item Type</th>
                                     <th className="p-3 text-left">Window</th>
@@ -122,7 +122,7 @@ export default function ReturnRefundPolicy() {
                             </tbody>
                         </table>
                     </div>
-                    <p className="mt-2 text-xs text-foreground-disabled">*After your return is received and approved.</p>
+                    <p className="mt-2 text-xs text-foreground-tertiary">*After your return is received and approved.</p>
                 </div>
 
                 {/* Contact Us */}

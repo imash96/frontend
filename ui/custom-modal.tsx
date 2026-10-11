@@ -41,6 +41,10 @@ export default function CustomModal({
                     }
                 }}
             >
+                {/* Always provide accessible title/description for Radix */}
+                {!title && <DialogTitle className="sr-only">Dialog</DialogTitle>}
+                {!description && <DialogDescription className="sr-only">Dialog content</DialogDescription>}
+
                 {/* Header */}
                 {(title || description || showClose) && (
                     <div className="flex items-start justify-between p-4 sm:p-6 border-b border-divider">

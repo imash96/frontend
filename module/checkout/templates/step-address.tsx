@@ -31,7 +31,7 @@ export default function StepAddress({ cart, customer }: StepAddressProps) {
 
             {sameAsDelivery ? (
                 <SummaryBlock title="Billing address">
-                    <p className="text-foreground-muted">Same as delivery address</p>
+                    <p className="text-foreground-tertiary">Same as delivery address</p>
                 </SummaryBlock>
             ) : (
                 <AddressCard

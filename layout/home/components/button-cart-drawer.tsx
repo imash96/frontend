@@ -5,8 +5,8 @@ import { span as Span } from "motion/react-client"
 import { useDrawerStore } from "@/lib/store/drawer-store";
 
 // TODO: mix cartbutton with cart drawer
-export default function CartDrawerButton({ className, totalItems }: CartDrawerButtonProps) {
-    const { open: openCart } = useDrawerStore();
+export default function CartDrawerButton({ className = "", totalItems }: CartDrawerButtonProps) {
+    const openCart = useDrawerStore((s) => s.open);
 
     return (
         <button onClick={openCart.bind(null, 'cart')} className={`relative ${className}`} aria-label={`Shopping cart with ${totalItems} items`}>

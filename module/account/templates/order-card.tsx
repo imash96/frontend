@@ -69,14 +69,14 @@ const defaultStatus = {
 };
 
 export default function OrderCard({ order }: { order: StoreOrder }) {
-  const order_placed = new Date(order.created_at).toLocaleDateString();
+  const order_placed = new Date(order.created_at).toLocaleDateString("en-US", { timeZone: "UTC" });
   const status = statusConfig[order.fulfillment_status ?? ""] ?? defaultStatus;
   const StatusIcon = status.icon;
 
   return (
     <section
       aria-labelledby={`order-${order.custom_display_id}-title`}
-      className="bg-background-elevated rounded-lg border border-border p-5"
+      className="bg-surface-elevated rounded-lg border border-border p-5"
     >
       <div className="flex flex-col md:flex-row gap-4 mb-4 sm:mb-6 pb-4 sm:pb-6 border-b">
         <div className="flex-1">
@@ -88,13 +88,13 @@ export default function OrderCard({ order }: { order: StoreOrder }) {
           </h3>
           <div className="grid grid-cols-3 gap-x-5 gap-y-2 text-xs sm:text-sm w-fit">
             <div className="min-w-0">
-              <dt className="font-medium text-foreground-muted">Date placed</dt>
+              <dt className="font-medium text-foreground-tertiary">Date placed</dt>
               <dd className="font-semibold">
                 <time dateTime={order_placed}>{order_placed}</time>
               </dd>
             </div>
             <div className="min-w-0">
-              <dt className="font-medium text-foreground-muted">
+              <dt className="font-medium text-foreground-tertiary">
                 Total amount
               </dt>
               <dd className="font-semibold">
@@ -105,7 +105,7 @@ export default function OrderCard({ order }: { order: StoreOrder }) {
               </dd>
             </div>
             <div className="min-w-0">
-              <dt className="font-medium text-foreground-muted">Status</dt>
+              <dt className="font-medium text-foreground-tertiary">Status</dt>
               <dd>
                 <span
                   className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border ${status.className}`}

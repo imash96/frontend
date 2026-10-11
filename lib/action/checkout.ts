@@ -1,58 +1,45 @@
 "use server"
 
-import { HttpTypes, StoreInitializePaymentSession } from "@medusajs/types"
+import type { HttpTypes, StoreInitializePaymentSession } from "@medusajs/types"
 import { redirect } from "next/navigation"
+import { isPayU } from "@/lib/constant"
 import { sdk } from "@/lib/sdk"
-import medusaError from "@/lib/util/medusa-error"
-import { getAuthHeaders, getCacheOptions, getCartId, removeCartId, updateCacheTags, } from "./cookies"
-import { initiatePaymentSession } from "./cart"
-import { CART_FIELDS, isPayU } from "../constant"
+import { getAuthHeaders, getCacheOptions, getCartId, removeCartId, updateCacheTags } from "./cookies"
+import { applyPromoCode, initiatePaymentSession, removePromoCode } from "./cart"
 
+// "use server" files may only export async functions (types are fine: they're erased).
+export type ActionResult = { success: true; error: null } | { success: false; error: string }
+
+const PAYMENT_DESCRIPTION = process.env.PAYMENT_DESCRIPTION ?? "Online order"
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+const MIN_PHONE_DIGITS = 7
+const REQUIRED_ADDRESS_FIELDS = {
+  first_name: "first name",
+  last_name: "last name",
+  address_1: "address",
+  postal_code: "postal code",
+  city: "city",
+  country_code: "country",
+} as const
+
+const OK: ActionResult = { success: true, error: null }
+const fail = (error: string): ActionResult => ({ success: false, error })
+
+const authHeaders = async () => ({ ...(await getAuthHeaders()) })
+
+function toMessage(e: unknown, fallback = "Something went wrong. Please try again.") {
+  return e instanceof Error && e.message ? e.message : fallback
+}
+
+/**
+ * The cart id always comes from the httpOnly cookie. If a caller also passes one it must match:
+ * a client must never act on someone else's cart.
+ */
 async function resolveCartId(provided?: string) {
   const cookieId = await getCartId()
   if (!cookieId) throw new Error("No existing cart found")
   if (provided && provided !== cookieId) throw new Error("Cart mismatch")
   return cookieId
-}
-
-export async function getCheckCart() {
-  const cartId = await getCartId()
-  if (!cartId) return null
-
-  const headers = { ...(await getAuthHeaders()) }
-  const next = { ...(await getCacheOptions("carts")) }
-
-  return sdk.client
-    .fetch<HttpTypes.StoreCartResponse>(`/store/carts/${cartId}`, {
-      method: "GET",
-      query: { fields: CART_FIELDS },
-      headers,
-      next,
-      cache: "force-cache",
-    })
-    .then(({ cart }) => cart)
-    .catch(() => null)
-}
-
-// ────────────────────────────────────────────────────────────────────────────
-// Customer
-// ────────────────────────────────────────────────────────────────────────────
-
-export async function getCheckoutCustomer() {
-  const next = { ...(await getCacheOptions("customers")) }
-
-  return sdk.client
-    .fetch<HttpTypes.StoreCustomerResponse>(`/store/customers/me`, {
-      method: "GET",
-      query: {
-        fields: "*orders",
-      },
-      headers: await getAuthHeaders(),
-      next,
-      cache: "force-cache",
-    })
-    .then(({ customer }) => customer)
-    .catch(() => null)
 }
 
 // ─── Reads ──────────────────────────────────────────────────────────────────
@@ -73,10 +60,7 @@ export async function getCheckoutShippingMethods(cartId: string) {
 }
 
 export async function getCheckoutPaymentMethods(regionId: string) {
-  const [headers, cacheOptions] = await Promise.all([
-    authHeaders(),
-    getCacheOptions("payment_providers"),
-  ])
+  const [headers, cacheOptions] = await Promise.all([authHeaders(), getCacheOptions("payment_providers")])
 
   return sdk.client
     .fetch<HttpTypes.StorePaymentProviderListResponse>(`/store/payment-providers`, {
@@ -87,15 +71,13 @@ export async function getCheckoutPaymentMethods(regionId: string) {
       cache: "force-cache",
     })
     .then(({ payment_providers }) =>
-      // copy first - sorting the response in place mutates the cached object
+      // copy first: sorting the response in place mutates the cached object
       [...payment_providers].sort((a, b) => a.id.localeCompare(b.id)),
     )
     .catch(() => null)
 }
 
 // ─── Address ────────────────────────────────────────────────────────────────
-
-/** Usable directly with useActionState. On success the caller should run store.completeStep("address"). */
 
 function readField(formData: FormData, key: string) {
   const value = formData.get(key)
@@ -119,21 +101,23 @@ function readAddress(formData: FormData, prefix: "shipping_address" | "billing_a
 }
 
 function missingFields(address: ReturnType<typeof readAddress>) {
-  return REQUIRED_ADDRESS_FIELDS.filter((key) => !address[key]).map((key) => key.replace(/_/g, " "))
+  return (Object.keys(REQUIRED_ADDRESS_FIELDS) as (keyof typeof REQUIRED_ADDRESS_FIELDS)[])
+    .filter((key) => !address[key])
+    .map((key) => REQUIRED_ADDRESS_FIELDS[key])
 }
 
-export async function setCheckoutAddresses(formData: FormData,) {
-  const cartId = await resolveCartId()
+/** Called by the checkout store (saveAddress), which advances the step on success. */
+export async function setCheckoutAddresses(formData: FormData): Promise<ActionResult> {
   try {
-    if (!formData) {
-      throw new Error("No form data found when setting addresses")
-    }
-    const email = readField(formData, "email")
+    const cartId = await resolveCartId() // inside the try: a missing cart is a result, not a crash
+
+    const email = readField(formData, "email").toLowerCase()
     if (!EMAIL_RE.test(email)) return fail("Enter a valid email address.")
 
     const shipping = readAddress(formData, "shipping_address")
     const shippingMissing = missingFields(shipping)
     if (shippingMissing.length) return fail(`Please fill in: ${shippingMissing.join(", ")}.`)
+    if (shipping.phone.replace(/\D/g, "").length < MIN_PHONE_DIGITS) return fail("Enter a valid phone number.")
 
     let billing = shipping
     if (readField(formData, "same_as_billing") !== "on") {
@@ -142,11 +126,7 @@ export async function setCheckoutAddresses(formData: FormData,) {
       if (billingMissing.length) return fail(`Billing address - please fill in: ${billingMissing.join(", ")}.`)
     }
 
-    const data: HttpTypes.StoreUpdateCart = {
-      email,
-      shipping_address: shipping,
-      billing_address: billing,
-    }
+    const data: HttpTypes.StoreUpdateCart = { email, shipping_address: shipping, billing_address: billing }
 
     await sdk.store.cart.update(cartId, data, {}, await authHeaders())
     await updateCacheTags("carts", "fulfillment") // shipping options depend on the address
@@ -157,11 +137,9 @@ export async function setCheckoutAddresses(formData: FormData,) {
   }
 }
 
-// ────────────────────────────────────────────────────────────────────────────
-// Set Shipping Method
-// ────────────────────────────────────────────────────────────────────────────
+// ─── Shipping ───────────────────────────────────────────────────────────────
 
-export async function setCheckoutShipping(optionId: string) {
+export async function setCheckoutShipping(optionId: string): Promise<ActionResult> {
   if (!optionId) return fail("Choose a delivery method.")
 
   try {
@@ -221,32 +199,17 @@ export async function initCheckoutPayment(
   }
 }
 
-// ────────────────────────────────────────────────────────────────────────────
-// Discount / Promo Codes (additive apply, individual remove)
-// ────────────────────────────────────────────────────────────────────────────
+// ─── Promo codes (additive: see cart.ts) ────────────────────────────────────
 
-export async function applyDiscount(code: string) {
-  const cartId = await resolveCartId()
-  try {
-    await sdk.store.cart.update(cartId, { promo_codes: [code] }, {}, await authHeaders())
-    await updateCacheTags("carts", "fulfillment")
-
-    return OK
-  } catch (e) {
-    return fail(toMessage(e))
-  }
+export async function applyDiscount(code: string): Promise<ActionResult> {
+  const result = await applyPromoCode(code)
+  return result.success ? OK : fail(result.error ?? "That code couldn't be applied.")
 }
 
-export async function removeDiscount() {
-  const cartId = await resolveCartId()
-  try {
-    await sdk.store.cart.update(cartId, { promo_codes: [] }, {}, await authHeaders())
-    await updateCacheTags("carts", "fulfillment")
-
-    return OK
-  } catch (e) {
-    return fail(toMessage(e))
-  }
+/** Removes one code, or all of them when no code is given. */
+export async function removeDiscount(): Promise<ActionResult> {
+  const result = await removePromoCode()
+  return result.success ? OK : fail(result.error ?? "We couldn't remove that code.")
 }
 
 // ─── Place order ────────────────────────────────────────────────────────────
@@ -278,14 +241,16 @@ export async function placeCheckoutOrder(cartId?: string): Promise<ActionResult>
 }
 
 // ─── PayPal ─────────────────────────────────────────────────────────────────
+// PayPal actions return results (never throw): production masks thrown server-action messages,
+// which made every failure look identical to the customer.
 
 export async function createToken(): Promise<ActionResult & { client_token: string | null }> {
   try {
     // Some plugin versions answer with camelCase `clientToken`; accept both.
-    const res = await sdk.client.fetch<{ client_token?: string; clientToken?: string }>(
-      `/store/paypal/client-token`,
-      { method: "POST", headers: await authHeaders() },
-    )
+    const res = await sdk.client.fetch<{ client_token?: string; clientToken?: string }>(`/store/paypal/client-token`, {
+      method: "POST",
+      headers: await authHeaders(),
+    })
     const token = res.client_token ?? res.clientToken
     if (!token) return { ...fail("PayPal didn't return a client token."), client_token: null }
     return { ...OK, client_token: token }
@@ -329,6 +294,7 @@ export async function captureOrder(cartId: string, orderId: string): Promise<Act
   }
 }
 
+/** Best effort: the order is completed afterwards regardless of this result. */
 export async function markPaymentComplete(cartId: string): Promise<ActionResult> {
   try {
     const id = await resolveCartId(cartId)
@@ -342,26 +308,4 @@ export async function markPaymentComplete(cartId: string): Promise<ActionResult>
     console.warn("[PayPal] paypal-complete failed:", toMessage(e))
     return fail(toMessage(e))
   }
-}
-
-export type ActionResult = { success: true; error: null } | { success: false; error: string }
-
-const PAYMENT_DESCRIPTION = process.env.PAYMENT_DESCRIPTION ?? "Online order"
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-const REQUIRED_ADDRESS_FIELDS = [
-  "first_name",
-  "last_name",
-  "address_1",
-  "postal_code",
-  "city",
-  "country_code",
-] as const
-
-const OK: ActionResult = { success: true, error: null }
-const fail = (error: string): ActionResult => ({ success: false, error })
-
-const authHeaders = async () => ({ ...(await getAuthHeaders()) })
-
-function toMessage(e: unknown, fallback = "Something went wrong. Please try again.") {
-  return e instanceof Error && e.message ? e.message : fallback
 }

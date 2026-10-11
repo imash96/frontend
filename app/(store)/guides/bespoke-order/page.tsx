@@ -1,13 +1,14 @@
 import type { Metadata } from "next"
 import buildJsonLd from "@/lib/util/jsonld"
 import BespokeOrder from "@/module/guides/templates/bespoke-order"
+import { baseURL } from "@/lib/constant";
 
 export default function Page() {
     return <BespokeOrder />;
 }
 
 export async function generateMetadata(): Promise<Metadata> {
-    const canonical = "https://vellehide.com/guides/bespoke-order"
+    const canonical = `${baseURL}/guides/bespoke-order`
     const jsonLd = {
         "@context": "https://schema.org",
         "@type": "WebPage",
@@ -17,7 +18,7 @@ export async function generateMetadata(): Promise<Metadata> {
         "isPartOf": {
             "@type": "WebSite",
             "name": "VelleHide",
-            "url": "https://vellehide.com"
+            "url": baseURL
         },
         "datePublished": "2025-09-25",
         "dateModified": "2025-09-25"

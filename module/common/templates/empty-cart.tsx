@@ -8,7 +8,7 @@ export default function EmptyCart({ className = "" }: { className?: string }) {
     >
       <CartEmpty className="w-24 opacity-90" />
       <h2 className="text-lg tracking-wide">YOUR CART IS EMPTY</h2>
-      <p className="text-sm tracking-wide font-light text-foreground-muted max-w-xs">
+      <p className="text-sm tracking-wide font-light text-foreground-tertiary max-w-xs">
         Looks like you haven’t added anything yet.
       </p>
       <Button
