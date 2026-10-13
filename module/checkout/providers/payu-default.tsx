@@ -65,7 +65,7 @@ export function PayUPaymentButton({ cart }: { cart: StoreCart }) {
         })),
     )
 
-    const session = findActiveSession(cart)
+    const session = findActiveSession(cart.payment_collection?.payment_sessions)
     const form = useMemo(() => readPayUForm(session?.data), [session?.data])
 
     const redirect = () => {

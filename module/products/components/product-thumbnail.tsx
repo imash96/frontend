@@ -80,7 +80,7 @@ export function ProductThumbnailN({
 
     return (
         <div
-            className={`relative w-full overflow-hidden border border-border bg-white ${className}`}
+            className={`relative overflow-hidden border border-border bg-white ${className}`}
             style={{ aspectRatio }}
         >
             {primary ? (

@@ -1,6 +1,5 @@
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, BadgeCheck, Ruler } from "lucide-react";
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { retrieveCart } from "@/lib/action/cart";
 import { retrieveCustomer } from "@/lib/action/customer";
@@ -110,25 +109,37 @@ export default async function Page() {
           ))}
         </ul>
 
-        <div className="flex w-full flex-col items-center gap-3 rounded-xs bg-background-secondary px-4 py-4 sm:flex-row sm:items-center sm:gap-4 sm:px-5 sm:py-0 sm:min-h-18">
-          <Image
-            src="https://www.leathercult.com/cdn/shop/files/6ee84f472e24cc8805a841276b21378459c95dca.png"
-            alt="Cart - free return policy"
-            width={64}
-            height={64}
-            className="block h-auto w-12 shrink-0 object-contain sm:w-16 md:max-w-21"
-          />
-
-          <div className="flex flex-col items-center gap-1 text-center font-body not-italic sm:flex-row sm:items-center sm:gap-4 sm:text-left">
-            <span className="text-base text-center font-bold uppercase leading-5 text-black sm:text-lg sm:leading-6 md:text-xl">
-              Order Risk-free
+        <div className="relative overflow-hidden rounded-xl border border-border/70 bg-linear-to-br from-card to-background-secondary px-4 pb-7 pt-4 @md:px-5 @md:pb-8 @md:pt-5 @4xl:px-7 @4xl:pb-9 @4xl:pt-6">
+          <div className="grid grid-cols-[auto_minmax(0,1fr)] items-center gap-x-4 gap-y-4 @2xl:grid-cols-[auto_minmax(0,1fr)_auto] @2xl:gap-x-5 @4xl:gap-x-6">
+            {/* Icon tile */}
+            <span className="grid size-11 place-items-center rounded-xl bg-accent/10 text-accent ring-1 ring-inset ring-accent/20 @md:size-12 @4xl:size-14">
+              <Ruler aria-hidden="true" className="size-5 @4xl:size-6" />
             </span>
 
-            <span className="text-[11px] font-normal leading-4 text-foreground-secondary sm:text-xs sm:leading-5">
-              If our measurements differ from what you submitted, we will follow our
-              return policy and give a free replacement accordingly.
-            </span>
+            {/* Copy: below the icon row when narrow, middle column when wide */}
+            <div className="col-span-2 row-start-2 min-w-0 @2xl:col-span-1 @2xl:col-start-2 @2xl:row-start-1">
+              <h3 className="font-heading text-base font-semibold leading-snug text-text-primary @md:text-lg">
+                Order risk-free
+              </h3>
+              <p className="mt-1.5 max-w-[60ch] text-sm leading-relaxed text-text-secondary @md:text-[15px]">
+                Every jacket is cut to the measurements you submit. If our measurements
+                differ from yours, our return policy covers a free replacement.
+              </p>
+            </div>
+
+            {/* Warranty badge: top-right on narrow, trailing column when wide */}
+            <div className="col-start-2 row-start-1 inline-flex w-fit items-center gap-2 justify-self-end whitespace-nowrap rounded-full border border-accent/25 bg-background/80 py-1.5 pl-2.5 pr-3.5 text-sm font-medium text-text-accent @2xl:col-start-3">
+              <BadgeCheck aria-hidden="true" className="size-5 shrink-0" />
+              2-year warranty
+            </div>
           </div>
+
+          {/* Decorative tape-measure edge */}
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-4 text-accent/40"
+            style={TAPE_EDGE}
+          />
         </div>
       </div>
 
@@ -137,4 +148,11 @@ export default async function Page() {
       </div>
     </Container>
   );
+}
+
+const TAPE_EDGE: React.CSSProperties = {
+  backgroundImage: "repeating-linear-gradient(90deg, currentColor 0 1px, transparent 1px 6px), repeating-linear-gradient(90deg, currentColor 0 1px, transparent 1px 30px)",
+  backgroundSize: "100% 8px, 100% 16px",
+  backgroundPosition: "0 100%, 0 100%",
+  backgroundRepeat: "no-repeat",
 }

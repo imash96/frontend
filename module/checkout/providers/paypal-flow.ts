@@ -3,10 +3,26 @@
 import { useCallback, useMemo } from "react"
 import { useShallow } from "zustand/react/shallow"
 import { captureOrder, createOrder, markPaymentComplete, placeCheckoutOrder } from "@/lib/action/checkout"
+import { ERROR_MESSAGES } from "@/data/payment"
 import { useCheckoutStore } from "@/lib/store/checkout-store"
 
-const PAID_BUT_NOT_PLACED =
-    "Your payment was received, but we couldn't finish your order. Please don't pay again - contact support with your PayPal receipt."
+const PAID_BUT_NOT_PLACED = "Your payment was received, but we couldn't finish your order. Please don't pay again - contact support with your PayPal receipt."
+
+/** Turns PayPal / backend failures into the short messages customers should see. */
+export function describePayPalError(err: unknown, fallback: string): string {
+    let raw = ""
+    try {
+        raw = typeof err === "string" ? err : err instanceof Error ? err.message : JSON.stringify(err ?? "")
+    } catch {
+        /* circular or unserialisable: fall through to the fallback */
+    }
+    const text = raw.toUpperCase()
+    if (/DECLINED/.test(text)) return ERROR_MESSAGES.CARD_DECLINED
+    if (/INSUFFICIENT/.test(text)) return ERROR_MESSAGES.INSUFFICIENT_FUNDS
+    if (/FAILED TO FETCH|NETWORK/.test(text)) return ERROR_MESSAGES.NETWORK_ERROR
+    if (/INVALID_(NUMBER|CVV|EXPIRY|NAME)/.test(text)) return ERROR_MESSAGES.VALIDATION
+    return fallback
+}
 
 /** PayPal errors are often plain objects. In development the reason is appended to help debugging. */
 function withReason(message: string, err: unknown) {
@@ -32,18 +48,15 @@ export function usePayPalFlow(cartId: string) {
         })),
     )
 
-    const createPaypalOrder = useCallback(
-        async (isCardPayment = false) => {
-            setError(null)
-            const result = await createOrder(cartId, isCardPayment)
-            if (!result.success || !result.id) {
-                handleError(result.error || "We couldn't start your PayPal payment. Please try again.")
-                throw new Error("PayPal order was not created") // aborts the SDK flow
-            }
-            return result.id
-        },
-        [cartId, handleError, setError],
-    )
+    const createPaypalOrder = useCallback(async (isCardPayment = false) => {
+        setError(null)
+        const result = await createOrder(cartId, isCardPayment)
+        if (!result.success || !result.id) {
+            handleError(result.error || "We couldn't start your PayPal payment. Please try again.")
+            throw new Error("PayPal order was not created") // aborts the SDK flow
+        }
+        return { orderId: result.id }
+    }, [cartId, handleError, setError])
 
     const onApprove = useCallback(
         async (data: { orderID?: string | null }) => {
@@ -56,7 +69,9 @@ export function usePayPalFlow(cartId: string) {
             try {
                 const capture = await captureOrder(cartId, data.orderID)
                 if (!capture.success) {
-                    return handleError(capture.error || "We couldn't confirm your PayPal payment. Please try again.")
+                    return handleError(
+                        describePayPalError(capture.error, capture.error || "We couldn't confirm your PayPal payment. Please try again."),
+                    )
                 }
                 captured = true
 
@@ -77,7 +92,10 @@ export function usePayPalFlow(cartId: string) {
         (err: unknown) => {
             console.error("[PayPal] error:", err)
             // Keep a more specific message that createPaypalOrder / onApprove already set.
-            handleError(useCheckoutStore.getState().error ?? withReason("PayPal payment failed. Please try again.", err))
+            handleError(
+                useCheckoutStore.getState().error ??
+                withReason(describePayPalError(err, "PayPal payment failed. Please try again."), err),
+            )
         },
         [handleError],
     )

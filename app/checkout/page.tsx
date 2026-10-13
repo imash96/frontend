@@ -50,15 +50,15 @@ export default async function Page() {
             {/* Seeds the client store with server-derived progress (mount-only). */}
             <CheckoutStoreInitializer step={step} completed={completed} />
 
-            <div className="space-y-4 lg:col-span-6 lg:space-y-6">
+            <div className="space-y-4 lg:col-span-6 lg:space-y-6 order-2 lg:order-1">
                 <StepAddress cart={cart} customer={customer} />
                 <StepShipping cart={cart} shippingMethods={shippingMethods} />
-                <CheckoutWrapper currency_code={cart.currency_code}>
+                <CheckoutWrapper paymentSessions={cart.payment_collection?.payment_sessions} currency_code={cart.currency_code} buyerCountry={cart.billing_address?.country_code}>
                     <StepPayment cart={cart} paymentMethods={paymentMethods} />
                 </CheckoutWrapper>
             </div>
 
-            <aside className="w-full lg:sticky lg:top-24 lg:col-span-4 lg:self-start">
+            <aside className="w-full lg:sticky lg:top-24 lg:col-span-4 lg:self-start order-1 lg:order-2">
                 <Summary cart={cart} />
             </aside>
         </>

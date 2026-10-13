@@ -14,9 +14,6 @@ import { getPaymentInfo, type PaymentInfo } from "../components/payment-map"
 import CheckoutStepHeader from "../components/step-header"
 import { findActiveSession, isCartNotReady } from "@/lib/store/checkout-steps"
 
-// NEXT_PUBLIC_* is inlined at build time, so this is safe in a client component.
-const PAYPAL_ENABLED = Boolean(process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID)
-
 export default function StepPayment({ cart, paymentMethods }: StepPaymentProps) {
     const { error, isBusy, selectPaymentMethod, syncPayment } = useCheckoutStore(
         useShallow((s) => ({
@@ -28,7 +25,7 @@ export default function StepPayment({ cart, paymentMethods }: StepPaymentProps) 
     )
     const [isTransitioning, startTransition] = useTransition()
 
-    const session = findActiveSession(cart)
+    const session = findActiveSession(cart.payment_collection?.payment_sessions)
     const selectedId = session?.provider_id
     const notReady = isCartNotReady(cart)
 
@@ -113,23 +110,11 @@ type OptionProps = {
     onSelect: (id: string) => void
 }
 
-const PaymentOption = memo(function PaymentOption({
-    id,
-    info,
-    cart,
-    isSelected,
-    isActive,
-    isSwitching,
-    disabled,
-    onSelect,
-}: OptionProps) {
+const PaymentOption = memo(function PaymentOption({ id, info, cart, isSelected, isActive, isSwitching, disabled, onSelect, }: OptionProps) {
     const { Icon, Preview } = info
 
     return (
-        <div
-            className={`overflow-hidden rounded-xl border transition-colors has-focus-visible:ring-2 has-focus-visible:ring-focus-ring ${isSelected ? "border-accent bg-accent/5" : "border-border hover:border-accent/50"
-                } ${disabled && !isSelected ? "opacity-60" : ""}`}
-        >
+        <div className={`overflow-hidden rounded-xl border transition-colors has-focus-visible:ring-2 has-focus-visible:ring-focus-ring ${isSelected ? "border-accent bg-accent/5" : "border-border hover:border-accent/50"} ${disabled && !isSelected ? "opacity-60" : ""}`}>
             {/* Only this header selects the method. The whole card used to be clickable, so every click
                 inside the PayPal / card-field preview re-created the payment session. */}
             <label className={`flex items-center gap-3 p-3 sm:p-4 ${disabled ? "cursor-not-allowed" : "cursor-pointer"}`}>

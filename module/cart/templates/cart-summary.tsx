@@ -1,100 +1,201 @@
+
+import type { ReactNode } from "react";
 import type { StoreCart } from "@medusajs/types";
-import { ArrowRight, Lock, Shield } from "lucide-react";
+import { ArrowRight, BadgePercentIcon, LockIcon, ShieldCheckIcon, } from "lucide-react";
+import { div as MotionDiv } from "motion/react-client";
 import { convertToLocale } from "@/lib/util/money";
 import Button from "@/ui/button";
-import DiscountCode from "../components/discount-code";
+import DiscountCode from "@/module/checkout/components/discount";
 
-export default function CartSummary({ cart }: { cart: StoreCart }) {
-  const {
-    currency_code,
-    total,
-    subtotal,
-    tax_total,
-    discount_total,
-    gift_card_total,
-    shipping_subtotal,
-  } = cart;
+type CartSummaryProps = {
+  cart: StoreCart;
+};
+
+const ROW_TRANSITION = {
+  type: "spring",
+  stiffness: 380,
+  damping: 32,
+} as const;
+
+export default function CartSummary({ cart }: CartSummaryProps) {
+  const { currency_code, total, subtotal, tax_total, discount_total, gift_card_total, shipping_subtotal, shipping_methods, items, promotions, } = cart;
+
+  const discount = discount_total ?? 0;
+  const giftCard = gift_card_total ?? 0;
+  const hasShipping = (shipping_methods?.length ?? 0) > 0;
+
+  const formatMoney = (amount: number | null | undefined) =>
+    convertToLocale({
+      amount: amount ?? 0,
+      currency_code,
+    });
 
   return (
-    <div className="space-y-5 py-6 px-5 lg:px-6 rounded-lg border border-border bg-surface shadow-sm">
-      <h2 className="text-xl font-semibold text-foreground">Order Summary</h2>
+    <section className="space-y-4 rounded-2xl border border-border/60 bg-linear-to-br from-card to-background-secondary p-4 shadow-sm sm:space-y-5 sm:p-5 lg:p-6">
+      <h2 className="font-heading text-base font-semibold tracking-wide text-foreground uppercase sm:text-lg">
+        Order summary
+      </h2>
 
-      <div className="space-y-3 text-sm">
-        <div className="flex items-center justify-between">
-          <span className="text-text-secondary">Subtotal</span>
-          <span className="tabular-nums text-text-primary">
-            {convertToLocale({ amount: subtotal ?? 0, currency_code })}
-          </span>
-        </div>
-
-        {!!gift_card_total && (
-          <div className="flex items-center justify-between">
-            <span className="text-text-secondary">Gift Card</span>
-            <span className="tabular-nums text-text-primary">
-              -{convertToLocale({ amount: gift_card_total, currency_code })}
-            </span>
-          </div>
-        )}
-
-        {!!discount_total && (
-          <div className="flex items-center justify-between">
-            <span className="text-text-secondary">Discount</span>
-            <span className="tabular-nums text-success">
-              -{convertToLocale({ amount: discount_total, currency_code })}
-            </span>
-          </div>
-        )}
-
-        <div className="flex items-center justify-between">
-          <span className="text-text-secondary">Shipping</span>
-          <span className="tabular-nums text-text-primary">
-            {shipping_subtotal ? convertToLocale({ amount: shipping_subtotal, currency_code }) : "Calculated at checkout"}
-          </span>
-        </div>
-
-        <div className="flex items-center justify-between">
-          <span className="text-text-secondary">Taxes</span>
-          <span className="tabular-nums text-text-primary">
-            {convertToLocale({ amount: tax_total ?? 0, currency_code })}
-          </span>
-        </div>
+      {/* Discount code */}
+      <div className="border-y border-border/60 py-3 sm:py-4">
+        <DiscountCode promotions={promotions ?? []} />
       </div>
 
-      <hr className="border-divider" />
+      {/* Price breakdown */}
+      <dl className="space-y-2.5 text-sm">
+        <Row label="Subtotal">
+          {formatMoney(subtotal)}
+        </Row>
 
-      <DiscountCode promotions={cart.promotions} />
+        {discount > 0 && (
+          <Row
+            label="Discount"
+            animateIn
+            className="text-price-save"
+          >
+            −{formatMoney(discount)}
+          </Row>
+        )}
 
-      <hr className="border-divider" />
+        {giftCard > 0 && (
+          <Row
+            label="Gift card"
+            animateIn
+            className="text-price-save"
+          >
+            −{formatMoney(giftCard)}
+          </Row>
+        )}
 
-      <div className="flex items-baseline justify-between">
-        <span className="font-heading text-base font-semibold text-text-primary">Total</span>
-        <span className="font-heading text-2xl font-bold tabular-nums text-price-current">
-          {convertToLocale({ amount: total ?? 0, currency_code })}
-        </span>
-      </div>
+        <Row label="Shipping">
+          {!hasShipping ? (
+            <span className="text-right text-text-tertiary">
+              Calculated at checkout
+            </span>
+          ) : shipping_subtotal == null ? (
+            <span className="text-right text-text-tertiary">
+              Calculating…
+            </span>
+          ) : shipping_subtotal === 0 ? (
+            <span className="font-medium text-price-save">
+              Free
+            </span>
+          ) : (
+            formatMoney(shipping_subtotal)
+          )}
+        </Row>
 
+        <Row label="Taxes">
+          {formatMoney(tax_total)}
+        </Row>
+      </dl>
+
+      {/* Grand total */}
+      <MotionDiv
+        layout="position"
+        transition={ROW_TRANSITION}
+        className="flex items-baseline justify-between gap-3 border-t border-border/60 pt-4"
+      >
+        <div className="min-w-0">
+          <span className="text-base font-semibold text-text-primary">
+            Total
+          </span>
+          <span className="ml-1.5 text-[10px] uppercase tracking-wider text-text-tertiary sm:text-xs">
+            ({currency_code.toUpperCase()})
+          </span>
+        </div>
+
+        <MotionDiv
+          layout="position"
+          transition={ROW_TRANSITION}
+          className="shrink-0 text-right font-heading text-xl font-bold tabular-nums text-price-current sm:text-2xl"
+        >
+          {formatMoney(total)}
+        </MotionDiv>
+      </MotionDiv>
+
+      {/* Savings message */}
+      {discount > 0 && (
+        <MotionDiv
+          layout="position"
+          initial={{ opacity: 0, y: 5 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.22, ease: "easeOut" }}
+          className="flex items-start gap-2 rounded-lg bg-success-subtle px-3 py-2.5 text-xs leading-5 font-medium text-success sm:text-sm"
+        >
+          <BadgePercentIcon
+            aria-hidden="true"
+            className="mt-0.5 size-4 shrink-0"
+          />
+          <p>
+            You&apos;re saving{" "}
+            <span className="font-semibold tabular-nums">
+              {formatMoney(discount)}
+            </span>{" "}
+            on this order.
+          </p>
+        </MotionDiv>
+      )}
+
+      {/* Proceed to checkout */}
       <Button
         href="/checkout"
         size="lg"
         fullWidth
-        icon={<ArrowRight className="w-4 h-4" />}
+        icon={<ArrowRight className="size-4" />}
         iconPosition="right"
         className="uppercase tracking-wide"
       >
         Proceed to Checkout
       </Button>
 
-      <div className="flex items-center justify-center gap-3 text-xs text-text-tertiary">
-        <span className="flex items-center gap-1">
-          <Lock className="size-3.5" />
+      {/* Security reassurance */}
+      <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-xs text-text-tertiary">
+        <span className="flex items-center gap-1.5">
+          <LockIcon
+            aria-hidden="true"
+            className="size-3.5 shrink-0"
+          />
           Secure checkout
         </span>
-        <span className="h-3 w-px bg-divider" />
-        <span className="flex items-center gap-1">
-          <Shield className="size-3.5" />
+
+        <span
+          aria-hidden="true"
+          className="hidden h-3 w-px bg-divider sm:block"
+        />
+
+        <span className="flex items-center gap-1.5">
+          <ShieldCheckIcon
+            aria-hidden="true"
+            className="size-3.5 shrink-0"
+          />
           Genuine leather
         </span>
       </div>
-    </div>
+    </section>
+  );
+}
+
+type RowProps = {
+  label: string;
+  children: ReactNode;
+  className?: string;
+  animateIn?: boolean;
+};
+
+function Row({ label, children, className = "text-text-secondary", animateIn = false, }: RowProps) {
+  return (
+    <MotionDiv
+      layout="position"
+      initial={animateIn ? { opacity: 0, y: 4 } : false}
+      animate={{ opacity: 1, y: 0 }}
+      transition={ROW_TRANSITION}
+      className={`flex items-baseline justify-between gap-3 ${className}`}
+    >
+      <dt className="min-w-0">{label}</dt>
+      <dd className="shrink-0 text-right tabular-nums">
+        {children}
+      </dd>
+    </MotionDiv>
   );
 }

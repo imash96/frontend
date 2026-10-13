@@ -80,9 +80,7 @@ const INITIAL_DATA: CheckoutData = {
   activeSession: undefined,
 }
 
-function advance(
-  step: StepType,
-): Pick<CheckoutData, "currentStep" | "completedSteps" | "maxStepIndex"> {
+function advance(step: StepType): Pick<CheckoutData, "currentStep" | "completedSteps" | "maxStepIndex"> {
   const index = STEP_INDEX[step]
   const next = Math.min(index + 1, LAST_INDEX)
   return {
@@ -278,8 +276,7 @@ export const useCheckoutStore = create<CheckoutState>()(
 
 export const selectIsBusy = (s: CheckoutState) => s.isPending || s.isSubmitting
 
-export const selectCanPay = (s: CheckoutState) =>
-  !s.notReady && !s.isPending && !s.isSubmitting && s.activeSession !== undefined
+export const selectCanPay = (s: CheckoutState) => !s.notReady && !s.isPending && !s.isSubmitting && s.activeSession !== undefined
 
 /** Status of one step (see computeStepStatus). */
 export function useStepStatus(stepId: StepType): StepStatus {
